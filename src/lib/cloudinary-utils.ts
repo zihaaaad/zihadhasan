@@ -3,7 +3,7 @@
  * Automatically applies f_auto and q_auto to Cloudinary URLs.
  */
 export function getImageUrl(url: string | undefined | null): string {
-    if (!url) return "/placeholder-image.jpg"; // Provide a valid local placeholder if needed
+    if (!url) return "";
 
     // If it's already a Cloudinary URL, ensure it has optimization params
     if (url.includes("cloudinary.com")) {

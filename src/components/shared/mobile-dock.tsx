@@ -14,8 +14,8 @@ import {
     Mail,
     Calendar,
 } from "lucide-react";
-import { CMSService } from "@/lib/cms-service";
 import { useAuth } from "@/components/auth/auth-provider";
+import { useSettings } from "@/components/providers/settings-provider";
 
 const navItems = [
     { name: "Home", href: "/", icon: Home, feature: null },
@@ -30,6 +30,7 @@ const navItems = [
 export function MobileDock() {
     const pathname = usePathname();
     const { user, openAuthModal } = useAuth();
+    const { settings } = useSettings();
     const [items, setItems] = useState(navItems);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
@@ -52,19 +53,18 @@ export function MobileDock() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [lastScrollY]);
 
+    // Derive items from shared settings
     useEffect(() => {
-        CMSService.getGlobalSettings().then((data) => {
-            if (data?.features) {
-                const f = data.features;
-                const filtered = navItems.filter((item) => {
-                    if (!item.feature) return true;
-                    // @ts-ignore
-                    return f[item.feature] !== false;
-                });
-                setItems(filtered);
-            }
-        });
-    }, []);
+        if (settings?.features) {
+            const f = settings.features;
+            const filtered = navItems.filter((item) => {
+                if (!item.feature) return true;
+                // @ts-ignore
+                return f[item.feature] !== false;
+            });
+            setItems(filtered);
+        }
+    }, [settings]);
 
     return (
         <AnimatePresence>

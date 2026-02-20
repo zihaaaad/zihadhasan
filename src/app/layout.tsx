@@ -10,6 +10,7 @@ import { AuthProvider } from "@/components/auth/auth-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { MobileDock } from "@/components/shared/mobile-dock";
 import { Toaster } from "sonner";
+import { SettingsProvider } from "@/components/providers/settings-provider";
 
 const interTight = Inter_Tight({
   variable: "--font-sans",
@@ -102,17 +103,19 @@ export default function RootLayout({
         >
           <SmoothScroll>
             <AuthProvider>
-              <AuthModal />
-              <GoogleTagManager containerId="GTM-WBP6HZV2" /> {/* Real GTM ID */}
-              <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                  __html: JSON.stringify(generatePersonSchema()),
-                }}
-              />
-              {children}
-              <MobileDock />
-              <Toaster position="top-center" richColors theme="system" />
+              <SettingsProvider>
+                <AuthModal />
+                <GoogleTagManager containerId="GTM-WBP6HZV2" />
+                <script
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(generatePersonSchema()),
+                  }}
+                />
+                {children}
+                <MobileDock />
+                <Toaster position="top-center" richColors theme="system" />
+              </SettingsProvider>
             </AuthProvider>
           </SmoothScroll>
         </ThemeProvider>

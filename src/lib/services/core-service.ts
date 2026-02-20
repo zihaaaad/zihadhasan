@@ -60,7 +60,7 @@ export interface GlobalSettings {
         services?: {
             title?: string;
             subtitle?: string;
-            email?: string; // Wait, email usually global?
+            email?: string;
         };
     };
 }

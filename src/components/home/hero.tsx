@@ -15,11 +15,7 @@ interface HeroProps {
     toolCount: number;
 }
 
-import { useRef, useEffect, useState } from 'react';
-import gsap from 'gsap';
-import { TextPlugin } from 'gsap/TextPlugin';
-
-gsap.registerPlugin(TextPlugin);
+import { useRef } from 'react';
 
 export function Hero({ settings, projectCount, toolCount }: HeroProps) {
     const headlineRef = useRef(null);
@@ -35,37 +31,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
     const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
     const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
 
-    // GSAP Animations
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            // Text Masking Reveal
-            if (headlineRef.current) {
-                // Split text manually or use TextPlugin for simple reveals
-                // For this "Masking" effect:
-                gsap.from(headlineRef.current, {
-                    yPercent: 100, // Slide up from bottom
-                    duration: 1.2,
-                    ease: "power4.out",
-                    skewY: 7,
-                    stagger: 0.05
-                });
-            }
-        }, containerRef);
-
-        return () => ctx.revert();
-    }, [settings?.heroTitle]);
-
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (isMobile) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;
@@ -126,14 +92,17 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                     className="flex flex-col items-center text-center lg:col-span-7 lg:items-start lg:text-left pt-10 lg:pt-0"
                 >
                     <div className="overflow-hidden relative z-20">
-                        <h1
+                        <motion.h1
                             ref={headlineRef}
+                            initial={{ y: "100%", skewY: 7, opacity: 0 }}
+                            animate={{ y: 0, skewY: 0, opacity: 1 }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                             className="mb-8 text-7xl font-black tracking-tighter text-white sm:text-8xl md:text-9xl xl:text-[10rem] leading-[0.85] mix-blend-plus-lighter"
                         >
                             {typeof heroTitle === 'string' ? (
                                 <span dangerouslySetInnerHTML={{ __html: heroTitle.replace(/\n/g, "<br/>") }} />
                             ) : heroTitle}
-                        </h1>
+                        </motion.h1>
                     </div>
 
                     <motion.p
@@ -209,8 +178,8 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                     >
                         {/* Interactive Shine */}
                         <div className="absolute inset-0 z-30 rounded-[2.5rem] bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                        
-                        <div 
+
+                        <div
                             className="relative h-full w-full overflow-hidden rounded-[2.5rem] bg-neutral-900 border border-white/10 shadow-2xl transition-all duration-700 group-hover:shadow-primary/20 group-hover:border-white/20"
                             style={{ transform: "translateZ(20px)" }}
                         >
@@ -230,13 +199,13 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                             style={{ transform: "translateZ(50px)" }}
                             className="absolute -bottom-6 -left-6 z-40 flex items-center gap-4 rounded-2xl border border-white/10 bg-black/80 p-5 backdrop-blur-xl shadow-2xl"
                         >
-                             <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                                 <Code className="h-5 w-5 text-primary" />
-                             </div>
-                             <div>
+                            </div>
+                            <div>
                                 <div className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold">Location</div>
                                 <div className="text-xs text-white font-mono">DHAKA, BD</div>
-                             </div>
+                            </div>
                         </motion.div>
 
                         <motion.div

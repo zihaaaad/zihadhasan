@@ -13,6 +13,7 @@ import { User as UserIcon } from "lucide-react";
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { SearchCommand } from "@/components/shared/search-command";
 import { Search } from "lucide-react";
+import { useSettings } from "@/components/providers/settings-provider";
 
 const baseNavItems = [
     { name: "Home", href: "/", feature: null },
@@ -31,40 +32,31 @@ export function Navbar() {
     const [navItems, setNavItems] = useState(baseNavItems);
     const [showEvents, setShowEvents] = useState(true);
     const { user, profile, openAuthModal } = useAuth();
+    const { settings } = useSettings();
 
-    const [hasPending, setHasPending] = useState(false);
+    const [hasPending] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
         };
         window.addEventListener("scroll", handleScroll);
-
-        // Fetch Feature Flags
-        CMSService.getGlobalSettings().then(data => {
-            if (data?.features) {
-                const f = data.features;
-                setShowEvents(f.showEvents);
-
-                const filtered = baseNavItems.filter(item => {
-                    if (!item.feature) return true;
-                    // @ts-ignore
-                    return f[item.feature] !== false;
-                });
-                setNavItems(filtered);
-            }
-        });
-
-        // Check for pending registrations (Notification Dot)
-        if (user) {
-            CMSService.getRegistrationsByUser(user.uid).then(regs => {
-                const pending = regs.some(r => r.status === 'pending');
-                setHasPending(pending);
-            }).catch(console.error);
-        }
-
         return () => window.removeEventListener("scroll", handleScroll);
-    }, [user]);
+    }, []);
+
+    // Derive nav items from shared settings
+    useEffect(() => {
+        if (settings?.features) {
+            const f = settings.features;
+            setShowEvents(f.showEvents);
+            const filtered = baseNavItems.filter(item => {
+                if (!item.feature) return true;
+                // @ts-ignore
+                return f[item.feature] !== false;
+            });
+            setNavItems(filtered);
+        }
+    }, [settings]);
 
     return (
         <header

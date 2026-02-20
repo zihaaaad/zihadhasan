@@ -3,19 +3,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Github, Twitter, Linkedin, Mail, Youtube, Facebook, Instagram } from "lucide-react";
-import { useEffect, useState } from "react";
-import { CMSService, SocialLink as SocialLinkType } from "@/lib/cms-service";
+import { useState, useEffect } from "react";
+import { SocialLink as SocialLinkType } from "@/lib/cms-service";
 import { NewsletterForm } from "@/components/shared/newsletter-form";
+import { useSettings } from "@/components/providers/settings-provider";
 
 export function Footer() {
     const pathname = usePathname();
+    const { settings } = useSettings();
     const [socials, setSocials] = useState<SocialLinkType[]>([]);
 
     useEffect(() => {
-        CMSService.getGlobalSettings().then(data => {
-            if (data?.socials) setSocials(data.socials);
-        });
-    }, []);
+        if (settings?.socials) setSocials(settings.socials);
+    }, [settings]);
 
     // Hide footer on home page as requested
     if (pathname === "/") return null;
