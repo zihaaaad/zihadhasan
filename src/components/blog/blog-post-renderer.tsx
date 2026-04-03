@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { generateBlogPostSchema } from "@/lib/schema-generator";
 import sanitizeHtml from "sanitize-html";
-import { NewsletterForm } from "@/components/blog/newsletter-form";
+import { NewsletterForm } from "@/components/shared/newsletter-form";
 import "@/styles/syntax-highlight.css";
 
 interface BlogPostRendererProps {
@@ -85,7 +85,7 @@ export function BlogPostRenderer({ post }: BlogPostRendererProps) {
 
             <hr className="my-12 border-white/10" />
 
-            <NewsletterForm />
+            <NewsletterForm variant="card" />
         </article>
     );
 }

@@ -43,15 +43,13 @@ export const EventService = {
     },
 
     getEvents: async () => {
-        const q = query(
-            collection(db, "events"),
-            where("isDeleted", "==", false),
-            orderBy("date", "asc"),
-            limit(20)
-        );
+        const q = query(collection(db, "events"));
         const snapshot = await getDocs(q);
-        return snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Event));
+        const events = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() } as Event))
+            .filter(e => e.isDeleted !== true);
+            
+        return events.sort((a, b) => (a.date?.seconds || 0) - (b.date?.seconds || 0)).slice(0, 20);
     },
 
     getEvent: async (id: string) => {

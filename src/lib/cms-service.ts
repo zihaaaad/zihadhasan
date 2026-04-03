@@ -6,6 +6,7 @@ import { CourseService, Course, Lesson } from "./services/course-service";
 import { ShopService, Product } from "./services/shop-service";
 import { CoreService, GlobalSettings, SocialLink } from "./services/core-service";
 import { RegistrationService, Registration } from "./services/registration-service";
+import { BookService, Book } from "./services/book-service";
 
 export type {
     Project,
@@ -20,7 +21,8 @@ export type {
     Product,
     GlobalSettings,
     SocialLink,
-    Registration
+    Registration,
+    Book
 };
 
 // Re-export as a unified service for backward compatibility
@@ -36,5 +38,6 @@ export const CMSService = {
     ...CourseService,
     ...ShopService,
     ...CoreService,
-    ...RegistrationService
+    ...RegistrationService,
+    ...BookService
 };

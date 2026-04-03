@@ -64,25 +64,25 @@
   --popover: oklch(0.15 0 0);
   --popover-foreground: oklch(0.985 0 0);
 
-  /* Electric Blue Primary */
-  --primary: oklch(0.6 0.2 250);
+  /* Electric Blue Primary - Refined for Professional Look */
+  --primary: oklch(0.55 0.18 250);
   --primary-foreground: oklch(0.985 0 0);
 
-  --secondary: oklch(0.2 0 0);
+  --secondary: oklch(0.18 0.02 250 / 10%);
   --secondary-foreground: oklch(0.985 0 0);
 
-  --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.6 0 0);
 
-  --accent: oklch(0.2 0 0);
+  --accent: oklch(0.2 0.02 250 / 15%);
   --accent-foreground: oklch(0.985 0 0);
 
-  --destructive: oklch(0.704 0.191 22.216);
+  --destructive: oklch(0.6 0.18 25);
 
-  /* Borders - Subtle & Sharp */
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.6 0.2 250);
+  /* Borders - Minimal & Sharp */
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.55 0.18 250 / 50%);
 
   /* Chart Colors */
   --chart-1: oklch(0.6 0.2 250);

@@ -74,6 +74,20 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
+
+    match /books/{bookId} {
+      allow read: if (resource.data.published == true) || isAdmin();
+      allow write: if isAdmin();
+
+      // Secure E-book Content
+      match /secure/content {
+        allow read: if isAdmin() || (
+            request.auth != null && 
+            get(/databases/$(database)/documents/registrations/$(request.auth.uid + "_" + bookId)).data.status == 'approved'
+        );
+        allow write: if isAdmin();
+      }
+    }
     
     match /products/{productId} {
       allow read: if (resource.data.published == true) || isAdmin();
@@ -128,15 +142,17 @@ service cloud.firestore {
 
       // Allow update: 
       // 1. Admin can do anything
-      // 2. User can update ONLY 'completedLessonIds' (Progress tracking) 
-      //    AND cannot change status, userId, courseId, eventId
+      // 2. User can update ONLY progress tracking fields 
+      //    AND cannot change status, userId, courseId, eventId, bookId, productId
       allow update: if isAdmin() || (
         request.auth != null 
         && resource.data.userId == request.auth.uid
         && request.resource.data.userId == resource.data.userId // No ownership transfer
         && request.resource.data.status == resource.data.status // Cannot approve self
-        && request.resource.data.courseId == resource.data.courseId // Cannot switch course
-        && request.resource.data.eventId == resource.data.eventId // Cannot switch event
+        && request.resource.data.get('courseId', null) == resource.data.get('courseId', null)
+        && request.resource.data.get('eventId', null) == resource.data.get('eventId', null)
+        && request.resource.data.get('bookId', null) == resource.data.get('bookId', null)
+        && request.resource.data.get('productId', null) == resource.data.get('productId', null)
       );
     }
     

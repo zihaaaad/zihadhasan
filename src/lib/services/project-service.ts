@@ -83,15 +83,13 @@ export const ProjectService = {
     },
 
     getTools: async () => {
-        const q = query(
-            collection(db, "tools"),
-            where("isDeleted", "==", false),
-            orderBy("createdAt", "desc"),
-            limit(20)
-        );
+        const q = query(collection(db, "tools"));
         const snapshot = await getDocs(q);
-        return snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Tool));
+        const tools = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() } as Tool))
+            .filter(t => t.isDeleted !== true);
+            
+        return tools.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).slice(0, 20);
     },
 
     deleteTool: async (id: string) => {
@@ -109,3 +107,4 @@ export const ProjectService = {
         await Promise.all(promises);
     },
 };
+;

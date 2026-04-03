@@ -31,25 +31,22 @@ export interface Product {
 export const ShopService = {
     // --- Products (Shop) ---
     getProducts: async () => {
-        const q = query(
-            collection(db, "products"),
-            where("isDeleted", "==", false)
-            // orderBy("createdAt", "desc") // Removed to avoid index requirement
-        );
+        const q = query(collection(db, "products"));
         const snapshot = await getDocs(q);
-        const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
+        const products = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() } as Product))
+            .filter(p => p.isDeleted !== true);
+            
         return products.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
     },
 
     getPublishedProducts: async () => {
-        const q = query(
-            collection(db, "products"),
-            where("published", "==", true),
-            where("isDeleted", "==", false)
-            // orderBy("createdAt", "desc") // Removed to avoid index requirement
-        );
+        const q = query(collection(db, "products"));
         const snapshot = await getDocs(q);
-        const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
+        const products = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() } as Product))
+            .filter(p => p.published === true && p.isDeleted !== true);
+            
         return products.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
     },
 

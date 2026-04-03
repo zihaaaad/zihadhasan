@@ -31,6 +31,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const sidebarItems = [
     { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { label: "Courses", href: "/dashboard/courses", icon: BookOpen },
+    { label: "Books", href: "/dashboard/books", icon: BookOpen },
     { label: "Events", href: "/dashboard/events", icon: Calendar },
     { label: "Projects", href: "/dashboard/projects", icon: FolderGit },
     { label: "AI Tools", href: "/dashboard/tools", icon: Hammer },

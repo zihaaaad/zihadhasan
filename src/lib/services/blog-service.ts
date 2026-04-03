@@ -35,27 +35,18 @@ export interface BlogPost {
 export const BlogService = {
     // --- Blog ---
     getPosts: async (publishedOnly: boolean = false) => {
-        let q;
+        const q = query(collection(db, "posts"));
+        const snapshot = await getDocs(q);
+        
+        let posts = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() } as BlogPost))
+            .filter(p => p.isDeleted !== true);
 
         if (publishedOnly) {
-            q = query(
-                collection(db, "posts"),
-                where("isDeleted", "==", false),
-                where("published", "==", true)
-                // orderBy("publishedAt", "desc") // Removed to avoid index requirement
-            );
-        } else {
-            q = query(
-                collection(db, "posts"),
-                where("isDeleted", "==", false),
-                orderBy("createdAt", "desc")
-            );
+            posts = posts.filter(p => p.published === true);
         }
 
-        const snapshot = await getDocs(q);
-        const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
-
-        // Sort client-side to ensure order without composite index
+        // Sort client-side
         posts.sort((a, b) => {
             const dateA = publishedOnly ? (a.publishedAt?.seconds || 0) : (a.createdAt?.seconds || 0);
             const dateB = publishedOnly ? (b.publishedAt?.seconds || 0) : (b.createdAt?.seconds || 0);

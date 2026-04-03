@@ -18,6 +18,7 @@ import { useSettings } from "@/components/providers/settings-provider";
 const baseNavItems = [
     { name: "Home", href: "/", feature: null },
     { name: "Courses", href: "/courses", feature: "showCourses" },
+    { name: "Books", href: "/books", feature: "showBooks" },
     { name: "Store", href: "/shop", feature: "showShop" },
     { name: "Tools", href: "/tools", feature: "showTools" },
     { name: "Projects", href: "/projects", feature: "showProjects" },
@@ -62,32 +63,32 @@ export function Navbar() {
         <header
             className={cn(
                 "fixed top-0 z-50 w-full transition-all duration-300",
-                scrolled ? "py-4" : "py-6"
+                scrolled ? "py-3" : "py-5"
             )}
         >
             <div className="container mx-auto px-4">
                 <div
                     className={cn(
-                        "relative mx-auto flex items-center justify-between rounded-full border border-white/10 px-6 py-3 transition-all duration-300",
+                        "relative mx-auto flex items-center justify-between rounded-full border border-white/[0.05] px-6 py-2 transition-all duration-500",
                         scrolled
-                            ? "bg-black/40 backdrop-blur-xl sm:w-full md:max-w-4xl"
+                            ? "bg-black/20 backdrop-blur-2xl sm:w-full md:max-w-3xl border-white/[0.08]"
                             : "bg-transparent border-transparent"
                     )}
                 >
                     {/* Logo */}
-                    <Link href="/" className="text-xl font-bold tracking-tighter text-white">
-                        ZH<span className="text-primary">.</span>
+                    <Link href="/" className="text-lg font-bold tracking-tighter text-white flex items-center group">
+                        ZH<span className="text-primary group-hover:scale-125 transition-transform duration-300">.</span>
                     </Link>
 
                     {/* Desktop Nav */}
-                    <nav className="hidden md:flex items-center gap-6">
+                    <nav className="hidden md:flex items-center gap-7">
                         {navItems.map((item) => (
                             <Link
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "text-sm font-medium transition-colors hover:text-primary",
-                                    pathname === item.href ? "text-primary" : "text-white/70"
+                                    "text-xs font-semibold tracking-wide uppercase transition-all duration-300 hover:text-white",
+                                    pathname === item.href ? "text-primary" : "text-white/40"
                                 )}
                             >
                                 {item.name}
@@ -99,29 +100,25 @@ export function Navbar() {
                     <div className="hidden md:flex items-center gap-4">
                         <button
                             onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
-                            className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-sm text-muted-foreground hover:bg-white/10 hover:text-white transition-colors group"
+                            className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.03] bg-white/[0.02] text-xs text-muted-foreground hover:bg-white/[0.05] hover:text-white transition-all duration-300"
                         >
-                            <Search className="h-3.5 w-3.5 group-hover:text-primary transition-colors" />
-                            <span className="text-xs">Search...</span>
-                            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-white/10 bg-white/5 px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                                <span className="text-xs">⌘</span>K
-                            </kbd>
+                            <Search className="h-3 w-3" />
+                            <span className="text-[10px] tracking-widest uppercase opacity-50 font-bold">Search</span>
                         </button>
                         {user ? (
                             <div className="flex items-center gap-3">
                                 <NotificationBell />
                                 <Link href="/my-account" className="flex items-center gap-2 group">
-                                    <div className="h-9 w-9 rounded-full bg-white/10 overflow-hidden border border-white/20 group-hover:border-primary/50 transition-colors relative">
+                                    <div className="h-8 w-8 rounded-full bg-white/[0.03] overflow-hidden border border-white/[0.08] group-hover:border-primary/50 transition-all duration-500 relative">
                                         {profile?.photoURL ? (
                                             <img src={profile.photoURL} alt="Profile" className="h-full w-full object-cover" />
                                         ) : (
                                             <div className="h-full w-full flex items-center justify-center">
-                                                <UserIcon className="h-5 w-5 text-white/70" />
+                                                <UserIcon className="h-4 w-4 text-white/50" />
                                             </div>
                                         )}
-                                        {/* Red Dot for Pending Verification */}
                                         {hasPending && (
-                                            <div className="absolute top-0 right-0 h-2.5 w-2.5 bg-red-500 rounded-full border border-black" title="Pending Action" />
+                                            <div className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full border border-black shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
                                         )}
                                     </div>
                                 </Link>
@@ -129,20 +126,21 @@ export function Navbar() {
                         ) : (
                             <Button
                                 variant="ghost"
-                                className="text-white hover:text-primary hover:bg-white/5 disabled:opacity-50"
+                                className="text-[11px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/[0.03] px-4"
                                 onClick={openAuthModal}
                             >
-                                Sign In
+                                Login
                             </Button>
                         )}
 
                         {showEvents && (
                             <Button
+                                size="sm"
                                 variant="outline"
-                                className="rounded-full border-primary/20 bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary-foreground backdrop-blur-sm"
+                                className="rounded-full border-primary/20 bg-primary/5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary hover:bg-primary/20 hover:text-white backdrop-blur-sm transition-all duration-500 h-8"
                                 asChild
                             >
-                                <Link href="/events">Events</Link>
+                                <Link href="/events">Join Event</Link>
                             </Button>
                         )}
                     </div>

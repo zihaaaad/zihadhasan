@@ -17,6 +17,7 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // App Check Initialization
+/* 
 if (typeof window !== "undefined") {
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_KEY;
 
@@ -27,3 +28,4 @@ if (typeof window !== "undefined") {
     });
   }
 }
+*/

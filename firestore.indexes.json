@@ -1,34 +1,6 @@
 {
     "indexes": [
         {
-            "collectionGroup": "posts",
-            "queryScope": "COLLECTION",
-            "fields": [
-                {
-                    "fieldPath": "status",
-                    "order": "ASCENDING"
-                },
-                {
-                    "fieldPath": "publishedAt",
-                    "order": "DESCENDING"
-                }
-            ]
-        },
-        {
-            "collectionGroup": "posts",
-            "queryScope": "COLLECTION",
-            "fields": [
-                {
-                    "fieldPath": "isDeleted",
-                    "order": "ASCENDING"
-                },
-                {
-                    "fieldPath": "createdAt",
-                    "order": "DESCENDING"
-                }
-            ]
-        },
-        {
             "collectionGroup": "projects",
             "queryScope": "COLLECTION",
             "fields": [
@@ -57,6 +29,20 @@
             ]
         },
         {
+            "collectionGroup": "posts",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "isDeleted",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "createdAt",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
             "collectionGroup": "events",
             "queryScope": "COLLECTION",
             "fields": [
@@ -66,6 +52,20 @@
                 },
                 {
                     "fieldPath": "date",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "posts",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "status",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "isDeleted",
                     "order": "ASCENDING"
                 }
             ]
@@ -81,6 +81,34 @@
                 {
                     "fieldPath": "isDeleted",
                     "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "registrations",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "courseId",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "registeredAt",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "registrations",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "userId",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "registeredAt",
+                    "order": "DESCENDING"
                 }
             ]
         }

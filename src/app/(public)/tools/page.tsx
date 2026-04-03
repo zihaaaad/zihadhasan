@@ -49,48 +49,48 @@ export default function ToolsPage() {
     return (
         <div className="min-h-screen pt-24 pb-20 container mx-auto px-4">
             {/* Header */}
-            <div className="mb-12 text-center">
+            <div className="mb-20">
                 <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-4xl font-bold tracking-tight text-white sm:text-5xl mb-4"
+                    className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl mb-4"
                 >
-                    AI Tools Directory
+                    AI <span className="text-primary italic font-serif">Curations</span>
                 </motion.h1>
                 <motion.p
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
-                    className="text-muted-foreground max-w-2xl mx-auto"
+                    className="text-lg text-neutral-500 font-medium max-w-2xl leading-relaxed"
                 >
-                    Curated list of the best AI tools, managed dynamically.
+                    A curated selection of cutting-edge artificial intelligence tools, benchmarked and verified for production environments.
                 </motion.p>
             </div>
 
             {/* Controls */}
-            <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="mb-16 flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
                 {/* Search */}
                 <div className="relative w-full max-w-md">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500" />
                     <Input
-                        placeholder="Search tools..."
-                        className="pl-10 h-11 bg-white/5 border-white/10 text-white rounded-full focus-visible:ring-primary/50"
+                        placeholder="FILTER BY TOOL..."
+                        className="pl-11 h-12 bg-white/[0.03] border-white/[0.05] text-white rounded-xl focus-visible:ring-primary/20 text-[10px] font-bold uppercase tracking-widest"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
 
                 {/* Categories */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3">
                     {categories.map((cat) => (
                         <button
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
                             className={cn(
-                                "px-4 py-2 rounded-full text-sm font-medium transition-all backdrop-blur-md border",
+                                "px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-500 border",
                                 activeCategory === cat
-                                    ? "bg-primary text-white border-primary shadow-[0_0_15px_-5px_var(--primary)]"
-                                    : "bg-white/5 text-muted-foreground border-white/10 hover:bg-white/10"
+                                    ? "bg-white text-black border-white shadow-xl"
+                                    : "bg-white/[0.02] text-neutral-500 border-white/[0.05] hover:bg-white/[0.05] hover:text-white"
                             )}
                         >
                             {cat}
@@ -101,49 +101,46 @@ export default function ToolsPage() {
 
             {/* Grid */}
             {loading ? (
-                <div className="text-center text-white">Loading tools...</div>
+                <div className="text-center py-20 text-neutral-500 uppercase tracking-widest text-xs font-bold animate-pulse">Initializing Directory...</div>
             ) : (
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     <AnimatePresence mode="popLayout">
                         {filteredTools.map((tool) => (
                             <motion.div
                                 key={tool.id}
                                 layout
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ duration: 0.2 }}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 0.4 }}
                             >
                                 <a href={tool.url} target="_blank" rel="noopener noreferrer" className="block h-full group">
-                                    <div className="relative h-full flex flex-col overflow-hidden rounded-2xl border border-white/5 bg-[#050505] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_30px_-10px_rgba(59,130,246,0.15)]">
+                                    <div className="relative h-full flex flex-col overflow-hidden rounded-[2rem] border border-white/[0.05] bg-white/[0.02] transition-all duration-500 hover:border-white/20">
 
-                                        {/* Glow Effect */}
-                                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:via-primary/50 transition-all duration-500" />
-
-                                        <div className="p-6 flex flex-col h-full">
-                                            <div className="flex items-start justify-between mb-4">
-                                                <div className="h-12 w-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl font-bold text-gray-700 group-hover:text-primary group-hover:border-primary/20 transition-colors">
+                                        <div className="p-8 flex flex-col h-full">
+                                            <div className="flex items-start justify-between mb-8">
+                                                <div className="h-14 w-14 rounded-2xl bg-white/[0.03] border border-white/[0.05] flex items-center justify-center text-2xl font-bold text-neutral-700 group-hover:text-primary transition-all duration-500 overflow-hidden">
                                                     {tool.imageUrl ? (
-                                                        <img src={tool.imageUrl} alt={tool.name} className="h-full w-full object-cover rounded-xl" />
+                                                        <img src={tool.imageUrl} alt={tool.name} className="h-full w-full object-cover" />
                                                     ) : (
                                                         tool.name.substring(0, 1)
                                                     )}
                                                 </div>
-                                                <Badge variant="outline" className="border-white/10 bg-white/5 text-xs text-gray-400 font-normal px-3 py-1">
+                                                <div className="px-3 py-1 bg-white/[0.03] text-[9px] font-bold text-neutral-500 uppercase tracking-widest rounded-full border border-white/[0.05]">
                                                     {tool.category}
-                                                </Badge>
+                                                </div>
                                             </div>
 
-                                            <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">
+                                            <h3 className="text-xl font-bold text-white mb-3 tracking-tight group-hover:text-primary transition-colors duration-300">
                                                 {tool.name}
                                             </h3>
 
-                                            <p className="text-sm text-gray-400 line-clamp-3 mb-6 flex-1 leading-relaxed">
+                                            <p className="text-sm text-neutral-500 font-medium line-clamp-3 mb-8 flex-1 leading-relaxed">
                                                 {tool.description}
                                             </p>
 
-                                            <div className="flex items-center text-xs font-medium text-white/50 group-hover:text-primary transition-colors mt-auto">
-                                                Try this tool <ExternalLink className="ml-2 h-3.5 w-3.5" />
+                                            <div className="flex items-center text-[10px] font-bold uppercase tracking-widest text-white/30 group-hover:text-primary transition-colors duration-300 mt-auto">
+                                                Launch Tool <ExternalLink className="ml-2 h-3 w-3" />
                                             </div>
                                         </div>
                                     </div>

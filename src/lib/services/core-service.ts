@@ -40,6 +40,7 @@ export interface GlobalSettings {
         showEvents: boolean;
         showShop: boolean;
         showCourses: boolean;
+        showBooks: boolean;
     };
 
     // Metadata

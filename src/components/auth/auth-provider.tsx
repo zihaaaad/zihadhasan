@@ -63,63 +63,66 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
-                // Fetch User Profile
-                const docRef = doc(db, "users", currentUser.uid);
-                const docSnap = await getDoc(docRef);
+            try {
+                if (currentUser) {
+                    // Fetch User Profile
+                    const docRef = doc(db, "users", currentUser.uid);
+                    const docSnap = await getDoc(docRef);
 
-                if (docSnap.exists()) {
-                    const data = docSnap.data() as UserProfile;
+                    if (docSnap.exists()) {
+                        const data = docSnap.data() as UserProfile;
 
-                    // Check if user is banned
-                    if (data.isBanned) {
-                        await firebaseSignOut(auth);
-                        setUser(null);
-                        setProfile(null);
-                        setLoading(false);
-                        // Clear cookie
-                        document.cookie = "auth_role=; path=/; max-age=0";
-                        return;
+                        // Check if user is banned
+                        if (data.isBanned) {
+                            await firebaseSignOut(auth);
+                            setUser(null);
+                            setProfile(null);
+                            // Clear cookie
+                            document.cookie = "auth_role=; path=/; max-age=0";
+                            return;
+                        }
+
+                        setProfile(data);
+                        setUser(currentUser);
+                        // Set cookie for Middleware
+                        const role = data.role || "user";
+                        const token = await currentUser.getIdToken();
+                        document.cookie = `auth_role=${role}; path=/; max-age=86400; SameSite=Strict`;
+                        document.cookie = `auth_token=${token}; path=/; max-age=3600; SameSite=Strict`;
+                    } else {
+                        // Create Profile if it doesn't exist (e.g. first Google Login)
+                        const newProfile: UserProfile = {
+                            uid: currentUser.uid,
+                            email: currentUser.email!,
+                            name: currentUser.displayName,
+                            photoURL: currentUser.photoURL,
+                            role: "user", // Default role
+                            createdAt: serverTimestamp(),
+                            enrolledCourses: [],
+                            isBanned: false
+                        };
+
+                        // Allow writes if it is the own user (per rules)
+                        await setDoc(docRef, newProfile);
+                        setProfile(newProfile);
+                        setUser(currentUser);
+
+                        // Set cookie (Default user)
+                        const token = await currentUser.getIdToken();
+                        document.cookie = `auth_role=user; path=/; max-age=86400; SameSite=Strict`;
+                        document.cookie = `auth_token=${token}; path=/; max-age=3600; SameSite=Strict`;
                     }
-
-                    setProfile(data);
-                    setUser(currentUser);
-                    // Set cookie for Middleware
-                    const role = data.role || "user";
-                    const token = await currentUser.getIdToken();
-                    document.cookie = `auth_role=${role}; path=/; max-age=86400; SameSite=Strict`;
-                    document.cookie = `auth_token=${token}; path=/; max-age=3600; SameSite=Strict`;
                 } else {
-                    // Create Profile if it doesn't exist (e.g. first Google Login)
-                    const newProfile: UserProfile = {
-                        uid: currentUser.uid,
-                        email: currentUser.email!,
-                        name: currentUser.displayName,
-                        photoURL: currentUser.photoURL,
-                        role: "user", // Default role
-                        createdAt: serverTimestamp(),
-                        enrolledCourses: [],
-                        isBanned: false
-                    };
-
-                    // Allow writes if it is the own user (per rules)
-                    await setDoc(docRef, newProfile);
-                    setProfile(newProfile);
-                    setUser(currentUser);
-
-                    // Set cookie (Default user)
-                    const token = await currentUser.getIdToken();
-                    document.cookie = `auth_role=user; path=/; max-age=86400; SameSite=Strict`;
-                    document.cookie = `auth_token=${token}; path=/; max-age=3600; SameSite=Strict`;
+                    setUser(null);
+                    setProfile(null);
+                    // Clear cookie
+                    document.cookie = "auth_role=; path=/; max-age=0";
                 }
-            } else {
-                setUser(null);
-                setProfile(null);
-                // Clear cookie
-                document.cookie = "auth_role=; path=/; max-age=0";
+            } catch (error) {
+                console.error("Auth State Error:", error);
+            } finally {
+                setLoading(false);
             }
-
-            setLoading(false);
         });
 
         return () => unsubscribe();

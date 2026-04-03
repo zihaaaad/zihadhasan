@@ -1,74 +1,107 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Loader2, Mail, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { CMSService } from "@/lib/cms-service";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Loader2, Mail, ArrowRight } from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
-const subscribeSchema = z.object({
-    name: z.string().optional(),
-    email: z.string().email("Please enter a valid email."),
-});
+interface NewsletterFormProps {
+    variant?: "minimal" | "card";
+    className?: string;
+    title?: string;
+    subtitle?: string;
+}
 
-type SubscribeValues = z.infer<typeof subscribeSchema>;
+export function NewsletterForm({ 
+    variant = "minimal", 
+    className,
+    title,
+    subtitle 
+}: NewsletterFormProps) {
+    const [email, setEmail] = useState("");
+    const [submitting, setSubmitting] = useState(false);
 
-export function NewsletterForm() {
-    const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<SubscribeValues>({
-        resolver: zodResolver(subscribeSchema)
-    });
+    const handleSubscribe = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!email) return;
 
-    const onSubmit = async (data: SubscribeValues) => {
-        setStatus("submitting");
+        setSubmitting(true);
         try {
-            await CMSService.subscribeToNewsletter(data.email, data.name);
-            setStatus("success");
-            reset();
-            setTimeout(() => setStatus("idle"), 3000);
+            await CMSService.addSubscriber({ email });
+            toast.success("Joined Successfully", {
+                description: "You're now on the priority transmission list."
+            });
+            setEmail("");
         } catch (error) {
-            console.error(error);
-            setStatus("error");
+            console.error("Newsletter error", error);
+            toast.error("Protocol Error", {
+                description: "Failed to sync your email. Please retry."
+            });
+        } finally {
+            setSubmitting(false);
         }
     };
 
-    return (
-        <div className="w-full max-w-sm">
-            <h3 className="font-semibold text-white mb-2">Join the inner circle</h3>
-            <p className="text-sm text-gray-400 mb-4">
-                Get notified about new projects, articles, and speaking engagements.
-            </p>
+    if (variant === "card") {
+        return (
+            <div className={cn("bg-white/[0.02] border border-white/[0.05] rounded-[2rem] p-10 text-center relative overflow-hidden", className)}>
+                {/* Subtle Background Glow */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-primary/5 blur-[100px] -z-10" />
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-                <div className="grid gap-2">
-                    <Input
-                        {...register("name")}
-                        placeholder="Name (Optional)"
-                        className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-primary/50"
-                    />
-                    <div className="relative">
-                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+                <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
+                    {title || "Strategic Insights"}
+                </h3>
+                <p className="text-neutral-500 text-sm font-medium mb-8 max-w-sm mx-auto leading-relaxed">
+                    {subtitle || "Subscribe to the newsletter for deep dives into engineering, AI, and digital philosophy."}
+                </p>
+
+                <form onSubmit={handleSubscribe} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+                    <div className="relative flex-1 group">
+                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-primary transition-colors" />
                         <Input
-                            {...register("email")}
-                            placeholder="Enter your email"
-                            className="bg-white/5 border-white/10 text-white pl-9 placeholder:text-gray-500 focus:border-primary/50"
+                            type="email"
+                            placeholder="TRANSMISSION@EMAIL.COM"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="pl-11 h-12 bg-white/[0.03] border-white/[0.05] text-white focus:ring-primary/20 text-[10px] font-bold uppercase tracking-widest rounded-xl"
+                            required
                         />
-                        <Button
-                            type="submit"
-                            disabled={status === "submitting" || status === "success"}
-                            className="absolute right-1 top-1 h-7 px-3 bg-primary text-black hover:bg-primary/90"
-                        >
-                            {status === "submitting" ? <Loader2 className="h-3 w-3 animate-spin" /> : <ArrowRight className="h-3 w-3" />}
-                        </Button>
                     </div>
-                </div>
-                {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+                    <Button type="submit" disabled={submitting} className="bg-white text-black hover:bg-neutral-200 rounded-xl h-12 px-8 text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shrink-0">
+                        {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Authorize"}
+                    </Button>
+                </form>
+            </div>
+        );
+    }
 
-                {status === "success" && <p className="text-xs text-green-400">Successfully subscribed!</p>}
-                {status === "error" && <p className="text-xs text-red-400">Something went wrong. Try again.</p>}
+    return (
+        <div className={cn("w-full max-w-sm", className)}>
+            <h3 className="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.2em] mb-4">
+                {title || "Newsletter"}
+            </h3>
+            <form onSubmit={handleSubscribe} className="space-y-3">
+                <div className="relative group">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-primary transition-colors" />
+                    <Input
+                        type="email"
+                        placeholder="ENTER YOUR EMAIL"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="pl-11 h-12 bg-white/[0.03] border-white/[0.05] text-white focus:ring-primary/20 text-[10px] font-bold uppercase tracking-widest rounded-xl"
+                        required
+                    />
+                    <Button
+                        type="submit"
+                        disabled={submitting}
+                        className="absolute right-1.5 top-1.5 h-9 w-9 p-0 bg-white text-black hover:bg-neutral-200 rounded-lg transition-all duration-500"
+                    >
+                        {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ArrowRight className="h-3.5 w-3.5" />}
+                    </Button>
+                </div>
             </form>
         </div>
     );

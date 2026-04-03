@@ -240,37 +240,37 @@ function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registra
     const isApproved = reg.status === 'approved';
 
     return (
-        <GlassCard className="p-0 overflow-hidden flex flex-col sm:flex-row group hover:border-primary/30 transition-all duration-300">
-            <div className="h-40 sm:h-auto sm:w-48 bg-black/40 relative overflow-hidden shrink-0">
+        <GlassCard className="p-0 overflow-hidden flex flex-col sm:flex-row group hover:border-white/20 transition-all duration-500 border-white/[0.05] bg-white/[0.02] rounded-2xl shadow-none">
+            <div className="h-40 sm:h-auto sm:w-56 bg-neutral-900 relative overflow-hidden shrink-0">
                 {image ? (
-                    <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={image} alt={title} className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out" />
                 ) : (
-                    <div className="w-full h-full bg-indigo-900/20 flex items-center justify-center">
-                        {type === 'course' ? <BookOpen className="h-10 w-10 text-white/10" /> : <Ticket className="h-10 w-10 text-white/10" />}
+                    <div className="w-full h-full flex items-center justify-center">
+                        {type === 'course' ? <BookOpen className="h-10 w-10 text-white/5" /> : <Ticket className="h-10 w-10 text-white/5" />}
                     </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/20" />
 
                 {/* Mobile Status Badge */}
-                <div className="absolute top-2 right-2 sm:hidden">
+                <div className="absolute top-4 right-4 sm:hidden">
                     <StatusBadge status={reg.status} />
                 </div>
             </div>
 
-            <div className="flex-1 p-5 flex flex-col justify-between">
+            <div className="flex-1 p-8 flex flex-col justify-between">
                 <div>
-                    <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-bold text-lg text-white group-hover:text-primary transition-colors line-clamp-1">{title}</h3>
+                    <div className="flex justify-between items-start mb-4">
+                        <h3 className="font-bold text-xl text-white tracking-tight leading-tight line-clamp-1">{title}</h3>
                         <div className="hidden sm:block">
                             <StatusBadge status={reg.status} />
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-1 text-sm text-gray-400 mb-4">
-                        <div className="flex items-center gap-2">
-                            <span className="font-mono text-xs bg-white/5 px-2 py-0.5 rounded border border-white/5">TRX: {reg.trxId || "N/A"}</span>
+                    <div className="flex flex-col gap-1 text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-6">
+                        <div className="flex items-center gap-4">
+                            <span className="bg-white/[0.03] px-2.5 py-1 rounded border border-white/[0.05]">TRX: {reg.trxId || "N/A"}</span>
                             {date && (
-                                <span className="text-xs text-cyan-400">
+                                <span className="text-primary opacity-70">
                                     {new Date(date.seconds * 1000).toLocaleDateString()}
                                 </span>
                             )}
@@ -278,20 +278,20 @@ function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registra
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3 mt-2">
+                <div className="flex items-center gap-3 mt-auto pt-6 border-t border-white/[0.03]">
                     {isApproved ? (
                         <Link href={type === 'course' ? `/courses/view?id=${id}` : `/events`}>
                             <Button size="sm" className={cn(
-                                "font-bold shadow-lg transition-all active:scale-95",
-                                type === 'course' ? "bg-primary text-black hover:bg-primary/90 shadow-primary/20" : "bg-cyan-500 text-black hover:bg-cyan-400 shadow-cyan-500/20"
+                                "rounded-xl h-10 px-6 text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shadow-none",
+                                type === 'course' ? "bg-white text-black hover:bg-neutral-200" : "bg-white text-black hover:bg-neutral-200"
                             )}>
-                                {type === 'course' ? "Start Learning" : "View Ticket"}
+                                {type === 'course' ? "Enter Portal" : "Access Ticket"}
                             </Button>
                         </Link>
                     ) : (
-                        <Button size="sm" variant="outline" disabled className="opacity-70 border-yellow-500/20 text-yellow-500 bg-yellow-500/5 cursor-not-allowed">
-                            <Clock className="h-3 w-3 mr-2" /> Awaiting Approval
-                        </Button>
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-neutral-600 uppercase tracking-widest italic">
+                            <Clock className="h-3 w-3" /> Awaiting Security Clearance
+                        </div>
                     )}
                 </div>
             </div>

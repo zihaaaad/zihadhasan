@@ -433,6 +433,7 @@ export default function RegistrationsPage() {
                                                 {isCourse && <Badge variant="outline" className="text-xs border-purple-500 text-purple-400">Course</Badge>}
                                                 {isEvent && <Badge variant="outline" className="text-xs border-blue-500 text-blue-400">Event</Badge>}
                                                 {isProduct && <Badge variant="outline" className="text-xs border-amber-500 text-amber-400">Product</Badge>}
+                                                {reg.bookId && <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-400">Book</Badge>}
 
                                                 <span className="truncate max-w-[150px]" title={title}>{title}</span>
                                             </div>

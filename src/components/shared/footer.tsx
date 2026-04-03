@@ -34,21 +34,21 @@ export function Footer() {
     };
 
     return (
-        <footer className="w-full border-t border-white/5 bg-black py-16">
-            <div className="container mx-auto px-4 grid gap-12 lg:grid-cols-2">
+        <footer className="w-full border-t border-white/[0.05] bg-black py-20 mt-20">
+            <div className="container mx-auto px-4 grid gap-16 lg:grid-cols-12">
 
                 {/* Brand & Socials */}
-                <div className="flex flex-col gap-6">
+                <div className="lg:col-span-7 flex flex-col gap-8">
                     <div>
-                        <span className="text-2xl font-bold tracking-tighter text-white mb-2 block">
-                            Zihad Hasan
+                        <span className="text-xl font-bold tracking-tighter text-white mb-3 block">
+                            ZH<span className="text-primary">.</span>
                         </span>
-                        <p className="text-sm text-gray-400 max-w-sm">
+                        <p className="text-xs font-semibold text-neutral-500 uppercase tracking-widest leading-relaxed max-w-sm">
                             Building digital experiences at the intersection of design, engineering, and artificial intelligence.
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-6">
                         {socials.length > 0 ? (
                             socials.map((social, i) => (
                                 <SocialLink
@@ -60,23 +60,21 @@ export function Footer() {
                             ))
                         ) : (
                             <>
-                                <SocialLink href="#" icon={<Github className="h-5 w-5" />} label="GitHub" />
-                                <SocialLink href="#" icon={<Linkedin className="h-5 w-5" />} label="LinkedIn" />
+                                <SocialLink href="#" icon={<Github className="h-4 w-4" />} label="GitHub" />
+                                <SocialLink href="#" icon={<Linkedin className="h-4 w-4" />} label="LinkedIn" />
                             </>
                         )}
                     </div>
 
-                    <p className="text-sm text-muted-foreground mt-auto pt-8">
-                        © {new Date().getFullYear()} Zihad Hasan.
+                    <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-[0.3em] pt-12 border-t border-white/[0.03]">
+                        © {new Date().getFullYear()} Zihad Hasan / ALL RIGHTS RESERVED
                     </p>
                 </div>
 
-                {/* Newsletter - Hidden on Home Page to avoid redundancy with the dedicated section */}
-                {pathname !== "/" && (
-                    <div className="flex flex-col lg:items-end">
-                        <NewsletterForm />
-                    </div>
-                )}
+                {/* Newsletter */}
+                <div className="lg:col-span-5 flex flex-col lg:items-end">
+                    <NewsletterForm />
+                </div>
             </div>
         </footer>
     );
@@ -87,7 +85,7 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
         <Link
             href={href}
             target="_blank"
-            className="text-muted-foreground transition-colors hover:text-primary"
+            className="text-neutral-500 transition-all duration-300 hover:text-primary hover:scale-110"
             aria-label={label}
         >
             {icon}

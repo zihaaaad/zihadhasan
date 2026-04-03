@@ -31,27 +31,28 @@ export default function PublicBlogPage() {
 
     return (
         <div className="min-h-screen pt-24 pb-20 container mx-auto px-4">
-            {/* Header */}
-            <div className="mb-16 text-center max-w-2xl mx-auto">
+            <div className="mb-20">
                 <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-4xl font-bold tracking-tight text-white sm:text-5xl mb-4"
+                    className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl mb-4"
                 >
-                    Thoughts & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Insights</span>
+                    Latest <span className="text-primary italic font-serif">Articles</span>
                 </motion.h1>
-                <p className="text-muted-foreground mb-8">
-                    Deep dives into engineering, design, and digital philosophy.
-                </p>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <p className="text-neutral-500 text-lg font-medium max-w-xl">
+                        Deep dives into software engineering, artificial intelligence, and the philosophy of digital craftsmanship.
+                    </p>
 
-                <div className="relative">
-                    <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                    <Input
-                        placeholder="Search articles..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 h-10 bg-white/5 border-white/10 text-white rounded-full focus:ring-purple-500/20"
-                    />
+                    <div className="relative w-full md:w-80">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500" />
+                        <Input
+                            placeholder="FIND AN ARTICLE..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-11 h-11 bg-white/[0.03] border-white/[0.05] text-white rounded-xl focus:ring-primary/20 text-[10px] font-bold uppercase tracking-widest"
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -87,38 +88,38 @@ export default function PublicBlogPage() {
 }
 
 function ArticleCard({ post, index }: { post: BlogPost, index: number }) {
-    const date = post.publishedAt ? new Date(post.publishedAt.seconds * 1000).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : "";
+    const date = post.publishedAt ? new Date(post.publishedAt.seconds * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "";
 
     return (
-        <Link href={`/blog/${post.slug}`} className="group relative flex flex-col rounded-xl border border-white/10 bg-white/5 overflow-hidden hover:border-purple-500/30 hover:bg-white/[0.07] transition-all duration-300">
-            <div className="aspect-video w-full bg-black/40 overflow-hidden relative">
+        <Link href={`/blog/${post.slug}`} className="group relative flex flex-col rounded-2xl border border-white/[0.05] bg-white/[0.02] overflow-hidden hover:border-white/20 transition-all duration-500">
+            <div className="aspect-[16/10] w-full bg-black/40 overflow-hidden relative">
                 {post.coverImage ? (
-                    <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
                 ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
-                        <span className="text-gray-700 font-bold text-2xl">BLOG</span>
+                    <div className="w-full h-full bg-neutral-900 flex items-center justify-center">
+                        <span className="text-white/5 font-black text-4xl tracking-tighter uppercase italic">Article</span>
                     </div>
                 )}
                 <div className="absolute top-4 left-4 flex gap-2">
-                    {post.tags.slice(0, 2).map(tag => (
-                        <Badge key={tag} variant="secondary" className="bg-black/50 backdrop-blur-md text-gray-300 border-white/10 text-[10px] h-5">
+                    {post.tags.slice(0, 1).map(tag => (
+                        <Badge key={tag} variant="secondary" className="bg-white/10 backdrop-blur-xl text-white/70 border-white/5 text-[9px] h-5 uppercase tracking-widest font-bold">
                             {tag}
                         </Badge>
                     ))}
                 </div>
             </div>
 
-            <div className="p-6 flex flex-col flex-1">
-                <div className="text-xs text-purple-400 font-medium mb-2">{date}</div>
-                <h3 className="text-xl font-bold text-white mb-2 line-clamp-2 group-hover:text-purple-300 transition-colors">
+            <div className="p-7 flex flex-col flex-1">
+                <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.2em] mb-4">{date}</div>
+                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 leading-tight tracking-tight">
                     {post.title}
                 </h3>
-                <p className="text-sm text-gray-400 line-clamp-3 mb-4 flex-1">
+                <p className="text-sm text-neutral-500 line-clamp-2 mb-6 leading-relaxed">
                     {post.excerpt}
                 </p>
 
-                <div className="flex items-center text-sm font-medium text-white group-hover:text-purple-400 transition-colors mt-auto">
-                    Read Article <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <div className="flex items-center text-[11px] font-bold uppercase tracking-widest text-primary opacity-80 group-hover:opacity-100 transition-opacity mt-auto">
+                    Full Story <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
             </div>
         </Link>

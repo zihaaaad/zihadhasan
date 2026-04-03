@@ -31,12 +31,12 @@ export default function CoursesPage() {
 
     return (
         <div className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <div className="text-center mb-16 space-y-4">
-                <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                    Premium Courses
+            <div className="mb-16 space-y-4">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+                    Premium <span className="text-primary italic font-serif">Learning</span>
                 </h1>
-                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                    Master advanced topics with our in-depth, project-based video courses.
+                <p className="text-neutral-500 text-lg max-w-2xl font-medium">
+                    Master advanced topics with our in-depth, project-based video courses designed for the modern engineer.
                 </p>
             </div>
 
@@ -63,58 +63,57 @@ export default function CoursesPage() {
                     {courses.map((course, index) => (
                         <motion.div
                             key={course.id}
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
+                            transition={{ delay: index * 0.05 }}
                         >
                             <Link href={`/courses/view?id=${course.id}`} className="block h-full cursor-pointer">
-                                <GlassCard className="h-full flex flex-col p-0 overflow-hidden group hover:border-primary/30 transition-colors">
+                                <GlassCard className="h-full flex flex-col p-0 overflow-hidden group hover:border-white/20 transition-all duration-500 shadow-none border-white/[0.05]">
                                     <div className="relative aspect-video bg-neutral-900 overflow-hidden">
                                         {course.headerImage ? (
                                             <img
                                                 src={course.headerImage}
                                                 alt={course.title}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                                             />
                                         ) : (
-                                            <div className="flex items-center justify-center h-full text-white/10">
+                                            <div className="flex items-center justify-center h-full text-white/5">
                                                 <BookOpen className="h-12 w-12" />
                                             </div>
                                         )}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                                        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                                            <span className="px-2 py-1 bg-primary/20 backdrop-blur-md text-primary text-xs font-bold rounded uppercase tracking-wider border border-primary/20">
-                                                Course
-                                            </span>
-                                            <span className="font-bold text-white text-lg drop-shadow-md">
-                                                ৳{course.price}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60" />
+                                        <div className="absolute top-4 left-4">
+                                            <span className="px-3 py-1 bg-white/10 backdrop-blur-xl text-[10px] font-bold text-white/80 rounded-full border border-white/5 uppercase tracking-widest">
+                                                Mastery
                                             </span>
                                         </div>
                                     </div>
 
                                     <div className="p-6 flex flex-col flex-1">
-                                        <h3 className="text-xl font-bold text-white mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                                            {course.title}
-                                        </h3>
-                                        <p className="text-gray-400 text-sm line-clamp-2 mb-6 flex-1">
+                                        <div className="flex justify-between items-start mb-3">
+                                            <h3 className="text-xl font-bold text-white tracking-tight line-clamp-2 leading-snug">
+                                                {course.title}
+                                            </h3>
+                                        </div>
+                                        <p className="text-neutral-500 text-sm line-clamp-2 mb-8 leading-relaxed">
                                             {course.description}
                                         </p>
 
-                                        <div className="flex items-center justify-between text-xs text-gray-500 mb-6 border-t border-white/5 pt-4">
-                                            <div className="flex items-center gap-1.5">
-                                                <PlayCircle className="h-3.5 w-3.5" />
+                                        <div className="flex items-center justify-between text-[11px] font-semibold text-neutral-400 mb-8 pt-4 border-t border-white/[0.03] uppercase tracking-widest">
+                                            <div className="flex items-center gap-2">
+                                                <PlayCircle className="h-3.5 w-3.5 text-primary" />
                                                 <span>{course.lessons?.length || 0} Lessons</span>
                                             </div>
-                                            <div className="flex items-center gap-1.5">
-                                                <Clock className="h-3.5 w-3.5" />
-                                                <span>Lifetime Access</span>
+                                            <div className="text-white">
+                                                ৳{course.price}
                                             </div>
                                         </div>
 
                                         <Button
-                                            className="w-full bg-white/5 hover:bg-primary hover:text-black text-white border border-white/10 transition-all font-semibold"
+                                            variant="secondary"
+                                            className="w-full bg-white/[0.03] hover:bg-white text-white hover:text-black border-white/[0.05] transition-all duration-500 rounded-xl"
                                         >
-                                            View Details
+                                            Access Course
                                         </Button>
                                     </div>
                                 </GlassCard>

@@ -118,54 +118,55 @@ function EventCard({ event, onRegister, index }: { event: Event, onRegister: () 
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="group relative flex flex-col rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden hover:border-primary/50 transition-all duration-300"
+            transition={{ delay: index * 0.05 }}
+            className="group relative flex flex-col rounded-[2rem] border border-white/[0.05] bg-white/[0.02] overflow-hidden hover:border-white/20 transition-all duration-700 h-full"
         >
-            <div className="relative h-48 bg-black/50">
+            <div className="relative h-56 bg-neutral-900 overflow-hidden">
                 {event.imageUrl ? (
-                    <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 ease-out group-hover:scale-110" />
                 ) : (
-                    <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-gray-900 to-black">
-                        <Calendar className="h-10 w-10 text-gray-700" />
+                    <div className="flex flex-col items-center justify-center h-full bg-neutral-900">
+                        <Calendar className="h-10 w-10 text-white/5" />
                     </div>
                 )}
-                <div className="absolute top-4 right-4">
+                <div className="absolute top-6 right-6">
                     {isSoldOut ? (
-                        <Badge variant="destructive" className="bg-red-500/90 text-white border-none">SOLD OUT</Badge>
+                        <Badge variant="destructive" className="bg-red-500/80 text-white border-none text-[9px] font-bold uppercase tracking-widest px-3 h-6">Capacity Reached</Badge>
                     ) : (
-                        <Badge variant="secondary" className="bg-green-500/10 text-green-400 border-green-500/20 backdrop-blur-md">
-                            {event.totalSeats - (event.registeredCount || 0)} Seats Left
+                        <Badge variant="secondary" className="bg-white/10 text-white/70 border-white/5 backdrop-blur-xl text-[9px] font-bold uppercase tracking-widest px-3 h-6">
+                            {event.totalSeats - (event.registeredCount || 0)} Slots Available
                         </Badge>
                     )}
                 </div>
             </div>
 
-            <div className="flex-1 p-6 flex flex-col">
-                <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-bold text-primary uppercase tracking-wider">
+            <div className="flex-1 p-8 flex flex-col">
+                <div className="flex items-center gap-3 mb-4">
+                    <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">
                         {date?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
-                    {event.isVirtual && <Badge variant="outline" className="text-[10px] h-5 border-white/20 text-gray-300">Virtual</Badge>}
+                    {event.isVirtual && (
+                        <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                    )}
                 </div>
 
-                <h3 className="text-xl font-bold text-white mb-2">{event.title}</h3>
-                <p className="text-sm text-gray-400 line-clamp-2 mb-4">{event.description}</p>
+                <h3 className="text-2xl font-bold text-white mb-3 tracking-tight leading-tight">{event.title}</h3>
+                <p className="text-sm text-neutral-500 font-medium line-clamp-2 mb-8 leading-relaxed">{event.description}</p>
 
-                <div className="mt-auto space-y-3">
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
-                        {event.isVirtual ? <Globe className="h-4 w-4" /> : <MapPin className="h-4 w-4" />}
+                <div className="mt-auto space-y-6">
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400">
+                        {event.isVirtual ? <Globe className="h-3.5 w-3.5" /> : <MapPin className="h-3.5 w-3.5" />}
                         <span className="truncate">{event.location}</span>
                     </div>
 
                     <Button
                         onClick={onRegister}
                         disabled={isSoldOut}
-                        className={`w-full ${isSoldOut ? 'bg-white/10 text-gray-500' : 'bg-primary text-black hover:bg-primary/90'}`}
+                        className={`w-full h-12 rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-500 ${isSoldOut ? 'bg-white/5 text-neutral-600 border-white/5' : 'bg-white text-black hover:bg-neutral-200'}`}
                     >
-                        {isSoldOut ? "Waitlist Full" : "Register Now"}
-                        {!isSoldOut && <ArrowRight className="ml-2 h-4 w-4" />}
+                        {isSoldOut ? "Waitlist" : "Register Slot"}
                     </Button>
                 </div>
             </div>
