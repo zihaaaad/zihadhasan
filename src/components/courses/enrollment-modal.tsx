@@ -96,41 +96,41 @@ export function EnrollmentModal({ course, open, onOpenChange, onSuccess }: Enrol
                 <div className="space-y-6 py-4">
                     {course.pricingType === "free" ? (
                         <div className="text-center space-y-4">
-                            <div className="p-6 bg-green-500/10 border border-green-500/20 rounded-xl">
-                                <h3 className="text-xl font-bold text-green-400 mb-2">Free Access</h3>
-                                <p className="text-gray-300 text-sm">
-                                    This course is available for free. Click below to start learning immediately.
+                            <div className="p-8 bg-white/[0.03] border border-white/10 rounded-3xl">
+                                <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-tight">Immediate Access</h3>
+                                <p className="text-neutral-500 text-sm font-medium leading-relaxed">
+                                    This educational resource is available without cost. Authorize your access below.
                                 </p>
                             </div>
                             <Button
                                 onClick={(e) => handleSubmit(e)}
-                                className="w-full font-bold bg-green-600 hover:bg-green-700 text-white"
+                                className="w-full font-bold bg-white text-black hover:bg-neutral-200 h-14 rounded-xl text-[11px] uppercase tracking-[0.2em]"
                                 disabled={loading}
                             >
-                                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                Start Learning Now
+                                {loading && <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />}
+                                Authorize Access Now
                             </Button>
                         </div>
                     ) : (
                         <>
                             {/* Payment Instructions */}
-                            <div className="bg-white/5 p-4 rounded-lg border border-white/10 space-y-3">
+                            <div className="bg-white/[0.02] p-6 rounded-3xl border border-white/10 space-y-4">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-sm font-medium text-gray-300">Course Fee:</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Course Value</span>
                                     <div className="text-right">
-                                        <span className="text-xl font-bold text-primary">৳{course.price}</span>
-                                        {course.pricingType === 'paid' && <div className="text-xs text-gray-500">One-time payment</div>}
+                                        <span className="text-2xl font-bold text-white tracking-tight">৳{course.price}</span>
+                                        {course.pricingType === 'paid' && <div className="text-[9px] font-bold uppercase tracking-widest text-neutral-600">Secure Checkout</div>}
                                     </div>
                                 </div>
-                                <div className="h-px bg-white/10" />
-                                <div className="space-y-2">
-                                    <Label className="text-xs uppercase text-gray-500">Select Payment Method</Label>
+                                <div className="h-px bg-white/5" />
+                                <div className="space-y-3">
+                                    <Label className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 ml-1">Transmission Gateway</Label>
                                     <div className="space-y-3">
                                         <Select value={paymentMethod} onValueChange={setPaymentMethod}>
-                                            <SelectTrigger className="w-full bg-black/20 border-white/10 h-10">
+                                            <SelectTrigger className="w-full bg-black/20 border-white/10 h-12 rounded-xl text-xs font-bold uppercase tracking-widest px-4">
                                                 <SelectValue />
                                             </SelectTrigger>
-                                            <SelectContent>
+                                            <SelectContent className="bg-neutral-950 border-white/10 text-white">
                                                 <SelectItem value="bkash">Bkash (Personal)</SelectItem>
                                                 <SelectItem value="nagad">Nagad (Personal)</SelectItem>
                                                 {settings?.bankAccounts?.map((bank, idx) => (
@@ -142,45 +142,39 @@ export function EnrollmentModal({ course, open, onOpenChange, onSuccess }: Enrol
                                         </Select>
 
                                         {/* Dynamic Payment Details Display */}
-                                        <div className="bg-black/40 border border-white/10 rounded-md p-3 space-y-2">
+                                        <div className="bg-white/[0.03] border border-white/5 rounded-2xl p-4 space-y-3">
                                             {paymentMethod.startsWith('bank_') ? (
                                                 (() => {
                                                     const bankIndex = parseInt(paymentMethod.split('_')[1]);
                                                     const bank = settings?.bankAccounts?.[bankIndex];
                                                     if (!bank) return null;
                                                     return (
-                                                        <div className="space-y-2 text-sm">
+                                                        <div className="space-y-3 text-xs">
                                                             <div className="flex justify-between">
-                                                                <span className="text-gray-400">Bank:</span>
-                                                                <span className="text-white">{bank.bankName}</span>
+                                                                <span className="text-neutral-500 uppercase font-bold tracking-widest text-[9px]">Institution</span>
+                                                                <span className="text-white font-bold">{bank.bankName}</span>
                                                             </div>
                                                             <div className="flex justify-between items-center">
-                                                                <span className="text-gray-400">Account No:</span>
+                                                                <span className="text-neutral-500 uppercase font-bold tracking-widest text-[9px]">ID / Number</span>
                                                                 <div className="flex items-center gap-2">
-                                                                    <span className="font-mono text-white">{bank.accountNumber}</span>
-                                                                    <button onClick={() => handleCopy(bank.accountNumber)} className="text-gray-400 hover:text-white">
-                                                                        {copied === bank.accountNumber ? <Check className="h-3 w-3 text-green-400" /> : <Copy className="h-3 w-3" />}
+                                                                    <span className="font-mono text-white font-bold">{bank.accountNumber}</span>
+                                                                    <button onClick={() => handleCopy(bank.accountNumber)} className="text-neutral-500 hover:text-white transition-colors">
+                                                                        {copied === bank.accountNumber ? <Check strokeWidth={1.5} className="h-3 w-3 text-white" /> : <Copy strokeWidth={1.5} className="h-3 w-3" />}
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                             <div className="flex justify-between">
-                                                                <span className="text-gray-400">Account Name:</span>
-                                                                <span className="text-white">{bank.accountName}</span>
+                                                                <span className="text-neutral-500 uppercase font-bold tracking-widest text-[9px]">Recipient</span>
+                                                                <span className="text-white font-bold">{bank.accountName}</span>
                                                             </div>
-                                                            {bank.branch && (
-                                                                <div className="flex justify-between">
-                                                                    <span className="text-gray-400">Branch:</span>
-                                                                    <span className="text-gray-500">{bank.branch}</span>
-                                                                </div>
-                                                            )}
                                                         </div>
                                                     );
                                                 })()
                                             ) : (
                                                 <div className="flex items-center justify-between">
-                                                    <span className="text-gray-400 capitalize">{paymentMethod} Number:</span>
+                                                    <span className="text-neutral-500 uppercase font-bold tracking-widest text-[9px]">{paymentMethod} Number</span>
                                                     <div className="flex items-center gap-2">
-                                                        <span className="font-mono text-white text-lg">
+                                                        <span className="font-mono text-white text-lg font-bold">
                                                             {paymentMethod === 'bkash' ? settings?.paymentNumbers?.bkash : settings?.paymentNumbers?.nagad || "N/A"}
                                                         </span>
                                                         <button
@@ -188,10 +182,10 @@ export function EnrollmentModal({ course, open, onOpenChange, onSuccess }: Enrol
                                                                 const num = paymentMethod === 'bkash' ? settings?.paymentNumbers?.bkash : settings?.paymentNumbers?.nagad;
                                                                 if (num) handleCopy(num);
                                                             }}
-                                                            className="text-gray-400 hover:text-white"
+                                                            className="text-neutral-500 hover:text-white transition-colors"
                                                         >
                                                             {copied === (paymentMethod === 'bkash' ? settings?.paymentNumbers?.bkash : settings?.paymentNumbers?.nagad) ?
-                                                                <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />
+                                                                <Check strokeWidth={1.5} className="h-4 w-4 text-white" /> : <Copy strokeWidth={1.5} className="h-4 w-4" />
                                                             }
                                                         </button>
                                                     </div>
@@ -199,57 +193,57 @@ export function EnrollmentModal({ course, open, onOpenChange, onSuccess }: Enrol
                                             )}
                                         </div>
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-2">
-                                        * Please complete the payment first, then fill out the form below.
+                                    <p className="text-[9px] font-bold text-neutral-600 uppercase tracking-widest mt-2 leading-loose">
+                                        * Verify payment completion before proceeding with the authorization request.
                                     </p>
                                 </div>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="space-y-4">
+                            <form onSubmit={handleSubmit} className="space-y-5">
                                 <div className="space-y-2">
-                                    <Label>Your Phone Number</Label>
+                                    <Label className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 ml-1">Terminal ID (Phone)</Label>
                                     <Input
                                         required
                                         value={phone}
                                         onChange={e => setPhone(e.target.value)}
-                                        placeholder="e.g. 01712345678"
-                                        className="bg-black/20 border-white/10"
+                                        placeholder="E.G. 01712345678"
+                                        className="bg-black/20 border-white/10 h-12 rounded-xl text-white font-bold"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label>Transaction ID (TrxID)</Label>
+                                    <Label className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 ml-1">Transaction Proof (TrxID)</Label>
                                     <Input
                                         required
                                         value={trxId}
                                         onChange={e => setTrxId(e.target.value)}
-                                        placeholder="e.g. 8JKS92KL"
-                                        className="bg-black/20 border-white/10 font-mono uppercase"
+                                        placeholder="E.G. 8JKS92KL"
+                                        className="bg-black/20 border-white/10 font-mono uppercase h-12 rounded-xl text-white font-bold"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label>Payment Screenshot (Optional but Recommended)</Label>
+                                    <Label className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 ml-1">Visual Receipt (Optional)</Label>
                                     <ImageUploader
                                         value={screenshotUrl}
                                         onChange={setScreenshotUrl}
-                                        label="Upload Screenshot"
+                                        label="Upload Receipt"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label>Additional Info (Optional)</Label>
+                                    <Label className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 ml-1">Notes (Optional)</Label>
                                     <Textarea
                                         value={additionalInfo}
                                         onChange={e => setAdditionalInfo(e.target.value)}
-                                        placeholder="Any notes for the admin..."
-                                        className="bg-black/20 border-white/10 min-h-[80px]"
+                                        placeholder="Any technical notes for verification..."
+                                        className="bg-black/20 border-white/10 min-h-[100px] rounded-2xl text-white leading-relaxed"
                                     />
                                 </div>
 
-                                <Button type="submit" className="w-full font-bold" disabled={loading}>
-                                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                    {loading ? "Submitting..." : "Submit for Approval"}
+                                <Button type="submit" className="w-full bg-white text-black hover:bg-neutral-200 h-14 rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] mt-4" disabled={loading}>
+                                    {loading && <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />}
+                                    {loading ? "Transmitting..." : "Request Authorization"}
                                 </Button>
                             </form>
                         </>

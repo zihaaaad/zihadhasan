@@ -54,7 +54,7 @@
   --radius: 0.5rem;
 
   /* Clean Black & White Palette - FORCED DARK MODE */
-  --background: oklch(0 0 0); /* Pure Black */
+  --background: oklch(0.02 0 0); /* Slightly Off-Black for eye comfort */
   --foreground: oklch(0.98 0 0); /* Crisp Off-White */
 
   /* Value Scale for Typography */
@@ -84,8 +84,8 @@
   --destructive: oklch(0.65 0.25 25);
 
   /* Borders - High Contrast Minimal */
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 12%);
+  --border: oklch(1 0 0 / 18%);
+  --input: oklch(1 0 0 / 18%);
   --ring: oklch(1 0 0 / 50%);
 
   /* Chart Colors (Grayscale) */

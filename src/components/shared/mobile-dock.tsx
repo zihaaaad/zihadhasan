@@ -69,7 +69,7 @@ export function MobileDock() {
     return (
         <AnimatePresence>
             {isVisible && (
-                <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4 md:hidden pointer-events-none">
+                <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] md:hidden pointer-events-none">
                     <motion.div
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}

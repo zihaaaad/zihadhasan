@@ -30,24 +30,29 @@ export interface Product {
 
 export const ShopService = {
     // --- Products (Shop) ---
-    getProducts: async () => {
-        const q = query(collection(db, "products"));
-        const snapshot = await getDocs(q);
-        const products = snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Product))
-            .filter(p => p.isDeleted !== true);
-            
-        return products.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    getProducts: async (publishedOnly: boolean = false, limitCount: number = 50) => {
+        try {
+            const constraints = [where("isDeleted", "==", false)];
+            if (publishedOnly) {
+                constraints.push(where("published", "==", true));
+            }
+
+            const q = query(
+                collection(db, "products"),
+                ...constraints,
+                orderBy("createdAt", "desc"),
+                limit(limitCount)
+            );
+            const snapshot = await getDocs(q);
+            return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
+        } catch (error) {
+            console.error("[ShopService] getProducts failed:", error);
+            throw error;
+        }
     },
 
-    getPublishedProducts: async () => {
-        const q = query(collection(db, "products"));
-        const snapshot = await getDocs(q);
-        const products = snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Product))
-            .filter(p => p.published === true && p.isDeleted !== true);
-            
-        return products.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    getPublishedProducts: async (limitCount: number = 20) => {
+        return ShopService.getProducts(true, limitCount);
     },
 
     getProduct: async (id: string) => {
@@ -107,38 +112,44 @@ export const ShopService = {
 
     // --- Product Registration (Purchase) ---
     registerForProduct: async (productId: string, userDetails: { userId?: string; email: string; name: string; phone?: string; trxId?: string; screenshotUrl?: string; paymentMethod?: string; additionalInfo?: string }) => {
-        // Enforce deterministic ID for easy security rule lookup: userId_productId
-        // If no userId (guest), fallback to random ID (but they can't access secure content anyway)
+        const productRef = doc(db, "products", productId);
         const docId = userDetails.userId ? `${userDetails.userId}_${productId}` : undefined;
         const registrationRef = docId ? doc(db, "registrations", docId) : doc(collection(db, "registrations"));
+
         try {
-            // Check duplicates (optional, maybe allowed for physical?) - enforcing unique for digital
-            if (userDetails.userId) {
-                const q = query(
-                    collection(db, "registrations"),
-                    where("productId", "==", productId),
-                    where("userId", "==", userDetails.userId)
-                );
-                const existing = await getDocs(q);
-                if (!existing.empty) return { success: false, error: "Already purchased this product" };
-            }
+            return await runTransaction(db, async (transaction) => {
+                // 1. Check Product Existence
+                const productDoc = await transaction.get(productRef);
+                if (!productDoc.exists()) throw new Error("Product not found");
 
-            const payload: any = {
-                productId,
-                email: userDetails.email,
-                name: userDetails.name,
-                status: "pending", // Always pending for products unless free
-                registeredAt: Timestamp.now()
-            };
-            if (userDetails.userId) payload.userId = userDetails.userId;
-            if (userDetails.phone) payload.phone = userDetails.phone;
-            if (userDetails.trxId) payload.trxId = userDetails.trxId;
-            if (userDetails.screenshotUrl) payload.screenshotUrl = userDetails.screenshotUrl;
+                // 2. Check Duplicates (if userId is known)
+                if (docId) {
+                    const regDoc = await transaction.get(registrationRef);
+                    if (regDoc.exists()) {
+                        return { success: false, error: "Already purchased this product" };
+                    }
+                }
 
-            await setDoc(registrationRef, payload);
-            return { success: true, id: registrationRef.id };
+                // 3. Prepare & Set Payload
+                const payload: any = {
+                    productId,
+                    email: userDetails.email,
+                    name: userDetails.name,
+                    status: "pending", // Always pending for products unless free
+                    registeredAt: Timestamp.now()
+                };
+                if (userDetails.userId) payload.userId = userDetails.userId;
+                if (userDetails.phone) payload.phone = userDetails.phone;
+                if (userDetails.trxId) payload.trxId = userDetails.trxId;
+                if (userDetails.screenshotUrl) payload.screenshotUrl = userDetails.screenshotUrl;
+                if (userDetails.paymentMethod) payload.paymentMethod = userDetails.paymentMethod;
+                if (userDetails.additionalInfo) payload.additionalInfo = userDetails.additionalInfo;
+
+                transaction.set(registrationRef, payload);
+                return { success: true, id: registrationRef.id };
+            });
         } catch (e) {
-            console.error("Product purchase failed", e);
+            console.error("[ShopService] registerForProduct failed:", e);
             return { success: false, error: e };
         }
     },

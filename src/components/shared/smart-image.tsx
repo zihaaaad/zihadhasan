@@ -20,10 +20,11 @@ export function SmartImage({
     aspectRatio = "16/9",
     className,
     fill = false,
+    priority = false,
     ...props
 }: SmartImageProps) {
     const [error, setError] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(!priority); // Skip loading state for priority images
 
     // If no src or error, show "Smart Error Placeholder"
     if (!src || error) {
@@ -43,13 +44,20 @@ export function SmartImage({
 
                 <div className="z-10 flex flex-col items-center gap-2">
                     <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center animate-pulse">
-                        <Hammer className="h-5 w-5 text-white/50" />
+                        <Hammer strokeWidth={1.5} className="h-5 w-5 text-white/50" />
                     </div>
                     <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold">ZH No Signal</span>
                 </div>
             </div>
         );
     }
+
+    const imageClasses = cn(
+        "object-cover transition-all duration-700 ease-in-out",
+        !priority && (isLoading ? "scale-110 blur-xl" : "scale-100 blur-0"),
+        "grayscale hover:grayscale-0",
+        "hover:scale-105"
+    );
 
     // Standard Next/Image wrapper
     if (fill) {
@@ -59,16 +67,12 @@ export function SmartImage({
                     src={src}
                     alt={alt}
                     fill
-                    className={cn(
-                        "object-cover transition-all duration-700 ease-in-out",
-                        isLoading ? "scale-110 blur-xl" : "scale-100 blur-0",
-                        "grayscale hover:grayscale-0",
-                        "hover:scale-105" // Keep hover effect
-                    )}
+                    priority={priority}
+                    className={imageClasses}
                     onLoad={() => setIsLoading(false)}
                     onError={() => setError(true)}
                     unoptimized // Allow external URLs easily without config
-                    placeholder={props.blurDataURL ? "blur" : undefined}
+                    placeholder={props.blurDataURL && !priority ? "blur" : undefined}
                     blurDataURL={props.blurDataURL}
                     {...props}
                 />
@@ -90,16 +94,12 @@ export function SmartImage({
                 src={src}
                 alt={alt}
                 fill
-                className={cn(
-                    "object-cover transition-all duration-700 ease-in-out",
-                    isLoading ? "scale-110 blur-xl" : "scale-100 blur-0",
-                    "grayscale hover:grayscale-0",
-                    "hover:scale-105" // Keep hover effect
-                )}
+                priority={priority}
+                className={imageClasses}
                 onLoad={() => setIsLoading(false)}
                 onError={() => setError(true)}
                 unoptimized
-                placeholder={props.blurDataURL ? "blur" : undefined}
+                placeholder={props.blurDataURL && !priority ? "blur" : undefined}
                 blurDataURL={props.blurDataURL}
                 {...props}
             />

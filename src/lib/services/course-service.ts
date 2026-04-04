@@ -40,28 +40,29 @@ export interface Course {
 
 export const CourseService = {
     // --- Courses ---
-    getCourses: async () => {
-        // Get all courses (Admin)
-        // Note: Fetching ALL and filtering client-side to catch legacy data where isDeleted might be undefined
-        const q = query(collection(db, "courses"));
-        const snapshot = await getDocs(q);
-        return snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Course))
-            .filter(c => c.isDeleted !== true); // Show undefined isDeleted as valid
+    getCourses: async (publishedOnly: boolean = false, limitCount: number = 20) => {
+        try {
+            const constraints = [where("isDeleted", "==", false)];
+            if (publishedOnly) {
+                constraints.push(where("published", "==", true));
+            }
+
+            const q = query(
+                collection(db, "courses"),
+                ...constraints,
+                orderBy("createdAt", "desc"),
+                limit(limitCount)
+            );
+            const snapshot = await getDocs(q);
+            return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Course));
+        } catch (error) {
+            console.error("[CourseService] getCourses failed:", error);
+            throw error;
+        }
     },
 
-    getPublishedCourses: async () => {
-        // Query only published and not deleted to satisfy security rules
-        const q = query(
-            collection(db, "courses"),
-            where("published", "==", true),
-            where("isDeleted", "==", false)
-        );
-        const snapshot = await getDocs(q);
-        const courses = snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Course));
-            
-        return courses.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    getPublishedCourses: async (limitCount: number = 20) => {
+        return CourseService.getCourses(true, limitCount);
     },
 
     getCourse: async (id: string) => {
@@ -100,50 +101,50 @@ export const CourseService = {
     },
 
     registerForCourse: async (courseId: string, userDetails: { userId?: string; email: string; name: string; phone?: string; trxId?: string; screenshotUrl?: string; paymentMethod?: string; additionalInfo?: string }) => {
-        // Schema Enforcement: Use deterministic ID if User ID is known
+        const courseRef = doc(db, "courses", courseId);
         const docId = userDetails.userId ? `${userDetails.userId}_${courseId}` : undefined;
         const registrationRef = docId ? doc(db, "registrations", docId) : doc(collection(db, "registrations"));
+
         try {
-            // Check duplicates (client-side of query) which aligns with Security Rules (must filter by userId)
-            const q = query(
-                collection(db, "registrations"),
-                where("courseId", "==", courseId),
-                where("userId", "==", userDetails.userId)
-            );
-            const existing = await getDocs(q);
-            if (!existing.empty) return { success: false, error: "Already registered for this course" };
-
-            // Fetch course to check pricing
-            const courseRef = doc(db, "courses", courseId);
-            const courseDoc = await getDoc(courseRef);
-            let status: "pending" | "approved" = "pending";
-
-            if (courseDoc.exists()) {
+            return await runTransaction(db, async (transaction) => {
+                // 1. Check Course Pricing & Existence
+                const courseDoc = await transaction.get(courseRef);
+                if (!courseDoc.exists()) throw new Error("Course not found");
                 const courseData = courseDoc.data() as Course;
+
+                // 2. Check Duplicates (if userId is known)
+                if (docId) {
+                    const regDoc = await transaction.get(registrationRef);
+                    if (regDoc.exists()) {
+                        return { success: false, error: "Already registered for this course" };
+                    }
+                }
+
+                let status: "pending" | "approved" = "pending";
                 if (courseData.pricingType === 'free') {
                     status = "approved";
                 }
-            }
 
-            // Sanitize Payload
-            const payload: any = {
-                courseId,
-                email: userDetails.email,
-                name: userDetails.name,
-                status: status,
-                registeredAt: Timestamp.now()
-            };
-            if (userDetails.userId) payload.userId = userDetails.userId;
-            if (userDetails.phone) payload.phone = userDetails.phone;
-            if (userDetails.trxId) payload.trxId = userDetails.trxId;
-            if (userDetails.screenshotUrl) payload.screenshotUrl = userDetails.screenshotUrl;
-            if (userDetails.paymentMethod) payload.paymentMethod = userDetails.paymentMethod;
-            if (userDetails.additionalInfo) payload.additionalInfo = userDetails.additionalInfo;
+                // 3. Prepare & Set Payload
+                const payload: any = {
+                    courseId,
+                    email: userDetails.email,
+                    name: userDetails.name,
+                    status: status,
+                    registeredAt: Timestamp.now()
+                };
+                if (userDetails.userId) payload.userId = userDetails.userId;
+                if (userDetails.phone) payload.phone = userDetails.phone;
+                if (userDetails.trxId) payload.trxId = userDetails.trxId;
+                if (userDetails.screenshotUrl) payload.screenshotUrl = userDetails.screenshotUrl;
+                if (userDetails.paymentMethod) payload.paymentMethod = userDetails.paymentMethod;
+                if (userDetails.additionalInfo) payload.additionalInfo = userDetails.additionalInfo;
 
-            await setDoc(registrationRef, payload);
-            return { success: true, id: registrationRef.id };
+                transaction.set(registrationRef, payload);
+                return { success: true, id: registrationRef.id };
+            });
         } catch (e) {
-            console.error("Course reg failed", e);
+            console.error("[CourseService] registerForCourse failed:", e);
             return { success: false, error: e };
         }
     },

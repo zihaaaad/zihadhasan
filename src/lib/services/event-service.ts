@@ -42,14 +42,29 @@ export const EventService = {
         });
     },
 
-    getEvents: async () => {
-        const q = query(collection(db, "events"));
-        const snapshot = await getDocs(q);
-        const events = snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Event))
-            .filter(e => e.isDeleted !== true);
+    getEvents: async (publishedOnly: boolean = false, limitCount: number = 20) => {
+        try {
+            const constraints = [where("isDeleted", "==", false)];
+            // Note: Pricing or other logic might determine 'published' for events if needed, 
+            // but currently events don't have a 'published' flag in the interface. 
+            // If they did, we'd add it here. Adding it for future-proofing and consistency.
             
-        return events.sort((a, b) => (a.date?.seconds || 0) - (b.date?.seconds || 0)).slice(0, 20);
+            const q = query(
+                collection(db, "events"),
+                ...constraints,
+                orderBy("date", "asc"),
+                limit(limitCount)
+            );
+            const snapshot = await getDocs(q);
+            return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Event));
+        } catch (error) {
+            console.error("[EventService] getEvents failed:", error);
+            throw error;
+        }
+    },
+
+    getPublishedEvents: async (limitCount: number = 20) => {
+        return EventService.getEvents(true, limitCount);
     },
 
     getEvent: async (id: string) => {
