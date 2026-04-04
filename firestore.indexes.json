@@ -37,6 +37,56 @@
                     "order": "ASCENDING"
                 },
                 {
+                    "fieldPath": "published",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "publishedAt",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "posts",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "isDeleted",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "createdAt",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "products",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "isDeleted",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "published",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "createdAt",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "products",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "isDeleted",
+                    "order": "ASCENDING"
+                },
+                {
                     "fieldPath": "createdAt",
                     "order": "DESCENDING"
                 }
@@ -57,16 +107,20 @@
             ]
         },
         {
-            "collectionGroup": "posts",
+            "collectionGroup": "courses",
             "queryScope": "COLLECTION",
             "fields": [
                 {
-                    "fieldPath": "status",
+                    "fieldPath": "isDeleted",
                     "order": "ASCENDING"
                 },
                 {
-                    "fieldPath": "isDeleted",
+                    "fieldPath": "published",
                     "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "createdAt",
+                    "order": "DESCENDING"
                 }
             ]
         },
@@ -75,12 +129,12 @@
             "queryScope": "COLLECTION",
             "fields": [
                 {
-                    "fieldPath": "published",
+                    "fieldPath": "isDeleted",
                     "order": "ASCENDING"
                 },
                 {
-                    "fieldPath": "isDeleted",
-                    "order": "ASCENDING"
+                    "fieldPath": "createdAt",
+                    "order": "DESCENDING"
                 }
             ]
         },
