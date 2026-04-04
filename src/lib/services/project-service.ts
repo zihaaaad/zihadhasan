@@ -46,16 +46,37 @@ export const ProjectService = {
         });
     },
 
-    getProjects: async () => {
-        const q = query(
-            collection(db, "projects"),
-            where("isDeleted", "==", false),
-            orderBy("createdAt", "desc"),
-            limit(20)
-        );
-        const snapshot = await getDocs(q);
-        return snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Project));
+    getProjects: async (limitCount: number = 20) => {
+        try {
+            const q = query(
+                collection(db, "projects"),
+                where("isDeleted", "==", false),
+                orderBy("createdAt", "desc"),
+                limit(limitCount)
+            );
+            const snapshot = await getDocs(q);
+            return snapshot.docs
+                .map(doc => ({ id: doc.id, ...doc.data() } as Project));
+        } catch (error) {
+            console.error("[ProjectService] getProjects failed:", error);
+            throw error;
+        }
+    },
+
+    getLatestProject: async () => {
+        try {
+            const q = query(
+                collection(db, "projects"),
+                where("isDeleted", "==", false),
+                orderBy("createdAt", "desc"),
+                limit(1)
+            );
+            const snapshot = await getDocs(q);
+            return snapshot.empty ? null : { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as Project;
+        } catch (error) {
+            console.error("[ProjectService] getLatestProject failed:", error);
+            return null;
+        }
     },
 
     deleteProject: async (id: string) => {
@@ -82,14 +103,37 @@ export const ProjectService = {
         });
     },
 
-    getTools: async () => {
-        const q = query(collection(db, "tools"));
-        const snapshot = await getDocs(q);
-        const tools = snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Tool))
-            .filter(t => t.isDeleted !== true);
-            
-        return tools.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).slice(0, 20);
+    getTools: async (limitCount: number = 20) => {
+        try {
+            const q = query(
+                collection(db, "tools"),
+                where("isDeleted", "==", false),
+                orderBy("createdAt", "desc"),
+                limit(limitCount)
+            );
+            const snapshot = await getDocs(q);
+            return snapshot.docs
+                .map(doc => ({ id: doc.id, ...doc.data() } as Tool));
+        } catch (error) {
+            console.error("[ProjectService] getTools failed:", error);
+            throw error;
+        }
+    },
+
+    getLatestTool: async () => {
+        try {
+            const q = query(
+                collection(db, "tools"),
+                where("isDeleted", "==", false),
+                orderBy("createdAt", "desc"),
+                limit(1)
+            );
+            const snapshot = await getDocs(q);
+            return snapshot.empty ? null : { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as Tool;
+        } catch (error) {
+            console.error("[ProjectService] getLatestTool failed:", error);
+            return null;
+        }
     },
 
     deleteTool: async (id: string) => {

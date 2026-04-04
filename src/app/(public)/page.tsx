@@ -13,16 +13,22 @@ import { BlogService } from "@/lib/services/blog-service";
 
 import { Section } from "./components/section"; // Helper component
 
-// Cache-First Strategy: Revalidate every 24 hours (86400s) to save Spark Plan Quota
-export const revalidate = 86400;
-
 // --- Suspense Wrappers ---
 
 async function HeroSection() {
   const [settings, projects, tools] = await Promise.all([
-    CoreService.getGlobalSettings().catch(() => null),
-    ProjectService.getProjects().catch(() => []),
-    ProjectService.getTools().catch(() => [])
+    CoreService.getGlobalSettings().catch((err) => {
+      console.error("[HeroSection] Failed to fetch settings:", err);
+      return null;
+    }),
+    ProjectService.getProjects(5).catch((err) => {
+      console.error("[HeroSection] Failed to fetch projects:", err);
+      return [];
+    }),
+    ProjectService.getTools(5).catch((err) => {
+      console.error("[HeroSection] Failed to fetch tools:", err);
+      return [];
+    })
   ]);
 
   return (
@@ -35,15 +41,11 @@ async function HeroSection() {
 }
 
 async function BentoSection() {
-  const [projects, tools, blogPosts] = await Promise.all([
-    ProjectService.getProjects().catch(() => []),
-    ProjectService.getTools().catch(() => []),
-    BlogService.getPosts(true).catch(() => [])
+  const [featuredProject, featuredTool, featuredBlog] = await Promise.all([
+    ProjectService.getLatestProject(),
+    ProjectService.getLatestTool(),
+    BlogService.getLatestPost(true)
   ]);
-
-  const featuredProject = projects.length > 0 ? projects[0] : null;
-  const featuredTool = tools.length > 0 ? tools[0] : null;
-  const featuredBlog = blogPosts.length > 0 ? blogPosts[0] : null;
 
   return (
     <Section>
@@ -57,7 +59,10 @@ async function BentoSection() {
 }
 
 async function CourseSection() {
-  const courses = await CourseService.getPublishedCourses().catch(() => []);
+  const courses = await CourseService.getPublishedCourses().catch((err) => {
+    console.error("[CourseSection] Failed to fetch courses:", err);
+    return [];
+  });
 
   return (
     <Section>

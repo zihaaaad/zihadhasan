@@ -7,8 +7,8 @@ A high-performance codebase powering the personal portfolio of Zihad Hasan. Buil
 
 ## 🚀 Features
 
--   **Hybrid Static Architecture**: Uses `output: 'export'` for blazing fast static hosting, with a smart client-side fallback for dynamic content (`[slug]` routing).
--   **Modern Tech Stack**: TypeScript, Tailwind CSS v4, Framer Motion, GSAP.
+-   **Static Export Architecture**: Uses `output: 'export'` for blazing fast static hosting on Firebase. Content is pre-rendered at build time.
+-   **Modern Tech Stack**: TypeScript, Tailwind CSS v4, Framer Motion.
 -   **Security**: Firebase App Check (reCAPTCHA v3) and strict Firestore Rules.
 -   **CMS Architecture**: Domain-driven services for managing Blog, Events, Shop, and Users.
 -   **Performance**: 100/100 Lighthouse scores via optimized fonts, images, and static generation.
@@ -18,7 +18,7 @@ A high-performance codebase powering the personal portfolio of Zihad Hasan. Buil
 -   **Framework**: [Next.js 15 (App Router)](https://nextjs.org)
 -   **Language**: [TypeScript](https://www.typescriptlang.org)
 -   **Styling**: [Tailwind CSS v4](https://tailwindcss.com) + [Shadcn UI](https://ui.shadcn.com)
--   **Animations**: Framer Motion + GSAP
+-   **Animations**: Framer Motion
 -   **Backend**: Firebase (Firestore, Auth, Storage)
 -   **Deployment**: Firebase Hosting
 
@@ -26,7 +26,7 @@ A high-performance codebase powering the personal portfolio of Zihad Hasan. Buil
 
 -   **Service-Oriented Core**: Migrated from a monolithic CMS service to domain-specific services (`UserService`, `ProjectService`, etc.) for better separation of concerns and tree-shaking.
 -   **Deterministic Security**: Implements `userId_resourceId` pattern for registrations, enabling O(1) security rule lookups without expensive queries.
--   **Cost-Optimized**: Aggressive caching policies (24h ISR) and zero-cost admin checks via Custom Claims.
+-   **Cost-Optimized**: Pre-rendered static pages minimize Firestore read costs. CI/CD rebuilds are triggered on content updates.
 -   **Facade Pattern**: Maintains backward compatibility via a unified Service Facade, allowing gradual refactoring of legacy pages.
 
 ## 📂 Project Structure

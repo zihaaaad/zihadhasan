@@ -34,38 +34,65 @@ export interface BlogPost {
 
 export const BlogService = {
     // --- Blog ---
-    getPosts: async (publishedOnly: boolean = true) => {
-        const constraints = [where("isDeleted", "==", false)];
-        if (publishedOnly) {
-            constraints.push(where("published", "==", true));
+    getPosts: async (publishedOnly: boolean = true, limitCount: number = 20) => {
+        try {
+            const constraints = [where("isDeleted", "==", false)];
+            if (publishedOnly) {
+                constraints.push(where("published", "==", true));
+            }
+            
+            const q = query(
+                collection(db, "posts"), 
+                ...constraints,
+                orderBy(publishedOnly ? "publishedAt" : "createdAt", "desc"),
+                limit(limitCount)
+            );
+            const snapshot = await getDocs(q);
+            
+            return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
+        } catch (error) {
+            console.error("[BlogService] getPosts failed:", error);
+            throw error;
         }
-        
-        const q = query(collection(db, "posts"), ...constraints);
-        const snapshot = await getDocs(q);
-        
-        const posts = snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
+    },
 
-        // Sort client-side
-        posts.sort((a, b) => {
-            const dateA = publishedOnly ? (a.publishedAt?.seconds || 0) : (a.createdAt?.seconds || 0);
-            const dateB = publishedOnly ? (b.publishedAt?.seconds || 0) : (b.createdAt?.seconds || 0);
-            return dateB - dateA;
-        });
-
-        return posts;
+    getLatestPost: async (publishedOnly: boolean = true) => {
+        try {
+            const constraints = [where("isDeleted", "==", false)];
+            if (publishedOnly) {
+                constraints.push(where("published", "==", true));
+            }
+            
+            const q = query(
+                collection(db, "posts"), 
+                ...constraints,
+                orderBy(publishedOnly ? "publishedAt" : "createdAt", "desc"),
+                limit(1)
+            );
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) return null;
+            return { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as BlogPost;
+        } catch (error) {
+            console.error("[BlogService] getLatestPost failed:", error);
+            return null;
+        }
     },
 
     getPostBySlug: async (slug: string, publishedOnly: boolean = true) => {
-        const constraints = [where("slug", "==", slug), limit(1)];
-        if (publishedOnly) {
-            constraints.push(where("published", "==", true));
+        try {
+            const constraints = [where("slug", "==", slug), limit(1)];
+            if (publishedOnly) {
+                constraints.push(where("published", "==", true));
+            }
+            const q = query(collection(db, "posts"), ...constraints);
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) return null;
+            const doc = snapshot.docs[0];
+            return { id: doc.id, ...doc.data() } as BlogPost;
+        } catch (error) {
+            console.error("[BlogService] getPostBySlug failed:", error);
+            throw error;
         }
-        const q = query(collection(db, "posts"), ...constraints);
-        const snapshot = await getDocs(q);
-        if (snapshot.empty) return null;
-        const doc = snapshot.docs[0];
-        return { id: doc.id, ...doc.data() } as BlogPost;
     },
 
     getPost: async (id: string) => {
