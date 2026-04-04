@@ -71,7 +71,7 @@ export function Navbar() {
                     className={cn(
                         "relative mx-auto flex items-center justify-between rounded-full border border-white/[0.05] px-6 py-2 transition-all duration-500",
                         scrolled
-                            ? "bg-black/20 backdrop-blur-2xl sm:w-full md:max-w-3xl border-white/[0.08]"
+                            ? "bg-black/40 backdrop-blur-2xl sm:w-full md:max-w-3xl border-white/[0.1]"
                             : "bg-transparent border-transparent"
                     )}
                 >

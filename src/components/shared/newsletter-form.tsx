@@ -66,7 +66,7 @@ export function NewsletterForm({
                             placeholder="TRANSMISSION@EMAIL.COM"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="pl-11 h-12 bg-white/[0.03] border-white/[0.05] text-white focus:ring-white/20 text-[10px] font-bold uppercase tracking-widest rounded-xl"
+                            className="pl-11 h-12 bg-white/[0.05] border-white/[0.1] text-white focus:ring-white/30 text-[10px] font-bold uppercase tracking-widest rounded-xl"
                             required
                         />
                     </div>

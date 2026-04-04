@@ -34,17 +34,17 @@ export interface BlogPost {
 
 export const BlogService = {
     // --- Blog ---
-    getPosts: async (publishedOnly: boolean = false) => {
-        const q = query(collection(db, "posts"));
+    getPosts: async (publishedOnly: boolean = true) => {
+        const constraints = [where("isDeleted", "==", false)];
+        if (publishedOnly) {
+            constraints.push(where("published", "==", true));
+        }
+        
+        const q = query(collection(db, "posts"), ...constraints);
         const snapshot = await getDocs(q);
         
-        let posts = snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as BlogPost))
-            .filter(p => p.isDeleted !== true);
-
-        if (publishedOnly) {
-            posts = posts.filter(p => p.published === true);
-        }
+        const posts = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
 
         // Sort client-side
         posts.sort((a, b) => {
@@ -56,8 +56,12 @@ export const BlogService = {
         return posts;
     },
 
-    getPostBySlug: async (slug: string) => {
-        const q = query(collection(db, "posts"), where("slug", "==", slug), limit(1));
+    getPostBySlug: async (slug: string, publishedOnly: boolean = true) => {
+        const constraints = [where("slug", "==", slug), limit(1)];
+        if (publishedOnly) {
+            constraints.push(where("published", "==", true));
+        }
+        const q = query(collection(db, "posts"), ...constraints);
         const snapshot = await getDocs(q);
         if (snapshot.empty) return null;
         const doc = snapshot.docs[0];

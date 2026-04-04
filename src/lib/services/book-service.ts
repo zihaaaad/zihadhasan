@@ -41,8 +41,11 @@ export const BookService = {
         return books.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
     },
 
-    getBookBySlug: async (slug: string) => {
-        const q = query(collection(db, "books"), where("slug", "==", slug), limit(1));
+    getBookBySlug: async (slug: string, onlyPublished = true) => {
+        const constraints = [where("slug", "==", slug), limit(1)];
+        if (onlyPublished) constraints.push(where("published", "==", true));
+        
+        const q = query(collection(db, "books"), ...constraints);
         const snapshot = await getDocs(q);
         if (snapshot.empty) return null;
         return { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as Book;

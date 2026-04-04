@@ -81,7 +81,7 @@ export default function AdminBooksPage() {
                                         <ExternalLink className="h-4 w-4" />
                                     </Button>
                                 </Link>
-                                <Link href={`/dashboard/books/edit/${book.id}`}>
+                                <Link href={`/dashboard/books/edit?id=${book.id}`}>
                                     <Button variant="outline" size="icon" className="rounded-xl h-10 w-10 border-white/5 hover:bg-white/5">
                                         <Edit className="h-4 w-4" />
                                     </Button>

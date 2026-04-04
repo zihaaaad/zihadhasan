@@ -51,12 +51,15 @@ export const CourseService = {
     },
 
     getPublishedCourses: async () => {
-        // Query ALL and filter client-side to be resilient to missing fields and legacy data
-        const q = query(collection(db, "courses"));
+        // Query only published and not deleted to satisfy security rules
+        const q = query(
+            collection(db, "courses"),
+            where("published", "==", true),
+            where("isDeleted", "==", false)
+        );
         const snapshot = await getDocs(q);
         const courses = snapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Course))
-            .filter(c => c.published === true && c.isDeleted !== true);
+            .map(doc => ({ id: doc.id, ...doc.data() } as Course));
             
         return courses.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
     },

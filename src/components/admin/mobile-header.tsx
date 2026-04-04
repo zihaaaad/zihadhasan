@@ -102,26 +102,26 @@ function MobileSidebarContent() {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
+                                "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-widest transition-all",
                                 isActive
-                                    ? "bg-primary/10 text-primary shadow-[0_0_10px_rgba(59,130,246,0.1)]"
-                                    : "text-gray-400 hover:bg-white/5 hover:text-white"
+                                    ? "bg-white/10 text-white shadow-[0_0_20px_rgba(255,255,255,0.05)]"
+                                    : "text-neutral-500 hover:bg-white/5 hover:text-white"
                             )}
                         >
-                            <item.icon className="h-4 w-4" />
+                            <item.icon strokeWidth={1.5} className="h-4 w-4" />
                             {item.label}
                         </Link>
                     );
                 })}
             </nav>
 
-            <div className="border-t border-white/10 p-4">
+            <div className="border-t border-white/5 p-6 bg-white/[0.02]">
                 <Button
                     variant="ghost"
-                    className="w-full justify-start gap-2 text-red-400 hover:bg-red-500/10 hover:text-red-300"
+                    className="w-full justify-start gap-3 text-red-500 hover:bg-red-500/10 hover:text-red-400 font-bold uppercase tracking-[0.2em] text-[10px] h-12 rounded-xl"
                     onClick={handleLogout}
                 >
-                    <LogOut className="h-4 w-4" />
+                    <LogOut strokeWidth={1.5} className="h-4 w-4" />
                     Sign Out
                 </Button>
             </div>

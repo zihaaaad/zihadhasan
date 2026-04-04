@@ -98,80 +98,95 @@ export function SearchCommand() {
     };
 
     const getIcon = (type: string) => {
+        const props = { strokeWidth: 1.5, className: "h-4 w-4" };
         switch (type) {
-            case 'course': return <BookOpen className="h-4 w-4" />;
-            case 'project': return <Layout className="h-4 w-4" />;
-            case 'blog': return <PenTool className="h-4 w-4" />;
-            case 'event': return <Calendar className="h-4 w-4" />;
-            default: return <Search className="h-4 w-4" />;
+            case 'course': return <BookOpen {...props} />;
+            case 'project': return <Layout {...props} />;
+            case 'blog': return <PenTool {...props} />;
+            case 'event': return <Calendar {...props} />;
+            default: return <Search {...props} />;
         }
     };
 
     return (
         <>
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="p-0 gap-0 bg-[#0A0A0A] border-white/10 sm:max-w-[550px] shadow-2xl backdrop-blur-3xl">
-                    <DialogHeader className="p-4 border-b border-white/5">
+                <DialogContent className="p-0 gap-0 bg-black border-white/10 sm:max-w-[550px] shadow-2xl backdrop-blur-3xl rounded-3xl overflow-hidden">
+                    <DialogHeader className="p-6 border-b border-white/5 bg-white/[0.02]">
                         <DialogTitle className="sr-only">Search</DialogTitle>
-                        <div className="flex items-center gap-3 px-2">
-                            <Search className="h-5 w-5 text-gray-500" />
+                        <div className="flex items-center gap-4 px-2">
+                            <Search strokeWidth={1.5} className="h-5 w-5 text-neutral-500" />
                             <Input
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
-                                placeholder="Search courses, projects, blogs..."
-                                className="border-0 bg-transparent text-lg focus-visible:ring-0 placeholder:text-gray-600 h-auto p-0 text-white"
+                                placeholder="Search everything..."
+                                className="border-0 bg-transparent text-xl focus-visible:ring-0 placeholder:text-neutral-600 h-auto p-0 text-white font-medium tracking-tight"
                                 autoFocus
                             />
-                            {loading && <Loader2 className="h-4 w-4 animate-spin text-gray-500" />}
+                            {loading && <Loader2 className="h-5 w-5 animate-spin text-white/20" />}
                         </div>
                     </DialogHeader>
 
-                    <div className="max-h-[300px] overflow-y-auto p-2">
+                    <div className="max-h-[400px] overflow-y-auto p-3 bg-black">
                         {results.length > 0 ? (
                             <div className="space-y-1">
                                 {results.map((result) => (
                                     <button
                                         key={`${result.type}-${result.id}`}
                                         onClick={() => handleSelect(result.url)}
-                                        className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 active:bg-white/10 transition-colors group flex items-start gap-4"
+                                        className="w-full text-left px-5 py-4 rounded-2xl hover:bg-white/5 active:bg-white/10 transition-all duration-300 group flex items-start gap-5"
                                     >
                                         <div className={cn(
-                                            "mt-1 p-2 rounded-md bg-white/5 text-gray-400 group-hover:text-white group-hover:bg-white/10 transition-colors"
+                                            "mt-1 p-2.5 rounded-xl bg-white/5 text-neutral-500 group-hover:text-white group-hover:bg-white/10 transition-all duration-500"
                                         )}>
                                             {getIcon(result.type)}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h4 className="text-sm font-medium text-white truncate group-hover:text-primary transition-colors">
+                                            <h4 className="text-base font-bold text-white truncate group-hover:translate-x-1 transition-transform duration-500">
                                                 {result.title}
                                             </h4>
-                                            <p className="text-xs text-gray-500 truncate mt-0.5">
+                                            <p className="text-xs text-neutral-500 truncate mt-1 font-medium">
                                                 {result.description}
                                             </p>
                                         </div>
-                                        <span className="text-[10px] uppercase font-bold tracking-wider text-gray-600 group-hover:text-gray-400 self-center">
+                                        <span className="text-[9px] uppercase font-black tracking-[0.2em] text-neutral-600 group-hover:text-neutral-400 self-center bg-white/5 px-2 py-1 rounded-md transition-colors">
                                             {result.type}
                                         </span>
                                     </button>
                                 ))}
                             </div>
                         ) : query ? (
-                            <div className="py-12 text-center text-sm text-gray-500">
-                                No results found for "{query}"
+                            <div className="py-20 text-center flex flex-col items-center gap-4">
+                                <div className="p-4 bg-white/5 rounded-full">
+                                    <Search strokeWidth={1.5} className="h-8 w-8 text-neutral-700" />
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-white font-bold">No results found</p>
+                                    <p className="text-sm text-neutral-500">We couldn't find anything matching "{query}"</p>
+                                </div>
                             </div>
                         ) : (
-                            <div className="py-12 text-center text-sm text-gray-600">
-                                Type to search across the entire platform
+                            <div className="py-20 text-center flex flex-col items-center gap-4">
+                                <div className="p-4 bg-white/5 rounded-full">
+                                    <Search strokeWidth={1.5} className="h-8 w-8 text-neutral-800" />
+                                </div>
+                                <p className="text-sm text-neutral-600 font-medium tracking-wide uppercase">
+                                    Type to explore the platform
+                                </p>
                             </div>
                         )}
                     </div>
 
-                    <div className="p-2 border-t border-white/5 bg-white/[0.02] flex justify-between items-center px-4">
-                        <span className="text-[10px] text-gray-600">ProTip: Search for "Next.js"</span>
-                        <div className="flex gap-2">
-                            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-white/10 bg-white/5 px-1.5 font-mono text-[10px] font-medium text-gray-400 opacity-100">
-                                <span className="text-xs">esc</span>
+                    <div className="p-4 border-t border-white/5 bg-white/[0.03] flex justify-between items-center px-6">
+                        <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest">Navigation</span>
+                            <div className="h-px w-8 bg-white/10" />
+                        </div>
+                        <div className="flex gap-3">
+                            <kbd className="pointer-events-none inline-flex h-6 select-none items-center gap-1 rounded-md border border-white/10 bg-black px-2 font-mono text-[10px] font-bold text-neutral-500 uppercase">
+                                esc
                             </kbd>
-                            <span className="text-[10px] text-gray-600 self-center">to close</span>
+                            <span className="text-[10px] font-bold text-neutral-700 uppercase tracking-widest self-center">to close</span>
                         </div>
                     </div>
                 </DialogContent>

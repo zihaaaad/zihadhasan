@@ -81,12 +81,12 @@
   --accent: oklch(1 0 0 / 10%);
   --accent-foreground: oklch(0.98 0 0);
 
-  --destructive: oklch(0.6 0.18 25);
+  --destructive: oklch(0.65 0.25 25);
 
   /* Borders - High Contrast Minimal */
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 8%);
-  --ring: oklch(1 0 0 / 40%);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(1 0 0 / 50%);
 
   /* Chart Colors (Grayscale) */
   --chart-1: oklch(1 0 0);
@@ -114,7 +114,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 selection:bg-white selection:text-black;
   }
 
   body {

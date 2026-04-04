@@ -89,11 +89,11 @@ export function AdminSidebar() {
                                 "flex items-center rounded-lg py-2.5 transition-all relative group overflow-hidden",
                                 isCollapsed ? "justify-center px-2" : "px-4 gap-3",
                                 isActive
-                                    ? "bg-primary/10 text-primary shadow-[0_0_10px_rgba(59,130,246,0.1)]"
-                                    : "text-gray-400 hover:bg-white/5 hover:text-white"
+                                    ? "bg-white/10 text-white shadow-[0_0_15px_rgba(255,255,255,0.05)]"
+                                    : "text-neutral-500 hover:bg-white/5 hover:text-white"
                             )}
                         >
-                            <item.icon className="h-5 w-5 flex-shrink-0" />
+                            <item.icon strokeWidth={1.5} className="h-5 w-5 flex-shrink-0" />
                             {!isCollapsed && (
                                 <motion.span
                                     initial={{ opacity: 0 }}

@@ -1,130 +1,32 @@
-"use client";
+import { CMSService } from "@/lib/cms-service";
+import EbookReaderClient from "./ebook-reader-client";
+import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { CMSService, Book } from "@/lib/cms-service";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, ShieldAlert, Lock, ShieldCheck } from "lucide-react";
-import Link from "next/link";
-import { useAuth } from "@/components/auth/auth-provider";
-import sanitizeHtml from "sanitize-html";
+interface Props {
+    params: Promise<{ slug: string }>;
+}
 
-export default function EbookReaderPage() {
-    const { slug } = useParams();
-    const { user, loading: authLoading } = useAuth();
-    const router = useRouter();
-    const [book, setBook] = useState<Book | null>(null);
-    const [content, setContent] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+export async function generateStaticParams() {
+    const books = await CMSService.getBooks(true);
 
-    useEffect(() => {
-        if (!authLoading && !user) {
-            router.push("/login");
-            return;
-        }
-
-        if (slug && user) {
-            CMSService.getBookBySlug(slug as string).then(async (data) => {
-                if (!data) {
-                    setError("Book not found.");
-                    setLoading(false);
-                    return;
-                }
-                setBook(data);
-                
-                const result = await CMSService.getEbookContent(data.id!, user.uid);
-                if (result.success) {
-                    setContent(result.content);
-                } else {
-                    setError(result.error || "Access Denied.");
-                }
-                setLoading(false);
-            });
-        }
-    }, [slug, user, authLoading, router]);
-
-    // Anti-Piracy: Disable right-click and copy
-    useEffect(() => {
-        const handleContextMenu = (e: MouseEvent) => e.preventDefault();
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
-                e.preventDefault();
-            }
-        };
-        document.addEventListener('contextmenu', handleContextMenu);
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('contextmenu', handleContextMenu);
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, []);
-
-    if (loading || authLoading) return <div className="min-h-screen pt-24 text-center text-white">Verifying credentials...</div>;
-
-    if (error) {
-        return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-4 text-center">
-                <ShieldAlert className="h-16 w-16 text-red-500 mb-6" />
-                <h1 className="text-2xl font-bold text-white mb-4">{error}</h1>
-                <p className="text-neutral-500 mb-8 max-w-sm">
-                    This content is protected. Please ensure you have purchased the book and your payment is approved.
-                </p>
-                <Link href={`/books/${slug}`}>
-                    <Button className="rounded-xl h-12 px-8 bg-white text-black font-bold uppercase tracking-widest">
-                        Back to Store
-                    </Button>
-                </Link>
-            </div>
-        );
+    if (books.length > 0) {
+        return books.map((book) => ({
+            slug: book.slug,
+        }));
+    } else {
+        return [{ slug: "placeholder" }];
     }
+}
 
-    return (
-        <div className="min-h-screen bg-[#050505] selection:bg-primary/30">
-            {/* Header / Toolbar */}
-            <div className="fixed top-0 left-0 right-0 h-16 bg-black/80 backdrop-blur-xl border-b border-white/[0.05] z-50 flex items-center justify-between px-6">
-                <Link href={`/books/${slug}`} className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-neutral-500 hover:text-white transition-colors">
-                    <ArrowLeft className="h-4 w-4" /> Exit Reader
-                </Link>
-                <div className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-primary" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Secure Environment</span>
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-white/20 select-none">
-                    {user?.email}
-                </div>
-            </div>
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        title: "Secure Reader | Zihad Hasan",
+        robots: { index: false, follow: false },
+    };
+}
 
-            <div className="pt-32 pb-20 container mx-auto px-4 max-w-3xl relative">
-                {/* Watermark */}
-                <div className="fixed inset-0 flex items-center justify-center pointer-events-none opacity-[0.02] select-none z-0">
-                    <div className="text-[10rem] font-black rotate-[-30deg] uppercase tracking-tighter">
-                        {user?.uid.substring(0, 8)}
-                    </div>
-                </div>
-
-                <header className="mb-16 relative z-10">
-                    <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
-                        {book?.title}
-                    </h1>
-                    <div className="h-1 w-20 bg-primary/20 rounded-full" />
-                </header>
-
-                <div 
-                    className="relative z-10 prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-neutral-300 prose-p:leading-relaxed prose-strong:text-white select-none"
-                    style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
-                >
-                    {content && (
-                        <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(content, {
-                            allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2']),
-                            allowedAttributes: {
-                                ...sanitizeHtml.defaults.allowedAttributes,
-                                '*': ['style', 'class']
-                            }
-                        }) }} />
-                    )}
-                </div>
-            </div>
-        </div>
-    );
+export default async function EbookReaderPage({ params }: Props) {
+    const { slug } = await params;
+    return <EbookReaderClient slug={slug} />;
 }
