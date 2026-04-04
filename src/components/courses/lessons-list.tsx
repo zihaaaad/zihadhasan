@@ -43,8 +43,8 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
 
     return (
         <div id="lessons-list" className={cn("space-y-4", className)}>
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                <MonitorPlay className="h-6 w-6 text-primary" />
+            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-3 uppercase tracking-tight">
+                <MonitorPlay strokeWidth={1.5} className="h-5 w-5 text-white" />
                 Course Content
             </h2>
 
@@ -83,8 +83,8 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
                         );
                     })
                 ) : (
-                    <div className="text-center py-8 text-gray-500">
-                        No lessons available.
+                    <div className="text-center py-12 border border-dashed border-white/5 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-neutral-600">
+                        No modules available.
                     </div>
                 )}
 
@@ -93,15 +93,15 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
             {/* Video Player Modal - Only render if NOT controlled (no onSelectLesson) */}
             {!onSelectLesson && (
                 <Dialog open={!!localSelectedLesson} onOpenChange={(open) => !open && setLocalSelectedLesson(null)}>
-                    <DialogContent className="max-w-4xl bg-gray-900/95 border-white/10 text-white backdrop-blur-xl">
-                        <DialogHeader>
-                            <DialogTitle className="text-xl font-bold flex items-center gap-2">
-                                <PlayCircle className="h-5 w-5 text-primary" />
+                    <DialogContent className="max-w-4xl bg-black border-white/10 text-white backdrop-blur-3xl p-0 overflow-hidden rounded-3xl">
+                        <DialogHeader className="p-6 border-b border-white/5 bg-white/[0.02]">
+                            <DialogTitle className="text-lg font-bold flex items-center gap-3 tracking-tight">
+                                <PlayCircle strokeWidth={1.5} className="h-5 w-5 text-white" />
                                 {localSelectedLesson?.title}
                             </DialogTitle>
                         </DialogHeader>
 
-                        <div className="aspect-video w-full bg-black rounded-lg overflow-hidden border border-white/10 relative">
+                        <div className="aspect-video w-full bg-black relative">
                             {localSelectedLesson?.videoUrl ? (
                                 <iframe
                                     src={getEmbedUrl(localSelectedLesson.videoUrl)}
@@ -111,8 +111,8 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
                                     allowFullScreen
                                 />
                             ) : (
-                                <div className="flex items-center justify-center h-full text-gray-500">
-                                    Video URL not available
+                                <div className="flex items-center justify-center h-full text-neutral-600 text-[10px] font-bold uppercase tracking-widest">
+                                    Video stream unavailable
                                 </div>
                             )}
                         </div>
@@ -122,44 +122,44 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
 
             {/* Locked Lesson Premium Modal */}
             <Dialog open={showLockedModal} onOpenChange={setShowLockedModal}>
-                <DialogContent className="max-w-md p-0 overflow-hidden bg-zinc-950 border-white/10 text-white">
-                    <div className="relative h-32 bg-white/5 flex items-center justify-center overflow-hidden">
-                        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-                        <div className="h-16 w-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-2xl relative z-10">
-                            <Lock className="h-8 w-8 text-white drop-shadow-lg" />
+                <DialogContent className="max-w-md p-0 overflow-hidden bg-black border-white/10 text-white rounded-3xl">
+                    <div className="relative h-40 bg-white/[0.03] flex items-center justify-center overflow-hidden border-b border-white/5">
+                        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-150"></div>
+                        <div className="h-20 w-20 rounded-full bg-black flex items-center justify-center border border-white/10 shadow-2xl relative z-10">
+                            <Lock strokeWidth={1.5} className="h-8 w-8 text-white" />
                         </div>
                     </div>
 
-                    <div className="p-6 space-y-4 text-center">
+                    <div className="p-10 space-y-6 text-center">
                         <div>
-                            <h3 className="text-xl font-bold text-white mb-2">Locked Lesson</h3>
-                            <p className="text-gray-400 text-sm">
-                                This content is exclusive to enrolled members. Unlock full access to continue your learning journey.
+                            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight uppercase">Locked Module</h3>
+                            <p className="text-neutral-500 text-sm font-medium leading-relaxed">
+                                This technical module is restricted to verified students. Authenticate or acquire access to continue.
                             </p>
                         </div>
 
-                        <div className="pt-2 space-y-3">
+                        <div className="pt-2 space-y-4">
                             {!registration ? (
                                 <Button
                                     onClick={() => {
                                         setShowLockedModal(false);
                                         onEnroll?.();
                                     }}
-                                    className="w-full bg-white text-black hover:bg-neutral-200 border-0 shadow-lg shadow-white/5 py-6 text-lg font-semibold"
+                                    className="w-full bg-white text-black hover:bg-neutral-200 border-0 h-14 rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-500"
                                 >
-                                    Unlock Full Access
+                                    Authorize Access
                                 </Button>
                             ) : (
-                                <div className="p-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm">
-                                    Your enrollment is <strong>{registration.status}</strong>. Please wait for admin approval.
+                                <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-neutral-400 text-[10px] font-bold uppercase tracking-widest">
+                                    Status: <span className="text-white">{registration.status}</span> • Awaiting clearance
                                 </div>
                             )}
                             <Button
                                 variant="ghost"
                                 onClick={() => setShowLockedModal(false)}
-                                className="w-full text-gray-400 hover:text-white"
+                                className="w-full text-neutral-600 hover:text-white text-[10px] font-bold uppercase tracking-widest h-10"
                             >
-                                Maybe Later
+                                Dismiss
                             </Button>
                         </div>
                     </div>

@@ -210,28 +210,28 @@ export default function UsersPage() {
                                 <TableRow key={user.uid} className="border-white/10 hover:bg-white/5">
                                     <TableCell className="font-medium text-white">
                                         <div className="flex items-center gap-3">
-                                            <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 p-[1px]">
-                                                <div className="h-full w-full rounded-full bg-black overflow-hidden">
+                                            <div className="h-8 w-8 rounded-full bg-white/10 p-[1px]">
+                                                <div className="h-full w-full rounded-full bg-black overflow-hidden border border-white/10">
                                                     {user.photoURL ? (
                                                         <img src={user.photoURL} alt="" className="h-full w-full object-cover" />
                                                     ) : (
-                                                        <div className="h-full w-full flex items-center justify-center text-xs font-bold text-white">
+                                                        <div className="h-full w-full flex items-center justify-center text-[10px] font-bold text-neutral-500">
                                                             {user.name?.[0] || "?"}
                                                         </div>
                                                     )}
                                                 </div>
                                             </div>
-                                            {user.name || "No Name"}
+                                            <span className="text-sm font-bold tracking-tight">{user.name || "No Name"}</span>
                                         </div>
                                     </TableCell>
-                                    <TableCell className="text-gray-300">{user.email}</TableCell>
+                                    <TableCell className="text-neutral-400 font-mono text-xs">{user.email}</TableCell>
                                     <TableCell>
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user.role === 'admin' ? 'bg-purple-500/10 text-purple-400' : 'bg-blue-500/10 text-blue-400'
+                                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest border ${user.role === 'admin' ? 'bg-white text-black border-white' : 'bg-white/5 text-neutral-400 border-white/5'
                                             }`}>
                                             {user.role}
                                         </span>
                                     </TableCell>
-                                    <TableCell className="text-gray-400">
+                                    <TableCell className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest">
                                         {user.createdAt?.toDate ? user.createdAt.toDate().toLocaleDateString() : "N/A"}
                                     </TableCell>
                                     <TableCell className="text-right">
@@ -241,10 +241,10 @@ export default function UsersPage() {
                                                 variant="ghost"
                                                 disabled={processing === user.uid}
                                                 onClick={() => setEditingUser(user)}
-                                                className="h-8 w-8 p-0 text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
+                                                className="h-8 w-8 p-0 text-neutral-500 hover:text-white hover:bg-white/5"
                                                 title="Edit User"
                                             >
-                                                <Pencil className="h-4 w-4" />
+                                                <Pencil strokeWidth={1.5} className="h-4 w-4" />
                                             </Button>
 
                                             {/* Role Toggle */}
@@ -255,11 +255,11 @@ export default function UsersPage() {
                                                 onClick={() => toggleRole(user.uid, user.role)}
                                                 className={cn(
                                                     "h-8 w-8 p-0 hover:bg-white/10",
-                                                    user.role === 'admin' ? "text-purple-400" : "text-gray-400 hover:text-white"
+                                                    user.role === 'admin' ? "text-white" : "text-neutral-600 hover:text-white"
                                                 )}
                                                 title={user.role === 'admin' ? "Demote to User" : "Promote to Admin"}
                                             >
-                                                <Shield className={cn("h-4 w-4", user.role === 'admin' && "fill-current")} />
+                                                <Shield strokeWidth={1.5} className={cn("h-4 w-4", user.role === 'admin' && "fill-current")} />
                                             </Button>
 
                                             {/* Ban Toggle */}
@@ -270,11 +270,11 @@ export default function UsersPage() {
                                                 onClick={() => toggleBan(user.uid, !!user.isBanned)}
                                                 className={cn(
                                                     "h-8 w-8 p-0 hover:bg-white/10",
-                                                    user.isBanned ? "text-green-400" : "text-orange-400 hover:text-orange-300"
+                                                    user.isBanned ? "text-white bg-white/10" : "text-neutral-600 hover:text-white"
                                                 )}
                                                 title={user.isBanned ? "Unban User" : "Ban User"}
                                             >
-                                                {user.isBanned ? <CheckCircle className="h-4 w-4" /> : <Ban className="h-4 w-4" />}
+                                                {user.isBanned ? <CheckCircle strokeWidth={1.5} className="h-4 w-4" /> : <Ban strokeWidth={1.5} className="h-4 w-4" />}
                                             </Button>
 
                                             <Button
@@ -282,10 +282,10 @@ export default function UsersPage() {
                                                 variant="ghost"
                                                 disabled={processing === user.uid}
                                                 onClick={() => setDeletingId(user.uid)}
-                                                className="h-8 w-8 p-0 text-red-400 hover:text-red-300 hover:bg-red-900/20"
+                                                className="h-8 w-8 p-0 text-red-500/50 hover:text-red-500 hover:bg-red-500/5"
                                                 title="Delete Profile"
                                             >
-                                                <Trash2 className="h-4 w-4" />
+                                                <Trash2 strokeWidth={1.5} className="h-4 w-4" />
                                             </Button>
                                         </div>
                                     </TableCell>

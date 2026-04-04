@@ -90,10 +90,10 @@ export default function SystemHealthPage() {
                 <GlassCard className="p-6 md:col-span-3">
                     <div className="flex flex-row items-center justify-between space-y-0 pb-2 mb-6">
                         <div className="flex items-center gap-2">
-                            <Box className="h-5 w-5 text-blue-400" />
+                            <Box strokeWidth={1.5} className="h-5 w-5 text-white" />
                             <span className="font-bold text-lg text-white">Visibility Control</span>
                         </div>
-                        <Badge variant="outline" className="border-blue-500/50 text-blue-400">Settings</Badge>
+                        <Badge variant="outline" className="border-white/20 text-white/50 uppercase tracking-widest text-[9px]">Settings</Badge>
                     </div>
 
                     {stats ? (
@@ -108,8 +108,8 @@ export default function SystemHealthPage() {
                             ].map((feature) => (
                                 <div key={feature.key} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5">
                                     <div className="space-y-1">
-                                        <h4 className="text-sm font-medium text-white">{feature.label}</h4>
-                                        <p className="text-xs text-gray-500">{feature.desc}</p>
+                                        <h4 className="text-sm font-bold text-white uppercase tracking-tight">{feature.label}</h4>
+                                        <p className="text-[10px] font-medium text-neutral-500 uppercase tracking-widest">{feature.desc}</p>
                                     </div>
                                     <Switch
                                         checked={(stats as any).features?.[feature.key] ?? true}
@@ -147,41 +147,41 @@ export default function SystemHealthPage() {
                 <GlassCard className="p-6 md:col-span-2">
                     <div className="flex flex-row items-center justify-between space-y-0 pb-2 mb-4">
                         <div className="flex items-center gap-2">
-                            <Activity className="h-5 w-5 text-green-400" />
+                            <Activity strokeWidth={1.5} className="h-5 w-5 text-white" />
                             <span className="font-bold text-lg text-white">Database Metrics</span>
                         </div>
-                        <Badge variant="outline" className="border-green-500/50 text-green-400">Live</Badge>
+                        <Badge variant="outline" className="border-white/20 text-white/50 uppercase tracking-widest text-[9px]">Live</Badge>
                     </div>
                     {stats ? (
                         <div className="space-y-6">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 <div className="bg-white/5 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center">
-                                    <Users className="h-5 w-5 text-blue-400 mb-2" />
+                                    <Users strokeWidth={1.5} className="h-5 w-5 text-neutral-500 mb-2" />
                                     <div className="text-2xl font-bold text-white">{stats.firebase.details?.users || 0}</div>
-                                    <div className="text-xs text-gray-400">Users</div>
+                                    <div className="text-[9px] font-bold text-neutral-600 uppercase tracking-widest">Users</div>
                                 </div>
                                 <div className="bg-white/5 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center">
-                                    <GraduationCap className="h-5 w-5 text-purple-400 mb-2" />
+                                    <GraduationCap strokeWidth={1.5} className="h-5 w-5 text-neutral-500 mb-2" />
                                     <div className="text-2xl font-bold text-white">{stats.firebase.details?.registrations || 0}</div>
-                                    <div className="text-xs text-gray-400">Registrations</div>
+                                    <div className="text-[9px] font-bold text-neutral-600 uppercase tracking-widest">Registrations</div>
                                 </div>
                                 <div className="bg-white/5 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center">
-                                    <Box className="h-5 w-5 text-orange-400 mb-2" />
+                                    <Box strokeWidth={1.5} className="h-5 w-5 text-neutral-500 mb-2" />
                                     <div className="text-2xl font-bold text-white">{stats.firebase.details?.products || 0}</div>
-                                    <div className="text-xs text-gray-400">Products</div>
+                                    <div className="text-[9px] font-bold text-neutral-600 uppercase tracking-widest">Products</div>
                                 </div>
                                 <div className="bg-white/5 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center">
-                                    <FileText className="h-5 w-5 text-pink-400 mb-2" />
+                                    <FileText strokeWidth={1.5} className="h-5 w-5 text-neutral-500 mb-2" />
                                     <div className="text-2xl font-bold text-white">{stats.firebase.details?.posts || 0}</div>
-                                    <div className="text-xs text-gray-400">Posts</div>
+                                    <div className="text-[9px] font-bold text-neutral-600 uppercase tracking-widest">Posts</div>
                                 </div>
                             </div>
-                            <div className="flex items-center justify-between text-sm bg-green-500/5 p-3 rounded-lg border border-green-500/10">
-                                <div className="flex items-center gap-2 text-green-400">
-                                    <Activity className="h-4 w-4" />
-                                    <span>System Status: Healthy</span>
+                            <div className="flex items-center justify-between text-sm bg-white/5 p-4 rounded-xl border border-white/5">
+                                <div className="flex items-center gap-2 text-white">
+                                    <Activity strokeWidth={1.5} className="h-4 w-4" />
+                                    <span className="text-[10px] font-bold uppercase tracking-widest">System Status: Healthy</span>
                                 </div>
-                                <span className="text-gray-400">Total Documents: ~{stats.firebase.writes}</span>
+                                <span className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest">Total Documents: ~{stats.firebase.writes}</span>
                             </div>
                         </div>
                     ) : (
@@ -193,38 +193,38 @@ export default function SystemHealthPage() {
                 <GlassCard className="p-6">
                     <div className="flex flex-row items-center justify-between space-y-0 pb-2 mb-4">
                         <div className="flex items-center gap-2">
-                            <Trash2 className="h-5 w-5 text-red-400" />
+                            <Trash2 strokeWidth={1.5} className="h-5 w-5 text-white" />
                             <span className="font-bold text-lg text-white">Trash Bin</span>
                         </div>
-                        <Badge variant="outline" className="border-red-500/50 text-red-400">Action Required</Badge>
+                        <Badge variant="outline" className="border-white/20 text-white/50 uppercase tracking-widest text-[9px]">Action Required</Badge>
                     </div>
 
                     <div className="space-y-6">
                         {stats ? (
                             <div className="text-center py-4">
                                 <span className="text-4xl font-black text-white">{stats.trash}</span>
-                                <p className="text-sm text-gray-400">Items marked for deletion</p>
+                                <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest mt-1">Items marked for deletion</p>
                             </div>
                         ) : (
                             <div className="h-20 animate-pulse bg-white/5 rounded" />
                         )}
 
-                        <div className="p-3 border border-red-500/20 bg-red-500/10 rounded-lg space-y-2">
-                            <h4 className="text-sm font-semibold text-red-400 flex items-center gap-2">
-                                <AlertTriangle className="h-4 w-4" />
+                        <div className="p-4 border border-white/5 bg-white/[0.02] rounded-xl space-y-3">
+                            <h4 className="text-[10px] font-bold text-white flex items-center gap-2 uppercase tracking-widest">
+                                <AlertTriangle strokeWidth={1.5} className="h-4 w-4 text-white" />
                                 The Purge
                             </h4>
-                            <p className="text-xs text-red-200/70">
+                            <p className="text-[9px] font-medium text-neutral-500 uppercase tracking-[0.1em] leading-relaxed">
                                 Permanently remove all soft-deleted items from the database.
                             </p>
                             <Button
                                 variant="destructive"
                                 size="sm"
-                                className="w-full bg-red-600 hover:bg-red-700 font-bold"
+                                className="w-full bg-white text-black hover:bg-neutral-200 font-bold uppercase tracking-widest text-[9px] h-10 rounded-lg"
                                 onClick={handleCleanup}
                                 disabled={cleaning || !stats?.trash}
                             >
-                                {cleaning ? <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
+                                {cleaning ? <RefreshCw className="mr-2 h-3 w-3 animate-spin" /> : <Trash2 strokeWidth={1.5} className="mr-2 h-3 w-3" />}
                                 {cleaning ? "Purging..." : "Empty Trash"}
                             </Button>
                         </div>
@@ -235,25 +235,25 @@ export default function SystemHealthPage() {
                 <GlassCard className="p-6">
                     <div className="flex flex-row items-center justify-between space-y-0 pb-2 mb-4">
                         <div className="flex items-center gap-2">
-                            <HardDrive className="h-5 w-5 text-indigo-400" />
+                            <HardDrive strokeWidth={1.5} className="h-5 w-5 text-white" />
                             <span className="font-bold text-lg text-white">Storage</span>
                         </div>
-                        <Badge variant="outline" className="border-indigo-500/50 text-indigo-400">Media</Badge>
+                        <Badge variant="outline" className="border-white/20 text-white/50 uppercase tracking-widest text-[9px]">Media</Badge>
                     </div>
                     {stats ? (
                         <div className="space-y-4">
-                            <div className="flex justify-between text-sm text-gray-400">
+                            <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-neutral-500">
                                 <span>{stats.storage.used}GB Used</span>
                                 <span>{stats.storage.limit}GB Limit</span>
                             </div>
                             <Progress
                                 value={(stats.storage.used / stats.storage.limit) * 100}
-                                className="h-2 bg-indigo-950"
+                                className="h-1.5 bg-white/5"
                             />
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-[9px] font-medium text-neutral-600 uppercase tracking-widest">
                                 Media assets stored in Cloudinary. (Estimate)
                             </p>
-                            <Button variant="ghost" size="sm" className="w-full text-xs text-indigo-300 hover:text-indigo-200 hover:bg-indigo-500/10">
+                            <Button variant="ghost" size="sm" className="w-full text-[9px] font-bold uppercase tracking-widest text-neutral-500 hover:text-white hover:bg-white/5 h-10 rounded-lg mt-2">
                                 View Cloudinary Console
                             </Button>
                         </div>

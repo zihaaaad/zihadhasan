@@ -88,15 +88,15 @@ export function MobileDock() {
                                     className={cn(
                                         "relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300",
                                         isActive
-                                            ? "bg-primary/20 text-primary"
-                                            : "text-white/60 hover:bg-white/10 hover:text-white"
+                                            ? "bg-white/10 text-white"
+                                            : "text-neutral-500 hover:bg-white/5 hover:text-white"
                                     )}
                                 >
-                                    <Icon className="h-5 w-5" />
+                                    <Icon strokeWidth={1.5} className="h-5 w-5" />
                                     {isActive && (
                                         <motion.div
                                             layoutId="active-dock-indicator"
-                                            className="absolute -bottom-1 h-1 w-1 rounded-full bg-primary"
+                                            className="absolute -bottom-1 h-1 w-1 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
                                         />
                                     )}
                                 </Link>
@@ -107,22 +107,21 @@ export function MobileDock() {
                         <button
                             onClick={() => {
                                 if (user) {
-                                    // Link to profile/dashboard
                                     window.location.href = "/my-account";
                                 } else {
                                     openAuthModal();
                                 }
                             }}
                             className={cn(
-                                "relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 text-white/60 hover:bg-white/10 hover:text-white"
+                                "relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 text-neutral-500 hover:bg-white/5 hover:text-white"
                             )}
                         >
-                            <div className="h-6 w-6 rounded-full overflow-hidden border border-white/20">
+                            <div className="h-6 w-6 rounded-full overflow-hidden border border-white/20 bg-white/5">
                                 {user?.photoURL ? (
-                                    <img src={user.photoURL} alt="User" className="h-full w-full object-cover" />
+                                    <img src={user.photoURL} alt="User" className="h-full w-full object-cover grayscale" />
                                 ) : (
-                                    <div className="h-full w-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">
-                                        {user ? user.email?.[0].toUpperCase() : "In"}
+                                    <div className="h-full w-full flex items-center justify-center text-[9px] font-bold text-neutral-400">
+                                        {user ? user.email?.[0].toUpperCase() : "IN"}
                                     </div>
                                 )}
                             </div>

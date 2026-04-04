@@ -134,9 +134,9 @@ export function AuthModal() {
                         disabled={isLoading}
                     >
                         {isLoading ? (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />
                         ) : (
-                            <Chrome className="mr-2 h-4 w-4 text-black group-hover:scale-110 transition-transform" />
+                            <Chrome strokeWidth={1.5} className="mr-2 h-4 w-4 text-black group-hover:scale-110 transition-transform" />
                         )}
                         <span className="relative z-10">Continue with Google</span>
                     </Button>
@@ -157,7 +157,7 @@ export function AuthModal() {
                             <div className="space-y-2">
                                 <Label htmlFor="name">Full Name</Label>
                                 <div className="relative">
-                                    <UserIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                                    <UserIcon strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                                     <Input
                                         id="name"
                                         placeholder="John Doe"
@@ -171,7 +171,7 @@ export function AuthModal() {
                             <div className="space-y-2">
                                 <Label htmlFor="phone">Phone (Optional)</Label>
                                 <div className="relative">
-                                    <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                                    <Phone strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                                     <Input
                                         id="phone"
                                         placeholder="017..."
@@ -187,7 +187,7 @@ export function AuthModal() {
                     <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
                         <div className="relative">
-                            <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                            <Mail strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                             <Input
                                 id="email"
                                 type="email"
@@ -203,7 +203,7 @@ export function AuthModal() {
                     <div className="space-y-2">
                         <Label htmlFor="password">Password</Label>
                         <div className="relative">
-                            <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                            <Lock strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                             <Input
                                 id="password"
                                 type="password"
@@ -224,7 +224,7 @@ export function AuthModal() {
                     )}
 
                     <Button type="submit" className="w-full bg-white text-black hover:bg-neutral-200 h-11" disabled={isLoading}>
-                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        {isLoading && <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />}
                         {isLogin ? "Sign In" : "Create Account"}
                     </Button>
 

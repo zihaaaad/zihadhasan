@@ -148,7 +148,7 @@ function EventCard({ event, onRegister, index }: { event: Event, onRegister: () 
                         {date?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
                     {event.isVirtual && (
-                        <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                        <div className="h-1.5 w-1.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
                     )}
                 </div>
 
@@ -157,7 +157,7 @@ function EventCard({ event, onRegister, index }: { event: Event, onRegister: () 
 
                 <div className="mt-auto space-y-6">
                     <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                        {event.isVirtual ? <Globe className="h-3.5 w-3.5" /> : <MapPin className="h-3.5 w-3.5" />}
+                        {event.isVirtual ? <Globe strokeWidth={1.5} className="h-3.5 w-3.5" /> : <MapPin strokeWidth={1.5} className="h-3.5 w-3.5" />}
                         <span className="truncate">{event.location}</span>
                     </div>
 

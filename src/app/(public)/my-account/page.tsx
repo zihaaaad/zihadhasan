@@ -105,11 +105,11 @@ export default function MyAccountPage() {
                     <GlassCard className="p-6">
                         <div className="flex flex-col items-center text-center">
                             <div className="relative">
-                                <div className="h-24 w-24 rounded-full overflow-hidden border-2 border-primary/50 mb-4 bg-white/5 ring-4 ring-primary/10">
+                                <div className="h-24 w-24 rounded-full overflow-hidden border border-white/10 mb-4 bg-white/5 ring-4 ring-white/5">
                                     {user.photoURL ? (
                                         <img src={user.photoURL} alt={user.displayName || "User"} className="h-full w-full object-cover" />
                                     ) : (
-                                        <div className="h-full w-full flex items-center justify-center text-3xl font-bold text-gray-500">
+                                        <div className="h-full w-full flex items-center justify-center text-3xl font-bold text-neutral-600">
                                             {user.email?.[0].toUpperCase()}
                                         </div>
                                     )}
@@ -302,14 +302,14 @@ function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registra
 function StatusBadge({ status }: { status: 'approved' | 'pending' }) {
     if (status === 'approved') {
         return (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-green-500/20 text-green-400 border border-green-500/20 shadow-lg shadow-green-900/20 backdrop-blur-md">
-                <CheckCircle className="h-3 w-3" /> Active
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-black border border-white shadow-lg backdrop-blur-md">
+                <CheckCircle strokeWidth={1.5} className="h-3 w-3" /> Active
             </span>
         );
     }
     return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shadow-lg shadow-yellow-900/10 backdrop-blur-md animate-pulse">
-            <Clock className="h-3 w-3" /> Pending
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/10 text-white/70 border border-white/10 shadow-lg backdrop-blur-md animate-pulse">
+            <Clock strokeWidth={1.5} className="h-3 w-3" /> Pending
         </span>
     );
 }

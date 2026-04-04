@@ -326,11 +326,6 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
                             layoutId="video-container"
                             className="relative aspect-video bg-black rounded-xl overflow-hidden border border-white/10 shadow-2xl z-20"
                         >
-                            {/* Placeholder for now - LessonsList handles the modal player. 
-                                 Refactoring Note: Implementation Plan shifted LessonsList to Sidebar. 
-                                 The 'Selected Lesson' playback state needs to be lifted to CourseViewer to show HERE. 
-                                 For now, we will show Course Hero or Last Played Lesson. 
-                             */}
                             {activeLesson?.videoUrl ? (
                                 <iframe
                                     src={getEmbedUrl(activeLesson.videoUrl)}
@@ -344,16 +339,16 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
                                     <img
                                         src={course.headerImage}
                                         alt={course.title}
-                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity"
+                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity grayscale group-hover:grayscale-0"
                                     />
                                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                        <PlayCircle className="h-20 w-20 text-white opacity-80 group-hover:scale-110 transition-transform duration-300" />
+                                        <PlayCircle strokeWidth={1.5} className="h-20 w-20 text-white opacity-80 group-hover:scale-110 transition-transform duration-300" />
                                     </div>
-                                    <p className="absolute bottom-10 w-full text-center text-gray-300 pointer-events-none">Select a lesson to start learning</p>
+                                    <p className="absolute bottom-10 w-full text-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 pointer-events-none">Select a lesson to start learning</p>
                                 </div>
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center text-gray-500 bg-neutral-900">
-                                    <PlayCircle className="h-16 w-16 opacity-50" />
+                                    <PlayCircle strokeWidth={1.5} className="h-16 w-16 opacity-50" />
                                 </div>
                             )}
 
@@ -361,7 +356,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
                                 <Button
                                     variant="secondary"
                                     size="sm"
-                                    className="bg-black/50 hover:bg-black/70 text-white border border-white/10 backdrop-blur-md"
+                                    className="bg-black/50 hover:bg-black text-white border border-white/10 backdrop-blur-md text-[9px] font-bold uppercase tracking-widest h-8"
                                     onClick={() => setIsTheaterMode(!isTheaterMode)}
                                 >
                                     {isTheaterMode ? "Exit Theater" : "Theater Mode"}
@@ -369,15 +364,17 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
                             </div>
 
                             {/* Overlay Content if not playing */}
-                            <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none">
-                                <h1 className="text-2xl md:text-4xl font-bold text-white mb-2">{course.title}</h1>
-                                <p className="text-gray-300 line-clamp-2">{course.description}</p>
-                            </div>
+                            {!activeLesson && (
+                                <div className="absolute bottom-0 left-0 w-full p-10 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none">
+                                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">{course.title}</h1>
+                                    <p className="text-neutral-400 text-sm max-w-xl line-clamp-2 leading-relaxed">{course.description}</p>
+                                </div>
+                            )}
                         </motion.div>
 
                         {/* Navigation Buttons */}
                         {user && registration && registration.status === 'approved' && course.lessons.length > 0 && (
-                            <div className="flex items-center justify-between gap-4 mt-4 mb-6">
+                            <div className="flex items-center justify-between gap-4 mt-6">
                                 <Button
                                     variant="outline"
                                     onClick={() => {
@@ -388,14 +385,13 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
                                         }
                                     }}
                                     disabled={!activeLesson || course.lessons.findIndex(l => l.id === activeLesson.id) <= 0}
-                                    className="flex-1 border-white/10 hover:bg-white/10 text-white"
+                                    className="flex-1 border-white/10 hover:bg-white/5 text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
                                 >
-                                    <ChevronLeft className="mr-2 h-4 w-4" /> Previous Lesson
+                                    <ChevronLeft strokeWidth={1.5} className="mr-2 h-4 w-4" /> Previous Lesson
                                 </Button>
                                 <Button
                                     onClick={() => {
                                         if (!activeLesson) {
-                                            // Start first lesson
                                             if (course.lessons.length > 0) setActiveLesson(course.lessons[0]);
                                             return;
                                         }
@@ -417,88 +413,34 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
                                         }
                                     }}
                                     disabled={
-                                        // Disable if at end
                                         !activeLesson && course.lessons.length === 0 ||
                                         !!(activeLesson && course.lessons.findIndex(l => l.id === activeLesson.id) >= course.lessons.length - 1)
                                     }
-                                    className="flex-1 bg-primary text-black hover:bg-primary/90"
+                                    className="flex-1 bg-white text-black hover:bg-neutral-200 text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
                                 >
-                                    Next Lesson <ChevronRight className="ml-2 h-4 w-4" />
+                                    Next Lesson <ChevronRight strokeWidth={1.5} className="ml-2 h-4 w-4" />
                                 </Button>
                             </div>
                         )}
 
-                        {/* Navigation Buttons */}
-                        {user && registration && registration.status === 'approved' && course.lessons.length > 0 && (
-                            <div className="flex items-center justify-between gap-4 mt-4 mb-6">
-                                <Button
-                                    variant="outline"
-                                    onClick={() => {
-                                        if (!activeLesson) return;
-                                        const currentIndex = course.lessons.findIndex(l => l.id === activeLesson.id);
-                                        if (currentIndex > 0) {
-                                            setActiveLesson(course.lessons[currentIndex - 1]);
-                                        }
-                                    }}
-                                    disabled={!activeLesson || course.lessons.findIndex(l => l.id === activeLesson.id) <= 0}
-                                    className="flex-1 border-white/10 hover:bg-white/10 text-white"
-                                >
-                                    <ChevronLeft className="mr-2 h-4 w-4" /> Previous Lesson
-                                </Button>
-                                <Button
-                                    onClick={() => {
-                                        if (!activeLesson) {
-                                            // Start first lesson
-                                            if (course.lessons.length > 0) setActiveLesson(course.lessons[0]);
-                                            return;
-                                        }
-                                        const currentIndex = course.lessons.findIndex(l => l.id === activeLesson.id);
-                                        if (currentIndex < course.lessons.length - 1) {
-                                            const nextLesson = course.lessons[currentIndex + 1];
-                                            let isLocked = false;
-                                            if (course.isSequential) {
-                                                if (!registration.completedLessonIds?.includes(activeLesson.id)) {
-                                                    isLocked = true;
-                                                }
-                                            }
-
-                                            if (isLocked) {
-                                                toast.error("Complete this lesson to unlock the next one!");
-                                            } else {
-                                                setActiveLesson(nextLesson);
-                                            }
-                                        }
-                                    }}
-                                    disabled={
-                                        // Disable if at end
-                                        !activeLesson && course.lessons.length === 0 ||
-                                        !!(activeLesson && course.lessons.findIndex(l => l.id === activeLesson.id) >= course.lessons.length - 1)
-                                    }
-                                    className="flex-1 bg-primary text-black hover:bg-primary/90"
-                                >
-                                    Next Lesson <ChevronRight className="ml-2 h-4 w-4" />
-                                </Button>
-                            </div>
-                        )}
-
-                        {/* Details Tabs / Content (Hidden in Theater Mode optionally, or just pushed down) */}
+                        {/* Details Tabs / Content */}
                         <motion.div
                             layout
-                            className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6"
+                            className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10"
                         >
-                            <GlassCard className="p-6">
-                                <h2 className="text-xl font-bold text-white mb-4">About this Course</h2>
-                                <div className="prose prose-invert prose-sm max-w-none text-gray-300">
+                            <GlassCard className="p-8 border-white/[0.05] bg-white/[0.02] rounded-3xl">
+                                <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-tight">About this Course</h2>
+                                <div className="prose prose-invert prose-sm max-w-none text-neutral-400 font-medium leading-relaxed">
                                     {course.description}
                                 </div>
                             </GlassCard>
 
-                            <GlassCard className="p-6">
-                                <h2 className="text-xl font-bold text-white mb-4">What you'll learn</h2>
-                                <ul className="space-y-2">
+                            <GlassCard className="p-8 border-white/[0.05] bg-white/[0.02] rounded-3xl">
+                                <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-tight">What you'll learn</h2>
+                                <ul className="space-y-4">
                                     {[1, 2, 3].map((_, i) => (
-                                        <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                                            <CheckCircle className="h-4 w-4 text-white shrink-0 mt-0.5" />
+                                        <li key={i} className="flex items-start gap-3 text-sm text-neutral-400 font-medium">
+                                            <CheckCircle strokeWidth={1.5} className="h-4 w-4 text-white shrink-0 mt-0.5" />
                                             <span>Comprehensive understanding of the subject matter.</span>
                                         </li>
                                     ))}
