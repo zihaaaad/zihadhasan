@@ -10,22 +10,22 @@ import { CMSService } from "@/lib/cms-service";
 
 const SERVICES = [
     {
-        icon: <Code className="h-8 w-8 text-blue-400" />,
+        icon: <Code className="h-8 w-8 text-white" />,
         title: "Full Stack Development",
         description: "Building scalable, high-performance web apps using Next.js, React, and Node.js. Optimized for speed and SEO.",
     },
     {
-        icon: <Bot className="h-8 w-8 text-cyan-400" />,
+        icon: <Bot className="h-8 w-8 text-white" />,
         title: "AI Integration",
         description: "Integrating powerful AI models (OpenAI, Gemini) into your applications to automate tasks and enhance user experience.",
     },
     {
-        icon: <Rocket className="h-8 w-8 text-purple-400" />,
+        icon: <Rocket className="h-8 w-8 text-white" />,
         title: "MVP Launch",
         description: "Rapidly turning your startup idea into a functional Minimum Viable Product ready for investors and users.",
     },
     {
-        icon: <Search className="h-8 w-8 text-green-400" />,
+        icon: <Search className="h-8 w-8 text-white" />,
         title: "Technical SEO & Performance",
         description: "Auditing and optimizing your existing site to rank higher on Google and load in sub-seconds.",
     },

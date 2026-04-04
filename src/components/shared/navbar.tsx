@@ -77,7 +77,7 @@ export function Navbar() {
                 >
                     {/* Logo */}
                     <Link href="/" className="text-lg font-bold tracking-tighter text-white flex items-center group">
-                        ZH<span className="text-primary group-hover:scale-125 transition-transform duration-300">.</span>
+                        ZH<span className="text-white group-hover:scale-125 transition-transform duration-300">.</span>
                     </Link>
 
                     {/* Desktop Nav */}
@@ -118,7 +118,7 @@ export function Navbar() {
                                             </div>
                                         )}
                                         {hasPending && (
-                                            <div className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full border border-black shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
+                                            <div className="absolute top-0 right-0 h-2 w-2 bg-white rounded-full border border-black shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                                         )}
                                     </div>
                                 </Link>
@@ -137,7 +137,7 @@ export function Navbar() {
                             <Button
                                 size="sm"
                                 variant="outline"
-                                className="rounded-full border-primary/20 bg-primary/5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary hover:bg-primary/20 hover:text-white backdrop-blur-sm transition-all duration-500 h-8"
+                                className="rounded-full border-white/20 bg-white/5 text-[10px] font-bold uppercase tracking-[0.2em] text-white hover:bg-white hover:text-black backdrop-blur-sm transition-all duration-500 h-8"
                                 asChild
                             >
                                 <Link href="/events">Join Event</Link>

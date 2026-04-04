@@ -77,7 +77,7 @@ function SectionSkeleton() {
 
 export default function Home() {
   return (
-    <main className="bg-black min-h-screen text-white overflow-hidden selection:bg-primary/30 selection:text-white relative">
+    <main className="bg-black min-h-screen text-white overflow-hidden selection:bg-white selection:text-black relative">
       {/* Global Noise Texture for that "Film/Figma" Feel */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }} />
 
@@ -112,8 +112,8 @@ export default function Home() {
           {/* Subtle Grid Background for this card too */}
            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
-          {/* Background Glow - Reduced intensity */}
-          <div className="absolute top-0 right-1/2 w-[300px] h-[300px] bg-indigo-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-indigo-500/20 transition-all duration-700" />
+          {/* Background Glow - Reduced intensity, White */}
+          <div className="absolute top-0 right-1/2 w-[300px] h-[300px] bg-white/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-white/10 transition-all duration-700" />
 
           <div className="relative z-10 max-w-2xl mx-auto space-y-8">
             <div>

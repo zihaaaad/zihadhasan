@@ -19,7 +19,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     <h2 className="text-3xl font-bold text-white mb-4">Premium Courses</h2>
                     <div className="p-12 rounded-2xl bg-neutral-900/50 border border-white/10 backdrop-blur-sm">
-                        <BookOpen className="h-12 w-12 text-blue-400 mx-auto mb-4 opacity-50" />
+                        <BookOpen className="h-12 w-12 text-white/50 mx-auto mb-4 opacity-50" />
                         <h3 className="text-xl font-bold text-white mb-2">Curriculum in Development</h3>
                         <p className="text-neutral-400 max-w-lg mx-auto">
                             We are crafting in-depth masterclasses. Stay tuned for the launch of our first course series.
@@ -33,7 +33,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
     return (
         <section className="py-24 px-4 bg-black relative overflow-hidden">
             {/* Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -76,7 +76,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
                             </div>
 
                             <div className="p-6 flex flex-col flex-grow">
-                                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-blue-400 transition-colors">
+                                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-white transition-colors">
                                     {course.title}
                                 </h3>
                                 <p className="text-neutral-400 text-sm mb-6 line-clamp-3 flex-grow">
@@ -88,7 +88,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
                                         <Clock className="h-3 w-3 mr-1" />
                                         <span>{course.lessons?.length || 0} Lessons</span>
                                     </div>
-                                    <span className="text-xs font-medium text-blue-400 group-hover:translate-x-1 transition-transform flex items-center">
+                                    <span className="text-xs font-medium text-white group-hover:translate-x-1 transition-transform flex items-center">
                                         Start Learning <ArrowRight className="ml-1 h-3 w-3" />
                                     </span>
                                 </div>

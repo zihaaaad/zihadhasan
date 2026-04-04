@@ -28,7 +28,7 @@ export function BlogPostRenderer({ post }: BlogPostRendererProps) {
             <header className="mb-12 text-center">
                 <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
                     {post.tags.map(tag => (
-                        <Badge key={tag} variant="secondary" className="bg-purple-500/10 text-purple-400 border-purple-500/20">
+                        <Badge key={tag} variant="secondary" className="bg-white/10 text-white border-white/20">
                             {tag}
                         </Badge>
                     ))}
@@ -68,7 +68,7 @@ export function BlogPostRenderer({ post }: BlogPostRendererProps) {
                 }}
             />
 
-            <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-purple-400 hover:prose-a:text-purple-300 prose-img:rounded-xl">
+            <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-white prose-a:underline prose-a:decoration-white/30 hover:prose-a:decoration-white prose-img:rounded-xl">
                 <div dangerouslySetInnerHTML={{
                     __html: sanitizeHtml(post.content, {
                         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'pre', 'code', 'span']),

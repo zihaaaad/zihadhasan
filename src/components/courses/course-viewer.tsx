@@ -192,10 +192,10 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
             {registration ? (
                 <div className="space-y-4">
                     {registration.status === 'approved' ? (
-                        <div className="rounded-xl bg-gradient-to-b from-green-500/10 to-emerald-500/5 border border-green-500/20 p-4">
+                        <div className="rounded-xl bg-white/5 border border-white/10 p-4">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
-                                    <CheckCircle className="h-4 w-4 text-green-400" />
+                                <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                                    <CheckCircle className="h-4 w-4 text-white" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-white text-sm">Course Progress</h3>
@@ -208,16 +208,16 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
                                 </div>
                                 <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden border border-white/5">
                                     <div
-                                        className="h-full bg-green-500 transition-all duration-500 ease-out"
+                                        className="h-full bg-white transition-all duration-500 ease-out"
                                         style={{ width: `${((registration.completedLessonIds?.length || 0) / (course.lessons?.length || 1) * 100)}%` }}
                                     />
                                 </div>
                             </div>
                         </div>
                     ) : (
-                        <div className="w-full py-4 px-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-center">
-                            <h3 className="font-bold text-yellow-400 text-sm mb-1">Approval Pending</h3>
-                            <p className="text-xs text-yellow-200/70">Access will be granted soon.</p>
+                        <div className="w-full py-4 px-4 rounded-xl bg-white/5 border border-white/10 text-center">
+                            <h3 className="font-bold text-white text-sm mb-1">Approval Pending</h3>
+                            <p className="text-xs text-white/70">Access will be granted soon.</p>
                         </div>
                     )}
                 </div>
@@ -498,7 +498,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
                                 <ul className="space-y-2">
                                     {[1, 2, 3].map((_, i) => (
                                         <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                                            <CheckCircle className="h-4 w-4 text-green-400 shrink-0 mt-0.5" />
+                                            <CheckCircle className="h-4 w-4 text-white shrink-0 mt-0.5" />
                                             <span>Comprehensive understanding of the subject matter.</span>
                                         </li>
                                     ))}

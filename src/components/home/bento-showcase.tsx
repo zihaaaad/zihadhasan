@@ -64,7 +64,6 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
 
             <BentoGrid>
                 {/* 1. Featured Project (Large) */}
-                {/* 1. Featured Project (Large) */}
                 {project ? (
                     <BentoGridItem
                         className="md:col-span-2 md:row-span-2 min-h-[400px]"
@@ -116,10 +115,10 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                             <SpotlightItem className="h-full w-full p-6 flex flex-col justify-between group">
                                 <div>
                                     <div className="flex items-center justify-between mb-4">
-                                        <span className="text-xs font-mono text-blue-400">LATEST POST</span>
+                                        <span className="text-xs font-mono text-neutral-400">LATEST POST</span>
                                         <ArrowUpRight className="h-4 w-4 text-white/40 group-hover:text-white transition-colors" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
+                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-neutral-300 transition-colors line-clamp-2">
                                         {blog.title}
                                     </h3>
                                 </div>
@@ -155,7 +154,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                     <Cpu className="h-24 w-24 text-white/5 -rotate-12" />
                                 </div>
                                 <div className="relative z-10">
-                                    <span className="text-xs font-mono text-purple-400 mb-2 block">POWERED BY</span>
+                                    <span className="text-xs font-mono text-neutral-400 mb-2 block">POWERED BY</span>
                                     <h3 className="text-xl font-bold text-white mb-2">{tool.name}</h3>
                                     <p className="text-xs text-neutral-400 line-clamp-2">{tool.description}</p>
                                 </div>
@@ -176,7 +175,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                     "Zihad's courses changed the way I look at web development. The focus on 'why' instead of just 'how' is evident."
                                 </p>
                                 <div className="mt-4 flex items-center gap-2">
-                                    <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+                                    <div className="h-8 w-8 rounded-full bg-white/10" />
                                     <div>
                                         <div className="text-sm font-bold text-white">Student</div>
                                         <div className="text-xs text-neutral-500">Full Stack Developer</div>

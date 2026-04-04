@@ -223,7 +223,7 @@ export function AuthModal() {
                         </div>
                     )}
 
-                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white h-11" disabled={isLoading}>
+                    <Button type="submit" className="w-full bg-white text-black hover:bg-neutral-200 h-11" disabled={isLoading}>
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {isLogin ? "Sign In" : "Create Account"}
                     </Button>
@@ -238,7 +238,7 @@ export function AuthModal() {
                                 setIsLogin(!isLogin);
                                 setError("");
                             }}
-                            className="text-blue-400 hover:text-blue-300 font-medium hover:underline"
+                            className="text-white hover:text-white/80 font-medium hover:underline"
                         >
                             {isLogin ? "Sign up" : "Log in"}
                         </button>

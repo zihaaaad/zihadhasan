@@ -39,7 +39,7 @@ export function SmartImage({
                 )}
             >
                 {/* Glitch Effect background */}
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900 via-transparent to-transparent" />
+                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent" />
 
                 <div className="z-10 flex flex-col items-center gap-2">
                     <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center animate-pulse">

@@ -49,7 +49,7 @@ export function NewsletterForm({
         return (
             <div className={cn("bg-white/[0.02] border border-white/[0.05] rounded-[2rem] p-10 text-center relative overflow-hidden", className)}>
                 {/* Subtle Background Glow */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-primary/5 blur-[100px] -z-10" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-white/5 blur-[100px] -z-10" />
 
                 <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
                     {title || "Strategic Insights"}
@@ -60,13 +60,13 @@ export function NewsletterForm({
 
                 <form onSubmit={handleSubscribe} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
                     <div className="relative flex-1 group">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-primary transition-colors" />
+                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-white transition-colors" />
                         <Input
                             type="email"
                             placeholder="TRANSMISSION@EMAIL.COM"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="pl-11 h-12 bg-white/[0.03] border-white/[0.05] text-white focus:ring-primary/20 text-[10px] font-bold uppercase tracking-widest rounded-xl"
+                            className="pl-11 h-12 bg-white/[0.03] border-white/[0.05] text-white focus:ring-white/20 text-[10px] font-bold uppercase tracking-widest rounded-xl"
                             required
                         />
                     </div>
@@ -85,13 +85,13 @@ export function NewsletterForm({
             </h3>
             <form onSubmit={handleSubscribe} className="space-y-3">
                 <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-primary transition-colors" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-white transition-colors" />
                     <Input
                         type="email"
                         placeholder="ENTER YOUR EMAIL"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="pl-11 h-12 bg-white/[0.03] border-white/[0.05] text-white focus:ring-primary/20 text-[10px] font-bold uppercase tracking-widest rounded-xl"
+                        className="pl-11 h-12 bg-white/[0.03] border-white/[0.05] text-white focus:ring-white/20 text-[10px] font-bold uppercase tracking-widest rounded-xl"
                         required
                     />
                     <Button

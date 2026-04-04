@@ -123,7 +123,7 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
             {/* Locked Lesson Premium Modal */}
             <Dialog open={showLockedModal} onOpenChange={setShowLockedModal}>
                 <DialogContent className="max-w-md p-0 overflow-hidden bg-zinc-950 border-white/10 text-white">
-                    <div className="relative h-32 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center overflow-hidden">
+                    <div className="relative h-32 bg-white/5 flex items-center justify-center overflow-hidden">
                         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
                         <div className="h-16 w-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-2xl relative z-10">
                             <Lock className="h-8 w-8 text-white drop-shadow-lg" />
@@ -145,12 +145,12 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
                                         setShowLockedModal(false);
                                         onEnroll?.();
                                     }}
-                                    className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white border-0 shadow-lg shadow-purple-500/25 py-6 text-lg font-semibold"
+                                    className="w-full bg-white text-black hover:bg-neutral-200 border-0 shadow-lg shadow-white/5 py-6 text-lg font-semibold"
                                 >
                                     Unlock Full Access
                                 </Button>
                             ) : (
-                                <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-sm">
+                                <div className="p-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm">
                                     Your enrollment is <strong>{registration.status}</strong>. Please wait for admin approval.
                                 </div>
                             )}
