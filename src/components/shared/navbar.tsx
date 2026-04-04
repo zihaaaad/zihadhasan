@@ -88,7 +88,7 @@ export function Navbar() {
                                 href={item.href}
                                 className={cn(
                                     "text-xs font-semibold tracking-wide uppercase transition-all duration-300 hover:text-white",
-                                    pathname === item.href ? "text-primary" : "text-white/40"
+                                    pathname === item.href ? "text-white underline underline-offset-8 decoration-white/20" : "text-white/40"
                                 )}
                             >
                                 {item.name}
@@ -102,19 +102,19 @@ export function Navbar() {
                             onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
                             className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.03] bg-white/[0.02] text-xs text-muted-foreground hover:bg-white/[0.05] hover:text-white transition-all duration-300"
                         >
-                            <Search className="h-3 w-3" />
+                            <Search strokeWidth={1.5} className="h-3 w-3" />
                             <span className="text-[10px] tracking-widest uppercase opacity-50 font-bold">Search</span>
                         </button>
                         {user ? (
                             <div className="flex items-center gap-3">
                                 <NotificationBell />
                                 <Link href="/my-account" className="flex items-center gap-2 group">
-                                    <div className="h-8 w-8 rounded-full bg-white/[0.03] overflow-hidden border border-white/[0.08] group-hover:border-primary/50 transition-all duration-500 relative">
+                                    <div className="h-8 w-8 rounded-full bg-white/[0.03] overflow-hidden border border-white/[0.08] group-hover:border-white/50 transition-all duration-500 relative">
                                         {profile?.photoURL ? (
                                             <img src={profile.photoURL} alt="Profile" className="h-full w-full object-cover" />
                                         ) : (
                                             <div className="h-full w-full flex items-center justify-center">
-                                                <UserIcon className="h-4 w-4 text-white/50" />
+                                                <UserIcon strokeWidth={1.5} className="h-4 w-4 text-white/50" />
                                             </div>
                                         )}
                                         {hasPending && (
@@ -150,7 +150,7 @@ export function Navbar() {
                         className="md:hidden text-white"
                         onClick={() => setIsOpen(!isOpen)}
                     >
-                        {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                        {isOpen ? <X strokeWidth={1.5} className="h-6 w-6" /> : <Menu strokeWidth={1.5} className="h-6 w-6" />}
                     </button>
                 </div>
 
@@ -167,7 +167,7 @@ export function Navbar() {
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="text-lg font-medium text-white/80 hover:text-primary transition-colors"
+                                    className="text-lg font-medium text-white/80 hover:text-white transition-colors"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     {item.name}
@@ -176,7 +176,7 @@ export function Navbar() {
                             {showEvents && (
                                 <Link
                                     href="/events"
-                                    className="text-lg font-medium text-primary"
+                                    className="text-lg font-medium text-white"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     Events

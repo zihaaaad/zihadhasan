@@ -41,17 +41,17 @@ export const BentoGridItem = ({
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.2 }}
             className={cn(
-                "row-span-1 rounded-xl group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-black/40 dark:border-white/10 bg-white border border-transparent justify-between flex flex-col space-y-4 backdrop-blur-md",
+                "row-span-1 rounded-3xl group/bento hover:shadow-2xl transition duration-500 p-8 glass-card justify-between flex flex-col space-y-4",
                 className
             )}
         >
             {header}
-            <div className="group-hover/bento:translate-x-2 transition duration-200">
+            <div className="group-hover/bento:translate-x-2 transition duration-500">
                 {icon}
-                <div className="font-sans font-bold text-neutral-600 dark:text-neutral-200 mb-2 mt-2">
+                <div className="font-sans font-bold text-white mb-2 mt-6 tracking-tight text-xl leading-tight">
                     {title}
                 </div>
-                <div className="font-sans font-normal text-neutral-600 dark:text-neutral-300 text-xs text-muted-foreground line-clamp-2">
+                <div className="font-sans font-medium text-neutral-400 text-sm leading-relaxed line-clamp-2 max-w-[90%]">
                     {description}
                 </div>
             </div>

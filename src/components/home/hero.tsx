@@ -89,7 +89,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                         <div className="flex flex-wrap items-center justify-center lg:justify-start gap-5">
                             <Button size="lg" className="rounded-full bg-white px-8 text-black hover:bg-neutral-200 transition-colors h-14 font-semibold" asChild>
                                 <Link href="/projects">
-                                    View Projects <ArrowRight className="ml-2 h-4 w-4" />
+                                    View Projects <ArrowRight strokeWidth={1.5} className="ml-2 h-4 w-4" />
                                 </Link>
                             </Button>
 
@@ -150,7 +150,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                             className="absolute -bottom-4 -left-4 z-40 flex items-center gap-3 rounded-xl border border-white/5 bg-black/60 p-4 backdrop-blur-md"
                         >
                             <div className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center">
-                                <Code className="h-4 w-4 text-white/70" />
+                                <Code strokeWidth={1.5} className="h-4 w-4 text-white/70" />
                             </div>
                             <div className="text-[10px] text-white/50 font-mono tracking-widest uppercase">DHAKA, BD</div>
                         </div>
@@ -158,7 +158,5 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                 </motion.div>
             </div>
         </section>
-    );
-}
     );
 }

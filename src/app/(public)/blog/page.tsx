@@ -109,17 +109,17 @@ function ArticleCard({ post, index }: { post: BlogPost, index: number }) {
                 </div>
             </div>
 
-            <div className="p-7 flex flex-col flex-1">
-                <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.2em] mb-4">{date}</div>
-                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 leading-tight tracking-tight">
+            <div className="p-8 flex flex-col flex-1">
+                <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.25em] mb-5">{date}</div>
+                <h3 className="text-2xl font-bold text-white mb-4 line-clamp-2 leading-[1.2] tracking-tight">
                     {post.title}
                 </h3>
-                <p className="text-sm text-neutral-500 line-clamp-2 mb-6 leading-relaxed">
+                <p className="text-sm text-neutral-400 font-medium line-clamp-2 mb-8 leading-relaxed">
                     {post.excerpt}
                 </p>
 
-                <div className="flex items-center text-[11px] font-bold uppercase tracking-widest text-primary opacity-80 group-hover:opacity-100 transition-opacity mt-auto">
-                    Full Story <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                <div className="flex items-center text-[11px] font-bold uppercase tracking-[0.2em] text-white opacity-50 group-hover:opacity-100 transition-all duration-500 mt-auto">
+                    Full Story <ArrowRight strokeWidth={1.5} className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-2" />
                 </div>
             </div>
         </Link>

@@ -119,9 +119,9 @@ export function NotificationBell() {
         <Popover open={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative text-white/70 hover:text-white hover:bg-white/10 rounded-full h-9 w-9">
-                    <Bell className="h-5 w-5" />
+                    <Bell strokeWidth={1.5} className="h-5 w-5" />
                     {unreadCount > 0 && (
-                        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-red-500 border border-black animate-pulse" />
+                        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-white border border-black animate-pulse" />
                     )}
                 </Button>
             </PopoverTrigger>
@@ -130,7 +130,7 @@ export function NotificationBell() {
                     <div className="flex items-center gap-2">
                         <h4 className="font-semibold text-sm">Notifications</h4>
                         {unreadCount > 0 && (
-                            <span className="text-[10px] font-bold bg-primary text-black px-1.5 py-0.5 rounded-full">
+                            <span className="text-[10px] font-bold bg-white text-black px-1.5 py-0.5 rounded-full">
                                 {unreadCount}
                             </span>
                         )}
@@ -141,19 +141,19 @@ export function NotificationBell() {
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="h-6 text-[10px] px-2 text-primary hover:text-primary/80 hover:bg-primary/10"
+                                    className="h-6 text-[10px] px-2 text-white hover:text-black hover:bg-white"
                                     onClick={markAllAsRead}
                                 >
-                                    <CheckCheck className="mr-1 h-3 w-3" /> Mark read
+                                    <CheckCheck strokeWidth={1.5} className="mr-1 h-3 w-3" /> Mark read
                                 </Button>
                             )}
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-6 text-[10px] px-2 text-white/50 hover:text-red-400 hover:bg-red-500/10"
+                                className="h-6 text-[10px] px-2 text-white/50 hover:text-white hover:bg-white/10"
                                 onClick={clearAllNotifications}
                             >
-                                <Trash2 className="mr-1 h-3 w-3" /> Clear
+                                <Trash2 strokeWidth={1.5} className="mr-1 h-3 w-3" /> Clear
                             </Button>
                         </div>
                     )}
@@ -162,7 +162,7 @@ export function NotificationBell() {
                     {notifications.length === 0 ? (
                         <div className="p-8 text-center flex flex-col items-center gap-2 text-white/40">
                             <div className="p-3 bg-white/5 rounded-full">
-                                <MailOpen className="h-6 w-6 opacity-50" />
+                                <MailOpen strokeWidth={1.5} className="h-6 w-6 opacity-50" />
                             </div>
                             <p className="text-sm">No notifications yet</p>
                             <p className="text-xs text-white/20">We'll notify you when something arrives</p>
@@ -194,14 +194,14 @@ export function NotificationBell() {
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="h-6 w-6 text-primary hover:text-primary hover:bg-primary/20 rounded-full"
+                                                    className="h-6 w-6 text-white hover:text-black hover:bg-white rounded-full"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         markAsRead(notification.id);
                                                     }}
                                                     title="Mark as read"
                                                 >
-                                                    <Check className="h-3 w-3" />
+                                                    <Check strokeWidth={1.5} className="h-3 w-3" />
                                                 </Button>
                                             </div>
                                         )}

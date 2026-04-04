@@ -41,7 +41,7 @@ export function Footer() {
                 <div className="lg:col-span-7 flex flex-col gap-8">
                     <div>
                         <span className="text-xl font-bold tracking-tighter text-white mb-3 block">
-                            ZH<span className="text-primary">.</span>
+                            ZH<span className="text-white">.</span>
                         </span>
                         <p className="text-xs font-semibold text-neutral-500 uppercase tracking-widest leading-relaxed max-w-sm">
                             Building digital experiences at the intersection of design, engineering, and artificial intelligence.
@@ -60,8 +60,8 @@ export function Footer() {
                             ))
                         ) : (
                             <>
-                                <SocialLink href="#" icon={<Github className="h-4 w-4" />} label="GitHub" />
-                                <SocialLink href="#" icon={<Linkedin className="h-4 w-4" />} label="LinkedIn" />
+                                <SocialLink href="#" icon={<Github strokeWidth={1.5} className="h-4 w-4" />} label="GitHub" />
+                                <SocialLink href="#" icon={<Linkedin strokeWidth={1.5} className="h-4 w-4" />} label="LinkedIn" />
                             </>
                         )}
                     </div>

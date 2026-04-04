@@ -30,7 +30,7 @@ export function NewsletterForm({
 
         setSubmitting(true);
         try {
-            await CMSService.addSubscriber({ email });
+            await CMSService.subscribeToNewsletter(email);
             toast.success("Joined Successfully", {
                 description: "You're now on the priority transmission list."
             });
@@ -60,7 +60,7 @@ export function NewsletterForm({
 
                 <form onSubmit={handleSubscribe} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
                     <div className="relative flex-1 group">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-white transition-colors" />
+                        <Mail strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-white transition-colors" />
                         <Input
                             type="email"
                             placeholder="TRANSMISSION@EMAIL.COM"
@@ -85,7 +85,7 @@ export function NewsletterForm({
             </h3>
             <form onSubmit={handleSubscribe} className="space-y-3">
                 <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-white transition-colors" />
+                    <Mail strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 group-focus-within:text-white transition-colors" />
                     <Input
                         type="email"
                         placeholder="ENTER YOUR EMAIL"
@@ -99,7 +99,7 @@ export function NewsletterForm({
                         disabled={submitting}
                         className="absolute right-1.5 top-1.5 h-9 w-9 p-0 bg-white text-black hover:bg-neutral-200 rounded-lg transition-all duration-500"
                     >
-                        {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ArrowRight className="h-3.5 w-3.5" />}
+                        {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ArrowRight strokeWidth={1.5} className="h-3.5 w-3.5" />}
                     </Button>
                 </div>
             </form>

@@ -249,5 +249,4 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
             </Form>
         </div>
     );
-    );
 }

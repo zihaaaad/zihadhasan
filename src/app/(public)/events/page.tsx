@@ -66,9 +66,9 @@ export default function PublicEventsPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-4xl font-bold tracking-tight text-white sm:text-5xl mb-4"
                 >
-                    Upcoming <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Events</span>
+                    Upcoming <span className="text-primary italic font-serif">Events</span>
                 </motion.h1>
-                <p className="text-muted-foreground max-w-2xl mx-auto">
+                <p className="text-neutral-500 font-medium max-w-2xl mx-auto uppercase tracking-widest text-[10px]">
                     Join me for workshops, speaking engagements, and community meetups.
                 </p>
             </div>

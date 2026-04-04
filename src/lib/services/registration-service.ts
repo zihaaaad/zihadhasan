@@ -19,6 +19,7 @@ export interface Registration {
     eventId?: string;
     courseId?: string;
     productId?: string;
+    bookId?: string;
     userId?: string;
     email: string;
     name: string;

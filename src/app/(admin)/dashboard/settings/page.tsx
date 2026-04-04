@@ -34,6 +34,7 @@ const settingsSchema = z.object({
     showEvents: z.boolean(),
     showShop: z.boolean(),
     showCourses: z.boolean(),
+    showBooks: z.boolean(),
     socialGithub: z.string().optional().or(z.literal("")),
     socialLinkedin: z.string().optional().or(z.literal("")),
     socialTwitter: z.string().optional().or(z.literal("")),
@@ -149,6 +150,7 @@ export default function SettingsPage() {
                     showEvents: values.showEvents,
                     showShop: values.showShop,
                     showCourses: values.showCourses,
+                    showBooks: values.showBooks,
                 },
                 paymentNumbers: {
                     bkash: values.paymentBkash,

@@ -115,8 +115,8 @@ export default function MyAccountPage() {
                                     )}
                                 </div>
                                 {isAdmin && (
-                                    <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-amber-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
-                                        <Crown className="h-3 w-3" /> ADMIN
+                                    <div className="absolute -top-2 -right-2 bg-white text-black text-[10px] font-bold px-2 py-1 rounded-full shadow-xl flex items-center gap-1 border border-black/10">
+                                        <Crown strokeWidth={1.5} className="h-3 w-3" /> ADMIN
                                     </div>
                                 )}
                             </div>
@@ -127,14 +127,14 @@ export default function MyAccountPage() {
                             <div className="w-full space-y-3">
                                 {isAdmin && (
                                     <Link href="/dashboard">
-                                        <Button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold shadow-lg shadow-indigo-500/20 mb-3 border-none">
-                                            <LayoutDashboard className="h-4 w-4 mr-2" /> Admin Dashboard
+                                        <Button className="w-full bg-white text-black hover:bg-neutral-200 font-bold rounded-xl h-11 text-[10px] uppercase tracking-widest mb-3">
+                                            <LayoutDashboard strokeWidth={1.5} className="h-4 w-4 mr-2" /> Admin Dashboard
                                         </Button>
                                     </Link>
                                 )}
 
-                                <Button variant="outline" className="w-full border-red-500/20 text-red-400 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/40 transition-all" onClick={handleLogout}>
-                                    <LogOut className="h-4 w-4 mr-2" /> Sign Out
+                                <Button variant="outline" className="w-full border-white/10 text-neutral-500 hover:bg-white/5 hover:text-white rounded-xl h-11 text-[10px] uppercase tracking-widest transition-all" onClick={handleLogout}>
+                                    <LogOut strokeWidth={1.5} className="h-4 w-4 mr-2" /> Sign Out
                                 </Button>
                             </div>
                         </div>
@@ -148,29 +148,29 @@ export default function MyAccountPage() {
                         <button
                             onClick={() => setActiveTab("learning")}
                             className={cn(
-                                "flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all relative",
-                                activeTab === "learning" ? "text-primary" : "text-gray-400 hover:text-white"
+                                "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
+                                activeTab === "learning" ? "text-white" : "text-neutral-500 hover:text-white"
                             )}
                         >
-                            <BookOpen className="h-4 w-4" />
+                            <BookOpen strokeWidth={1.5} className="h-4 w-4" />
                             My Learning
-                            <span className="bg-white/10 px-2 py-0.5 rounded-full text-xs ml-1">{courseRegs.length}</span>
+                            <span className="bg-white/10 px-2 py-0.5 rounded-full text-[10px] ml-1">{courseRegs.length}</span>
                             {activeTab === "learning" && (
-                                <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-primary" />
+                                <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-white" />
                             )}
                         </button>
                         <button
                             onClick={() => setActiveTab("events")}
                             className={cn(
-                                "flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all relative",
-                                activeTab === "events" ? "text-cyan-400" : "text-gray-400 hover:text-white"
+                                "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
+                                activeTab === "events" ? "text-white" : "text-neutral-500 hover:text-white"
                             )}
                         >
-                            <Ticket className="h-4 w-4" />
+                            <Ticket strokeWidth={1.5} className="h-4 w-4" />
                             My Events
-                            <span className="bg-white/10 px-2 py-0.5 rounded-full text-xs ml-1">{eventRegs.length}</span>
+                            <span className="bg-white/10 px-2 py-0.5 rounded-full text-[10px] ml-1">{eventRegs.length}</span>
                             {activeTab === "events" && (
-                                <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-cyan-400" />
+                                <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-white" />
                             )}
                         </button>
                     </div>

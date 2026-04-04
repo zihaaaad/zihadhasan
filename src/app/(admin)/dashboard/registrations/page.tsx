@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { GlassCard } from "@/components/shared/glass-card";
-import { downloadCSV } from "@/lib/utils";
+import { downloadCSV, cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -428,61 +428,64 @@ export default function RegistrationsPage() {
                                             <div>{reg.name}</div>
                                             <div className="text-xs text-gray-500">{reg.email}</div>
                                         </TableCell>
-                                        <TableCell className="text-gray-300">
+                                        <TableCell className="text-white/80 font-medium">
                                             <div className="flex items-center gap-2">
-                                                {isCourse && <Badge variant="outline" className="text-xs border-purple-500 text-purple-400">Course</Badge>}
-                                                {isEvent && <Badge variant="outline" className="text-xs border-blue-500 text-blue-400">Event</Badge>}
-                                                {isProduct && <Badge variant="outline" className="text-xs border-amber-500 text-amber-400">Product</Badge>}
-                                                {reg.bookId && <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-400">Book</Badge>}
+                                                {isCourse && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-white/20 bg-white/5 text-white/70">Course</Badge>}
+                                                {isEvent && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-white/20 bg-white/5 text-white/70">Event</Badge>}
+                                                {isProduct && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-white/20 bg-white/5 text-white/70">Product</Badge>}
+                                                {reg.bookId && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-white/20 bg-white/5 text-white/70">Book</Badge>}
 
-                                                <span className="truncate max-w-[150px]" title={title}>{title}</span>
+                                                <span className="truncate max-w-[150px] text-sm font-bold tracking-tight" title={title}>{title}</span>
                                             </div>
-                                            <div className="text-xs text-gray-500 mt-1">{reg.id}</div>
+                                            <div className="text-[10px] text-neutral-600 font-mono mt-1">{reg.id}</div>
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex items-start gap-4">
                                                 {/* Text Details */}
-                                                <div className="flex flex-col gap-1 min-w-[120px]">
+                                                <div className="flex flex-col gap-1.5 min-w-[120px]">
                                                     {reg.trxId ? (
-                                                        <Badge variant="outline" className="font-mono border-blue-500/50 text-blue-400 bg-blue-500/10 w-fit">
+                                                        <Badge variant="outline" className="font-mono border-white/20 text-white bg-white/5 w-fit text-[10px] tracking-tighter">
                                                             {reg.trxId}
                                                         </Badge>
                                                     ) : (
-                                                        <Badge variant="outline" className="border-green-500/50 text-green-400 bg-green-500/10 w-fit">
+                                                        <Badge variant="outline" className="border-white/10 text-neutral-500 bg-white/[0.02] w-fit text-[9px] font-bold uppercase tracking-widest">
                                                             FREE
                                                         </Badge>
                                                     )}
-                                                    {reg.paymentMethod && <span className="text-xs text-gray-400 capitalize">{reg.paymentMethod}</span>}
-                                                    {reg.phone && <span className="text-xs text-gray-500">{reg.phone}</span>}
+                                                    {reg.paymentMethod && <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">{reg.paymentMethod}</span>}
+                                                    {reg.phone && <span className="text-[10px] font-mono text-neutral-600">{reg.phone}</span>}
                                                 </div>
 
                                                 {/* Image Preview */}
                                                 {reg.screenshotUrl && (
                                                     <div className="flex flex-col gap-2">
                                                         <div
-                                                            className="relative group cursor-pointer h-16 w-24 shrink-0 rounded-md overflow-hidden border border-white/10 bg-black/20"
+                                                            className="relative group cursor-pointer h-16 w-24 shrink-0 rounded-xl overflow-hidden border border-white/10 bg-black/20"
                                                             onClick={() => setViewingProof(reg.screenshotUrl || null)}
                                                         >
-                                                            <img src={reg.screenshotUrl} alt="Proof" className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                                                            <img src={reg.screenshotUrl} alt="Proof" className="w-full h-full object-cover grayscale opacity-50 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105" />
                                                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                                                                <Eye className="h-5 w-5 text-white drop-shadow-md" />
+                                                                <Eye strokeWidth={1.5} className="h-5 w-5 text-white drop-shadow-md" />
                                                             </div>
                                                         </div>
                                                         <Button
                                                             variant="outline"
                                                             size="sm"
-                                                            className="h-6 text-[10px] w-24 border-white/10 hover:bg-white/5"
+                                                            className="h-7 text-[9px] font-bold uppercase tracking-widest w-24 border-white/10 hover:bg-white/5 rounded-lg"
                                                             onClick={() => setViewingProof(reg.screenshotUrl || null)}
                                                         >
-                                                            <Eye className="mr-1 h-3 w-3" /> View Proof
+                                                            <Eye strokeWidth={1.5} className="mr-1 h-3 w-3" /> Proof
                                                         </Button>
                                                     </div>
                                                 )}
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <Badge className={`${reg.status === 'approved' ? 'bg-green-500/20 text-green-400' : 'bg-amber-500/20 text-amber-400'}`}>
-                                                {reg.status.toUpperCase()}
+                                            <Badge className={cn(
+                                                "text-[9px] font-bold uppercase tracking-widest px-2.5 h-6 border-none",
+                                                reg.status === 'approved' ? 'bg-white text-black' : 'bg-white/10 text-white/70 animate-pulse'
+                                            )}>
+                                                {reg.status}
                                             </Badge>
                                         </TableCell>
                                         <TableCell className="text-right">
@@ -490,10 +493,10 @@ export default function RegistrationsPage() {
                                                 <Button
                                                     size="icon"
                                                     variant="ghost"
-                                                    className="h-8 w-8 text-blue-400 hover:text-blue-300 hover:bg-blue-500/20"
+                                                    className="h-8 w-8 text-neutral-500 hover:text-white hover:bg-white/10 rounded-lg"
                                                     onClick={() => setEditingRegistration(reg)}
                                                 >
-                                                    <Pencil className="h-4 w-4" />
+                                                    <Pencil strokeWidth={1.5} className="h-4 w-4" />
                                                 </Button>
 
                                                 {reg.status === 'pending' && (
@@ -501,20 +504,20 @@ export default function RegistrationsPage() {
                                                         <Button
                                                             size="icon"
                                                             variant="ghost"
-                                                            className="h-8 w-8 text-green-400 hover:text-green-300 hover:bg-green-500/20"
+                                                            className="h-8 w-8 text-white hover:bg-white hover:text-black rounded-lg transition-all"
                                                             onClick={() => handleApprove(reg.id)}
                                                             disabled={processingId === reg.id}
                                                         >
-                                                            {processingId === reg.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-4 w-4" />}
+                                                            {processingId === reg.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle strokeWidth={1.5} className="h-4 w-4" />}
                                                         </Button>
                                                         <Button
                                                             size="icon"
                                                             variant="ghost"
-                                                            className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/20"
+                                                            className="h-8 w-8 text-neutral-600 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
                                                             onClick={() => handleReject(reg.id)}
                                                             disabled={processingId === reg.id}
                                                         >
-                                                            <XCircle className="h-4 w-4" />
+                                                            <XCircle strokeWidth={1.5} className="h-4 w-4" />
                                                         </Button>
                                                     </>
                                                 )}
@@ -522,12 +525,12 @@ export default function RegistrationsPage() {
                                                     <Button
                                                         size="icon"
                                                         variant="ghost"
-                                                        className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/20"
+                                                        className="h-8 w-8 text-neutral-600 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
                                                         onClick={() => handleReject(reg.id)}
                                                         disabled={processingId === reg.id}
                                                         title="Revoke & Delete"
                                                     >
-                                                        <Trash2 className="h-4 w-4" />
+                                                        <Trash2 strokeWidth={1.5} className="h-4 w-4" />
                                                     </Button>
                                                 )}
                                             </div>

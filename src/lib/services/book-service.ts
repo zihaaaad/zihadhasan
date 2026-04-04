@@ -8,6 +8,10 @@ import {
     where,
     limit,
     Timestamp,
+    addDoc,
+    setDoc,
+    updateDoc,
+    deleteDoc,
 } from "firebase/firestore";
 
 export interface Book {

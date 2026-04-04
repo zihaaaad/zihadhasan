@@ -57,10 +57,15 @@
   --background: oklch(0 0 0); /* Pure Black */
   --foreground: oklch(0.98 0 0); /* Crisp Off-White */
 
+  /* Value Scale for Typography */
+  --text-primary: oklch(0.98 0 0);
+  --text-secondary: oklch(0.7 0 0); /* Refined for readability */
+  --text-tertiary: oklch(0.45 0 0);  /* For "quiet" metadata */
+
   /* Glassmorphism Cards */
-  --card: oklch(0.1 0 0);
+  --card: oklch(0.05 0 0);
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.1 0 0);
+  --popover: oklch(0.05 0 0);
   --popover-foreground: oklch(0.98 0 0);
 
   /* Minimalist Primary (White) */
@@ -79,9 +84,9 @@
   --destructive: oklch(0.6 0.18 25);
 
   /* Borders - High Contrast Minimal */
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 10%);
-  --ring: oklch(1 0 0 / 50%);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 8%);
+  --ring: oklch(1 0 0 / 40%);
 
   /* Chart Colors (Grayscale) */
   --chart-1: oklch(1 0 0);
