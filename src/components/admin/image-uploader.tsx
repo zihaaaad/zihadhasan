@@ -29,8 +29,8 @@ export function ImageUploader({ value, onChange, className, label = "Upload Imag
         const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
         if (!cloudName || !uploadPreset) {
-            toast.error("Cloudinary is not configured. Check ENV variables.");
-            console.error("Missing NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME or NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET");
+            toast.error("Cloudinary upload is not configured. Please use the URL option or check environment variables.");
+            setInputType("url");
             return;
         }
 

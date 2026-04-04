@@ -56,13 +56,28 @@ export function BookEditor({ initialData, initialSecureContent }: BookEditorProp
 
     const handleSave = async () => {
         if (!editor) return;
+
+        // Validation
+        if (!title.trim()) {
+            toast.error("Title is required");
+            return;
+        }
+        if (!slug.trim()) {
+            toast.error("Slug is required");
+            return;
+        }
+        if (!description.trim()) {
+            toast.error("Description is required");
+            return;
+        }
+
         setSubmitting(true);
 
         const bookData = {
-            title,
-            slug,
-            description,
-            author,
+            title: title.trim(),
+            slug: slug.trim(),
+            description: description.trim(),
+            author: author.trim(),
             price: Number(price),
             hardcopyPrice: hardcopyPrice ? Number(hardcopyPrice) : undefined,
             imageUrl,
@@ -73,6 +88,7 @@ export function BookEditor({ initialData, initialSecureContent }: BookEditorProp
         };
 
         try {
+            console.log("Saving book data:", bookData);
             if (initialData && initialData.id) {
                 await CMSService.updateBook(initialData.id, bookData);
                 toast.success("Book updated successfully");
@@ -81,10 +97,10 @@ export function BookEditor({ initialData, initialSecureContent }: BookEditorProp
                 toast.success("Book created successfully");
             }
             router.push('/dashboard/books');
-            router.refresh();
-        } catch (error) {
+            // router.refresh();
+        } catch (error: any) {
             console.error("Failed to save book", error);
-            toast.error("Failed to save book");
+            toast.error(`Failed to save book: ${error.message || "Unknown error"}`);
         } finally {
             setSubmitting(false);
         }
