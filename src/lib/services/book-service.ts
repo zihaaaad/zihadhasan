@@ -80,8 +80,14 @@ export const BookService = {
 
     addBook: async (book: Omit<Book, "id" | "createdAt"> & { fullContent?: string }) => {
         const { fullContent, ...publicData } = book;
+        
+        // Remove undefined fields (Firestore doesn't support them)
+        const cleanData = Object.fromEntries(
+            Object.entries(publicData).filter(([_, v]) => v !== undefined)
+        );
+
         const docRef = await addDoc(collection(db, "books"), {
-            ...publicData,
+            ...cleanData,
             isDeleted: false,
             createdAt: Timestamp.now(),
         });
@@ -98,8 +104,13 @@ export const BookService = {
         const { fullContent, ...publicData } = data;
         const docRef = doc(db, "books", id);
 
-        if (Object.keys(publicData).length > 0) {
-            await updateDoc(docRef, publicData);
+        // Remove undefined fields
+        const cleanData = Object.fromEntries(
+            Object.entries(publicData).filter(([_, v]) => v !== undefined)
+        );
+
+        if (Object.keys(cleanData).length > 0) {
+            await updateDoc(docRef, cleanData);
         }
 
         if (fullContent !== undefined) {
