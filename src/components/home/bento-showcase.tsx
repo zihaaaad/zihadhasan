@@ -4,7 +4,7 @@ import React from "react";
 
 import { BentoGrid, BentoGridItem } from "@/components/shared/bento-grid";
 import { Project, Tool, BlogPost } from "@/lib/cms-service";
-import { Github, ArrowUpRight, Cpu, Quote } from "lucide-react";
+import { Github, ArrowUpRight, Cpu, Quote, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -39,7 +39,7 @@ function SpotlightItem({ children, className = "" }: { children: React.ReactNode
                 className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
                 style={{
                     opacity,
-                    background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.06), transparent 40%)`
+                    background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.15), transparent 40%)`
                 }}
             />
             {children}
@@ -73,7 +73,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                     src={project.imageUrl}
                                     alt={project.title}
                                     fill
-                                    className="object-cover transition-transform duration-500 group-hover:scale-105 opacity-60 group-hover:opacity-80"
+                                    className="object-cover grayscale hover:grayscale-0 transition-all duration-500 group-hover:scale-105 opacity-60 group-hover:opacity-80"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6 flex flex-col justify-end">
                                     <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
@@ -96,7 +96,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                         header={
                             <SpotlightItem className="h-full w-full p-8 flex flex-col justify-center items-center text-center group bg-neutral-900/40">
                                 <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mb-6">
-                                    <Cpu className="h-8 w-8 text-neutral-500" />
+                                    <Cpu strokeWidth={1.5} className="h-8 w-8 text-neutral-500" />
                                 </div>
                                 <h3 className="text-2xl font-bold text-white mb-2">Work in Progress</h3>
                                 <p className="text-neutral-400 max-w-sm">
@@ -116,7 +116,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                 <div>
                                     <div className="flex items-center justify-between mb-4">
                                         <span className="text-xs font-mono text-neutral-400">LATEST POST</span>
-                                        <ArrowUpRight className="h-4 w-4 text-white/40 group-hover:text-white transition-colors" />
+                                        <ArrowUpRight strokeWidth={1.5} className="h-4 w-4 text-white/40 group-hover:text-white transition-colors" />
                                     </div>
                                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-neutral-300 transition-colors line-clamp-2">
                                         {blog.title}
@@ -136,7 +136,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                     className="md:col-span-1 md:row-span-1"
                     header={
                         <SpotlightItem className="h-full w-full p-6 flex flex-col items-center justify-center group text-center">
-                            <Github className="h-12 w-12 text-white mb-4 group-hover:scale-110 transition-transform" />
+                            <Github strokeWidth={1.5} className="h-12 w-12 text-white mb-4 group-hover:scale-110 transition-transform" />
                             <h3 className="text-lg font-bold text-white">Open Source</h3>
                             <p className="text-sm text-neutral-400 mt-2">Check out my contributions</p>
                             <Link href="https://github.com/Z-root-X" target="_blank" className="absolute inset-0 z-20" aria-label="Visit GitHub Profile" />
@@ -151,7 +151,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                         header={
                             <SpotlightItem className="h-full w-full p-6 group relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-50">
-                                    <Cpu className="h-24 w-24 text-white/5 -rotate-12" />
+                                    <Cpu strokeWidth={1.5} className="h-24 w-24 text-white/5 -rotate-12" />
                                 </div>
                                 <div className="relative z-10">
                                     <span className="text-xs font-mono text-neutral-400 mb-2 block">POWERED BY</span>
@@ -169,7 +169,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                     className="md:col-span-2 md:row-span-1"
                     header={
                         <SpotlightItem className="h-full w-full p-8 flex items-center gap-6">
-                            <Quote className="h-12 w-12 text-white/20 shrink-0" />
+                            <Quote strokeWidth={1.5} className="h-12 w-12 text-white/20 shrink-0" />
                             <div>
                                 <p className="text-lg md:text-xl text-neutral-200 italic font-light">
                                     "Zihad's courses changed the way I look at web development. The focus on 'why' instead of just 'how' is evident."

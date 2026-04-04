@@ -62,12 +62,12 @@ export default function ProjectsPage() {
                                         <div className="flex gap-4 items-center">
                                             {project.githubLink && (
                                                 <Link href={project.githubLink} target="_blank" className="text-neutral-500 hover:text-white transition-all duration-300">
-                                                    <Github className="h-4 w-4" />
+                                                    <Github strokeWidth={1.5} className="h-4 w-4" />
                                                 </Link>
                                             )}
                                             {project.liveLink && (
                                                 <Link href={project.liveLink} target="_blank" className="text-neutral-500 hover:text-white transition-all duration-300">
-                                                    <ArrowUpRight className="h-4 w-4" />
+                                                    <ArrowUpRight strokeWidth={1.5} className="h-4 w-4" />
                                                 </Link>
                                             )}
                                         </div>

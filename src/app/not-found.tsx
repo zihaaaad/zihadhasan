@@ -11,7 +11,7 @@ export default function NotFound() {
             {/* Background Effects */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px] opacity-20 animate-pulse"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 rounded-full blur-[120px] opacity-20 animate-pulse"></div>
             </div>
 
             <motion.div
@@ -44,7 +44,7 @@ export default function NotFound() {
                                 initial={{ width: 0 }}
                                 animate={{ width: "100px" }}
                                 transition={{ delay: 0.7, duration: 0.8 }}
-                                className="h-1 bg-primary mx-auto rounded-full"
+                                className="h-1 bg-white mx-auto rounded-full"
                             />
                         </div>
                     </div>
@@ -72,15 +72,15 @@ export default function NotFound() {
                         onClick={() => window.history.back()}
                         className="h-12 px-6 border-white/10 hover:bg-white/5 text-white hover:text-white rounded-full transition-all duration-300 hover:scale-105"
                     >
-                        <ArrowLeft className="mr-2 h-4 w-4" /> Go Back
+                        <ArrowLeft strokeWidth={1.5} className="mr-2 h-4 w-4" /> Go Back
                     </Button>
 
                     <Button
                         asChild
-                        className="h-12 px-8 bg-primary text-black hover:bg-primary/90 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+                        className="h-12 px-8 bg-white text-black hover:bg-neutral-200 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
                     >
                         <Link href="/">
-                            <Home className="mr-2 h-4 w-4" /> Return Home
+                            <Home strokeWidth={1.5} className="mr-2 h-4 w-4" /> Return Home
                         </Link>
                     </Button>
                 </motion.div>

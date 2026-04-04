@@ -44,9 +44,9 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
                         </p>
                     </div>
                     <div>
-                        <Button variant="outline" className="rounded-full border-white/10 hover:bg-white/5" asChild>
+                        <Button variant="outline" className="rounded-full border-white/10 hover:bg-white/5 text-[10px] font-bold uppercase tracking-widest text-white h-11 px-6" asChild>
                             <Link href="/my-learning">
-                                Browse All <ArrowRight className="ml-2 h-4 w-4" />
+                                Browse All <ArrowRight strokeWidth={1.5} className="ml-2 h-4 w-4" />
                             </Link>
                         </Button>
                     </div>
@@ -54,42 +54,42 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
 
                 <div className="grid md:grid-cols-3 gap-8">
                     {courses.map((course) => (
-                        <SpotlightCard key={course.id} className="group flex flex-col h-full bg-neutral-900 border-neutral-800">
-                            <div className="relative h-48 w-full overflow-hidden rounded-t-xl bg-neutral-800">
+                        <SpotlightCard key={course.id} className="group flex flex-col h-full bg-neutral-900 border-neutral-800 rounded-3xl">
+                            <div className="relative h-48 w-full overflow-hidden rounded-t-3xl bg-neutral-800">
                                 {course.headerImage ? (
                                     <Image
                                         src={course.headerImage}
                                         alt={course.title}
                                         fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105 grayscale group-hover:grayscale-0"
                                     />
                                 ) : (
                                     <div className="flex h-full items-center justify-center text-neutral-600">
-                                        <BookOpen className="h-12 w-12" />
+                                        <BookOpen strokeWidth={1.5} className="h-12 w-12" />
                                     </div>
                                 )}
                                 <div className="absolute top-4 right-4">
-                                    <Badge className="bg-black/50 backdrop-blur border-white/10 text-white hover:bg-black/70">
-                                        {course.price === 0 ? "Free" : `$${course.price}`}
+                                    <Badge className="bg-black/50 backdrop-blur border-white/10 text-white hover:bg-black/70 text-[10px] font-bold px-3">
+                                        {course.price === 0 ? "FREE" : `$${course.price}`}
                                     </Badge>
                                 </div>
                             </div>
 
-                            <div className="p-6 flex flex-col flex-grow">
-                                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-white transition-colors">
+                            <div className="p-8 flex flex-col flex-grow">
+                                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-white transition-colors tracking-tight">
                                     {course.title}
                                 </h3>
-                                <p className="text-neutral-400 text-sm mb-6 line-clamp-3 flex-grow">
+                                <p className="text-neutral-400 text-sm mb-8 line-clamp-3 flex-grow leading-relaxed">
                                     {course.description}
                                 </p>
 
-                                <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                                    <div className="flex items-center text-xs text-neutral-500">
-                                        <Clock className="h-3 w-3 mr-1" />
+                                <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                                    <div className="flex items-center text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+                                        <Clock strokeWidth={1.5} className="h-3 w-3 mr-2" />
                                         <span>{course.lessons?.length || 0} Lessons</span>
                                     </div>
-                                    <span className="text-xs font-medium text-white group-hover:translate-x-1 transition-transform flex items-center">
-                                        Start Learning <ArrowRight className="ml-1 h-3 w-3" />
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white group-hover:translate-x-1 transition-transform flex items-center">
+                                        Start Learning <ArrowRight strokeWidth={1.5} className="ml-2 h-3 w-3" />
                                     </span>
                                 </div>
                             </div>

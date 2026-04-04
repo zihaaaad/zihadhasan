@@ -11,7 +11,7 @@ export function GlassCard({ children, className, hoverEffect = true, ...props }:
         <div
             className={cn(
                 "relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-6 backdrop-blur-md transition-all duration-300",
-                hoverEffect && "hover:border-primary/30 hover:shadow-[0_0_30px_-10px_rgba(59,130,246,0.2)] hover:-translate-y-1",
+                hoverEffect && "hover:border-white/30 hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)] hover:-translate-y-1",
                 className
             )}
             {...props}

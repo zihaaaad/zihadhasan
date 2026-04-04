@@ -21,15 +21,16 @@ export function Footer() {
     if (pathname === "/") return null;
 
     const getIcon = (platform: string) => {
+        const props = { strokeWidth: 1.5, className: "h-5 w-5" };
         switch (platform) {
-            case "github": return <Github className="h-5 w-5" />;
-            case "twitter": return <Twitter className="h-5 w-5" />;
-            case "linkedin": return <Linkedin className="h-5 w-5" />;
-            case "email": return <Mail className="h-5 w-5" />;
-            case "youtube": return <Youtube className="h-5 w-5" />;
-            case "facebook": return <Facebook className="h-5 w-5" />;
-            case "instagram": return <Instagram className="h-5 w-5" />;
-            default: return <Github className="h-5 w-5" />;
+            case "github": return <Github {...props} />;
+            case "twitter": return <Twitter {...props} />;
+            case "linkedin": return <Linkedin {...props} />;
+            case "email": return <Mail {...props} />;
+            case "youtube": return <Youtube {...props} />;
+            case "facebook": return <Facebook {...props} />;
+            case "instagram": return <Instagram {...props} />;
+            default: return <Github {...props} />;
         }
     };
 
@@ -85,7 +86,7 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
         <Link
             href={href}
             target="_blank"
-            className="text-neutral-500 transition-all duration-300 hover:text-primary hover:scale-110"
+            className="text-neutral-500 transition-all duration-300 hover:text-white hover:scale-110"
             aria-label={label}
         >
             {icon}

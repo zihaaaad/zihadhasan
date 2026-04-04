@@ -61,7 +61,8 @@ export function SmartImage({
                     fill
                     className={cn(
                         "object-cover transition-all duration-700 ease-in-out",
-                        isLoading ? "scale-110 blur-xl grayscale" : "scale-100 blur-0 grayscale-0",
+                        isLoading ? "scale-110 blur-xl" : "scale-100 blur-0",
+                        "grayscale hover:grayscale-0",
                         "hover:scale-105" // Keep hover effect
                     )}
                     onLoad={() => setIsLoading(false)}
@@ -91,7 +92,8 @@ export function SmartImage({
                 fill
                 className={cn(
                     "object-cover transition-all duration-700 ease-in-out",
-                    isLoading ? "scale-110 blur-xl grayscale" : "scale-100 blur-0 grayscale-0",
+                    isLoading ? "scale-110 blur-xl" : "scale-100 blur-0",
+                    "grayscale hover:grayscale-0",
                     "hover:scale-105" // Keep hover effect
                 )}
                 onLoad={() => setIsLoading(false)}

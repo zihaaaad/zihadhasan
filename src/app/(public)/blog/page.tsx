@@ -45,12 +45,12 @@ export default function PublicBlogPage() {
                     </p>
 
                     <div className="relative w-full md:w-80">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500" />
+                        <Search strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500" />
                         <Input
                             placeholder="FIND AN ARTICLE..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-11 h-11 bg-white/[0.03] border-white/[0.05] text-white rounded-xl focus:ring-primary/20 text-[10px] font-bold uppercase tracking-widest"
+                            className="pl-11 h-11 bg-white/[0.03] border-white/[0.05] text-white rounded-xl focus:ring-white/20 text-[10px] font-bold uppercase tracking-widest"
                         />
                     </div>
                 </div>

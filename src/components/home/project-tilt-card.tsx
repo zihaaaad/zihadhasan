@@ -74,31 +74,31 @@ export function ProjectTiltCard({ project }: { project: Project }) {
             >
                 <div className="mb-3 flex flex-wrap gap-2">
                     {project.tags.map(tag => (
-                        <Badge key={tag} variant="secondary" className="bg-white/10 text-white backdrop-blur-md border-white/10">
+                        <Badge key={tag} variant="secondary" className="bg-white/10 text-white backdrop-blur-md border-white/10 text-[10px] uppercase tracking-widest font-bold">
                             {tag}
                         </Badge>
                     ))}
                 </div>
-                <h3 className="mb-2 text-2xl font-bold text-white shadow-black/50 drop-shadow-lg">{project.title}</h3>
-                <p className="mb-4 text-sm text-gray-300 line-clamp-2 shadow-black/50 drop-shadow-md">{project.description}</p>
+                <h3 className="mb-2 text-2xl font-bold text-white shadow-black/50 drop-shadow-lg tracking-tight">{project.title}</h3>
+                <p className="mb-6 text-sm text-neutral-400 font-medium line-clamp-2 leading-relaxed">{project.description}</p>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-6">
                     {project.liveLink && (
                         <Link
                             href={project.liveLink}
                             target="_blank"
-                            className="flex items-center gap-2 text-sm font-medium text-white hover:text-primary transition-colors"
+                            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white hover:opacity-70 transition-all"
                         >
-                            Live Demo <ArrowUpRight className="h-4 w-4" />
+                            Live Demo <ArrowUpRight strokeWidth={1.5} className="h-4 w-4" />
                         </Link>
                     )}
                     {project.githubLink && (
                         <Link
                             href={project.githubLink}
                             target="_blank"
-                            className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-white transition-colors"
+                            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-neutral-500 hover:text-white transition-all"
                         >
-                            <Github className="h-4 w-4" /> Code
+                            <Github strokeWidth={1.5} className="h-4 w-4" /> Code
                         </Link>
                     )}
                 </div>
