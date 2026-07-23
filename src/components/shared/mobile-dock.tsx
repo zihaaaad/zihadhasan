@@ -85,6 +85,8 @@ export function MobileDock() {
                                 <Link
                                     key={item.href}
                                     href={item.href}
+                                    aria-label={item.name}
+                                    aria-current={isActive ? "page" : undefined}
                                     className={cn(
                                         "relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300",
                                         isActive
@@ -112,6 +114,7 @@ export function MobileDock() {
                                     openAuthModal();
                                 }
                             }}
+                            aria-label={user ? "My account" : "Log in"}
                             className={cn(
                                 "relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 text-neutral-500 hover:bg-white/5 hover:text-white"
                             )}

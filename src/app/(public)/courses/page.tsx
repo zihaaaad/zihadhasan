@@ -9,6 +9,7 @@ import { useAuth } from "@/components/auth/auth-provider";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatCurrency } from "@/lib/format";
 
 export default function CoursesPage() {
     const [courses, setCourses] = useState<Course[]>([]);
@@ -105,7 +106,7 @@ export default function CoursesPage() {
                                                 <span>{course.lessons?.length || 0} Lessons</span>
                                             </div>
                                             <div className="text-white">
-                                                ৳{course.price}
+                                                {formatCurrency(course.price)}
                                             </div>
                                         </div>
 

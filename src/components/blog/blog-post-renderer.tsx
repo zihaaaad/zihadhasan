@@ -9,6 +9,7 @@ import { generateBlogPostSchema } from "@/lib/schema-generator";
 import sanitizeHtml from "sanitize-html";
 import { NewsletterForm } from "@/components/shared/newsletter-form";
 import "@/styles/syntax-highlight.css";
+import { formatDate } from "@/lib/format";
 
 interface BlogPostRendererProps {
     post: BlogPost;
@@ -16,7 +17,7 @@ interface BlogPostRendererProps {
 
 export function BlogPostRenderer({ post }: BlogPostRendererProps) {
     const formattedDate = post.publishedAt
-        ? new Date(post.publishedAt.seconds * 1000).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
+        ? formatDate(post.publishedAt, { month: "long", day: "numeric", year: "numeric" })
         : "";
 
     return (

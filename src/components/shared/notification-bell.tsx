@@ -118,7 +118,12 @@ export function NotificationBell() {
     return (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative text-white/70 hover:text-white hover:bg-white/10 rounded-full h-9 w-9">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label={unreadCount > 0 ? `Notifications (${unreadCount} unread)` : "Notifications"}
+                    className="relative text-white/70 hover:text-white hover:bg-white/10 rounded-full h-9 w-9"
+                >
                     <Bell strokeWidth={1.5} className="h-5 w-5" />
                     {unreadCount > 0 && (
                         <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-white border border-black animate-pulse" />
@@ -200,6 +205,7 @@ export function NotificationBell() {
                                                         markAsRead(notification.id);
                                                     }}
                                                     title="Mark as read"
+                                                    aria-label="Mark as read"
                                                 >
                                                     <Check strokeWidth={1.5} className="h-3 w-3" />
                                                 </Button>

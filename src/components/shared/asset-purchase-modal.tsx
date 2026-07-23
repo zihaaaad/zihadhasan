@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Loader2, Copy, CheckCircle2, ShieldCheck, X } from "lucide-react";
+import { formatCurrency } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -139,7 +140,7 @@ export function AssetPurchaseModal({ open, onOpenChange, asset, type }: AssetPur
                             <div className="p-6 rounded-2xl border border-white/[0.05] bg-white/[0.02] space-y-4">
                                 <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-neutral-500">
                                     <span>Payment Portal</span>
-                                    <span className="text-white">Amount: ৳{asset.price}</span>
+                                    <span className="text-white">Amount: {formatCurrency(asset.price)}</span>
                                 </div>
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-white/[0.03]">

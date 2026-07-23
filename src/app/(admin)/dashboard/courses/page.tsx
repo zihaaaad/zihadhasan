@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Plus, Edit, Trash2, BookOpen, Users } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
+import { formatCurrency } from "@/lib/format";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -157,7 +158,7 @@ export default function CoursesPage() {
                                 <p className="text-gray-400 text-sm line-clamp-2 mb-4 flex-1">{course.description}</p>
 
                                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
-                                    <span className="font-bold text-primary">৳{course.price}</span>
+                                    <span className="font-bold text-primary">{formatCurrency(course.price)}</span>
                                     <div className="flex gap-2">
                                         <Button variant="ghost" size="sm" onClick={() => setViewingStudentsCourse(course)} className="h-8 w-8 p-0" title="View Students">
                                             <Users className="h-4 w-4" />

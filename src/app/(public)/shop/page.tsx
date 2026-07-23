@@ -7,6 +7,7 @@ import { Product, CMSService } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
 import { PurchaseModal } from "@/components/shop/purchase-modal";
 import { Loader2 } from "lucide-react";
+import { formatCurrency } from "@/lib/format";
 
 export default function ShopPage() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -102,7 +103,7 @@ export default function ShopPage() {
                                 <div className="flex items-center justify-between border-t border-white/[0.05] pt-6">
                                     <div className="flex flex-col">
                                         <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Value</span>
-                                        <span className="text-xl font-bold text-white tracking-tight">৳{product.price}</span>
+                                        <span className="text-xl font-bold text-white tracking-tight">{formatCurrency(product.price)}</span>
                                     </div>
                                     <Button
                                         onClick={() => handleBuy(product)}

@@ -109,12 +109,9 @@ export const RegistrationService = {
     },
 
     bulkApproveRegistrations: async (ids: string[]) => {
-        // Process sequentially to reuse complex transactional logic (validations, seat counts, notifications)
-        const results = [];
-        for (const id of ids) {
-            results.push(await RegistrationService.approveRegistration(id));
-        }
-        return results;
+        // Each approval is an independent transaction (own event/course lookups + notification write),
+        // so there's no need to serialize them - run them concurrently instead of one round-trip at a time.
+        return Promise.all(ids.map((id) => RegistrationService.approveRegistration(id)));
     },
 
     bulkRejectRegistrations: async (ids: string[]) => {

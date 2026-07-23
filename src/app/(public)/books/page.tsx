@@ -8,6 +8,7 @@ import { BookOpen, Download, ShoppingCart, Eye, Lock } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatCurrency } from "@/lib/format";
 
 export default function BooksPage() {
     const [books, setBooks] = useState<Book[]>([]);
@@ -91,7 +92,7 @@ export default function BooksPage() {
                                         <div className="flex items-center justify-between pt-6 border-t border-white/[0.05]">
                                             <div className="flex flex-col">
                                                 <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Starting from</span>
-                                                <span className="text-xl font-bold text-white tracking-tight">৳{book.price}</span>
+                                                <span className="text-xl font-bold text-white tracking-tight">{formatCurrency(book.price)}</span>
                                             </div>
                                             <Link href={`/books/${book.slug}`}>
                                                 <Button variant="outline" size="sm" className="rounded-xl h-10 px-6 text-[10px] font-bold uppercase tracking-widest">

@@ -10,6 +10,7 @@ import { useAuth } from "@/components/auth/auth-provider";
 import { GlassCard } from "@/components/shared/glass-card";
 import { AssetPurchaseModal } from "@/components/shared/asset-purchase-modal";
 import { toast } from "sonner";
+import { formatCurrency } from "@/lib/format";
 
 interface BookDetailsClientProps {
     book: Book;
@@ -83,8 +84,8 @@ export default function BookDetailsClient({ book, initialPurchaseStatus }: BookD
                         <GlassCard className="bg-white/[0.01] border-white/[0.05] p-8 flex flex-col gap-4 rounded-3xl">
                             <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">E-Book Edition</span>
                             <div className="flex items-end gap-2">
-                                <span className="text-3xl font-bold text-white tracking-tight">৳{book.price}</span>
-                                <span className="text-neutral-600 text-xs mb-1 line-through">৳{book.price + 100}</span>
+                                <span className="text-3xl font-bold text-white tracking-tight">{formatCurrency(book.price)}</span>
+                                <span className="text-neutral-600 text-xs mb-1 line-through">{formatCurrency(book.price + 100)}</span>
                             </div>
                             <ul className="text-xs font-semibold text-neutral-500 space-y-2 mt-2">
                                 <li className="flex items-center gap-2"><ShieldCheck className="h-3 w-3 text-primary" /> Instant System Access</li>
@@ -97,7 +98,7 @@ export default function BookDetailsClient({ book, initialPurchaseStatus }: BookD
                             <GlassCard className="bg-white/[0.01] border-white/[0.05] p-8 flex flex-col gap-4 rounded-3xl">
                                 <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Hardcopy Print</span>
                                 <div className="flex items-end gap-2">
-                                    <span className="text-3xl font-bold text-white tracking-tight">৳{book.hardcopyPrice}</span>
+                                    <span className="text-3xl font-bold text-white tracking-tight">{formatCurrency(book.hardcopyPrice)}</span>
                                 </div>
                                 <ul className="text-xs font-semibold text-neutral-500 space-y-2 mt-2">
                                     <li className="flex items-center gap-2"><ShieldCheck className="h-3 w-3 text-primary" /> Premium Paper</li>

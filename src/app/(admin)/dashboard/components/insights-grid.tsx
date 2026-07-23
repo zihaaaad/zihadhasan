@@ -2,6 +2,7 @@
 
 import { GlassCard } from "@/components/shared/glass-card";
 import { Activity, Users, DollarSign, ArrowUp, ArrowDown } from "lucide-react";
+import { formatCurrency } from "@/lib/format";
 
 interface InsightsProps {
     stats: {
@@ -24,7 +25,7 @@ export function InsightsGrid({ stats }: InsightsProps) {
                         <ArrowUp className="w-3 h-3 mr-1" /> 12%
                     </div>
                 </div>
-                <p className="text-3xl font-bold text-white mb-4">${stats.revenue.toLocaleString()}</p>
+                <p className="text-3xl font-bold text-white mb-4">{formatCurrency(stats.revenue)}</p>
 
                 {/* Visual Sparkline Placeholder */}
                 <div className="h-12 w-full flex items-end gap-1 opacity-50">

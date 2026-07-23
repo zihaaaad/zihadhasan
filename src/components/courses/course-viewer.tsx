@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Lesson } from "@/lib/cms-service";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { formatCurrency } from "@/lib/format";
 
 interface CourseViewerProps {
     initialId?: string;
@@ -224,7 +225,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
             ) : (
                 <div className="space-y-3">
                     <div className="text-2xl font-bold text-primary">
-                        {course.pricingType === 'free' ? "Free" : `৳${course.price}`}
+                        {course.pricingType === 'free' ? "Free" : formatCurrency(course.price)}
                     </div>
                     <Button
                         size="lg"

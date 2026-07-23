@@ -100,6 +100,7 @@ export function Navbar() {
                     <div className="hidden md:flex items-center gap-4">
                         <button
                             onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+                            aria-label="Open search"
                             className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.03] bg-white/[0.02] text-xs text-muted-foreground hover:bg-white/[0.05] hover:text-white transition-all duration-300"
                         >
                             <Search strokeWidth={1.5} className="h-3 w-3" />
@@ -111,7 +112,7 @@ export function Navbar() {
                                 <Link href="/my-account" className="flex items-center gap-2 group">
                                     <div className="h-8 w-8 rounded-full bg-white/[0.03] overflow-hidden border border-white/[0.08] group-hover:border-white/50 transition-all duration-500 relative">
                                         {profile?.photoURL ? (
-                                            <img src={profile.photoURL} alt="Profile" className="h-full w-full object-cover" />
+                                            <img src={profile.photoURL} alt={profile.name || "Your profile picture"} className="h-full w-full object-cover" />
                                         ) : (
                                             <div className="h-full w-full flex items-center justify-center">
                                                 <UserIcon strokeWidth={1.5} className="h-4 w-4 text-white/50" />
@@ -149,6 +150,8 @@ export function Navbar() {
                     <button
                         className="md:hidden text-white"
                         onClick={() => setIsOpen(!isOpen)}
+                        aria-label={isOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={isOpen}
                     >
                         {isOpen ? <X strokeWidth={1.5} className="h-6 w-6" /> : <Menu strokeWidth={1.5} className="h-6 w-6" />}
                     </button>

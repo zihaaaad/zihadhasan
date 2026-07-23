@@ -10,6 +10,7 @@ import { Timestamp } from "firebase/firestore";
 
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { formatDate as formatDateUtil, formatMonthShort } from "@/lib/format";
 
 export default function EventsPage() {
     const [events, setEvents] = useState<Event[]>([]);
@@ -74,8 +75,7 @@ export default function EventsPage() {
     };
 
     const formatDate = (timestamp: Timestamp) => {
-        if (!timestamp) return "";
-        return new Date(timestamp.seconds * 1000).toLocaleDateString('en-US', {
+        return formatDateUtil(timestamp, {
             month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
         });
     };
@@ -106,7 +106,7 @@ export default function EventsPage() {
                             {/* Date Badge */}
                             <div className="flex-shrink-0 flex flex-col items-center justify-center p-3 rounded-lg bg-black/40 border border-white/10 w-full md:w-20 text-center">
                                 <span className="text-xs uppercase text-gray-500 font-bold">
-                                    {event.date && new Date(event.date.seconds * 1000).toLocaleString('default', { month: 'short' })}
+                                    {event.date && formatMonthShort(event.date)}
                                 </span>
                                 <span className="text-xl font-bold text-white">
                                     {event.date && new Date(event.date.seconds * 1000).getDate()}

@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Timestamp } from "firebase/firestore";
+import { formatDate } from "@/lib/format";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -125,7 +126,7 @@ export default function BlogAdminPage() {
                                 <div className="flex items-center gap-4 text-xs text-gray-500 mt-2">
                                     <span className="flex items-center gap-1">
                                         <Calendar className="h-3 w-3" />
-                                        {post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleDateString() : "Unknown"}
+                                        {post.createdAt ? formatDate(post.createdAt) : "Unknown"}
                                     </span>
                                     <span className="flex items-center gap-1">
                                         /api/blog/{post.slug}

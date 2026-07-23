@@ -52,10 +52,19 @@ service cloud.firestore {
     match /events/{docId} {
       allow read: if true;
       allow write: if isAdmin();
-      
-      // Special Case: Allow ANYONE to increment 'registeredCount' for FREE events
-      allow update: if resource.data.pricingType == 'free'
-                    // Ensure only registeredCount is changed (or added)
+
+      // Free-event auto-approval increments registeredCount from the client
+      // (EventService.registerForEvent / RegistrationService.approveRegistration),
+      // so a non-admin write path has to stay open here. It is now restricted to
+      // signed-in users only - the previous version allowed this update with NO
+      // auth check at all, so any anonymous visitor could repeatedly call updateDoc
+      // to bump registeredCount up to totalSeats without ever creating a registration,
+      // falsely marking free events "sold out". Requiring auth ties any abuse to a
+      // real (bannable) account. Full protection against a logged-in user spamming
+      // this would require moving the increment into a Cloud Function - out of scope
+      // for a client-only static export, flagging for follow-up.
+      allow update: if request.auth != null
+                    && resource.data.pricingType == 'free'
                     && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['registeredCount'])
                     && request.resource.data.registeredCount == (resource.data.get('registeredCount', 0) + 1);
     }

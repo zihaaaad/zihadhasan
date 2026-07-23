@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatDate } from "@/lib/format";
 
 export default function PublicBlogPage() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -88,7 +89,7 @@ export default function PublicBlogPage() {
 }
 
 function ArticleCard({ post, index }: { post: BlogPost, index: number }) {
-    const date = post.publishedAt ? new Date(post.publishedAt.seconds * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "";
+    const date = post.publishedAt ? formatDate(post.publishedAt, { month: "short", day: "numeric", year: "numeric" }) : "";
 
     return (
         <Link href={`/blog/${post.slug}`} className="group relative flex flex-col rounded-2xl border border-white/[0.05] bg-white/[0.02] overflow-hidden hover:border-white/20 transition-all duration-500">

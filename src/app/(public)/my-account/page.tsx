@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { formatDate } from "@/lib/format";
 
 export default function MyAccountPage() {
     const { user, profile, isAdmin } = useAuth();
@@ -271,7 +272,7 @@ function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registra
                             <span className="bg-white/[0.03] px-2.5 py-1 rounded border border-white/[0.05]">TRX: {reg.trxId || "N/A"}</span>
                             {date && (
                                 <span className="text-primary opacity-70">
-                                    {new Date(date.seconds * 1000).toLocaleDateString()}
+                                    {formatDate(date)}
                                 </span>
                             )}
                         </div>

@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
+import { formatDate } from "@/lib/format";
 import { Loader2, Search, Trash2, Shield, Ban, Pencil, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import {
     AlertDialog,
@@ -232,7 +233,7 @@ export default function UsersPage() {
                                         </span>
                                     </TableCell>
                                     <TableCell className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest">
-                                        {user.createdAt?.toDate ? user.createdAt.toDate().toLocaleDateString() : "N/A"}
+                                        {user.createdAt?.toDate ? formatDate(user.createdAt.toDate()) : "N/A"}
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex justify-end gap-2">

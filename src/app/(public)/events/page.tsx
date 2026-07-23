@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, Dialog
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { formatCurrency, formatDate } from "@/lib/format";
 
 const registrationSchema = z.object({
     name: z.string().min(2, "Name is required"),
@@ -145,7 +146,7 @@ function EventCard({ event, onRegister, index }: { event: Event, onRegister: () 
             <div className="flex-1 p-8 flex flex-col">
                 <div className="flex items-center gap-3 mb-4">
                     <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">
-                        {date?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        {formatDate(date, { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
                     {event.isVirtual && (
                         <div className="h-1.5 w-1.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
@@ -324,7 +325,7 @@ function RegistrationModal({ event, open, onOpenChange, onSuccess }: { event: Ev
 
                                 <div className="flex justify-between items-center pt-2 border-t border-white/5">
                                     <span className="text-sm text-gray-400">Ticket Price:</span>
-                                    <span className="text-lg font-bold text-primary">৳{event.price || 0}</span>
+                                    <span className="text-lg font-bold text-primary">{formatCurrency(event.price)}</span>
                                 </div>
                                 <p className="text-[10px] text-gray-500 mt-2 text-center">* Verification may take 1-2 hours.</p>
                             </div>

@@ -77,18 +77,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                             await firebaseSignOut(auth);
                             setUser(null);
                             setProfile(null);
-                            // Clear cookie
-                            document.cookie = "auth_role=; path=/; max-age=0";
                             return;
                         }
 
                         setProfile(data);
                         setUser(currentUser);
-                        // Set cookie for Middleware
-                        const role = data.role || "user";
-                        const token = await currentUser.getIdToken();
-                        document.cookie = `auth_role=${role}; path=/; max-age=86400; SameSite=Strict`;
-                        document.cookie = `auth_token=${token}; path=/; max-age=3600; SameSite=Strict`;
                     } else {
                         // Create Profile if it doesn't exist (e.g. first Google Login)
                         const newProfile: UserProfile = {
@@ -106,17 +99,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                         await setDoc(docRef, newProfile);
                         setProfile(newProfile);
                         setUser(currentUser);
-
-                        // Set cookie (Default user)
-                        const token = await currentUser.getIdToken();
-                        document.cookie = `auth_role=user; path=/; max-age=86400; SameSite=Strict`;
-                        document.cookie = `auth_token=${token}; path=/; max-age=3600; SameSite=Strict`;
                     }
                 } else {
                     setUser(null);
                     setProfile(null);
-                    // Clear cookie
-                    document.cookie = "auth_role=; path=/; max-age=0";
                 }
             } catch (error) {
                 console.error("Auth State Error:", error);
@@ -130,8 +116,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const logout = async () => {
         await firebaseSignOut(auth);
-        document.cookie = "auth_role=; path=/; max-age=0";
-        document.cookie = "auth_token=; path=/; max-age=0";
     };
 
     // Derived state

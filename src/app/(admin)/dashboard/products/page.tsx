@@ -14,6 +14,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { formatCurrency } from "@/lib/format";
 import { GlassCard } from "@/components/shared/glass-card";
 import { ProductEditor } from "@/components/products/product-editor";
 
@@ -165,7 +166,7 @@ export default function ProductsPage() {
                             </p>
 
                             <div className="pt-2 border-t border-white/10 flex items-center justify-between">
-                                <div className="text-lg font-bold text-white">৳ {product.price}</div>
+                                <div className="text-lg font-bold text-white">{formatCurrency(product.price)}</div>
                                 <div className="text-xs text-gray-500">
                                     {/* Placeholder for sales stats if available */}
                                 </div>

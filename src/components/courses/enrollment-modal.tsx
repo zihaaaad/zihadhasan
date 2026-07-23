@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { CMSService, Course, GlobalSettings } from "@/lib/cms-service";
 import { useAuth } from "@/components/auth/auth-provider";
 import { ImageUploader } from "@/components/admin/image-uploader";
+import { formatCurrency } from "@/lib/format";
 
 
 interface EnrollmentModalProps {
@@ -118,7 +119,7 @@ export function EnrollmentModal({ course, open, onOpenChange, onSuccess }: Enrol
                                 <div className="flex justify-between items-center">
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Course Value</span>
                                     <div className="text-right">
-                                        <span className="text-2xl font-bold text-white tracking-tight">৳{course.price}</span>
+                                        <span className="text-2xl font-bold text-white tracking-tight">{formatCurrency(course.price)}</span>
                                         {course.pricingType === 'paid' && <div className="text-[9px] font-bold uppercase tracking-widest text-neutral-600">Secure Checkout</div>}
                                     </div>
                                 </div>

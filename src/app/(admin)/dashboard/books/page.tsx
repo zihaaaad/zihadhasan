@@ -7,6 +7,7 @@ import { Plus, Edit, Trash2, BookOpen, ExternalLink } from "lucide-react";
 import { GlassCard } from "@/components/shared/glass-card";
 import Link from "next/link";
 import { toast } from "sonner";
+import { formatCurrency } from "@/lib/format";
 
 export default function AdminBooksPage() {
     const [books, setBooks] = useState<Book[]>([]);
@@ -69,7 +70,7 @@ export default function AdminBooksPage() {
                                             {book.published ? 'Live' : 'Draft'}
                                         </span>
                                         <span className="text-[9px] font-bold uppercase tracking-widest text-neutral-600">
-                                            {book.type} • ৳{book.price}
+                                            {book.type} • {formatCurrency(book.price)}
                                         </span>
                                     </div>
                                 </div>

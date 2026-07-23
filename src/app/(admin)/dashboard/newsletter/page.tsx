@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { downloadCSV } from "@/lib/utils";
+import { formatDate } from "@/lib/format";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -221,7 +222,7 @@ export default function NewsletterPage() {
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-gray-400 text-sm">
-                                        {sub.joinedAt && new Date(sub.joinedAt.seconds * 1000).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                                        {sub.joinedAt && formatDate(sub.joinedAt, { dateStyle: 'medium' })}
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

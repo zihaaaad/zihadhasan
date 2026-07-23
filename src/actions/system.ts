@@ -71,10 +71,15 @@ export async function cleanupSoftDeletedItems() {
     let operationCount = 0;
 
     try {
-        for (const colName of targetCollections) {
-            const q = query(collection(db, colName), where("isDeleted", "==", true));
-            const snapshot = await getDocs(q);
+        // Reads across collections are independent - fetch them all concurrently instead
+        // of waiting on each collection's query one at a time.
+        const snapshots = await Promise.all(
+            targetCollections.map((colName) =>
+                getDocs(query(collection(db, colName), where("isDeleted", "==", true)))
+            )
+        );
 
+        for (const snapshot of snapshots) {
             snapshot.docs.forEach(d => {
                 if (operationCount < 450) { // Safety buffer for 500 limit
                     batch.delete(d.ref);
@@ -111,25 +116,27 @@ export async function cleanupSoftDeletedItems() {
             // We limit to first 10 items to prevent timeouts if bulk deleting.
             const itemsToCheck = deletedItemIds.slice(0, 10);
 
-            for (const id of itemsToCheck) {
-                // Try to guess the link.
-                // This is brittle but "Better than nothing" as per refined request.
-                const potentialLinks = [
-                    `/courses/view?id=${id}`,
-                    `/events?id=${id}`, // If event links work this way
-                    `/events`, // If generic
-                ];
+            // Build every (item, potential-link) query up front and run them concurrently -
+            // they're independent reads, no reason to await them one at a time in a nested loop.
+            const linkQueries = itemsToCheck.flatMap((id) => [
+                `/courses/view?id=${id}`,
+                `/events?id=${id}`, // If event links work this way
+                `/events`, // If generic
+            ]);
 
-                for (const link of potentialLinks) {
-                    const nQ = query(collectionGroup(db, 'notifications'), where('link', '==', link));
-                    const nSnap = await getDocs(nQ);
-                    nSnap.forEach(d => {
-                        if (notifOps < 450) {
-                            notifBatch.delete(d.ref);
-                            notifOps++;
-                        }
-                    });
-                }
+            const notifSnapshots = await Promise.all(
+                linkQueries.map((link) =>
+                    getDocs(query(collectionGroup(db, 'notifications'), where('link', '==', link)))
+                )
+            );
+
+            for (const nSnap of notifSnapshots) {
+                nSnap.forEach(d => {
+                    if (notifOps < 450) {
+                        notifBatch.delete(d.ref);
+                        notifOps++;
+                    }
+                });
             }
 
             if (notifOps > 0) {
