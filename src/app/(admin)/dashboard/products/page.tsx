@@ -17,6 +17,16 @@ import {
 import { formatCurrency } from "@/lib/format";
 import { GlassCard } from "@/components/shared/glass-card";
 import { ProductEditor } from "@/components/products/product-editor";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function ProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -24,6 +34,7 @@ export default function ProductsPage() {
     const [search, setSearch] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
 
     useEffect(() => {
         loadProducts();
@@ -55,10 +66,10 @@ export default function ProductsPage() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this product?")) return;
         try {
             await CMSService.deleteProduct(id);
             toast.success("Product deleted");
+            setDeletingId(null);
             loadProducts();
         } catch (error) {
             console.error(error);
@@ -154,7 +165,7 @@ export default function ProductsPage() {
                                         <DropdownMenuItem onClick={() => handleEdit(product)} className="cursor-pointer hover:bg-white/10">
                                             <Pencil className="mr-2 h-4 w-4" /> Edit
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => handleDelete(product.id!)} className="cursor-pointer text-red-400 hover:text-red-300 hover:bg-red-500/10">
+                                        <DropdownMenuItem onClick={() => product.id && setDeletingId(product.id)} className="cursor-pointer text-red-400 hover:text-red-300 hover:bg-red-500/10">
                                             <Trash2 className="mr-2 h-4 w-4" /> Delete
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -186,6 +197,26 @@ export default function ProductsPage() {
                     </button>
                 )}
             </div>
+
+            <AlertDialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This will permanently delete this product. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={() => deletingId && handleDelete(deletingId)}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            Delete Product
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 }

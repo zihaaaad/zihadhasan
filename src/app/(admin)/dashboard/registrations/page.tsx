@@ -66,6 +66,7 @@ export default function RegistrationsPage() {
     const [deletingRegistrationId, setDeletingRegistrationId] = useState<string | null>(null);
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [isBulkProcessing, setIsBulkProcessing] = useState(false);
+    const [confirmBulkReject, setConfirmBulkReject] = useState(false);
 
     useEffect(() => {
         if (!viewingProof) setZoom(1);
@@ -182,7 +183,6 @@ export default function RegistrationsPage() {
 
     const handleBulkReject = async () => {
         if (selectedIds.length === 0) return;
-        if (!confirm(`Are you sure you want to reject/delete ${selectedIds.length} registrations?`)) return;
 
         setIsBulkProcessing(true);
         try {
@@ -190,6 +190,7 @@ export default function RegistrationsPage() {
             setRegistrations(prev => prev.filter(r => !selectedIds.includes(r.id!)));
             toast.success(`Rejected ${selectedIds.length} registrations`);
             setSelectedIds([]);
+            setConfirmBulkReject(false);
         } catch (error) {
             console.error(error);
             toast.error("Bulk reject failed");
@@ -301,7 +302,7 @@ export default function RegistrationsPage() {
                             </Button>
                             <Button
                                 variant="destructive"
-                                onClick={handleBulkReject}
+                                onClick={() => setConfirmBulkReject(true)}
                                 disabled={isBulkProcessing}
                             >
                                 {isBulkProcessing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
@@ -388,6 +389,7 @@ export default function RegistrationsPage() {
                             <TableHead className="w-[50px]">
                                 <input
                                     type="checkbox"
+                                    aria-label="Select all registrations"
                                     checked={selectedIds.length === filteredRegistrations.length && filteredRegistrations.length > 0}
                                     onChange={toggleAll}
                                     className="rounded border-gray-500 bg-black/50 text-primary focus:ring-primary cursor-pointer accent-primary"
@@ -419,6 +421,7 @@ export default function RegistrationsPage() {
                                         <TableCell>
                                             <input
                                                 type="checkbox"
+                                                aria-label={`Select registration for ${reg.name}`}
                                                 checked={selectedIds.includes(reg.id!)}
                                                 onChange={() => toggleSelection(reg.id!)}
                                                 className="rounded border-gray-500 bg-black/50 text-primary focus:ring-primary cursor-pointer accent-primary"
@@ -675,6 +678,27 @@ export default function RegistrationsPage() {
                         <AlertDialogAction onClick={confirmReject} className="bg-red-600 hover:bg-red-700">
                             {processingId === deletingRegistrationId ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : null}
                             Reject & Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+            <AlertDialog open={confirmBulkReject} onOpenChange={setConfirmBulkReject}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This will permanently reject and delete {selectedIds.length} registration{selectedIds.length === 1 ? "" : "s"}. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={handleBulkReject}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            {isBulkProcessing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                            Reject {selectedIds.length} Registration{selectedIds.length === 1 ? "" : "s"}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

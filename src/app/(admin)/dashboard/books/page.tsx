@@ -8,10 +8,21 @@ import { GlassCard } from "@/components/shared/glass-card";
 import Link from "next/link";
 import { toast } from "sonner";
 import { formatCurrency } from "@/lib/format";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function AdminBooksPage() {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
 
     useEffect(() => {
         loadBooks();
@@ -25,10 +36,10 @@ export default function AdminBooksPage() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure? This will soft-delete the book.")) return;
         try {
             await CMSService.deleteBook(id);
             toast.success("Book deleted");
+            setDeletingId(null);
             loadBooks();
         } catch (e) {
             toast.error("Failed to delete");
@@ -87,7 +98,7 @@ export default function AdminBooksPage() {
                                         <Edit className="h-4 w-4" />
                                     </Button>
                                 </Link>
-                                <Button onClick={() => handleDelete(book.id!)} variant="ghost" size="icon" className="rounded-xl h-10 w-10 text-red-500/50 hover:text-red-500 hover:bg-red-500/5">
+                                <Button onClick={() => book.id && setDeletingId(book.id)} variant="ghost" size="icon" className="rounded-xl h-10 w-10 text-red-500/50 hover:text-red-500 hover:bg-red-500/5">
                                     <Trash2 className="h-4 w-4" />
                                 </Button>
                             </div>
@@ -95,6 +106,26 @@ export default function AdminBooksPage() {
                     ))}
                 </div>
             )}
+
+            <AlertDialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This will soft-delete the book. It can be restored from the trash bin on the System page until it's permanently purged.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={() => deletingId && handleDelete(deletingId)}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            Delete Book
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 }

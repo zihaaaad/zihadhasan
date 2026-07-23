@@ -10,6 +10,16 @@ import { getSystemStats, cleanupSoftDeletedItems } from "@/actions/system";
 import { GlassCard } from "@/components/shared/glass-card";
 import { Switch } from "@/components/ui/switch";
 import { CMSService } from "@/lib/cms-service";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function SystemHealthPage() {
     const [stats, setStats] = useState<{
@@ -24,6 +34,7 @@ export default function SystemHealthPage() {
     } | null>(null);
     const [loading, setLoading] = useState(true);
     const [cleaning, setCleaning] = useState(false);
+    const [confirmCleanup, setConfirmCleanup] = useState(false);
 
     useEffect(() => {
         loadStats();
@@ -50,9 +61,10 @@ export default function SystemHealthPage() {
             toast.info("No items to clean up.");
             return;
         }
+        setConfirmCleanup(true);
+    };
 
-        if (!confirm(`Are you sure you want to permanently delete ${stats.trash} items? This cannot be undone.`)) return;
-
+    const confirmedCleanup = async () => {
         setCleaning(true);
         try {
             const result = await cleanupSoftDeletedItems();
@@ -67,6 +79,7 @@ export default function SystemHealthPage() {
             toast.error("An error occurred during cleanup.");
         } finally {
             setCleaning(false);
+            setConfirmCleanup(false);
         }
     };
 
@@ -253,8 +266,10 @@ export default function SystemHealthPage() {
                             <p className="text-[9px] font-medium text-neutral-600 uppercase tracking-widest">
                                 Media assets stored in Cloudinary. (Estimate)
                             </p>
-                            <Button variant="ghost" size="sm" className="w-full text-[9px] font-bold uppercase tracking-widest text-neutral-500 hover:text-white hover:bg-white/5 h-10 rounded-lg mt-2">
-                                View Cloudinary Console
+                            <Button variant="ghost" size="sm" className="w-full text-[9px] font-bold uppercase tracking-widest text-neutral-500 hover:text-white hover:bg-white/5 h-10 rounded-lg mt-2" asChild>
+                                <a href="https://console.cloudinary.com" target="_blank" rel="noopener noreferrer">
+                                    View Cloudinary Console
+                                </a>
                             </Button>
                         </div>
                     ) : (
@@ -262,6 +277,26 @@ export default function SystemHealthPage() {
                     )}
                 </GlassCard>
             </div>
+
+            <AlertDialog open={confirmCleanup} onOpenChange={setConfirmCleanup}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This will permanently delete {stats?.trash ?? 0} soft-deleted item{stats?.trash === 1 ? "" : "s"} from the database. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={confirmedCleanup}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            Empty Trash
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 }

@@ -21,6 +21,16 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Trash2, UserX, CheckCircle, Edit } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface CourseStudentsDialogProps {
     courseId: string | null;
@@ -33,6 +43,7 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
     const [students, setStudents] = useState<Registration[]>([]);
     const [loading, setLoading] = useState(false);
     const [kickingId, setKickingId] = useState<string | null>(null);
+    const [confirmKickId, setConfirmKickId] = useState<string | null>(null);
 
     useEffect(() => {
         if (open && courseId) {
@@ -54,13 +65,12 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
     };
 
     const handleKick = async (registrationId: string) => {
-        if (!confirm("Are you sure you want to remove this student?")) return;
-
         setKickingId(registrationId);
         try {
             // We use CMSService.rejectRegistration for now as it deletes the doc
             await CMSService.rejectRegistration(registrationId);
             setStudents(students.filter(s => s.id !== registrationId));
+            setConfirmKickId(null);
         } catch (error) {
             console.error("Failed to kick student", error);
         } finally {
@@ -218,7 +228,7 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
                                                         size="sm"
                                                         className="text-red-400 hover:text-red-300 hover:bg-red-900/20 h-8 w-8 p-0"
                                                         title="Reject/Kick"
-                                                        onClick={() => student.id && handleKick(student.id)}
+                                                        onClick={() => student.id && setConfirmKickId(student.id)}
                                                         disabled={kickingId === student.id}
                                                     >
                                                         {kickingId === student.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
@@ -233,6 +243,26 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
                     )}
                 </div>
             </DialogContent>
+
+            <AlertDialog open={!!confirmKickId} onOpenChange={(open) => !open && setConfirmKickId(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This will remove this student's enrollment and delete their registration record. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={() => confirmKickId && handleKick(confirmKickId)}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            Remove Student
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </Dialog>
     );
 }

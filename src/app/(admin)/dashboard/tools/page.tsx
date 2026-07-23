@@ -22,6 +22,7 @@ export default function ToolsPage() {
     const [loading, setLoading] = useState(true);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [confirmBulkDelete, setConfirmBulkDelete] = useState(false);
 
     const [editingTool, setEditingTool] = useState<Tool | null>(null);
 
@@ -89,11 +90,11 @@ export default function ToolsPage() {
     };
 
     const handleBulkDelete = async () => {
-        if (!confirm(`Are you sure you want to delete ${selectedIds.length} tools?`)) return; // Simple confirm for bulk
         try {
             await CMSService.bulkDeleteTools(selectedIds);
             setTools(prev => prev.filter(t => !selectedIds.includes(t.id!)));
             setSelectedIds([]);
+            setConfirmBulkDelete(false);
         } catch (error) {
             console.error("Bulk delete failed", error);
         }
@@ -108,7 +109,7 @@ export default function ToolsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                     {selectedIds.length > 0 && (
-                        <Button variant="destructive" onClick={handleBulkDelete}>
+                        <Button variant="destructive" onClick={() => setConfirmBulkDelete(true)}>
                             <Trash2 className="mr-2 h-4 w-4" /> Delete ({selectedIds.length})
                         </Button>
                     )}
@@ -138,6 +139,7 @@ export default function ToolsPage() {
                             <div className="absolute top-3 right-3 z-10">
                                 <input
                                     type="checkbox"
+                                    aria-label={`Select tool ${tool.name}`}
                                     checked={selectedIds.includes(tool.id!)}
                                     onChange={() => toggleSelection(tool.id!)}
                                     className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer accent-primary"
@@ -217,6 +219,26 @@ export default function ToolsPage() {
                             className="bg-red-600 hover:bg-red-700 text-white"
                         >
                             Delete Tool
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+            <AlertDialog open={confirmBulkDelete} onOpenChange={setConfirmBulkDelete}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This will permanently delete {selectedIds.length} tool{selectedIds.length === 1 ? "" : "s"} from your list. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={handleBulkDelete}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            Delete {selectedIds.length} Tool{selectedIds.length === 1 ? "" : "s"}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

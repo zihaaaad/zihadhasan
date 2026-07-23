@@ -24,6 +24,7 @@ export default function ProjectsPage() {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingProject, setEditingProject] = useState<Project | null>(null);
     const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [confirmBulkDelete, setConfirmBulkDelete] = useState(false);
 
     // Initial Load
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -92,11 +93,11 @@ export default function ProjectsPage() {
     };
 
     const handleBulkDelete = async () => {
-        if (!confirm(`Are you sure you want to delete ${selectedIds.length} projects?`)) return;
         try {
             await CMSService.bulkDeleteProjects(selectedIds);
             setProjects(prev => prev.filter(p => !selectedIds.includes(p.id!)));
             setSelectedIds([]);
+            setConfirmBulkDelete(false);
         } catch (error) {
             console.error("Bulk delete failed", error);
         }
@@ -111,7 +112,7 @@ export default function ProjectsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                     {selectedIds.length > 0 && (
-                        <Button variant="destructive" onClick={handleBulkDelete}>
+                        <Button variant="destructive" onClick={() => setConfirmBulkDelete(true)}>
                             <Trash2 className="mr-2 h-4 w-4" /> Delete ({selectedIds.length})
                         </Button>
                     )}
@@ -141,6 +142,7 @@ export default function ProjectsPage() {
                             <div className="absolute top-3 right-3 z-30">
                                 <input
                                     type="checkbox"
+                                    aria-label={`Select project ${project.title}`}
                                     checked={selectedIds.includes(project.id!)}
                                     onChange={() => toggleSelection(project.id!)}
                                     className="w-5 h-5 rounded border-white/50 bg-black/50 text-primary focus:ring-primary cursor-pointer accent-primary backdrop-blur"
@@ -244,6 +246,26 @@ export default function ProjectsPage() {
                             className="bg-red-600 hover:bg-red-700 text-white"
                         >
                             Delete Project
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+            <AlertDialog open={confirmBulkDelete} onOpenChange={setConfirmBulkDelete}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This will permanently delete {selectedIds.length} project{selectedIds.length === 1 ? "" : "s"} from your portfolio. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={handleBulkDelete}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            Delete {selectedIds.length} Project{selectedIds.length === 1 ? "" : "s"}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

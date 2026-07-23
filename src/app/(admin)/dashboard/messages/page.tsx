@@ -10,10 +10,21 @@ import { Loader2, Mail, Clock, Trash2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function MessagesPage() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState(true);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
 
     const fetchMessages = async () => {
         setLoading(true);
@@ -41,11 +52,11 @@ export default function MessagesPage() {
     }, []);
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this message?")) return;
         try {
             await CMSService.deleteMessage(id);
             toast.success("Message deleted");
             setMessages(prev => prev.filter(msg => msg.id !== id));
+            setDeletingId(null);
         } catch (error) {
             console.error("Failed to delete message", error);
             toast.error("Failed to delete message");
@@ -99,7 +110,7 @@ export default function MessagesPage() {
                                         variant="ghost"
                                         size="icon"
                                         className="h-8 w-8 text-gray-400 hover:text-red-500 hover:bg-red-500/10"
-                                        onClick={() => handleDelete(msg.id!)}
+                                        onClick={() => msg.id && setDeletingId(msg.id)}
                                     >
                                         <Trash2 className="h-4 w-4" />
                                     </Button>
@@ -113,6 +124,26 @@ export default function MessagesPage() {
                     ))
                 )}
             </div>
+
+            <AlertDialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This will permanently delete this message. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={() => deletingId && handleDelete(deletingId)}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            Delete Message
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 }
