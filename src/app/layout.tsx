@@ -48,6 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const keywords = Array.from(new Set([...defaultKeywords, ...dynamicKeywords]));
 
   return {
+    metadataBase: new URL("https://zihadhasan.web.app"),
     title: {
       default: title,
       template: "%s | Zihad Hasan"
