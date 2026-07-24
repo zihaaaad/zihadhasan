@@ -1,10 +1,18 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import { BlogEditor } from "@/components/admin/blog-editor";
+import dynamic from "next/dynamic";
 import { BlogPost, CMSService } from "@/lib/cms-service";
 import { Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Tiptap (rich text editor) is heavy and DOM-dependent - load it only when this
+// page is actually visited instead of bundling it into every admin route.
+const BlogEditor = dynamic(
+    () => import("@/components/admin/blog-editor").then((mod) => mod.BlogEditor),
+    { ssr: false, loading: () => <Skeleton className="h-[600px] w-full bg-white/5" /> }
+);
 
 function EditBlogPostContent() {
     const searchParams = useSearchParams();

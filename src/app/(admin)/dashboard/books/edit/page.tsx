@@ -1,13 +1,20 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
+import dynamic from "next/dynamic";
 import { Book, CMSService } from "@/lib/cms-service";
-import { BookEditor } from "@/components/admin/book-editor";
 import { Skeleton } from "@/components/ui/skeleton";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
+
+// Tiptap (rich text editor) is heavy and DOM-dependent - load it only when this
+// page is actually visited instead of bundling it into every admin route.
+const BookEditor = dynamic(
+    () => import("@/components/admin/book-editor").then((mod) => mod.BookEditor),
+    { ssr: false, loading: () => <Skeleton className="h-[600px] w-full bg-white/5" /> }
+);
 
 function EditBookContent() {
     const searchParams = useSearchParams();

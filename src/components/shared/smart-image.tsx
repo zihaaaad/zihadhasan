@@ -55,7 +55,7 @@ export function SmartImage({
     const imageClasses = cn(
         "object-cover transition-all duration-700 ease-in-out",
         !priority && (isLoading ? "scale-110 blur-xl" : "scale-100 blur-0"),
-        "grayscale hover:grayscale-0",
+        "grayscale hover:grayscale-0 active:grayscale-0",
         "hover:scale-105"
     );
 

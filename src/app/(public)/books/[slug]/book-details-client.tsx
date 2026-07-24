@@ -54,7 +54,7 @@ export default function BookDetailsClient({ book, initialPurchaseStatus }: BookD
                         className="relative aspect-[3/4] w-full rounded-[2.5rem] overflow-hidden border border-white/[0.05] bg-neutral-900"
                     >
                         {book.imageUrl ? (
-                            <img src={book.imageUrl} alt={book.title} className="w-full h-full object-cover" />
+                            <img src={book.imageUrl} alt={book.title} className="w-full h-full object-cover grayscale-0" />
                         ) : (
                             <div className="flex items-center justify-center h-full text-white/5">
                                 <BookOpen className="h-20 w-20" />

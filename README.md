@@ -85,8 +85,16 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=
 
-# Optional - Firebase App Check (currently disabled in src/lib/firebase.ts)
+# Optional - Firebase App Check (get a reCAPTCHA v3 site key from
+# google.com/recaptcha/admin, then register the same key under
+# Firebase Console > App Check for this project)
 NEXT_PUBLIC_RECAPTCHA_KEY=
+
+# Optional - EmailJS, used for registration-approval and contact-form emails
+# (get these after setting up a service + template at emailjs.com)
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=
 ```
 
 ### Running Locally
@@ -108,10 +116,16 @@ firebase deploy --only hosting,firestore:rules,firestore:indexes
 
 The build output is written to the `out/` directory, which `firebase.json` points to as the hosting root.
 
+A GitHub Actions workflow (`.github/workflows/build.yml`) runs a production build on every push and pull request to `main`, so a broken build is caught before it's manually deployed. It needs the same environment variables as local development added as repository secrets (Settings > Secrets and variables > Actions).
+
 ## Security
 
 - Access control is enforced through `firestore.rules`; review that file for the current rule set before changing collection schemas.
-- Firebase App Check is scaffolded in `src/lib/firebase.ts` but currently disabled. Enable it by setting `NEXT_PUBLIC_RECAPTCHA_KEY` and uncommenting the initialization block if stronger bot protection is needed on public write endpoints (`/messages`, `/subscribers`).
+- Firebase App Check is wired up in `src/lib/firebase.ts` and activates automatically once `NEXT_PUBLIC_RECAPTCHA_KEY` is set - get a reCAPTCHA v3 site key from `google.com/recaptcha/admin` and register the same key under Firebase Console > App Check for this project. Without it, public write endpoints (`/messages`, `/subscribers`) are only protected by requiring sign-in.
+
+## Email Notifications
+
+Registration approvals and contact form submissions can send real email via [EmailJS](https://www.emailjs.com), which is safe to call directly from the browser (no secret key involved) - a fit for this project's static-export, no-backend architecture. Configure `NEXT_PUBLIC_EMAILJS_SERVICE_ID`, `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`, and `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY` to enable it. Until then, registration approvals still create an in-app notification, and the contact form falls back to opening the visitor's own mail client.
 
 ## Contributing
 

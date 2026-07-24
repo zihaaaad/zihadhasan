@@ -36,7 +36,7 @@ export function TechMarquee() {
                 >
                     {[...TECHNOLOGIES, ...TECHNOLOGIES, ...TECHNOLOGIES, ...TECHNOLOGIES].map((tech, i) => (
                         <div key={i} className="flex items-center gap-4 group cursor-default opacity-50 hover:opacity-100 transition-opacity duration-300">
-                            <div className="relative w-8 h-8 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div className="relative w-8 h-8 flex items-center justify-center grayscale group-hover:grayscale-0 group-active:grayscale-0 transition-all duration-500">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img src={tech.icon} alt={tech.name} className="max-w-full max-h-full invert" />
                             </div>

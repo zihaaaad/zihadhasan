@@ -121,9 +121,12 @@
     @apply bg-background text-foreground;
   }
 
-  /* Global Image Grayscale Treatment */
+  /* Global Image Grayscale Treatment.
+     Includes active: as a touch-device fallback - :hover never fires on
+     phones/tablets, so without it every image would stay permanently
+     desaturated for mobile visitors with no way to reveal color. */
   img {
-    @apply grayscale hover:grayscale-0 transition-all duration-500;
+    @apply grayscale hover:grayscale-0 active:grayscale-0 transition-all duration-500;
   }
 
   /* Smooth Scroll */

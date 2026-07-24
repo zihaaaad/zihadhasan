@@ -61,7 +61,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
                                         src={course.headerImage}
                                         alt={course.title}
                                         fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105 grayscale group-hover:grayscale-0"
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
                                 ) : (
                                     <div className="flex h-full items-center justify-center text-neutral-600">

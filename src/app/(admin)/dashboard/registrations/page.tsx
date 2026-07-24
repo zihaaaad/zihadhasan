@@ -37,13 +37,15 @@ export default function RegistrationsPage() {
     async function loadData() {
         setLoading(true);
         try {
-            const [regData, eventData, courseData, productData] = await Promise.all([
-                CMSService.getAllRegistrations(),
+            const [regPage, eventData, courseData, productData] = await Promise.all([
+                CMSService.getRegistrationsPage(50),
                 CMSService.getEvents(),
                 CMSService.getCourses(),
                 CMSService.getProducts()
             ]);
-            setRegistrations(regData);
+            setRegistrations(regPage.registrations);
+            setCursor(regPage.nextCursor);
+            setHasMore(regPage.hasMore);
             setEvents(eventData);
             setCourses(courseData);
             setProducts(productData);
@@ -53,6 +55,22 @@ export default function RegistrationsPage() {
             setLoading(false);
         }
     }
+
+    const loadMore = async () => {
+        if (!cursor || loadingMore) return;
+        setLoadingMore(true);
+        try {
+            const regPage = await CMSService.getRegistrationsPage(50, cursor);
+            setRegistrations(prev => [...prev, ...regPage.registrations]);
+            setCursor(regPage.nextCursor);
+            setHasMore(regPage.hasMore);
+        } catch (error) {
+            console.error("Failed to load more registrations", error);
+            toast.error("Failed to load more registrations");
+        } finally {
+            setLoadingMore(false);
+        }
+    };
 
     const [courses, setCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
@@ -67,6 +85,9 @@ export default function RegistrationsPage() {
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [isBulkProcessing, setIsBulkProcessing] = useState(false);
     const [confirmBulkReject, setConfirmBulkReject] = useState(false);
+    const [cursor, setCursor] = useState<any>(null);
+    const [hasMore, setHasMore] = useState(false);
+    const [loadingMore, setLoadingMore] = useState(false);
 
     useEffect(() => {
         if (!viewingProof) setZoom(1);
@@ -466,7 +487,7 @@ export default function RegistrationsPage() {
                                                             className="relative group cursor-pointer h-16 w-24 shrink-0 rounded-xl overflow-hidden border border-white/10 bg-black/20"
                                                             onClick={() => setViewingProof(reg.screenshotUrl || null)}
                                                         >
-                                                            <img src={reg.screenshotUrl} alt="Proof" className="w-full h-full object-cover grayscale opacity-50 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105" />
+                                                            <img src={reg.screenshotUrl} alt="Proof" className="w-full h-full object-cover grayscale opacity-50 transition-all duration-500 group-hover:grayscale-0 group-active:grayscale-0 group-hover:opacity-100 group-hover:scale-105" />
                                                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                                                                 <Eye strokeWidth={1.5} className="h-5 w-5 text-white drop-shadow-md" />
                                                             </div>
@@ -545,6 +566,20 @@ export default function RegistrationsPage() {
                     </TableBody>
                 </Table>
             </GlassCard>
+
+            {hasMore && (
+                <div className="flex justify-center">
+                    <Button
+                        onClick={loadMore}
+                        variant="outline"
+                        disabled={loadingMore}
+                        className="border-white/10 text-white hover:bg-white/10"
+                    >
+                        {loadingMore ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                        Load More
+                    </Button>
+                </div>
+            )}
 
             <Dialog open={!!editingRegistration} onOpenChange={(open) => !open && setEditingRegistration(null)}>
                 <DialogContent>

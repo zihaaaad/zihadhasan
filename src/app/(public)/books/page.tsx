@@ -64,7 +64,7 @@ export default function BooksPage() {
                                         <img
                                             src={book.imageUrl}
                                             alt={book.title}
-                                            className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 ease-out group-hover:scale-110"
+                                            className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-1000 ease-out group-hover:scale-110"
                                         />
                                     ) : (
                                         <div className="flex items-center justify-center h-full text-white/5">

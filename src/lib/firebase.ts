@@ -16,8 +16,12 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// App Check Initialization
-/* 
+// App Check Initialization.
+// Only runs client-side, and only if a reCAPTCHA v3 site key is configured -
+// so this is a no-op (not a crash) in environments where the key isn't set yet.
+// To fully enable: get a reCAPTCHA v3 site key from
+// https://www.google.com/recaptcha/admin, set NEXT_PUBLIC_RECAPTCHA_KEY,
+// and register the same key under Firebase Console > App Check for this project.
 if (typeof window !== "undefined") {
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_KEY;
 
@@ -28,4 +32,3 @@ if (typeof window !== "undefined") {
     });
   }
 }
-*/

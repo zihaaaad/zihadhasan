@@ -51,7 +51,7 @@ export default function ProjectsPage() {
                                         src={project.imageUrl || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b"}
                                         alt={project.title}
                                         fill
-                                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110 grayscale group-hover:grayscale-0"
+                                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110 grayscale group-hover:grayscale-0 group-active:grayscale-0"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
                                 </div>

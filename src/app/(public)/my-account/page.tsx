@@ -244,7 +244,7 @@ function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registra
         <GlassCard className="p-0 overflow-hidden flex flex-col sm:flex-row group hover:border-white/20 transition-all duration-500 border-white/[0.05] bg-white/[0.02] rounded-2xl shadow-none">
             <div className="h-40 sm:h-auto sm:w-56 bg-neutral-900 relative overflow-hidden shrink-0">
                 {image ? (
-                    <img src={image} alt={title} className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out" />
+                    <img src={image} alt={title} className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 group-hover:grayscale-0 group-active:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out" />
                 ) : (
                     <div className="w-full h-full flex items-center justify-center">
                         {type === 'course' ? <BookOpen className="h-10 w-10 text-white/5" /> : <Ticket className="h-10 w-10 text-white/5" />}

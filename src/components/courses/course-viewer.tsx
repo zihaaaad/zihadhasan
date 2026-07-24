@@ -340,7 +340,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
                                     <img
                                         src={course.headerImage}
                                         alt={course.title}
-                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity grayscale group-hover:grayscale-0"
+                                        className="w-full h-full object-cover opacity-90 group-hover:opacity-70 transition-opacity"
                                     />
                                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                                         <PlayCircle strokeWidth={1.5} className="h-20 w-20 text-white opacity-80 group-hover:scale-110 transition-transform duration-300" />

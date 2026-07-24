@@ -81,7 +81,7 @@ export default function ShopPage() {
                                     <img
                                         src={product.imageUrl}
                                         alt={product.title}
-                                        className="h-full w-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 ease-out group-hover:scale-110"
+                                        className="h-full w-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-1000 ease-out group-hover:scale-110"
                                     />
                                 ) : (
                                     <div className="h-full w-full bg-neutral-900" />

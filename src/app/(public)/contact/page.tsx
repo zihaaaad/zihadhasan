@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { CMSService, GlobalSettings } from "@/lib/cms-service";
 import { toast } from "sonner";
+import { sendNotificationEmail, isEmailConfigured } from "@/lib/email";
 
 export default function ContactPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,18 +52,38 @@ export default function ContactPage() {
             });
         } catch (error) {
             console.error("Failed to save message", error);
-            // Continue to mailto fallback
+            // Continue - still try to notify by email below
         }
 
         const targetEmail = config?.contact?.email || "contact@zihadhasan.dev";
-        // Construct robust mailto link
-        const mailtoLink = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
 
-        // Open email client
+        if (isEmailConfigured()) {
+            // Send the notification directly - no need to make the visitor open
+            // their own mail client for this to reach the inbox.
+            const result = await sendNotificationEmail({
+                toEmail: targetEmail,
+                toName: "Zihad Hasan",
+                subject: `New contact message: ${subject}`,
+                message: `From: ${name} (${email})\n\n${message}`,
+            });
+
+            setIsSubmitting(false);
+
+            if (result.success) {
+                toast.success("Message sent! I'll get back to you soon.");
+                form.reset();
+                return;
+            }
+            // Fall through to the mailto fallback if the email send failed.
+        }
+
+        // Fallback for when EmailJS isn't configured, or its send failed: open the
+        // visitor's own mail client with the message pre-filled.
+        const mailtoLink = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
         window.location.href = mailtoLink;
 
         setIsSubmitting(false);
-        toast.success("Message sent! I'll get back to you soon.", { description: "Your specific email client has been opened." });
+        toast.success("Message sent! I'll get back to you soon.", { description: "Your email client has been opened to finish sending." });
         form.reset();
     };
 

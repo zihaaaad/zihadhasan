@@ -126,7 +126,7 @@ function EventCard({ event, onRegister, index }: { event: Event, onRegister: () 
         >
             <div className="relative h-56 bg-neutral-900 overflow-hidden">
                 {event.imageUrl ? (
-                    <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 ease-out group-hover:scale-110" />
+                    <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-1000 ease-out group-hover:scale-110" />
                 ) : (
                     <div className="flex flex-col items-center justify-center h-full bg-neutral-900">
                         <Calendar className="h-10 w-10 text-white/5" />

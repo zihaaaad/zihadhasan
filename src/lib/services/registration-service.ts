@@ -8,11 +8,15 @@ import {
     query,
     orderBy,
     limit,
+    startAfter,
     Timestamp,
     where,
     runTransaction,
+    QueryDocumentSnapshot,
+    DocumentData,
 } from "firebase/firestore";
 import { Event } from "./event-service";
+import { sendNotificationEmail } from "../email";
 
 export interface Registration {
     id?: string;
@@ -37,6 +41,11 @@ export const RegistrationService = {
     // Admin Action: Approve Registration
     approveRegistration: async (registrationId: string) => {
         const regRef = doc(db, "registrations", registrationId);
+
+        // Captured inside the transaction, sent after it commits. Firestore transactions
+        // can retry on contention, so a side effect like sending an email must not live
+        // inside the transaction callback itself - it would risk sending duplicates.
+        let emailNotice: { toEmail: string; toName: string; subject: string; message: string } | null = null;
 
         try {
             await runTransaction(db, async (transaction) => {
@@ -89,7 +98,26 @@ export const RegistrationService = {
                         createdAt: Timestamp.now()
                     });
                 }
+
+                if (regData.email) {
+                    emailNotice = {
+                        toEmail: regData.email,
+                        toName: regData.name || regData.email,
+                        subject: notificationTitle,
+                        message: notificationMessage,
+                    };
+                }
             });
+
+            // Best-effort: an in-app notification was already written above regardless
+            // of whether email succeeds, so a failed/unconfigured send here doesn't
+            // block the approval itself.
+            if (emailNotice) {
+                sendNotificationEmail(emailNotice).catch((e) =>
+                    console.error("Failed to send approval email:", e)
+                );
+            }
+
             return { success: true };
         } catch (e) {
             console.error("Approval failed: ", e);
@@ -136,6 +164,24 @@ export const RegistrationService = {
         const q = query(collection(db, "registrations"), orderBy("registeredAt", "desc"), limit(limitCount));
         const snapshot = await getDocs(q);
         return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Registration));
+    },
+
+    // Cursor-paginated version for the admin registrations list ("Load More"),
+    // so the list isn't silently capped once a project has more than one page
+    // of registrations. Returns the page plus a cursor + hasMore flag so the
+    // caller can request the next page.
+    getRegistrationsPage: async (pageSize: number = 50, cursor?: QueryDocumentSnapshot<DocumentData>) => {
+        const constraints = [orderBy("registeredAt", "desc"), limit(pageSize)];
+        const q = cursor
+            ? query(collection(db, "registrations"), ...constraints, startAfter(cursor))
+            : query(collection(db, "registrations"), ...constraints);
+
+        const snapshot = await getDocs(q);
+        const registrations = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Registration));
+        const nextCursor = snapshot.docs[snapshot.docs.length - 1];
+        const hasMore = snapshot.docs.length === pageSize;
+
+        return { registrations, nextCursor, hasMore };
     },
 
     // --- Registrations Queries ---
