@@ -487,7 +487,7 @@ export default function RegistrationsPage() {
                                                             className="relative group cursor-pointer h-16 w-24 shrink-0 rounded-xl overflow-hidden border border-white/10 bg-black/20"
                                                             onClick={() => setViewingProof(reg.screenshotUrl || null)}
                                                         >
-                                                            <img src={reg.screenshotUrl} alt="Proof" className="w-full h-full object-cover grayscale opacity-50 transition-all duration-500 group-hover:grayscale-0 group-active:grayscale-0 group-hover:opacity-100 group-hover:scale-105" />
+                                                            <img src={reg.screenshotUrl} alt="Proof" className="w-full h-full object-cover opacity-50 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105" />
                                                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                                                                 <Eye strokeWidth={1.5} className="h-5 w-5 text-white drop-shadow-md" />
                                                             </div>

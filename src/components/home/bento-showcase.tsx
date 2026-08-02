@@ -73,7 +73,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                     src={project.imageUrl}
                                     alt={project.title}
                                     fill
-                                    className="object-cover grayscale hover:grayscale-0 active:grayscale-0 transition-all duration-500 group-hover:scale-105 opacity-60 group-hover:opacity-80"
+                                    className="object-cover transition-all duration-500 group-hover:scale-105 opacity-60 group-hover:opacity-80"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6 flex flex-col justify-end">
                                     <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>

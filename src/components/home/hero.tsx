@@ -138,7 +138,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                                 src={getImageUrl(heroImage)}
                                 alt="Zihad Hasan"
                                 fill
-                                className="object-cover object-center grayscale hover:grayscale-0 active:grayscale-0 transition-all duration-700 ease-in-out scale-105"
+                                className="object-cover object-center transition-all duration-700 ease-in-out scale-105"
                                 priority
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

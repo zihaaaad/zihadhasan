@@ -11,7 +11,8 @@ import {
     getDoc,
     setDoc,
     serverTimestamp,
-    DocumentData
+    DocumentData,
+    onSnapshot
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 
@@ -62,28 +63,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const closeAuthModal = () => setIsAuthModalOpen(false);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+        let unsubscribeProfile: (() => void) | null = null;
+
+        const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
             try {
+                if (unsubscribeProfile) {
+                    unsubscribeProfile();
+                    unsubscribeProfile = null;
+                }
+
                 if (currentUser) {
-                    // Fetch User Profile
                     const docRef = doc(db, "users", currentUser.uid);
+                    
+                    // Create Profile if it doesn't exist (e.g. first Google Login)
                     const docSnap = await getDoc(docRef);
-
-                    if (docSnap.exists()) {
-                        const data = docSnap.data() as UserProfile;
-
-                        // Check if user is banned
-                        if (data.isBanned) {
-                            await firebaseSignOut(auth);
-                            setUser(null);
-                            setProfile(null);
-                            return;
-                        }
-
-                        setProfile(data);
-                        setUser(currentUser);
-                    } else {
-                        // Create Profile if it doesn't exist (e.g. first Google Login)
+                    if (!docSnap.exists()) {
                         const newProfile: UserProfile = {
                             uid: currentUser.uid,
                             email: currentUser.email!,
@@ -97,9 +91,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
                         // Allow writes if it is the own user (per rules)
                         await setDoc(docRef, newProfile);
-                        setProfile(newProfile);
-                        setUser(currentUser);
                     }
+
+                    // Listen in real-time
+                    unsubscribeProfile = onSnapshot(docRef, async (snapshot) => {
+                        if (snapshot.exists()) {
+                            const data = snapshot.data() as UserProfile;
+
+                            // Check if user is banned
+                            if (data.isBanned) {
+                                await firebaseSignOut(auth);
+                                setUser(null);
+                                setProfile(null);
+                                return;
+                            }
+
+                            setProfile(data);
+                            setUser(currentUser);
+                        }
+                    }, (error) => {
+                        console.error("Profile snapshot listener error:", error);
+                    });
                 } else {
                     setUser(null);
                     setProfile(null);
@@ -111,7 +123,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             }
         });
 
-        return () => unsubscribe();
+        return () => {
+            unsubscribeAuth();
+            if (unsubscribeProfile) unsubscribeProfile();
+        };
     }, []);
 
     const logout = async () => {

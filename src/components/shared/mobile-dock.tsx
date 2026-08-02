@@ -88,13 +88,13 @@ export function MobileDock() {
                                     aria-label={item.name}
                                     aria-current={isActive ? "page" : undefined}
                                     className={cn(
-                                        "relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300",
+                                        "relative flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-300",
                                         isActive
                                             ? "bg-white/10 text-white"
                                             : "text-neutral-500 hover:bg-white/5 hover:text-white"
                                     )}
                                 >
-                                    <Icon strokeWidth={1.5} className="h-5 w-5" />
+                                    <Icon strokeWidth={1.5} className="h-5.5 w-5.5" />
                                     {isActive && (
                                         <motion.div
                                             layoutId="active-dock-indicator"
@@ -116,14 +116,14 @@ export function MobileDock() {
                             }}
                             aria-label={user ? "My account" : "Log in"}
                             className={cn(
-                                "relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 text-neutral-500 hover:bg-white/5 hover:text-white"
+                                "relative flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-300 text-neutral-500 hover:bg-white/5 hover:text-white"
                             )}
                         >
-                            <div className="h-6 w-6 rounded-full overflow-hidden border border-white/20 bg-white/5">
+                            <div className="h-7 w-7 rounded-full overflow-hidden border border-white/20 bg-white/5">
                                 {user?.photoURL ? (
-                                    <img src={user.photoURL} alt="User" className="h-full w-full object-cover grayscale" />
+                                    <img src={user.photoURL} alt="User" className="h-full w-full object-cover" />
                                 ) : (
-                                    <div className="h-full w-full flex items-center justify-center text-[9px] font-bold text-neutral-400">
+                                    <div className="h-full w-full flex items-center justify-center text-[10px] font-bold text-neutral-400">
                                         {user ? user.email?.[0].toUpperCase() : "IN"}
                                     </div>
                                 )}
