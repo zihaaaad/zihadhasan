@@ -31,7 +31,7 @@ export function SmartImage({
  return (
  <div
  className={cn(
- "flex flex-col items-center justify-center bg-white border border-gray-200 text-muted-foreground overflow-hidden relative",
+ "flex flex-col items-center justify-center bg-background border border-border text-muted-foreground overflow-hidden relative",
  aspectRatio === "16/9" && "aspect-video",
  aspectRatio === "4/3" && "aspect-[4/3]",
  aspectRatio === "1/1" && "aspect-square",
@@ -43,10 +43,10 @@ export function SmartImage({
  <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent" />
 
  <div className="z-10 flex flex-col items-center gap-2">
- <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center animate-pulse">
- <Hammer strokeWidth={1.5} className="h-5 w-5 text-white/50" />
+ <div className="h-10 w-10 rounded-full bg-background flex items-center justify-center animate-pulse">
+ <Hammer strokeWidth={1.5} className="h-5 w-5 text-primary-foreground/50" />
  </div>
- <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold">ZH No Signal</span>
+ <span className="text-[10px] uppercase tracking-widest text-primary-foreground/30 font-bold">ZH No Signal</span>
  </div>
  </div>
  );
@@ -61,7 +61,7 @@ export function SmartImage({
  // Standard Next/Image wrapper
  if (fill) {
  return (
- <div className={cn("relative overflow-hidden bg-white", className)}>
+ <div className={cn("relative overflow-hidden bg-background", className)}>
  <Image
  src={src}
  alt={alt}
@@ -82,7 +82,7 @@ export function SmartImage({
  return (
  <div
  className={cn(
- "relative overflow-hidden bg-white",
+ "relative overflow-hidden bg-background",
  aspectRatio === "16/9" && "aspect-video",
  aspectRatio === "4/3" && "aspect-[4/3]",
  aspectRatio === "1/1" && "aspect-square",

@@ -186,66 +186,66 @@ export default function SettingsPage() {
 
  return (
  <div className="space-y-6">
- <div className="flex items-center justify-between">
- <div>
- <h2 className="text-3xl font-bold tracking-tight text-white">Global Settings</h2>
- <p className="text-muted-foreground">Manage your portfolio's core configuration.</p>
- </div>
- <Button onClick={form.handleSubmit(onSubmit)} disabled={saving} className="bg-primary text-black hover:bg-primary/90">
- {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
- Save Changes
- </Button>
- </div>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Global Settings</h2>
+          <p className="text-muted-foreground font-medium">Manage your portfolio's core configuration.</p>
+        </div>
+        <Button onClick={form.handleSubmit(onSubmit)} disabled={saving} className="bg-primary text-primary-foreground hover:bg-primary/90">
+          {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Save Changes
+        </Button>
+      </div>
 
- <Separator className="bg-white" />
+      <Separator className="bg-gray-200" />
 
  <fieldset disabled={saving} className="group-disabled:opacity-50">
  <div className="grid gap-6 md:grid-cols-2">
- <Card className="bg-white border-gray-200 ">
- <CardHeader>
- <CardTitle className="text-white">Hero Section</CardTitle>
- <CardDescription>Customize the first impression of your site.</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="space-y-2">
- <Label htmlFor="heroTitle" className="text-white">Hero Title (HTML Supported)</Label>
- <Input id="heroTitle" {...form.register("heroTitle")} className="bg-gray-50 border-gray-200 text-white" placeholder="Building the Future..." />
- </div>
- <div className="space-y-2">
- <Label htmlFor="heroSubtitle" className="text-white">Hero Subtitle</Label>
- <Textarea id="heroSubtitle" {...form.register("heroSubtitle")} className="bg-gray-50 border-gray-200 text-white min-h-[100px]" placeholder="I craft high-performance..." />
- </div>
- <div className="space-y-3">
- <Label className="text-white">Hero Background Image</Label>
- <Controller
- control={form.control}
- name="heroImage"
- render={({ field }) => (
- <ImageUploader
- value={field.value || ""}
- onChange={field.onChange}
- label="Upload Hero Image"
- />
- )}
- />
- <p className="text-xs text-muted-foreground">
- Recommended size: 1920x1080 (Dark/Noir style preferred).
- </p>
- </div>
- </CardContent>
- </Card>
+        <Card className="bg-background border-border shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-foreground">Hero Section</CardTitle>
+            <CardDescription className="text-muted-foreground font-medium">Customize the first impression of your site.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="heroTitle" className="text-foreground font-bold">Hero Title (HTML Supported)</Label>
+              <Input id="heroTitle" {...form.register("heroTitle")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="Building the Future..." />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="heroSubtitle" className="text-foreground font-bold">Hero Subtitle</Label>
+              <Textarea id="heroSubtitle" {...form.register("heroSubtitle")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black min-h-[100px]" placeholder="I craft high-performance..." />
+            </div>
+            <div className="space-y-3">
+              <Label className="text-foreground font-bold">Hero Background Image</Label>
+              <Controller
+                control={form.control}
+                name="heroImage"
+                render={({ field }) => (
+                  <ImageUploader
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    label="Upload Hero Image"
+                  />
+                )}
+              />
+              <p className="text-xs text-muted-foreground font-medium">
+                Recommended size: 1920x1080.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
- <Card className="bg-white border-gray-200 ">
- <CardHeader>
- <CardTitle className="text-white">Features & Metadata</CardTitle>
- <CardDescription>Control visibility and branding.</CardDescription>
- </CardHeader>
- <CardContent className="space-y-6">
- {/* Branding Assets */}
- <div className="grid grid-cols-2 gap-4">
- <div className="space-y-2">
- <Label className="text-white">Site Logo</Label>
- <Controller
+        <Card className="bg-background border-border shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-foreground">Features & Metadata</CardTitle>
+            <CardDescription className="text-muted-foreground font-medium">Control visibility and branding.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Branding Assets */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-foreground font-bold">Site Logo</Label>
+                <Controller
  control={form.control}
  name="siteLogo"
  render={({ field }) => (
@@ -258,30 +258,30 @@ export default function SettingsPage() {
  )}
  />
  </div>
- <div className="space-y-2">
- <Label className="text-white">Favicon</Label>
- <Controller
- control={form.control}
- name="siteFavicon"
- render={({ field }) => (
- <ImageUploader
- value={field.value || ""}
- onChange={field.onChange}
- label="Icon"
- className="aspect-square"
- />
- )}
- />
- </div>
- </div>
+              <div className="space-y-2">
+                <Label className="text-foreground font-bold">Favicon</Label>
+                <Controller
+                  control={form.control}
+                  name="siteFavicon"
+                  render={({ field }) => (
+                    <ImageUploader
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                      label="Icon"
+                      className="aspect-square"
+                    />
+                  )}
+                />
+              </div>
+            </div>
 
- <Separator className="bg-white" />
+            <Separator className="bg-gray-200" />
 
- <div className="space-y-4">
- <h4 className="text-sm font-medium text-white mb-2">Visibility Control</h4>
+            <div className="space-y-4">
+              <h4 className="text-sm font-bold text-foreground mb-2">Visibility Control</h4>
 
- <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-4">
- <Label htmlFor="showProjects" className="text-base text-gray-200">Projects Section</Label>
+              <div className="flex items-center justify-between rounded-lg border border-border bg-gray-50 p-4">
+                <Label htmlFor="showProjects" className="text-sm text-foreground font-bold">Projects Section</Label>
  <Controller
  control={form.control}
  name="showProjects"
@@ -295,183 +295,183 @@ export default function SettingsPage() {
  />
  </div>
 
- <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-4">
- <Label htmlFor="showTools" className="text-base text-gray-200">AI Tools Section</Label>
- <Controller
- control={form.control}
- name="showTools"
- render={({ field }) => (
- <Switch
- id="showTools"
- checked={field.value}
- onCheckedChange={field.onChange}
- />
- )}
- />
- </div>
+              <div className="flex items-center justify-between rounded-lg border border-border bg-gray-50 p-4">
+                <Label htmlFor="showTools" className="text-sm text-foreground font-bold">AI Tools Section</Label>
+                <Controller
+                  control={form.control}
+                  name="showTools"
+                  render={({ field }) => (
+                    <Switch
+                      id="showTools"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+              </div>
 
- <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-4">
- <Label htmlFor="showBlog" className="text-base text-gray-200">Blog Section</Label>
- <Controller
- control={form.control}
- name="showBlog"
- render={({ field }) => (
- <Switch
- id="showBlog"
- checked={field.value}
- onCheckedChange={field.onChange}
- />
- )}
- />
- </div>
+              <div className="flex items-center justify-between rounded-lg border border-border bg-gray-50 p-4">
+                <Label htmlFor="showBlog" className="text-sm text-foreground font-bold">Blog Section</Label>
+                <Controller
+                  control={form.control}
+                  name="showBlog"
+                  render={({ field }) => (
+                    <Switch
+                      id="showBlog"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+              </div>
 
- <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-4">
- <Label htmlFor="showEvents" className="text-base text-gray-200">Events Section</Label>
- <Controller
- control={form.control}
- name="showEvents"
- render={({ field }) => (
- <Switch
- id="showEvents"
- checked={field.value}
- onCheckedChange={field.onChange}
- />
- )}
- />
- </div>
+              <div className="flex items-center justify-between rounded-lg border border-border bg-gray-50 p-4">
+                <Label htmlFor="showEvents" className="text-sm text-foreground font-bold">Events Section</Label>
+                <Controller
+                  control={form.control}
+                  name="showEvents"
+                  render={({ field }) => (
+                    <Switch
+                      id="showEvents"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+              </div>
 
- <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-4">
- <Label htmlFor="showShop" className="text-base text-gray-200">Store / Shop</Label>
- <Controller
- control={form.control}
- name="showShop"
- render={({ field }) => (
- <Switch
- id="showShop"
- checked={field.value}
- onCheckedChange={field.onChange}
- />
- )}
- />
- </div>
+              <div className="flex items-center justify-between rounded-lg border border-border bg-gray-50 p-4">
+                <Label htmlFor="showShop" className="text-sm text-foreground font-bold">Store / Shop</Label>
+                <Controller
+                  control={form.control}
+                  name="showShop"
+                  render={({ field }) => (
+                    <Switch
+                      id="showShop"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+              </div>
 
- <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-4">
- <Label htmlFor="showCourses" className="text-base text-gray-200">Courses (LMS)</Label>
- <Controller
- control={form.control}
- name="showCourses"
- render={({ field }) => (
- <Switch
- id="showCourses"
- checked={field.value}
- onCheckedChange={field.onChange}
- />
- )}
- />
- </div>
- </div>
- </CardContent>
+              <div className="flex items-center justify-between rounded-lg border border-border bg-gray-50 p-4">
+                <Label htmlFor="showCourses" className="text-sm text-foreground font-bold">Courses (LMS)</Label>
+                <Controller
+                  control={form.control}
+                  name="showCourses"
+                  render={({ field }) => (
+                    <Switch
+                      id="showCourses"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+              </div>
+            </div>
+          </CardContent>
  </Card>
 
- <Card className="bg-white border-gray-200 ">
- <CardHeader>
- <CardTitle className="text-white">SEO & Metadata</CardTitle>
- <CardDescription>Control how your site appears in search results.</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="space-y-2">
- <Label htmlFor="siteTitle" className="text-white">Site Title (Default)</Label>
- <Input id="siteTitle" {...form.register("siteTitle")} className="bg-gray-50 border-gray-200 text-white" placeholder="Zihad Hasan | ..." />
- </div>
- <div className="space-y-2">
- <Label htmlFor="seoKeywords" className="text-white">Keywords (Comma separated)</Label>
- <Textarea id="seoKeywords" {...form.register("seoKeywords")} className="bg-gray-50 border-gray-200 text-white" placeholder="Software Engineer, AI, React..." />
- <p className="text-xs text-muted-foreground">These help search engines understand your specific niche.</p>
- </div>
- </CardContent>
- </Card>
+        <Card className="bg-background border-border shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-foreground">SEO & Metadata</CardTitle>
+            <CardDescription className="text-muted-foreground font-medium">Control how your site appears in search results.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="siteTitle" className="text-foreground font-bold">Site Title (Default)</Label>
+              <Input id="siteTitle" {...form.register("siteTitle")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="Zihad Hasan | ..." />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="seoKeywords" className="text-foreground font-bold">Keywords (Comma separated)</Label>
+              <Textarea id="seoKeywords" {...form.register("seoKeywords")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="Software Engineer, AI, React..." />
+              <p className="text-xs text-muted-foreground font-medium">These help search engines understand your specific niche.</p>
+            </div>
+          </CardContent>
+        </Card>
 
- <Card className="bg-white border-gray-200 ">
- <CardHeader>
- <CardTitle className="text-white">Connect & Socials</CardTitle>
- <CardDescription>Where can people find you?</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="grid grid-cols-2 gap-4">
- <div className="space-y-2">
- <Label className="text-white">GitHub URL</Label>
- <Input {...form.register("socialGithub")} className="bg-gray-50 border-gray-200 text-white" placeholder="https://github.com/..." />
- </div>
- <div className="space-y-2">
- <Label className="text-white">LinkedIn URL</Label>
- <Input {...form.register("socialLinkedin")} className="bg-gray-50 border-gray-200 text-white" placeholder="https://linkedin.com/in/..." />
- </div>
- <div className="space-y-2">
- <Label className="text-white">Twitter / X URL</Label>
- <Input {...form.register("socialTwitter")} className="bg-gray-50 border-gray-200 text-white" placeholder="https://x.com/..." />
- </div>
- <div className="space-y-2">
- <Label className="text-white">YouTube URL</Label>
- <Input {...form.register("socialYoutube")} className="bg-gray-50 border-gray-200 text-white" placeholder="https://youtube.com/@..." />
- </div>
- <div className="space-y-2">
- <Label className="text-white">Facebook URL</Label>
- <Input {...form.register("socialFacebook")} className="bg-gray-50 border-gray-200 text-white" placeholder="https://facebook.com/..." />
- </div>
- <div className="space-y-2">
- <Label className="text-white">Instagram URL</Label>
- <Input {...form.register("socialInstagram")} className="bg-gray-50 border-gray-200 text-white" placeholder="https://instagram.com/..." />
- </div>
- </div>
- <div className="space-y-2">
- <Label className="text-white">Contact Email</Label>
- <Input {...form.register("socialEmail")} className="bg-gray-50 border-gray-200 text-white" placeholder="hello@example.com" />
- <p className="text-xs text-muted-foreground">Used for the 'Email' icon in social links.</p>
- </div>
- </CardContent>
- </Card>
+        <Card className="bg-background border-border shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-foreground">Connect & Socials</CardTitle>
+            <CardDescription className="text-muted-foreground font-medium">Where can people find you?</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-foreground font-bold">GitHub URL</Label>
+                <Input {...form.register("socialGithub")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="https://github.com/..." />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-foreground font-bold">LinkedIn URL</Label>
+                <Input {...form.register("socialLinkedin")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="https://linkedin.com/in/..." />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-foreground font-bold">Twitter / X URL</Label>
+                <Input {...form.register("socialTwitter")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="https://x.com/..." />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-foreground font-bold">YouTube URL</Label>
+                <Input {...form.register("socialYoutube")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="https://youtube.com/@..." />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-foreground font-bold">Facebook URL</Label>
+                <Input {...form.register("socialFacebook")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="https://facebook.com/..." />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-foreground font-bold">Instagram URL</Label>
+                <Input {...form.register("socialInstagram")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="https://instagram.com/..." />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-foreground font-bold">Contact Email</Label>
+              <Input {...form.register("socialEmail")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="hello@example.com" />
+              <p className="text-xs text-muted-foreground font-medium">Used for the 'Email' icon in social links.</p>
+            </div>
+          </CardContent>
+        </Card>
 
- <Card className="bg-white border-gray-200 md:col-span-2">
- <CardHeader>
- <CardTitle className="text-white flex items-center gap-2">
- <CreditCard className="h-5 w-5 text-primary" />
- Payment Configuration
- </CardTitle>
- <CardDescription>Setup Mobile Banking and Bank Account details for students to pay.</CardDescription>
- </CardHeader>
- <CardContent className="space-y-8">
- <div className="grid md:grid-cols-2 gap-6">
- <div className="space-y-2">
- <Label htmlFor="paymentBkash" className="text-pink-500 font-semibold">bKash Number</Label>
- <Input id="paymentBkash" {...form.register("paymentBkash")} className="bg-gray-50 border-gray-200 text-white" placeholder="017..." />
- {form.formState.errors.paymentBkash && (
- <p className="text-xs text-red-400">{form.formState.errors.paymentBkash.message}</p>
- )}
- </div>
- <div className="space-y-2">
- <Label htmlFor="paymentNagad" className="text-orange-500 font-semibold">Nagad Number</Label>
- <Input id="paymentNagad" {...form.register("paymentNagad")} className="bg-gray-50 border-gray-200 text-white" placeholder="017..." />
- {form.formState.errors.paymentNagad && (
- <p className="text-xs text-red-400">{form.formState.errors.paymentNagad.message}</p>
- )}
- </div>
- </div>
+        <Card className="bg-background border-border md:col-span-2 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-foreground flex items-center gap-2">
+              <CreditCard className="h-5 w-5 text-muted-foreground" />
+              Payment Configuration
+            </CardTitle>
+            <CardDescription className="text-muted-foreground font-medium">Setup Mobile Banking and Bank Account details for students to pay.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-8">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="paymentBkash" className="text-foreground font-bold">bKash Number</Label>
+                <Input id="paymentBkash" {...form.register("paymentBkash")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="017..." />
+                {form.formState.errors.paymentBkash && (
+                  <p className="text-xs text-red-600 font-medium">{form.formState.errors.paymentBkash.message}</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="paymentNagad" className="text-foreground font-bold">Nagad Number</Label>
+                <Input id="paymentNagad" {...form.register("paymentNagad")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="017..." />
+                {form.formState.errors.paymentNagad && (
+                  <p className="text-xs text-red-600 font-medium">{form.formState.errors.paymentNagad.message}</p>
+                )}
+              </div>
+            </div>
 
- <Separator className="bg-white" />
+            <Separator className="bg-gray-200" />
 
- <div className="space-y-4">
- <div className="flex items-center justify-between">
- <div className="space-y-1">
- <Label className="text-base text-white flex items-center gap-2">
- <Building className="h-4 w-4" /> Bank Accounts
- </Label>
- <p className="text-xs text-muted-foreground">Students see these when enrolling in Paid courses.</p>
- </div>
- <Button
- type="button"
- variant="outline"
- size="sm"
- className="border-gray-200 hover:bg-white text-primary hover:text-primary"
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <Label className="text-base text-foreground font-bold flex items-center gap-2">
+                    <Building className="h-4 w-4" /> Bank Accounts
+                  </Label>
+                  <p className="text-xs text-muted-foreground font-medium">Students see these when enrolling in Paid courses.</p>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="border-border hover:bg-gray-50 text-foreground"
  onClick={() => append({ bankName: "", accountName: "", accountNumber: "", branch: "", routingNo: "" })}
  >
  <Plus className="h-4 w-4 mr-2" /> Add Account
@@ -480,56 +480,56 @@ export default function SettingsPage() {
 
  <div className="grid gap-4">
  {fields.length === 0 && (
- <div className="text-center p-8 border border-dashed border-gray-200 rounded-lg text-muted-foreground text-sm">
+ <div className="text-center p-8 border border-dashed border-border rounded-lg text-muted-foreground text-sm">
  No bank accounts added yet.
  </div>
  )}
  {fields.map((field, index) => (
- <div key={field.id} className="grid gap-4 p-4 rounded-lg border border-gray-200 bg-gray-50 relative group">
- <Button
- type="button"
- variant="ghost"
- size="icon"
- className="absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
- onClick={() => remove(index)}
- >
- <Trash2 className="h-4 w-4" />
- </Button>
+                  <div key={field.id} className="grid gap-4 p-4 rounded-lg border border-border bg-background relative group">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute top-2 right-2 h-6 w-6 text-muted-foreground/80 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
+                      onClick={() => remove(index)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
 
- <div className="grid md:grid-cols-2 gap-4">
- <div className="space-y-2">
- <Label className="text-xs text-muted-foreground">Bank Name</Label>
- <Input {...form.register(`bankAccounts.${index}.bankName`)} className="bg-gray-50 border-gray-200 text-white h-8 text-sm" placeholder="e.g. Dutch Bangla Bank" />
- {form.formState.errors.bankAccounts?.[index]?.bankName && (
- <p className="text-xs text-red-400">{form.formState.errors.bankAccounts[index]?.bankName?.message}</p>
- )}
- </div>
- <div className="space-y-2">
- <Label className="text-xs text-muted-foreground">Account Name</Label>
- <Input {...form.register(`bankAccounts.${index}.accountName`)} className="bg-gray-50 border-gray-200 text-white h-8 text-sm" placeholder="e.g. Zihad Hasan" />
- {form.formState.errors.bankAccounts?.[index]?.accountName && (
- <p className="text-xs text-red-400">{form.formState.errors.bankAccounts[index]?.accountName?.message}</p>
- )}
- </div>
- </div>
- <div className="grid md:grid-cols-3 gap-4">
- <div className="space-y-2">
- <Label className="text-xs text-muted-foreground">Account Number</Label>
- <Input {...form.register(`bankAccounts.${index}.accountNumber`)} className="bg-gray-50 border-gray-200 text-white h-8 text-sm" placeholder="e.g. 192..." />
- {form.formState.errors.bankAccounts?.[index]?.accountNumber && (
- <p className="text-xs text-red-400">{form.formState.errors.bankAccounts[index]?.accountNumber?.message}</p>
- )}
- </div>
- <div className="space-y-2">
- <Label className="text-xs text-muted-foreground">Branch (Optional)</Label>
- <Input {...form.register(`bankAccounts.${index}.branch`)} className="bg-gray-50 border-gray-200 text-white h-8 text-sm" />
- </div>
- <div className="space-y-2">
- <Label className="text-xs text-muted-foreground">Routing No (Optional)</Label>
- <Input {...form.register(`bankAccounts.${index}.routingNo`)} className="bg-gray-50 border-gray-200 text-white h-8 text-sm" />
- </div>
- </div>
- </div>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Bank Name</Label>
+                        <Input {...form.register(`bankAccounts.${index}.bankName`)} className="bg-background border-border text-foreground font-medium h-8 text-sm focus-visible:ring-black" placeholder="e.g. Dutch Bangla Bank" />
+                        {form.formState.errors.bankAccounts?.[index]?.bankName && (
+                          <p className="text-xs text-red-600 font-medium">{form.formState.errors.bankAccounts[index]?.bankName?.message}</p>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Account Name</Label>
+                        <Input {...form.register(`bankAccounts.${index}.accountName`)} className="bg-background border-border text-foreground font-medium h-8 text-sm focus-visible:ring-black" placeholder="e.g. Zihad Hasan" />
+                        {form.formState.errors.bankAccounts?.[index]?.accountName && (
+                          <p className="text-xs text-red-600 font-medium">{form.formState.errors.bankAccounts[index]?.accountName?.message}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <Label className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Account Number</Label>
+                        <Input {...form.register(`bankAccounts.${index}.accountNumber`)} className="bg-background border-border text-foreground font-medium h-8 text-sm focus-visible:ring-black" placeholder="e.g. 192..." />
+                        {form.formState.errors.bankAccounts?.[index]?.accountNumber && (
+                          <p className="text-xs text-red-600 font-medium">{form.formState.errors.bankAccounts[index]?.accountNumber?.message}</p>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Branch (Optional)</Label>
+                        <Input {...form.register(`bankAccounts.${index}.branch`)} className="bg-background border-border text-foreground font-medium h-8 text-sm focus-visible:ring-black" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Routing No (Optional)</Label>
+                        <Input {...form.register(`bankAccounts.${index}.routingNo`)} className="bg-background border-border text-foreground font-medium h-8 text-sm focus-visible:ring-black" />
+                      </div>
+                    </div>
+                  </div>
  ))}
  </div>
  </div>

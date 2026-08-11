@@ -75,7 +75,7 @@ export function MobileDock() {
  animate={{ y: 0, opacity: 1 }}
  exit={{ y: 100, opacity: 0 }}
  transition={{ type: "spring", damping: 20, stiffness: 300 }}
- className="pointer-events-auto flex items-center gap-2 rounded-2xl border border-gray-200 bg-gray-50 p-2 shadow-2xl ring-1 ring-gray-200"
+ className="pointer-events-auto flex items-center gap-2 rounded-2xl border border-border bg-gray-50 p-2 shadow-2xl ring-1 ring-gray-200"
  >
  {items.map((item) => {
  const Icon = item.icon;
@@ -89,17 +89,17 @@ export function MobileDock() {
  aria-current={isActive ? "page" : undefined}
  className={cn(
  "relative flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-300",
- isActive
- ? "bg-white text-white"
- : "text-gray-500 hover:bg-white hover:text-white"
+                  isActive
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-gray-200 hover:text-foreground"
  )}
  >
  <Icon strokeWidth={1.5} className="h-5.5 w-5.5" />
  {isActive && (
- <motion.div
- layoutId="active-dock-indicator"
- className="absolute -bottom-1 h-1 w-1 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
- />
+                    <motion.div
+                      layoutId="active-dock-indicator"
+                      className="absolute -bottom-1 h-1 w-1 rounded-full bg-primary"
+                    />
  )}
  </Link>
  );
@@ -115,11 +115,11 @@ export function MobileDock() {
  }
  }}
  aria-label={user ? "My account" : "Log in"}
- className={cn(
- "relative flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-300 text-gray-500 hover:bg-white hover:text-white"
- )}
+              className={cn(
+                "relative flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-300 text-muted-foreground hover:bg-gray-200 hover:text-foreground"
+              )}
  >
- <div className="h-7 w-7 rounded-full overflow-hidden border border-gray-200 bg-white">
+ <div className="h-7 w-7 rounded-full overflow-hidden border border-border bg-background">
  {user?.photoURL ? (
  <img src={user.photoURL} alt="User" className="h-full w-full object-cover" />
  ) : (

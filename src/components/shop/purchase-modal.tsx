@@ -106,40 +106,40 @@ export function PurchaseModal({ open, onOpenChange, product }: PurchaseModalProp
 
  return (
  <Dialog open={open} onOpenChange={onOpenChange}>
- <DialogContent className="bg-gray-50 border-gray-200 text-white sm:max-w-[500px] ">
+      <DialogContent className="bg-background border-border text-foreground sm:max-w-[500px] shadow-sm">
  {!success ? (
  <>
  <DialogHeader>
  <DialogTitle>Buy {product.title}</DialogTitle>
- <DialogDescription className="text-gray-400">
- Send <strong>{product.price} BDT</strong> to one of the numbers below.
- </DialogDescription>
+            <DialogDescription className="text-muted-foreground">
+              Send <strong>{product.price} BDT</strong> to one of the numbers below.
+            </DialogDescription>
  </DialogHeader>
 
  {/* Payment Info */}
- <div className="rounded-[1.5rem] border border-white/[0.05] bg-white/[0.02] p-6 space-y-4">
- {settings?.paymentNumbers?.bkash && (
- <div className="flex items-center justify-between">
- <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">bKash (Personal)</span>
- <div className="flex items-center gap-3">
- <span className="font-mono text-white font-bold">{bkashNumber}</span>
- <Button size="icon" variant="ghost" className="h-8 w-8 hover:bg-white rounded-lg" onClick={() => copyNumber(bkashNumber)}>
- <Copy strokeWidth={1.5} className="h-3.5 w-3.5" />
- </Button>
- </div>
- </div>
- )}
- {settings?.paymentNumbers?.nagad && (
- <div className="flex items-center justify-between">
- <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Nagad (Personal)</span>
- <div className="flex items-center gap-3">
- <span className="font-mono text-white font-bold">{nagadNumber}</span>
- <Button size="icon" variant="ghost" className="h-8 w-8 hover:bg-white rounded-lg" onClick={() => copyNumber(nagadNumber)}>
- <Copy strokeWidth={1.5} className="h-3.5 w-3.5" />
- </Button>
- </div>
- </div>
- )}
+          <div className="rounded-[1.5rem] border border-border bg-gray-50 p-6 space-y-4">
+            {settings?.paymentNumbers?.bkash && (
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">bKash (Personal)</span>
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-foreground font-bold">{bkashNumber}</span>
+                  <Button size="icon" variant="ghost" className="h-8 w-8 hover:bg-background rounded-lg text-foreground" onClick={() => copyNumber(bkashNumber)}>
+                    <Copy strokeWidth={1.5} className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              </div>
+            )}
+            {settings?.paymentNumbers?.nagad && (
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Nagad (Personal)</span>
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-foreground font-bold">{nagadNumber}</span>
+                  <Button size="icon" variant="ghost" className="h-8 w-8 hover:bg-background rounded-lg text-foreground" onClick={() => copyNumber(nagadNumber)}>
+                    <Copy strokeWidth={1.5} className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              </div>
+            )}
  {!settings?.paymentNumbers?.bkash && !settings?.paymentNumbers?.nagad && (
  <div className="text-center text-[10px] font-bold uppercase tracking-widest text-gray-800 py-2">
  No transmission protocols configured.
@@ -155,9 +155,9 @@ export function PurchaseModal({ open, onOpenChange, product }: PurchaseModalProp
  name="name"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Identity</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Identity</FormLabel>
  <FormControl>
- <Input className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white font-bold" {...field} />
+                        <Input className="bg-gray-50 border-border h-12 rounded-xl text-foreground font-bold" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -168,9 +168,9 @@ export function PurchaseModal({ open, onOpenChange, product }: PurchaseModalProp
  name="phone"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Terminal ID</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Terminal ID</FormLabel>
  <FormControl>
- <Input className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white font-bold" {...field} />
+                        <Input className="bg-gray-50 border-border h-12 rounded-xl text-foreground font-bold" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -183,9 +183,9 @@ export function PurchaseModal({ open, onOpenChange, product }: PurchaseModalProp
  name="email"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Transmission@Email</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Transmission@Email</FormLabel>
  <FormControl>
- <Input className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white font-bold" {...field} />
+                      <Input className="bg-gray-50 border-border h-12 rounded-xl text-foreground font-bold" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -197,11 +197,11 @@ export function PurchaseModal({ open, onOpenChange, product }: PurchaseModalProp
  name="trxId"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white ml-1">Proof of Transaction (TrxID)</FormLabel>
- <FormControl>
- <Input
- placeholder="E.G. 8X2..."
- className="bg-white/[0.03] border-white/[0.1] focus-visible:ring-gray-200 h-12 rounded-xl text-white font-mono uppercase"
+                      <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-foreground ml-1">Proof of Transaction (TrxID)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="E.G. 8X2..."
+                          className="bg-gray-50 border-border focus-visible:ring-gray-300 h-12 rounded-xl text-foreground font-mono uppercase"
  {...field}
  />
  </FormControl>
@@ -210,7 +210,7 @@ export function PurchaseModal({ open, onOpenChange, product }: PurchaseModalProp
  )}
  />
 
- <Button type="submit" className="w-full bg-white text-black hover:bg-neutral-200 h-14 rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] mt-2" disabled={submitting || success}>
+                <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-14 rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] mt-2" disabled={submitting || success}>
  {submitting && <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />}
  {submitting ? "Processing..." : "Acquire Digital Asset"}
  </Button>
@@ -218,18 +218,17 @@ export function PurchaseModal({ open, onOpenChange, product }: PurchaseModalProp
  </Form>
  </>
  ) : (
- <div className="py-12 flex flex-col items-center text-center">
- <div className="h-20 w-20 rounded-full bg-white/[0.05] border border-gray-200 flex items-center justify-center mb-8 relative">
- <div className="absolute inset-0 bg-white blur-2xl rounded-full" />
- <CheckCircle2 strokeWidth={1.5} className="h-10 w-10 text-white relative z-10" />
- </div>
- <DialogTitle className="text-3xl font-bold tracking-tight mb-4 uppercase">Transmission Received</DialogTitle>
- <DialogDescription className="text-gray-500 text-sm font-medium mb-10 max-w-xs leading-relaxed">
- Verification protocols initiated. You will be notified once access is authorized.
- </DialogDescription>
- <Button onClick={handleClose} className="w-full bg-white border border-gray-200 hover:bg-white text-white h-12 rounded-xl text-[10px] font-bold uppercase tracking-widest">
- Dismiss
- </Button>
+            <div className="py-12 flex flex-col items-center text-center">
+              <div className="h-20 w-20 rounded-full bg-gray-50 border border-border flex items-center justify-center mb-8 relative">
+                <CheckCircle2 strokeWidth={1.5} className="h-10 w-10 text-foreground relative z-10" />
+              </div>
+              <DialogTitle className="text-3xl font-bold tracking-tight mb-4 uppercase text-foreground">Transmission Received</DialogTitle>
+              <DialogDescription className="text-muted-foreground text-sm font-medium mb-10 max-w-xs leading-relaxed">
+                Verification protocols initiated. You will be notified once access is authorized.
+              </DialogDescription>
+              <Button onClick={handleClose} className="w-full bg-background border border-border hover:bg-gray-50 text-foreground h-12 rounded-xl text-[10px] font-bold uppercase tracking-widest">
+                Dismiss
+              </Button>
  </div>
  )}
  </DialogContent>

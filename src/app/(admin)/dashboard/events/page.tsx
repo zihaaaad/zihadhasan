@@ -81,16 +81,16 @@ export default function EventsPage() {
  };
 
  return (
- <div className="space-y-6">
- <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
- <div>
- <h2 className="text-3xl font-bold tracking-tight text-white">Events</h2>
- <p className="text-muted-foreground">Manage upcoming workshops and sessions.</p>
- </div>
- <Button onClick={handleCreate} className="bg-primary text-black hover:bg-primary/90">
- <Plus className="mr-2 h-4 w-4" /> Schedule Event
- </Button>
- </div>
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Events</h2>
+          <p className="text-muted-foreground font-medium">Manage upcoming workshops and sessions.</p>
+        </div>
+        <Button onClick={handleCreate} className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Plus className="mr-2 h-4 w-4" /> Schedule Event
+        </Button>
+      </div>
 
  {loading ? (
  <div className="flex justify-center p-12">
@@ -99,65 +99,65 @@ export default function EventsPage() {
  ) : (
  <div className="space-y-4">
  {events.map((event) => (
- <div
- key={event.id}
- className="flex flex-col md:flex-row gap-4 p-4 rounded-xl border border-gray-200 bg-white hover:border-primary/20 transition-colors"
- >
- {/* Date Badge */}
- <div className="flex-shrink-0 flex flex-col items-center justify-center p-3 rounded-lg bg-gray-50 border border-gray-200 w-full md:w-20 text-center">
- <span className="text-xs uppercase text-gray-500 font-bold">
- {event.date && formatMonthShort(event.date)}
- </span>
- <span className="text-xl font-bold text-white">
- {event.date && new Date(event.date.seconds * 1000).getDate()}
- </span>
- </div>
+              <div
+                key={event.id}
+                className="flex flex-col md:flex-row gap-4 p-4 rounded-xl border border-border bg-background hover:border-gray-300 transition-colors shadow-sm"
+              >
+                {/* Date Badge */}
+                <div className="flex-shrink-0 flex flex-col items-center justify-center p-3 rounded-lg bg-gray-50 border border-gray-100 w-full md:w-20 text-center">
+                  <span className="text-[10px] tracking-widest uppercase text-muted-foreground font-bold">
+                    {event.date && formatMonthShort(event.date)}
+                  </span>
+                  <span className="text-xl font-bold text-foreground">
+                    {event.date && new Date(event.date.seconds * 1000).getDate()}
+                  </span>
+                </div>
 
- {/* Content */}
- <div className="flex-1 min-w-0">
- <div className="flex items-center gap-2 mb-1">
- <h3 className="text-lg font-semibold text-white truncate">{event.title}</h3>
- {event.isVirtual && (
- <Badge variant="secondary" className="bg-purple-500/10 text-purple-400 border-purple-500/20 text-[10px] h-5">
- Virtual
- </Badge>
- )}
- </div>
- <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400 mb-2">
- <div className="flex items-center gap-1">
- <Calendar className="h-3.5 w-3.5" />
- {formatDate(event.date)}
- </div>
- <div className="flex items-center gap-1">
- {event.isVirtual ? <Globe className="h-3.5 w-3.5" /> : <MapPin className="h-3.5 w-3.5" />}
- <span className="truncate max-w-[200px]">{event.location}</span>
- </div>
- <div className="flex items-center gap-1">
- <Users className="h-3.5 w-3.5" />
- <span>{event.registeredCount || 0} / {event.totalSeats} Registered</span>
- </div>
- </div>
- </div>
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-lg font-bold text-foreground truncate">{event.title}</h3>
+                    {event.isVirtual && (
+                      <Badge variant="secondary" className="bg-gray-100 text-foreground border-border text-[10px] tracking-widest uppercase font-bold h-5">
+                        Virtual
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-3.5 w-3.5" />
+                      {formatDate(event.date)}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {event.isVirtual ? <Globe className="h-3.5 w-3.5" /> : <MapPin className="h-3.5 w-3.5" />}
+                      <span className="truncate max-w-[200px]">{event.location}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Users className="h-3.5 w-3.5" />
+                      <span>{event.registeredCount || 0} / {event.totalSeats} Registered</span>
+                    </div>
+                  </div>
+                </div>
 
- {/* Actions */}
- <div className="flex items-center gap-2 md:self-center">
- <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white" onClick={() => handleEdit(event)}>
- <Pencil className="h-4 w-4" />
- </Button>
- <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-300 hover:bg-red-500/10" onClick={() => event.id && handleDelete(event.id)}>
- <Trash2 className="h-4 w-4" />
- </Button>
- </div>
- </div>
+                {/* Actions */}
+                <div className="flex items-center gap-2 md:self-center">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground hover:bg-gray-100" onClick={() => handleEdit(event)}>
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600 hover:bg-red-50" onClick={() => event.id && handleDelete(event.id)}>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
  ))}
 
- {events.length === 0 && (
- <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-gray-200 rounded-xl bg-white">
- <ListTodo className="h-10 w-10 text-gray-500 mb-4" />
- <h3 className="text-xl font-medium text-white">No Events Scheduled</h3>
- <p className="text-gray-400 mt-2">Create your first event to start accepting registrations.</p>
- </div>
- )}
+            {events.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-gray-300 rounded-xl bg-gray-50">
+                <ListTodo className="h-10 w-10 text-foreground mb-4" />
+                <h3 className="text-xl font-bold text-foreground">No Events Scheduled</h3>
+                <p className="text-muted-foreground font-medium mt-2">Create your first event to start accepting registrations.</p>
+              </div>
+            )}
  </div>
  )}
 

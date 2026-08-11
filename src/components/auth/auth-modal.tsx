@@ -116,12 +116,12 @@ export function AuthModal() {
 
  return (
  <Dialog open={isAuthModalOpen} onOpenChange={(open) => !open && closeAuthModal()}>
- <DialogContent className="sm:max-w-md bg-gray-50 border-gray-200 text-white p-0 overflow-hidden gap-0">
+ <DialogContent className="sm:max-w-md bg-gray-50 border-border text-primary-foreground p-0 overflow-hidden gap-0">
  <div className="p-6 pb-0">
  <DialogTitle className="text-2xl font-bold text-center mb-2">
  {isLogin ? "Welcome Back" : "Create Account"}
  </DialogTitle>
- <p className="text-center text-gray-400 text-sm mb-6">
+ <p className="text-center text-muted-foreground/80 text-sm mb-6">
  {isLogin ? "Enter your details to access your learning hub." : "Join thousands of students learning with Zihad."}
  </p>
 
@@ -130,23 +130,23 @@ export function AuthModal() {
  type="button"
  variant="ghost"
  onClick={handleGoogleLogin}
- className="w-full bg-white text-black hover:bg-zinc-200 border border-transparent h-12 font-medium relative overflow-hidden group"
+ className="w-full bg-background text-foreground hover:bg-zinc-200 border border-transparent h-12 font-medium relative overflow-hidden group"
  disabled={isLoading}
  >
  {isLoading ? (
  <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />
  ) : (
- <Chrome strokeWidth={1.5} className="mr-2 h-4 w-4 text-black group-hover:scale-110 transition-transform" />
+ <Chrome strokeWidth={1.5} className="mr-2 h-4 w-4 text-foreground group-hover:scale-110 transition-transform" />
  )}
  <span className="relative z-10">Continue with Google</span>
  </Button>
 
  <div className="relative my-6">
  <div className="absolute inset-0 flex items-center">
- <span className="w-full border-t border-gray-200" />
+ <span className="w-full border-t border-border" />
  </div>
  <div className="relative flex justify-center text-xs uppercase">
- <span className="bg-gray-50 px-2 text-gray-500">Or continue with</span>
+ <span className="bg-gray-50 px-2 text-muted-foreground">Or continue with</span>
  </div>
  </div>
  </div>
@@ -157,11 +157,11 @@ export function AuthModal() {
  <div className="space-y-2">
  <Label htmlFor="name">Full Name</Label>
  <div className="relative">
- <UserIcon strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+ <UserIcon strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
  <Input
  id="name"
  placeholder="John Doe"
- className="pl-9 bg-white border-gray-200 text-white"
+ className="pl-9 bg-background border-border text-primary-foreground"
  value={name}
  onChange={(e) => setName(e.target.value)}
  required
@@ -171,11 +171,11 @@ export function AuthModal() {
  <div className="space-y-2">
  <Label htmlFor="phone">Phone (Optional)</Label>
  <div className="relative">
- <Phone strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+ <Phone strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
  <Input
  id="phone"
  placeholder="017..."
- className="pl-9 bg-white border-gray-200 text-white"
+ className="pl-9 bg-background border-border text-primary-foreground"
  value={phone}
  onChange={(e) => setPhone(e.target.value)}
  />
@@ -187,12 +187,12 @@ export function AuthModal() {
  <div className="space-y-2">
  <Label htmlFor="email">Email</Label>
  <div className="relative">
- <Mail strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+ <Mail strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
  <Input
  id="email"
  type="email"
  placeholder="hello@example.com"
- className="pl-9 bg-white border-gray-200 text-white"
+ className="pl-9 bg-background border-border text-primary-foreground"
  value={email}
  onChange={(e) => setEmail(e.target.value)}
  required
@@ -203,12 +203,12 @@ export function AuthModal() {
  <div className="space-y-2">
  <Label htmlFor="password">Password</Label>
  <div className="relative">
- <Lock strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+ <Lock strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
  <Input
  id="password"
  type="password"
  placeholder="••••••••"
- className="pl-9 bg-white border-gray-200 text-white"
+ className="pl-9 bg-background border-border text-primary-foreground"
  value={password}
  onChange={(e) => setPassword(e.target.value)}
  required
@@ -223,13 +223,13 @@ export function AuthModal() {
  </div>
  )}
 
- <Button type="submit" className="w-full bg-white text-black hover:bg-neutral-200 h-11" disabled={isLoading}>
+ <Button type="submit" className="w-full bg-background text-foreground hover:bg-neutral-200 h-11" disabled={isLoading}>
  {isLoading && <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />}
  {isLogin ? "Sign In" : "Create Account"}
  </Button>
 
  <div className="text-center text-sm pt-2">
- <span className="text-gray-400">
+ <span className="text-muted-foreground/80">
  {isLogin ? "Don't have an account? " : "Already have an account? "}
  </span>
  <button
@@ -238,7 +238,7 @@ export function AuthModal() {
  setIsLogin(!isLogin);
  setError("");
  }}
- className="text-white hover:text-white/80 font-medium hover:underline"
+ className="text-primary-foreground hover:text-primary-foreground/80 font-medium hover:underline"
  >
  {isLogin ? "Sign up" : "Log in"}
  </button>

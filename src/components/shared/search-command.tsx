@@ -111,23 +111,23 @@ export function SearchCommand() {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="p-0 gap-0 bg-white border border-gray-100 sm:max-w-[550px] shadow-2xl rounded-3xl overflow-hidden">
+        <DialogContent className="p-0 gap-0 bg-background border border-gray-100 sm:max-w-[550px] shadow-2xl rounded-3xl overflow-hidden">
           <DialogHeader className="p-6 border-b border-gray-100 bg-gray-50/50">
             <DialogTitle className="sr-only">Search</DialogTitle>
             <div className="flex items-center gap-4 px-2">
-              <Search strokeWidth={2} className="h-5 w-5 text-gray-400" />
+              <Search strokeWidth={2} className="h-5 w-5 text-muted-foreground/80" />
               <Input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search everything..."
-                className="border-0 bg-transparent text-xl focus-visible:ring-0 placeholder:text-gray-400 h-auto p-0 text-black font-medium tracking-tight"
+                className="border-0 bg-transparent text-xl focus-visible:ring-0 placeholder:text-muted-foreground/80 h-auto p-0 text-foreground font-medium tracking-tight"
                 autoFocus
               />
-              {loading && <Loader2 className="h-5 w-5 animate-spin text-gray-400" />}
+              {loading && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground/80" />}
             </div>
           </DialogHeader>
 
-          <div className="max-h-[400px] overflow-y-auto p-3 bg-white">
+          <div className="max-h-[400px] overflow-y-auto p-3 bg-background">
             {results.length > 0 ? (
               <div className="space-y-1">
                 {results.map((result) => (
@@ -137,19 +137,19 @@ export function SearchCommand() {
                     className="w-full text-left px-5 py-4 rounded-2xl hover:bg-gray-50 active:bg-gray-100 transition-all duration-300 group flex items-start gap-5 border border-transparent hover:border-gray-100"
                   >
                     <div className={cn(
-                      "mt-1 p-2.5 rounded-xl bg-gray-100 text-gray-500 group-hover:bg-black group-hover:text-white transition-all duration-500"
+                      "mt-1 p-2.5 rounded-xl bg-gray-100 text-muted-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500"
                     )}>
                       {getIcon(result.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-base font-bold text-black truncate group-hover:translate-x-1 transition-transform duration-500">
+                      <h4 className="text-base font-bold text-foreground truncate group-hover:translate-x-1 transition-transform duration-500">
                         {result.title}
                       </h4>
-                      <p className="text-xs text-gray-500 truncate mt-1 font-medium">
+                      <p className="text-xs text-muted-foreground truncate mt-1 font-medium">
                         {result.description}
                       </p>
                     </div>
-                    <span className="text-[9px] uppercase font-black tracking-[0.2em] text-gray-400 group-hover:text-black self-center bg-gray-100 group-hover:bg-gray-200 px-2 py-1 rounded-md transition-colors">
+                    <span className="text-[9px] uppercase font-black tracking-[0.2em] text-muted-foreground/80 group-hover:text-foreground self-center bg-gray-100 group-hover:bg-gray-200 px-2 py-1 rounded-md transition-colors">
                       {result.type}
                     </span>
                   </button>
@@ -158,11 +158,11 @@ export function SearchCommand() {
             ) : query ? (
               <div className="py-20 text-center flex flex-col items-center gap-4">
                 <div className="p-4 bg-gray-50 rounded-full">
-                  <Search strokeWidth={1.5} className="h-8 w-8 text-gray-400" />
+                  <Search strokeWidth={1.5} className="h-8 w-8 text-muted-foreground/80" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-black font-bold">No results found</p>
-                  <p className="text-sm text-gray-500">We couldn't find anything matching "{query}"</p>
+                  <p className="text-foreground font-bold">No results found</p>
+                  <p className="text-sm text-muted-foreground">We couldn't find anything matching "{query}"</p>
                 </div>
               </div>
             ) : (
@@ -170,7 +170,7 @@ export function SearchCommand() {
                 <div className="p-4 bg-gray-50 rounded-full">
                   <Search strokeWidth={1.5} className="h-8 w-8 text-gray-300" />
                 </div>
-                <p className="text-sm text-gray-400 font-medium tracking-wide uppercase">
+                <p className="text-sm text-muted-foreground/80 font-medium tracking-wide uppercase">
                   Type to explore the platform
                 </p>
               </div>
@@ -179,14 +179,14 @@ export function SearchCommand() {
 
           <div className="p-4 border-t border-gray-100 bg-gray-50/50 flex justify-between items-center px-6">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Navigation</span>
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Navigation</span>
               <div className="h-px w-8 bg-gray-200" />
             </div>
             <div className="flex gap-3">
-              <kbd className="pointer-events-none inline-flex h-6 select-none items-center gap-1 rounded-md border border-gray-200 bg-white px-2 font-mono text-[10px] font-bold text-gray-500 uppercase shadow-sm">
+              <kbd className="pointer-events-none inline-flex h-6 select-none items-center gap-1 rounded-md border border-border bg-background px-2 font-mono text-[10px] font-bold text-muted-foreground uppercase shadow-sm">
                 esc
               </kbd>
-              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest self-center">to close</span>
+              <span className="text-[10px] font-bold text-muted-foreground/80 uppercase tracking-widest self-center">to close</span>
             </div>
           </div>
         </DialogContent>

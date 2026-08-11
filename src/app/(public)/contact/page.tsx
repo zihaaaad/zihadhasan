@@ -91,7 +91,7 @@ export default function ContactPage() {
   const location = config?.contact?.location || "Dhaka, Bangladesh";
 
   return (
-    <div className="min-h-screen pt-32 pb-20 bg-white text-black font-sans">
+    <div className="min-h-screen pt-32 pb-20 bg-background text-foreground font-sans">
       <div className="container mx-auto px-4 lg:px-8 max-w-6xl flex items-center justify-center min-h-[calc(100vh-200px)]">
         <div className="grid md:grid-cols-2 gap-16 w-full items-start">
           {/* Text & Socials */}
@@ -102,13 +102,13 @@ export default function ContactPage() {
             className="space-y-12 md:sticky md:top-32"
           >
             <div className="space-y-6">
-              <div className="text-[10px] font-mono font-bold tracking-widest text-gray-400 uppercase">
+              <div className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground/80 uppercase">
                 / index / contact
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold text-black tracking-tight leading-[1.1]">
-                Let&apos;s <span className="text-black italic font-serif opacity-80">Collaborate</span>
+              <h1 className="text-5xl md:text-6xl font-bold text-foreground tracking-tight leading-[1.1]">
+                Let&apos;s <span className="text-foreground italic font-serif opacity-80">Collaborate</span>
               </h1>
-              <p className="text-lg text-gray-500 font-medium leading-relaxed max-w-md">
+              <p className="text-lg text-muted-foreground font-medium leading-relaxed max-w-md">
                 {subtitle}
               </p>
             </div>
@@ -116,22 +116,22 @@ export default function ContactPage() {
             <div className="flex gap-3">
               {socials.length > 0 ? socials.map((item, i) => (
                 <Link key={i} href={item.url} target="_blank">
-                  <Button size="icon" variant="outline" className="h-12 w-12 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-600 hover:text-black transition-all shadow-sm">
+                  <Button size="icon" variant="outline" className="h-12 w-12 rounded-xl border border-border bg-background hover:bg-gray-50 text-gray-600 hover:text-foreground transition-all shadow-sm">
                     <SocialIcon platform={item.platform} />
                   </Button>
                 </Link>
               )) : (
-                <Link href="#" target="_blank"><Button size="icon" variant="outline" className="h-12 w-12 rounded-xl border-gray-200 shadow-sm hover:bg-gray-50 hover:text-black"><Mail className="h-5 w-5" /></Button></Link>
+                <Link href="#" target="_blank"><Button size="icon" variant="outline" className="h-12 w-12 rounded-xl border-border shadow-sm hover:bg-gray-50 hover:text-foreground"><Mail className="h-5 w-5" /></Button></Link>
               )}
             </div>
 
-            <div className="p-6 rounded-2xl border border-gray-200 bg-gray-50/50 max-w-sm shadow-sm">
-              <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Location</h3>
-              <div className="flex items-center gap-2.5 text-black font-bold tracking-tight mb-2">
-                <MapPin className="h-4 w-4 text-gray-400" />
+            <div className="p-6 rounded-2xl border border-border bg-gray-50/50 max-w-sm shadow-sm">
+              <h3 className="text-[10px] font-bold text-muted-foreground/80 uppercase tracking-widest mb-3">Location</h3>
+              <div className="flex items-center gap-2.5 text-foreground font-bold tracking-tight mb-2">
+                <MapPin className="h-4 w-4 text-muted-foreground/80" />
                 <p className="text-base">{location}</p>
               </div>
-              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-4 pt-4 border-t border-gray-200">Available for Global Contracts</p>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-4 pt-4 border-t border-border">Available for Global Contracts</p>
             </div>
           </motion.div>
 
@@ -141,30 +141,30 @@ export default function ContactPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="p-8 md:p-10 border border-gray-200 shadow-xl shadow-gray-100/50 bg-white rounded-3xl">
+            <div className="p-8 md:p-10 border border-border shadow-xl shadow-gray-100/50 bg-background rounded-3xl">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Name</Label>
-                    <Input name="name" placeholder="JOHN DOE" className="bg-gray-50 border border-gray-200 h-12 rounded-xl focus:bg-white focus:ring-1 focus:ring-gray-300 focus:border-gray-300 text-sm font-medium text-black placeholder:text-gray-400 px-4 transition-all" required />
+                    <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Name</Label>
+                    <Input name="name" placeholder="JOHN DOE" className="bg-gray-50 border border-border h-12 rounded-xl focus:bg-background focus:ring-1 focus:ring-gray-300 focus:border-gray-300 text-sm font-medium text-foreground placeholder:text-muted-foreground/80 px-4 transition-all" required />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Email</Label>
-                    <Input name="email" type="email" placeholder="HELLO@EXAMPLE.COM" className="bg-gray-50 border border-gray-200 h-12 rounded-xl focus:bg-white focus:ring-1 focus:ring-gray-300 focus:border-gray-300 text-sm font-medium text-black placeholder:text-gray-400 px-4 transition-all" required />
+                    <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Email</Label>
+                    <Input name="email" type="email" placeholder="HELLO@EXAMPLE.COM" className="bg-gray-50 border border-border h-12 rounded-xl focus:bg-background focus:ring-1 focus:ring-gray-300 focus:border-gray-300 text-sm font-medium text-foreground placeholder:text-muted-foreground/80 px-4 transition-all" required />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Subject</Label>
-                  <Input name="subject" placeholder="PROJECT INQUIRY" className="bg-gray-50 border border-gray-200 h-12 rounded-xl focus:bg-white focus:ring-1 focus:ring-gray-300 focus:border-gray-300 text-sm font-medium text-black placeholder:text-gray-400 px-4 transition-all" required />
+                  <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Subject</Label>
+                  <Input name="subject" placeholder="PROJECT INQUIRY" className="bg-gray-50 border border-border h-12 rounded-xl focus:bg-background focus:ring-1 focus:ring-gray-300 focus:border-gray-300 text-sm font-medium text-foreground placeholder:text-muted-foreground/80 px-4 transition-all" required />
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Message</Label>
-                  <Textarea name="message" placeholder="Tell me about your project..." className="bg-gray-50 border border-gray-200 min-h-[160px] rounded-xl focus:bg-white focus:ring-1 focus:ring-gray-300 focus:border-gray-300 text-sm font-medium text-black placeholder:text-gray-400 px-4 py-3 leading-relaxed transition-all resize-none" required />
+                  <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Message</Label>
+                  <Textarea name="message" placeholder="Tell me about your project..." className="bg-gray-50 border border-border min-h-[160px] rounded-xl focus:bg-background focus:ring-1 focus:ring-gray-300 focus:border-gray-300 text-sm font-medium text-foreground placeholder:text-muted-foreground/80 px-4 py-3 leading-relaxed transition-all resize-none" required />
                 </div>
 
-                <Button type="submit" disabled={isSubmitting} className="w-full h-12 rounded-xl text-xs font-bold uppercase tracking-widest bg-black text-white hover:bg-gray-800 transition-all shadow-md mt-4">
+                <Button type="submit" disabled={isSubmitting} className="w-full h-12 rounded-xl text-xs font-bold uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-md mt-4">
                   {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing</> : <><Send className="mr-2 h-4 w-4" /> Send Message</>}
                 </Button>
               </form>

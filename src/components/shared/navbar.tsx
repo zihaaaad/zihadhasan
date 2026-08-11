@@ -60,13 +60,13 @@ export function Navbar() {
 
   return (
     <header
-      className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 h-16 flex items-center"
+      className="fixed top-0 z-50 w-full bg-background border-b border-border h-16 flex items-center"
     >
       <div className="container mx-auto px-4 lg:px-8 w-full">
         <div className="relative flex items-center justify-between w-full">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold tracking-tighter text-black flex items-center group">
-            ZH<span className="text-black group-hover:scale-125 transition-transform duration-300">.</span>
+          <Link href="/" className="text-xl font-bold tracking-tighter text-foreground flex items-center group">
+            ZH<span className="text-foreground group-hover:scale-125 transition-transform duration-300">.</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -76,15 +76,15 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "text-xs font-semibold tracking-wider uppercase transition-all duration-300 hover:text-black",
-                  pathname === item.href ? "text-black font-bold" : "text-gray-400"
+                  "relative text-xs font-semibold tracking-wider uppercase transition-all duration-300 hover:text-foreground",
+                  pathname === item.href ? "text-foreground font-bold" : "text-muted-foreground/80"
                 )}
               >
                 {item.name}
                 {pathname === item.href && (
                   <motion.div
                     layoutId="navbar-indicator"
-                    className="h-[2px] w-full bg-black mt-1 absolute"
+                    className="h-[2px] w-full bg-primary mt-1 absolute -bottom-2 left-0 right-0"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
@@ -97,7 +97,7 @@ export function Navbar() {
             <button
               onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
               aria-label="Open search"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-xs text-gray-500 hover:bg-gray-100 hover:text-black transition-all duration-300"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-gray-50 text-xs text-muted-foreground hover:bg-gray-100 hover:text-foreground transition-all duration-300"
             >
               <Search strokeWidth={2} className="h-3 w-3" />
               <span className="text-[10px] tracking-widest uppercase font-bold">Search</span>
@@ -107,16 +107,16 @@ export function Navbar() {
               <div className="flex items-center gap-3">
                 <NotificationBell />
                 <Link href="/my-account" className="flex items-center gap-2 group">
-                  <div className="h-8 w-8 rounded-full bg-gray-100 overflow-hidden border border-gray-200 group-hover:border-black transition-all duration-500 relative">
+                  <div className="h-8 w-8 rounded-full bg-gray-100 overflow-hidden border border-border group-hover:border-primary transition-all duration-500 relative">
                     {profile?.photoURL ? (
                       <img src={profile.photoURL} alt={profile.name || "Your profile picture"} className="h-full w-full object-cover" />
                     ) : (
                       <div className="h-full w-full flex items-center justify-center">
-                        <UserIcon strokeWidth={1.5} className="h-4 w-4 text-gray-400" />
+                        <UserIcon strokeWidth={1.5} className="h-4 w-4 text-muted-foreground/80" />
                       </div>
                     )}
                     {hasPending && (
-                      <div className="absolute top-0 right-0 h-2 w-2 bg-black rounded-full border border-white" />
+                      <div className="absolute top-0 right-0 h-2 w-2 bg-primary rounded-full border border-white" />
                     )}
                   </div>
                 </Link>
@@ -124,7 +124,7 @@ export function Navbar() {
             ) : (
               <Button
                 variant="ghost"
-                className="text-[11px] font-bold uppercase tracking-widest text-gray-500 hover:text-black hover:bg-gray-100 px-4 rounded-full"
+                className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-gray-100 px-4 rounded-full"
                 onClick={openAuthModal}
               >
                 Login
@@ -134,7 +134,7 @@ export function Navbar() {
             {showEvents && (
               <Button
                 size="sm"
-                className="rounded-full bg-black text-[10px] font-bold uppercase tracking-[0.2em] text-white hover:bg-gray-800 transition-all duration-300 h-8 px-6 shadow-md shadow-black/10"
+                className="rounded-full bg-primary text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground hover:bg-primary/90 transition-all duration-300 h-8 px-6 shadow-md shadow-black/10"
                 asChild
               >
                 <Link href="/events">Join Event</Link>
@@ -144,7 +144,7 @@ export function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-black p-2"
+            className="md:hidden text-foreground p-2"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
@@ -161,7 +161,7 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="absolute left-4 right-4 top-full mt-4 rounded-3xl border border-gray-100 bg-white shadow-2xl p-6 md:hidden overflow-hidden"
+              className="absolute left-4 right-4 top-full mt-4 rounded-3xl border border-gray-100 bg-background shadow-2xl p-6 md:hidden overflow-hidden"
             >
               <nav className="flex flex-col gap-6">
                 {navItems.map((item) => (
@@ -170,7 +170,7 @@ export function Navbar() {
                     href={item.href}
                     className={cn(
                       "text-xl font-bold tracking-tight transition-colors",
-                      pathname === item.href ? "text-black" : "text-gray-400 hover:text-black"
+                      pathname === item.href ? "text-foreground" : "text-muted-foreground/80 hover:text-foreground"
                     )}
                     onClick={() => setIsOpen(false)}
                   >
@@ -180,7 +180,7 @@ export function Navbar() {
                 {showEvents && (
                   <Link
                     href="/events"
-                    className="text-xl font-bold tracking-tight text-gray-400 hover:text-black mt-2"
+                    className="text-xl font-bold tracking-tight text-muted-foreground/80 hover:text-foreground mt-2"
                     onClick={() => setIsOpen(false)}
                   >
                     Events
@@ -192,14 +192,14 @@ export function Navbar() {
                 {user ? (
                    <Link
                    href="/my-account"
-                   className="text-lg font-bold text-black flex items-center gap-3"
+                   className="text-lg font-bold text-foreground flex items-center gap-3"
                    onClick={() => setIsOpen(false)}
                  >
                    <UserIcon className="h-5 w-5" /> My Account
                  </Link>
                 ) : (
                   <button
-                    className="text-lg font-bold text-black text-left flex items-center gap-3"
+                    className="text-lg font-bold text-foreground text-left flex items-center gap-3"
                     onClick={() => {
                       setIsOpen(false);
                       openAuthModal();

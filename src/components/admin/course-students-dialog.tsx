@@ -113,22 +113,22 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
 
  return (
  <Dialog open={open} onOpenChange={onOpenChange}>
- <DialogContent className="max-w-6xl bg-gray-50 border-gray-200 text-white max-h-[90vh] overflow-y-auto">
+ <DialogContent className="max-w-6xl bg-gray-50 border-border text-primary-foreground max-h-[90vh] overflow-y-auto">
  <DialogHeader>
  <DialogTitle>Students: {courseTitle}</DialogTitle>
- <DialogDescription className="text-gray-400">
+ <DialogDescription className="text-muted-foreground/80">
  Manage enrolled students and verify payments.
  </DialogDescription>
  </DialogHeader>
 
  {editingStudent && (
- <div className="mb-6 p-4 bg-white border border-gray-200 rounded-lg">
+ <div className="mb-6 p-4 bg-background border border-border rounded-lg">
  <h4 className="font-bold mb-4 text-primary">Edit Student Info</h4>
  <form onSubmit={handleUpdateStudent} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
  <div className="space-y-2">
  <label className="text-xs">Trx ID</label>
  <input
- className="w-full bg-gray-50 border border-gray-200 rounded px-2 py-1"
+ className="w-full bg-gray-50 border border-border rounded px-2 py-1"
  value={editingStudent.trxId || ''}
  onChange={e => setEditingStudent({ ...editingStudent, trxId: e.target.value })}
  />
@@ -136,7 +136,7 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
  <div className="space-y-2">
  <label className="text-xs">Phone</label>
  <input
- className="w-full bg-gray-50 border border-gray-200 rounded px-2 py-1"
+ className="w-full bg-gray-50 border border-border rounded px-2 py-1"
  value={editingStudent.phone || ''}
  onChange={e => setEditingStudent({ ...editingStudent, phone: e.target.value })}
  />
@@ -155,40 +155,40 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
  <Loader2 className="h-8 w-8 animate-spin text-primary" />
  </div>
  ) : students.length === 0 ? (
- <div className="text-center py-12 border border-dashed border-gray-200 rounded-lg bg-white">
- <UserX className="h-10 w-10 text-gray-500 mx-auto mb-3" />
- <p className="text-gray-400">No students enrolled yet.</p>
+ <div className="text-center py-12 border border-dashed border-border rounded-lg bg-background">
+ <UserX className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+ <p className="text-muted-foreground/80">No students enrolled yet.</p>
  </div>
  ) : (
- <div className="border border-gray-200 rounded-md overflow-hidden">
+ <div className="border border-border rounded-md overflow-hidden">
  <Table>
- <TableHeader className="bg-white">
- <TableRow className="border-gray-200 hover:bg-white">
- <TableHead className="text-gray-400">Name/Email</TableHead>
- <TableHead className="text-gray-400">Payment Info</TableHead>
- <TableHead className="text-gray-400">Status</TableHead>
- <TableHead className="text-gray-400">Joined</TableHead>
- <TableHead className="text-right text-gray-400">Actions</TableHead>
+ <TableHeader className="bg-background">
+ <TableRow className="border-border hover:bg-background">
+ <TableHead className="text-muted-foreground/80">Name/Email</TableHead>
+ <TableHead className="text-muted-foreground/80">Payment Info</TableHead>
+ <TableHead className="text-muted-foreground/80">Status</TableHead>
+ <TableHead className="text-muted-foreground/80">Joined</TableHead>
+ <TableHead className="text-right text-muted-foreground/80">Actions</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
  {students.map((student) => (
- <TableRow key={student.id} className="border-gray-200 hover:bg-white">
+ <TableRow key={student.id} className="border-border hover:bg-background">
  <TableCell>
  <div className="font-medium">{student.name}</div>
- <div className="text-xs text-gray-400">{student.email}</div>
+ <div className="text-xs text-muted-foreground/80">{student.email}</div>
  {student.additionalInfo && (
  <div className="text-xs text-yellow-400/80 mt-1">Note: {student.additionalInfo}</div>
  )}
  </TableCell>
  <TableCell>
  <div className="text-sm">
- <span className="text-gray-500">Trx:</span> <span className="font-mono text-white">{student.trxId || "N/A"}</span>
+ <span className="text-muted-foreground">Trx:</span> <span className="font-mono text-primary-foreground">{student.trxId || "N/A"}</span>
  </div>
- <div className="text-xs text-gray-400">
- <span className="text-gray-500">Phone:</span> {student.phone || "N/A"}
+ <div className="text-xs text-muted-foreground/80">
+ <span className="text-muted-foreground">Phone:</span> {student.phone || "N/A"}
  </div>
- <div className="text-xs text-gray-500 uppercase">{student.paymentMethod || "N/A"}</div>
+ <div className="text-xs text-muted-foreground uppercase">{student.paymentMethod || "N/A"}</div>
  </TableCell>
  <TableCell>
  <span className={`px-2 py-0.5 rounded text-xs lowercase ${student.status === 'approved' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
@@ -196,7 +196,7 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
  {student.status}
  </span>
  </TableCell>
- <TableCell className="text-gray-400 text-sm">
+ <TableCell className="text-muted-foreground/80 text-sm">
  {student.registeredAt?.seconds ? format(student.registeredAt.toDate(), "MMM d, yyyy") : "-"}
  </TableCell>
  <TableCell className="text-right">
@@ -256,7 +256,7 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={() => confirmKickId && handleKick(confirmKickId)}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  Remove Student
  </AlertDialogAction>

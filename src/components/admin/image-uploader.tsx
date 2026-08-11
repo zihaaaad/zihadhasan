@@ -100,14 +100,14 @@ export function ImageUploader({ value, onChange, className, label = "Upload Imag
  return (
  <div className={cn("space-y-3", className)}>
  <div className="flex items-center justify-between">
- <span className="text-sm font-medium text-white/80">{label}</span>
+ <span className="text-sm font-medium text-primary-foreground/80">{label}</span>
  <div className="flex items-center gap-2">
  <Button
  type="button"
  variant="ghost"
  size="sm"
  onClick={() => setInputType("drop")}
- className={cn("h-7 text-xs", inputType === "drop" ? "bg-white text-white" : "text-white/50")}
+ className={cn("h-7 text-xs", inputType === "drop" ? "bg-background text-primary-foreground" : "text-primary-foreground/50")}
  >
  Upload
  </Button>
@@ -116,7 +116,7 @@ export function ImageUploader({ value, onChange, className, label = "Upload Imag
  variant="ghost"
  size="sm"
  onClick={() => setInputType("url")}
- className={cn("h-7 text-xs", inputType === "url" ? "bg-white text-white" : "text-white/50")}
+ className={cn("h-7 text-xs", inputType === "url" ? "bg-background text-primary-foreground" : "text-primary-foreground/50")}
  >
  URL
  </Button>
@@ -124,7 +124,7 @@ export function ImageUploader({ value, onChange, className, label = "Upload Imag
  </div>
 
  {value ? (
- <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-50 group">
+ <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border bg-gray-50 group">
  <img src={value} alt="Preview" className="h-full w-full object-cover" />
  <div className="absolute inset-0 bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
  <Button
@@ -144,7 +144,7 @@ export function ImageUploader({ value, onChange, className, label = "Upload Imag
  <div
  {...getRootProps()}
  className={cn(
- "flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-200 bg-white p-6 transition-colors hover:bg-white cursor-pointer min-h-[160px]",
+ "flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-background p-6 transition-colors hover:bg-background cursor-pointer min-h-[160px]",
  isDragActive && "border-primary bg-primary/5",
  uploading && "opacity-50 pointer-events-none"
  )}
@@ -153,18 +153,18 @@ export function ImageUploader({ value, onChange, className, label = "Upload Imag
  {uploading ? (
  <div className="flex flex-col items-center gap-2">
  <Loader2 className="h-8 w-8 animate-spin text-primary" />
- <span className="text-xs text-white/50">Uploading to Cloud...</span>
+ <span className="text-xs text-primary-foreground/50">Uploading to Cloud...</span>
  </div>
  ) : (
  <div className="flex flex-col items-center gap-2 text-center">
- <div className="p-3 rounded-full bg-white">
- <Upload className="h-5 w-5 text-white/50" />
+ <div className="p-3 rounded-full bg-background">
+ <Upload className="h-5 w-5 text-primary-foreground/50" />
  </div>
  <div className="space-y-1">
- <p className="text-sm font-medium text-white/80">
+ <p className="text-sm font-medium text-primary-foreground/80">
  Click or drag to upload
  </p>
- <p className="text-xs text-white/40">
+ <p className="text-xs text-primary-foreground/40">
  Supports JPG, PNG, WEBP
  </p>
  </div>
@@ -177,9 +177,9 @@ export function ImageUploader({ value, onChange, className, label = "Upload Imag
  value={urlInput}
  onChange={(e) => setUrlInput(e.target.value)}
  placeholder="https://images.unsplash.com/..."
- className="bg-gray-50 border-gray-200 text-white"
+ className="bg-gray-50 border-border text-primary-foreground"
  />
- <Button type="button" onClick={handleUrlSubmit} className="bg-white hover:bg-white">
+ <Button type="button" onClick={handleUrlSubmit} className="bg-background hover:bg-background">
  Set
  </Button>
  </div>

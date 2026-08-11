@@ -21,9 +21,9 @@ export function LessonItem({ lesson, index, isSelected, isUnlocked, isCompleted,
  className={cn(
  "group flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 cursor-pointer relative overflow-hidden",
  isSelected
- ? "bg-white border-gray-200 shadow-[0_0_20px_rgba(255,255,255,0.05)]"
+ ? "bg-background border-border shadow-[0_0_20px_rgba(255,255,255,0.05)]"
  : (isUnlocked
- ? "bg-transparent border-transparent hover:bg-white hover:border-gray-200"
+ ? "bg-transparent border-transparent hover:bg-background hover:border-border"
  : "bg-transparent border-transparent opacity-40 cursor-not-allowed")
  )}
  >
@@ -31,10 +31,10 @@ export function LessonItem({ lesson, index, isSelected, isUnlocked, isCompleted,
  <div className={cn(
  "shrink-0 h-7 w-7 rounded-full flex items-center justify-center border transition-all duration-500",
  isCompleted
- ? "bg-white text-black border-white"
+ ? "bg-background text-foreground border-white"
  : (isUnlocked
- ? "border-gray-200 text-gray-500 group-hover:border-white group-hover:text-white"
- : "border-gray-200 text-neutral-700 bg-gray-50/50")
+ ? "border-border text-muted-foreground group-hover:border-white group-hover:text-primary-foreground"
+ : "border-border text-neutral-700 bg-gray-50/50")
  )}>
  {isCompleted ? (
  <motion.div
@@ -54,14 +54,14 @@ export function LessonItem({ lesson, index, isSelected, isUnlocked, isCompleted,
  <div className="flex-1 min-w-0">
  <h3 className={cn(
  "text-[13px] font-bold tracking-tight truncate transition-colors uppercase",
- isSelected ? "text-white" : (isUnlocked ? "text-gray-600 group-hover:text-white" : "text-gray-800")
+ isSelected ? "text-primary-foreground" : (isUnlocked ? "text-gray-600 group-hover:text-primary-foreground" : "text-gray-800")
  )}>
  {index + 1}. {lesson.title}
  </h3>
- <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-gray-500 mt-1">
+ <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-1">
  {lesson.duration && <span>{lesson.duration}</span>}
  {lesson.isFreePreview && (
- <span className="text-white bg-white px-2 py-0.5 rounded border border-gray-200">
+ <span className="text-primary-foreground bg-background px-2 py-0.5 rounded border border-border">
  Preview
  </span>
  )}
@@ -72,7 +72,7 @@ export function LessonItem({ lesson, index, isSelected, isUnlocked, isCompleted,
  {isSelected && (
  <motion.div
  layoutId="activeLessonIndicator"
- className="absolute left-0 top-0 bottom-0 w-1 bg-white"
+ className="absolute left-0 top-0 bottom-0 w-1 bg-background"
  initial={{ opacity: 0 }}
  animate={{ opacity: 1 }}
  />

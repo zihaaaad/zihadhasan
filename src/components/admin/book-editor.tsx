@@ -109,18 +109,18 @@ export function BookEditor({ initialData, initialSecureContent }: BookEditorProp
  return (
  <div className="space-y-8 max-w-5xl mx-auto pb-20">
  {/* Header */}
- <div className="flex items-center justify-between sticky top-0 bg-gray-50 z-50 py-4 border-b border-gray-200 px-4 -mx-4">
- <Button variant="ghost" onClick={() => router.back()} className="text-gray-500 hover:text-white">
+ <div className="flex items-center justify-between sticky top-0 bg-gray-50 z-50 py-4 border-b border-border px-4 -mx-4">
+ <Button variant="ghost" onClick={() => router.back()} className="text-muted-foreground hover:text-foreground">
  <ArrowLeft className="mr-2 h-4 w-4" /> Back
  </Button>
  <div className="flex items-center gap-6">
  <div className="flex items-center gap-2">
  <Switch checked={isPublished} onCheckedChange={setIsPublished} />
- <span className={`text-[10px] font-bold uppercase tracking-widest ${isPublished ? 'text-emerald-500' : 'text-gray-500'}`}>
+ <span className={`text-[10px] font-bold uppercase tracking-widest ${isPublished ? 'text-emerald-500' : 'text-muted-foreground'}`}>
  {isPublished ? 'Live' : 'Draft'}
  </span>
  </div>
- <Button onClick={handleSave} disabled={submitting} className="bg-white text-black hover:bg-neutral-200 rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[10px]">
+ <Button onClick={handleSave} disabled={submitting} className="bg-background text-foreground hover:bg-neutral-200 rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[10px]">
  {submitting && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}
  {initialData ? "Update Release" : "Publish Work"}
  </Button>
@@ -130,35 +130,35 @@ export function BookEditor({ initialData, initialSecureContent }: BookEditorProp
  <div className="grid lg:grid-cols-3 gap-8">
  {/* Left: Metadata */}
  <div className="lg:col-span-2 space-y-6">
- <div className="p-8 rounded-[2rem] border border-white/[0.05] bg-white/[0.02] space-y-6">
+ <div className="p-8 rounded-[2rem] border border-border bg-background space-y-6">
  <div className="space-y-2">
- <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Title</Label>
- <Input value={title} onChange={e => setTitle(e.target.value)} className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white font-bold" />
+ <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Title</Label>
+ <Input value={title} onChange={e => setTitle(e.target.value)} className="bg-background border-border h-12 rounded-xl text-foreground font-bold" />
  </div>
 
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Slug</Label>
- <Input value={slug} onChange={e => setSlug(e.target.value)} className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-gray-600 font-mono text-xs" />
+ <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Slug</Label>
+ <Input value={slug} onChange={e => setSlug(e.target.value)} className="bg-background border-border h-12 rounded-xl text-gray-600 font-mono text-xs" />
  </div>
  <div className="space-y-2">
- <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Author</Label>
- <Input value={author} onChange={e => setAuthor(e.target.value)} className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white" />
+ <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Author</Label>
+ <Input value={author} onChange={e => setAuthor(e.target.value)} className="bg-background border-border h-12 rounded-xl text-foreground" />
  </div>
  </div>
 
  <div className="space-y-2">
- <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Short Description</Label>
- <Textarea value={description} onChange={e => setDescription(e.target.value)} className="bg-white/[0.03] border-white/[0.05] rounded-2xl min-h-[100px] text-white leading-relaxed" />
+ <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Short Description</Label>
+ <Textarea value={description} onChange={e => setDescription(e.target.value)} className="bg-background border-border rounded-2xl min-h-[100px] text-foreground leading-relaxed" />
  </div>
 
- <div className="space-y-2 pt-4 border-t border-white/[0.03]">
- <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Free Preview Content (HTML)</Label>
+ <div className="space-y-2 pt-4 border-t border-border">
+ <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Free Preview Content (HTML)</Label>
  <Textarea 
  value={previewContent} 
  onChange={e => setPreviewContent(e.target.value)} 
  placeholder="Paste some sample chapters here..."
- className="bg-white/[0.03] border-white/[0.05] rounded-2xl min-h-[200px] text-white font-mono text-xs leading-relaxed" 
+ className="bg-background border-border rounded-2xl min-h-[200px] text-foreground font-mono text-xs leading-relaxed" 
  />
  </div>
  </div>
@@ -167,10 +167,10 @@ export function BookEditor({ initialData, initialSecureContent }: BookEditorProp
  <div className="space-y-4">
  <div className="flex items-center gap-2 px-1">
  <ShieldCheck className="h-4 w-4 text-primary" />
- <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Secure E-Book Environment (Full Content)</h3>
+ <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Secure E-Book Environment (Full Content)</h3>
  </div>
- <div className="rounded-[2rem] border border-white/[0.05] bg-white/[0.02] overflow-hidden">
- <div className="p-2 border-b border-white/[0.05] flex gap-1 bg-white/[0.01]">
+ <div className="rounded-[2rem] border border-border bg-background overflow-hidden">
+ <div className="p-2 border-b border-border flex gap-1 bg-background">
  <ToolbarBtn onClick={() => editor?.chain().focus().toggleBold().run()} icon={<Bold className="h-3.5 w-3.5" />} />
  <ToolbarBtn onClick={() => editor?.chain().focus().toggleItalic().run()} icon={<Italic className="h-3.5 w-3.5" />} />
  <ToolbarBtn onClick={() => editor?.chain().focus().toggleBulletList().run()} icon={<List className="h-3.5 w-3.5" />} />
@@ -184,33 +184,33 @@ export function BookEditor({ initialData, initialSecureContent }: BookEditorProp
 
  {/* Right: Pricing & Visuals */}
  <div className="space-y-6">
- <div className="p-8 rounded-[2rem] border border-white/[0.05] bg-white/[0.02] space-y-8">
+ <div className="p-8 rounded-[2rem] border border-border bg-background space-y-8">
  <div className="space-y-4">
- <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Distribution Type</Label>
+ <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Distribution Type</Label>
  <RadioGroup value={type} onValueChange={(v: any) => setType(v)} className="grid gap-3">
  {['ebook', 'hardcopy', 'both'].map((t) => (
- <div key={t} className="flex items-center space-x-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.05]">
- <RadioGroupItem value={t} id={t} className="border-gray-200 text-primary" />
- <Label htmlFor={t} className="text-xs font-bold uppercase tracking-widest cursor-pointer text-white">{t}</Label>
+ <div key={t} className="flex items-center space-x-3 p-3 rounded-xl bg-background border border-border">
+ <RadioGroupItem value={t} id={t} className="border-border text-primary" />
+ <Label htmlFor={t} className="text-xs font-bold uppercase tracking-widest cursor-pointer text-foreground">{t}</Label>
  </div>
  ))}
  </RadioGroup>
  </div>
 
- <div className="space-y-4 pt-6 border-t border-white/[0.03]">
+ <div className="space-y-4 pt-6 border-t border-border">
  <div className="space-y-2">
- <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">E-Book Price (৳)</Label>
- <Input type="number" value={price} onChange={e => setPrice(Number(e.target.value))} className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white font-bold" />
+ <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">E-Book Price (৳)</Label>
+ <Input type="number" value={price} onChange={e => setPrice(Number(e.target.value))} className="bg-background border-border h-12 rounded-xl text-foreground font-bold" />
  </div>
  {type !== 'ebook' && (
  <div className="space-y-2">
- <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Hardcopy Price (৳)</Label>
- <Input type="number" value={hardcopyPrice} onChange={e => setHardcopyPrice(Number(e.target.value))} className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white font-bold" />
+ <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Hardcopy Price (৳)</Label>
+ <Input type="number" value={hardcopyPrice} onChange={e => setHardcopyPrice(Number(e.target.value))} className="bg-background border-border h-12 rounded-xl text-foreground font-bold" />
  </div>
  )}
  </div>
 
- <div className="pt-6 border-t border-white/[0.03]">
+ <div className="pt-6 border-t border-border">
  <ImageUploader label="Book Cover Artwork" value={imageUrl} onChange={setImageUrl} />
  </div>
  </div>
@@ -222,7 +222,7 @@ export function BookEditor({ initialData, initialSecureContent }: BookEditorProp
 
 function ToolbarBtn({ onClick, icon }: { onClick: () => void, icon: React.ReactNode }) {
  return (
- <button onClick={onClick} className="p-2 rounded-lg hover:bg-white text-gray-500 hover:text-white transition-colors">
+ <button onClick={onClick} className="p-2 rounded-lg hover:bg-background text-muted-foreground hover:text-foreground transition-colors">
  {icon}
  </button>
  );

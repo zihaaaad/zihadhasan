@@ -42,13 +42,13 @@ function BlogPostContent() {
  }
  };
 
- if (!slug) return <div className="min-h-screen pt-24 text-center text-white">Initializing viewer...</div>;
- if (loading) return <div className="min-h-screen pt-24 text-center text-white">Loading post dynamically...</div>;
+ if (!slug) return <div className="min-h-screen pt-24 text-center text-muted-foreground">Initializing viewer...</div>;
+ if (loading) return <div className="min-h-screen pt-24 text-center text-muted-foreground">Loading post dynamically...</div>;
  if (!post) {
  return (
- <div className="min-h-screen pt-24 text-center text-white flex flex-col items-center justify-center p-4">
+ <div className="min-h-screen pt-24 text-center text-muted-foreground flex flex-col items-center justify-center p-4">
  <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
- <p className="text-gray-400 max-w-md">
+ <p className="text-muted-foreground/80 max-w-md">
  We couldn't find the post "{slug}". It might not exist or hasn't been published yet.
  </p>
  <div className="mt-8">
@@ -73,7 +73,7 @@ function BlogPostContent() {
 
 export default function BlogPostViewerPage() {
  return (
- <Suspense fallback={<div className="min-h-screen pt-24 text-center text-white">Loading viewer...</div>}>
+ <Suspense fallback={<div className="min-h-screen pt-24 text-center text-muted-foreground">Loading viewer...</div>}>
  <BlogPostContent />
  </Suspense>
  );

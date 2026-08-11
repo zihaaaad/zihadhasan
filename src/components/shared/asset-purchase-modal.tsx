@@ -120,55 +120,55 @@ export function AssetPurchaseModal({ open, onOpenChange, asset, type }: AssetPur
 
  return (
  <Dialog open={open} onOpenChange={onOpenChange}>
- <DialogContent className="bg-black border border-white/[0.05] text-white sm:max-w-[500px] rounded-[2.5rem] p-0 overflow-hidden">
- {!success ? (
- <div className="p-10">
- <DialogHeader className="mb-8">
- <div className="flex items-center justify-between">
- <DialogTitle className="text-2xl font-bold tracking-tight">Acquire <span className="text-primary italic font-serif">Asset</span></DialogTitle>
- <Button variant="ghost" size="icon" onClick={() => onOpenChange(false)} className="rounded-xl h-8 w-8 hover:bg-white">
- <X className="h-4 w-4" />
- </Button>
- </div>
- <DialogDescription className="text-gray-500 font-medium pt-2">
- You are acquiring: <span className="text-white font-bold">{asset.title}</span>
+        <DialogContent className="bg-background border border-border text-foreground sm:max-w-[500px] rounded-[2.5rem] p-0 overflow-hidden">
+          {!success ? (
+            <div className="p-10">
+              <DialogHeader className="mb-8">
+                <div className="flex items-center justify-between">
+                  <DialogTitle className="text-2xl font-bold tracking-tight">Acquire <span className="text-primary italic font-serif">Asset</span></DialogTitle>
+                  <Button variant="ghost" size="icon" onClick={() => onOpenChange(false)} className="rounded-xl h-8 w-8 hover:bg-gray-100 text-muted-foreground hover:text-foreground">
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+                <DialogDescription className="text-muted-foreground font-medium pt-2">
+                  You are acquiring: <span className="text-foreground font-bold">{asset.title}</span>
  </DialogDescription>
  </DialogHeader>
 
  <div className="space-y-8">
  {/* Payment Instructions */}
- <div className="p-6 rounded-2xl border border-white/[0.05] bg-white/[0.02] space-y-4">
- <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-gray-500">
- <span>Payment Portal</span>
- <span className="text-white">Amount: {formatCurrency(asset.price)}</span>
- </div>
- <div className="space-y-3">
- <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-white/[0.03]">
- <span className="text-xs font-bold uppercase tracking-widest text-gray-600">bKash</span>
- <div className="flex items-center gap-3">
- <span className="font-mono text-sm text-white">{bkashNumber}</span>
- <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-white" onClick={() => {
- navigator.clipboard.writeText(bkashNumber);
- toast.info("Number Copied");
- }}>
- <Copy className="h-3 w-3" />
- </Button>
- </div>
- </div>
- <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-white/[0.03]">
- <span className="text-xs font-bold uppercase tracking-widest text-gray-600">Nagad</span>
- <div className="flex items-center gap-3">
- <span className="font-mono text-sm text-white">{nagadNumber}</span>
- <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-white" onClick={() => {
- navigator.clipboard.writeText(nagadNumber);
- toast.info("Number Copied");
- }}>
- <Copy className="h-3 w-3" />
- </Button>
- </div>
- </div>
- </div>
- </div>
+              <div className="p-6 rounded-2xl border border-border bg-gray-50 space-y-4">
+                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  <span>Payment Portal</span>
+                  <span className="text-foreground">Amount: {formatCurrency(asset.price)}</span>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-background border border-border">
+                    <span className="text-xs font-bold uppercase tracking-widest text-gray-600">bKash</span>
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-sm text-foreground">{bkashNumber}</span>
+                      <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-gray-100" onClick={() => {
+                        navigator.clipboard.writeText(bkashNumber);
+                        toast.info("Number Copied");
+                      }}>
+                        <Copy className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-background border border-border">
+                    <span className="text-xs font-bold uppercase tracking-widest text-gray-600">Nagad</span>
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-sm text-foreground">{nagadNumber}</span>
+                      <Button size="icon" variant="ghost" className="h-7 w-7 hover:bg-gray-100" onClick={() => {
+                        navigator.clipboard.writeText(nagadNumber);
+                        toast.info("Number Copied");
+                      }}>
+                        <Copy className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
  <Form {...form}>
  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -178,9 +178,9 @@ export function AssetPurchaseModal({ open, onOpenChange, asset, type }: AssetPur
  name="name"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Identity</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Identity</FormLabel>
  <FormControl>
- <Input className="bg-white/[0.03] border-white/[0.05] h-11 rounded-xl text-white font-bold uppercase tracking-widest text-[10px] px-4" {...field} />
+                        <Input className="bg-gray-50 border-border h-11 rounded-xl text-foreground font-bold uppercase tracking-widest text-[10px] px-4" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -191,9 +191,9 @@ export function AssetPurchaseModal({ open, onOpenChange, asset, type }: AssetPur
  name="phone"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Contact</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Contact</FormLabel>
  <FormControl>
- <Input className="bg-white/[0.03] border-white/[0.05] h-11 rounded-xl text-white font-bold px-4" {...field} />
+                        <Input className="bg-gray-50 border-border h-11 rounded-xl text-foreground font-bold px-4" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -210,7 +210,7 @@ export function AssetPurchaseModal({ open, onOpenChange, asset, type }: AssetPur
  <FormControl>
  <Input
  placeholder="8X2..."
- className="bg-white/[0.03] border-primary/30 h-12 rounded-xl text-white font-mono uppercase px-4 focus:ring-primary/20"
+                        className="bg-gray-50 border-primary/30 h-12 rounded-xl text-foreground font-mono uppercase px-4 focus:ring-primary/20"
  {...field}
  />
  </FormControl>
@@ -219,9 +219,9 @@ export function AssetPurchaseModal({ open, onOpenChange, asset, type }: AssetPur
  )}
  />
 
- <Button type="submit" className="w-full h-14 rounded-xl bg-white text-black font-bold uppercase tracking-[0.2em] text-[11px] transition-all duration-500 hover:bg-neutral-200" disabled={submitting}>
- {submitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Verifying</> : "Authorize Acquisition"}
- </Button>
+                <Button type="submit" className="w-full h-14 rounded-xl bg-primary text-primary-foreground font-bold uppercase tracking-[0.2em] text-[11px] transition-all duration-500 hover:bg-primary/90" disabled={submitting}>
+                  {submitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Verifying</> : "Authorize Acquisition"}
+                </Button>
  </form>
  </Form>
  </div>
@@ -231,13 +231,13 @@ export function AssetPurchaseModal({ open, onOpenChange, asset, type }: AssetPur
  <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center mb-8">
  <ShieldCheck className="h-10 w-10 text-primary" />
  </div>
- <DialogTitle className="text-2xl font-bold tracking-tight mb-3 italic font-serif text-white">Verification Pending</DialogTitle>
- <DialogDescription className="text-gray-500 font-medium mb-10 max-w-xs">
- Your transaction is being reviewed. Security clearance typically takes 1-6 hours.
- </DialogDescription>
- <Button onClick={() => onOpenChange(false)} className="w-full h-12 rounded-xl bg-white/[0.05] border border-white/[0.05] text-white font-bold uppercase tracking-widest text-[10px]">
- Exit Terminal
- </Button>
+              <DialogTitle className="text-2xl font-bold tracking-tight mb-3 italic font-serif text-foreground">Verification Pending</DialogTitle>
+              <DialogDescription className="text-muted-foreground font-medium mb-10 max-w-xs">
+                Your transaction is being reviewed. Security clearance typically takes 1-6 hours.
+              </DialogDescription>
+              <Button onClick={() => onOpenChange(false)} className="w-full h-12 rounded-xl bg-gray-50 border border-border text-foreground hover:bg-gray-100 font-bold uppercase tracking-widest text-[10px]">
+                Exit Terminal
+              </Button>
  </div>
  )}
  </DialogContent>

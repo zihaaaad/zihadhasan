@@ -274,25 +274,25 @@ export default function RegistrationsPage() {
  return (
  <div className="space-y-6">
  <div className="flex justify-between">
- <Skeleton className="h-10 w-48 bg-white" />
- <Skeleton className="h-10 w-32 bg-white" />
+ <Skeleton className="h-10 w-48 bg-background" />
+ <Skeleton className="h-10 w-32 bg-background" />
  </div>
  <div className="grid grid-cols-4 gap-4">
- <Skeleton className="h-10 w-full bg-white" />
- <Skeleton className="h-10 w-full bg-white" />
- <Skeleton className="h-10 w-full bg-white" />
- <Skeleton className="h-10 w-full bg-white" />
+ <Skeleton className="h-10 w-full bg-background" />
+ <Skeleton className="h-10 w-full bg-background" />
+ <Skeleton className="h-10 w-full bg-background" />
+ <Skeleton className="h-10 w-full bg-background" />
  </div>
- <div className="rounded-md border border-gray-200 bg-white overflow-hidden">
+ <div className="rounded-md border border-border bg-background overflow-hidden">
  {[1, 2, 3, 4, 5].map(i => (
- <div key={i} className="flex items-center p-4 border-b border-gray-200 gap-4">
- <Skeleton className="h-10 w-10 rounded-full bg-white" />
+ <div key={i} className="flex items-center p-4 border-b border-border gap-4">
+ <Skeleton className="h-10 w-10 rounded-full bg-background" />
  <div className="space-y-2 flex-1">
- <Skeleton className="h-4 w-1/3 bg-white" />
- <Skeleton className="h-3 w-1/4 bg-white" />
+ <Skeleton className="h-4 w-1/3 bg-background" />
+ <Skeleton className="h-3 w-1/4 bg-background" />
  </div>
- <Skeleton className="h-8 w-20 bg-white" />
- <Skeleton className="h-8 w-20 bg-white" />
+ <Skeleton className="h-8 w-20 bg-background" />
+ <Skeleton className="h-8 w-20 bg-background" />
  </div>
  ))}
  </div>
@@ -301,135 +301,135 @@ export default function RegistrationsPage() {
  }
 
  return (
- <div className="space-y-6">
- {/* ... Existing UI ... */}
- <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
- <div>
- <h2 className="text-3xl font-bold tracking-tight text-white">Registrations</h2>
- <p className="text-muted-foreground">Manage enrollments for events, courses, and product sales.</p>
- </div>
+    <div className="space-y-6">
+      {/* ... Existing UI ... */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Registrations</h2>
+          <p className="text-muted-foreground font-medium">Manage enrollments for events, courses, and product sales.</p>
+        </div>
  {/* ... Buttons ... */}
- <div className="flex items-center gap-2">
- {selectedIds.length > 0 && (
- <>
- <Button
- variant="outline"
- className="border-green-500/20 text-green-400 hover:bg-green-500/10"
- onClick={handleBulkApprove}
- disabled={isBulkProcessing}
- >
- {isBulkProcessing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <CheckCircle className="mr-2 h-4 w-4" />}
- Approve ({selectedIds.length})
- </Button>
- <Button
- variant="destructive"
- onClick={() => setConfirmBulkReject(true)}
- disabled={isBulkProcessing}
- >
- {isBulkProcessing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
- Reject ({selectedIds.length})
- </Button>
- </>
- )}
- <Button onClick={handleExport} variant="outline" className="border-gray-200 text-white hover:bg-white">
- <Download className="mr-2 h-4 w-4" /> Export CSV
- </Button>
- </div>
- </div>
+        <div className="flex items-center gap-2">
+          {selectedIds.length > 0 && (
+            <>
+              <Button
+                variant="outline"
+                className="border-border text-foreground hover:bg-gray-100"
+                onClick={handleBulkApprove}
+                disabled={isBulkProcessing}
+              >
+                {isBulkProcessing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <CheckCircle className="mr-2 h-4 w-4" />}
+                Approve ({selectedIds.length})
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => setConfirmBulkReject(true)}
+                disabled={isBulkProcessing}
+              >
+                {isBulkProcessing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
+                Reject ({selectedIds.length})
+              </Button>
+            </>
+          )}
+          <Button onClick={handleExport} variant="outline" className="border-border text-foreground hover:bg-gray-50">
+            <Download className="mr-2 h-4 w-4" /> Export CSV
+          </Button>
+        </div>
+      </div>
 
- {/* Filters */}
- <div className="flex flex-col md:flex-row gap-6">
- <div className="flex-1 bg-white p-1 rounded-lg border border-gray-200 flex">
- {["all", "pending", "approved"].map((status) => (
- <button
- key={status}
- onClick={() => setSelectedStatus(status)}
- className={`flex-1 text-sm font-medium py-2.5 rounded-md transition-all capitalize ${selectedStatus === status
- ? 'bg-primary/20 text-primary shadow-sm border border-primary/20'
- : 'text-gray-400 hover:text-white hover:bg-white'
- }`}
- >
- {status}
- </button>
- ))}
- </div>
+      {/* Filters */}
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex-1 bg-gray-50 p-1 rounded-lg border border-border flex">
+          {["all", "pending", "approved"].map((status) => (
+            <button
+              key={status}
+              onClick={() => setSelectedStatus(status)}
+              className={`flex-1 text-sm font-medium py-2.5 rounded-md transition-all capitalize ${selectedStatus === status
+                ? 'bg-background text-foreground shadow-sm border border-border'
+                : 'text-muted-foreground hover:text-foreground hover:bg-gray-100/50'
+                }`}
+            >
+              {status}
+            </button>
+          ))}
+        </div>
 
- <div className="flex gap-4 flex-1">
- <div className="relative flex-1">
- <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
- <Input
- placeholder="Search TrxID, Name..."
- className="pl-9 bg-white border-gray-200 text-white"
- value={searchTerm}
- onChange={(e) => setSearchTerm(e.target.value)}
- />
- </div>
- </div>
- </div>
+        <div className="flex gap-4 flex-1">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground/80" />
+            <Input
+              placeholder="Search TrxID, Name..."
+              className="pl-9 bg-background border-border text-foreground font-medium focus-visible:ring-black"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
 
- <div className="flex items-center justify-between text-sm text-gray-400 px-1">
- <span>Showing {filteredRegistrations.length} records</span>
- <Select value={selectedEntity} onValueChange={setSelectedEntity}>
- <SelectTrigger className="w-[200px] bg-white border-gray-200 text-white h-8 text-xs">
- <SelectValue placeholder="Filter by Item" />
- </SelectTrigger>
- <SelectContent>
- <SelectItem value="all">All Items</SelectItem>
- {events.length > 0 && (
- <>
- <SelectItem value="disabled-events" disabled className="font-bold opacity-100 mt-2">Events:</SelectItem>
- {events.map(e => (
- <SelectItem key={e.id} value={e.id || "unknown"}>{e.title}</SelectItem>
- ))}
- </>
- )}
- {courses.length > 0 && (
- <>
- <SelectItem value="disabled-courses" disabled className="font-bold opacity-100 mt-2">Courses:</SelectItem>
- {courses.map(c => (
- <SelectItem key={c.id} value={c.id || "unknown"}>{c.title}</SelectItem>
- ))}
- </>
- )}
- {products.length > 0 && (
- <>
- <SelectItem value="disabled-products" disabled className="font-bold opacity-100 mt-2">Products:</SelectItem>
- {products.map(p => (
- <SelectItem key={p.id} value={p.id || "unknown"}>{p.title}</SelectItem>
- ))}
- </>
- )}
- </SelectContent>
- </Select>
- </div>
+      <div className="flex items-center justify-between text-sm text-muted-foreground font-medium px-1">
+        <span>Showing {filteredRegistrations.length} records</span>
+        <Select value={selectedEntity} onValueChange={setSelectedEntity}>
+          <SelectTrigger className="w-[200px] bg-background border-border text-foreground font-medium h-8 text-xs">
+            <SelectValue placeholder="Filter by Item" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Items</SelectItem>
+            {events.length > 0 && (
+              <>
+                <SelectItem value="disabled-events" disabled className="font-bold text-gray-800 opacity-100 mt-2">Events:</SelectItem>
+                {events.map(e => (
+                  <SelectItem key={e.id} value={e.id || "unknown"}>{e.title}</SelectItem>
+                ))}
+              </>
+            )}
+            {courses.length > 0 && (
+              <>
+                <SelectItem value="disabled-courses" disabled className="font-bold text-gray-800 opacity-100 mt-2">Courses:</SelectItem>
+                {courses.map(c => (
+                  <SelectItem key={c.id} value={c.id || "unknown"}>{c.title}</SelectItem>
+                ))}
+              </>
+            )}
+            {products.length > 0 && (
+              <>
+                <SelectItem value="disabled-products" disabled className="font-bold text-gray-800 opacity-100 mt-2">Products:</SelectItem>
+                {products.map(p => (
+                  <SelectItem key={p.id} value={p.id || "unknown"}>{p.title}</SelectItem>
+                ))}
+              </>
+            )}
+          </SelectContent>
+        </Select>
+      </div>
 
- <GlassCard className="overflow-hidden">
- <Table>
- <TableHeader className="bg-white">
- <TableRow className="border-gray-200 hover:bg-white">
- <TableHead className="w-[50px]">
- <input
- type="checkbox"
- aria-label="Select all registrations"
- checked={selectedIds.length === filteredRegistrations.length && filteredRegistrations.length > 0}
- onChange={toggleAll}
- className="rounded border-gray-500 bg-gray-50 text-primary focus:ring-primary cursor-pointer accent-primary"
- />
- </TableHead>
- <TableHead className="text-gray-300">User</TableHead>
- <TableHead className="text-gray-300">Event / Course / Product</TableHead>
- <TableHead className="text-gray-300">Verification Info</TableHead>
- <TableHead className="text-gray-300">Status</TableHead>
- <TableHead className="text-right text-gray-300">Actions</TableHead>
- </TableRow>
- </TableHeader>
- <TableBody>
- {filteredRegistrations.length === 0 ? (
- <TableRow>
- <TableCell colSpan={6} className="text-center h-24 text-gray-400">
- No registrations found.
- </TableCell>
- </TableRow>
+      <div className="rounded-xl border border-border bg-background overflow-hidden shadow-sm">
+        <Table>
+          <TableHeader className="bg-gray-50/50">
+            <TableRow className="border-border">
+              <TableHead className="w-[50px]">
+                <input
+                  type="checkbox"
+                  aria-label="Select all registrations"
+                  checked={selectedIds.length === filteredRegistrations.length && filteredRegistrations.length > 0}
+                  onChange={toggleAll}
+                  className="rounded border-gray-300 bg-background text-foreground focus:ring-black cursor-pointer accent-black"
+                />
+              </TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">User</TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">Event / Course / Product</TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">Verification Info</TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">Status</TableHead>
+              <TableHead className="text-right text-muted-foreground font-bold uppercase tracking-widest text-[10px]">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredRegistrations.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center h-24 text-muted-foreground font-medium">
+                  No registrations found.
+                </TableCell>
+              </TableRow>
  ) : (
  filteredRegistrations.map((reg) => {
  const title = getEntityName(reg);
@@ -438,134 +438,134 @@ export default function RegistrationsPage() {
  const isProduct = !!reg.productId;
 
  return (
- <TableRow key={reg.id} className="border-gray-200 hover:bg-white">
- <TableCell>
- <input
- type="checkbox"
- aria-label={`Select registration for ${reg.name}`}
- checked={selectedIds.includes(reg.id!)}
- onChange={() => toggleSelection(reg.id!)}
- className="rounded border-gray-500 bg-gray-50 text-primary focus:ring-primary cursor-pointer accent-primary"
- />
- </TableCell>
- <TableCell className="font-medium text-white">
- <div>{reg.name}</div>
- <div className="text-xs text-gray-500">{reg.email}</div>
- </TableCell>
- <TableCell className="text-white/80 font-medium">
- <div className="flex items-center gap-2">
- {isCourse && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-gray-200 bg-white text-white/70">Course</Badge>}
- {isEvent && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-gray-200 bg-white text-white/70">Event</Badge>}
- {isProduct && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-gray-200 bg-white text-white/70">Product</Badge>}
- {reg.bookId && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-gray-200 bg-white text-white/70">Book</Badge>}
+                  <TableRow key={reg.id} className="border-gray-100 hover:bg-gray-50">
+                    <TableCell>
+                      <input
+                        type="checkbox"
+                        aria-label={`Select registration for ${reg.name}`}
+                        checked={selectedIds.includes(reg.id!)}
+                        onChange={() => toggleSelection(reg.id!)}
+                        className="rounded border-gray-300 bg-background text-foreground focus:ring-black cursor-pointer accent-black"
+                      />
+                    </TableCell>
+                    <TableCell className="font-bold text-foreground">
+                      <div>{reg.name}</div>
+                      <div className="text-xs font-medium text-muted-foreground">{reg.email}</div>
+                    </TableCell>
+                    <TableCell className="text-foreground font-medium">
+                      <div className="flex items-center gap-2">
+                        {isCourse && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-border bg-gray-50 text-gray-600">Course</Badge>}
+                        {isEvent && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-border bg-gray-50 text-gray-600">Event</Badge>}
+                        {isProduct && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-border bg-gray-50 text-gray-600">Product</Badge>}
+                        {reg.bookId && <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-border bg-gray-50 text-gray-600">Book</Badge>}
 
- <span className="truncate max-w-[150px] text-sm font-bold tracking-tight" title={title}>{title}</span>
- </div>
- <div className="text-[10px] text-gray-800 font-mono mt-1">{reg.id}</div>
- </TableCell>
- <TableCell>
- <div className="flex items-start gap-4">
- {/* Text Details */}
- <div className="flex flex-col gap-1.5 min-w-[120px]">
- {reg.trxId ? (
- <Badge variant="outline" className="font-mono border-gray-200 text-white bg-white w-fit text-[10px] tracking-tighter">
- {reg.trxId}
- </Badge>
- ) : (
- <Badge variant="outline" className="border-gray-200 text-gray-500 bg-white/[0.02] w-fit text-[9px] font-bold uppercase tracking-widest">
- FREE
- </Badge>
- )}
- {reg.paymentMethod && <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">{reg.paymentMethod}</span>}
- {reg.phone && <span className="text-[10px] font-mono text-gray-800">{reg.phone}</span>}
- </div>
+                        <span className="truncate max-w-[150px] text-sm font-bold tracking-tight" title={title}>{title}</span>
+                      </div>
+                      <div className="text-[10px] text-muted-foreground font-mono mt-1">{reg.id}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-start gap-4">
+                        {/* Text Details */}
+                        <div className="flex flex-col gap-1.5 min-w-[120px]">
+                          {reg.trxId ? (
+                            <Badge variant="outline" className="font-mono border-border text-foreground bg-background w-fit text-[10px] tracking-tighter">
+                              {reg.trxId}
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="border-border text-muted-foreground bg-gray-50 w-fit text-[9px] font-bold uppercase tracking-widest">
+                              FREE
+                            </Badge>
+                          )}
+                          {reg.paymentMethod && <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{reg.paymentMethod}</span>}
+                          {reg.phone && <span className="text-[10px] font-mono text-muted-foreground">{reg.phone}</span>}
+                        </div>
 
- {/* Image Preview */}
- {reg.screenshotUrl && (
- <div className="flex flex-col gap-2">
- <div
- className="relative group cursor-pointer h-16 w-24 shrink-0 rounded-xl overflow-hidden border border-gray-200 bg-gray-50"
- onClick={() => setViewingProof(reg.screenshotUrl || null)}
- >
- <img src={reg.screenshotUrl} alt="Proof" className="w-full h-full object-cover opacity-50 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105" />
- <div className="absolute inset-0 bg-gray-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
- <Eye strokeWidth={1.5} className="h-5 w-5 text-white drop-shadow-md" />
- </div>
- </div>
- <Button
- variant="outline"
- size="sm"
- className="h-7 text-[9px] font-bold uppercase tracking-widest w-24 border-gray-200 hover:bg-white rounded-lg"
- onClick={() => setViewingProof(reg.screenshotUrl || null)}
- >
- <Eye strokeWidth={1.5} className="mr-1 h-3 w-3" /> Proof
- </Button>
- </div>
- )}
- </div>
- </TableCell>
- <TableCell>
- <Badge className={cn(
- "text-[9px] font-bold uppercase tracking-widest px-2.5 h-6 border-none",
- reg.status === 'approved' ? 'bg-white text-black' : 'bg-white text-white/70 animate-pulse'
- )}>
- {reg.status}
- </Badge>
- </TableCell>
- <TableCell className="text-right">
- <div className="flex justify-end gap-2">
- <Button
- size="icon"
- variant="ghost"
- className="h-8 w-8 text-gray-500 hover:text-white hover:bg-white rounded-lg"
- onClick={() => setEditingRegistration(reg)}
- >
+                        {/* Image Preview */}
+                        {reg.screenshotUrl && (
+                          <div className="flex flex-col gap-2">
+                            <div
+                              className="relative group cursor-pointer h-16 w-24 shrink-0 rounded-xl overflow-hidden border border-border bg-gray-50"
+                              onClick={() => setViewingProof(reg.screenshotUrl || null)}
+                            >
+                              <img src={reg.screenshotUrl} alt="Proof" className="w-full h-full object-cover opacity-80 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105" />
+                              <div className="absolute inset-0 bg-primary/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                <Eye strokeWidth={1.5} className="h-5 w-5 text-primary-foreground drop-shadow-md" />
+                              </div>
+                            </div>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="h-7 text-[9px] font-bold uppercase tracking-widest w-24 border-border hover:bg-gray-50 text-foreground rounded-lg"
+                              onClick={() => setViewingProof(reg.screenshotUrl || null)}
+                            >
+                              <Eye strokeWidth={1.5} className="mr-1 h-3 w-3" /> Proof
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={cn(
+                        "text-[9px] font-bold uppercase tracking-widest px-2.5 h-6 border",
+                        reg.status === 'approved' ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-muted-foreground border-border animate-pulse'
+                      )}>
+                        {reg.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-lg"
+                          onClick={() => setEditingRegistration(reg)}
+                        >
  <Pencil strokeWidth={1.5} className="h-4 w-4" />
  </Button>
 
- {reg.status === 'pending' && (
- <>
- <Button
- size="icon"
- variant="ghost"
- className="h-8 w-8 text-white hover:bg-white hover:text-black rounded-lg transition-all"
- onClick={() => handleApprove(reg.id)}
- disabled={processingId === reg.id}
- >
- {processingId === reg.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle strokeWidth={1.5} className="h-4 w-4" />}
- </Button>
- <Button
- size="icon"
- variant="ghost"
- className="h-8 w-8 text-gray-800 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
- onClick={() => handleReject(reg.id)}
- disabled={processingId === reg.id}
- >
- <XCircle strokeWidth={1.5} className="h-4 w-4" />
- </Button>
- </>
- )}
- {reg.status === 'approved' && (
- <Button
- size="icon"
- variant="ghost"
- className="h-8 w-8 text-gray-800 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
- onClick={() => handleReject(reg.id)}
- disabled={processingId === reg.id}
- title="Revoke & Delete"
- >
- <Trash2 strokeWidth={1.5} className="h-4 w-4" />
- </Button>
- )}
- </div>
- </TableCell>
- </TableRow>
- );
- })
- )}
- </TableBody>
- </Table>
- </GlassCard>
+                        {reg.status === 'pending' && (
+                          <>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8 text-muted-foreground hover:bg-green-50 hover:text-green-600 rounded-lg transition-all"
+                              onClick={() => handleApprove(reg.id)}
+                              disabled={processingId === reg.id}
+                            >
+                              {processingId === reg.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle strokeWidth={1.5} className="h-4 w-4" />}
+                            </Button>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8 text-muted-foreground hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                              onClick={() => handleReject(reg.id)}
+                              disabled={processingId === reg.id}
+                            >
+                              <XCircle strokeWidth={1.5} className="h-4 w-4" />
+                            </Button>
+                          </>
+                        )}
+                        {reg.status === 'approved' && (
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-8 w-8 text-muted-foreground hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                            onClick={() => handleReject(reg.id)}
+                            disabled={processingId === reg.id}
+                            title="Revoke & Delete"
+                          >
+                            <Trash2 strokeWidth={1.5} className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
  {hasMore && (
  <div className="flex justify-center">
@@ -573,7 +573,7 @@ export default function RegistrationsPage() {
  onClick={loadMore}
  variant="outline"
  disabled={loadingMore}
- className="border-gray-200 text-white hover:bg-white"
+                        className="border-border text-foreground hover:bg-gray-100"
  >
  {loadingMore ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
  Load More
@@ -632,39 +632,39 @@ export default function RegistrationsPage() {
  </DialogContent>
  </Dialog>
 
- <Dialog open={!!viewingProof} onOpenChange={(open) => !open && setViewingProof(null)}>
- <DialogContent className="max-w-5xl w-full bg-zinc-950 border-gray-200 p-0 overflow-hidden flex flex-col h-[90vh]">
- {/* Toolbar */}
- <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-zinc-900/50">
- <div className="flex items-center gap-2">
- <h3 className="font-medium text-white">Payment Proof</h3>
- <span className="text-xs text-white/40 px-2 py-0.5 bg-white rounded-full">
- {Math.round(zoom * 100)}%
- </span>
- </div>
- <div className="flex items-center gap-2">
- <Button
- variant="outline" size="icon"
- className="h-8 w-8 bg-zinc-900 border-gray-200 hover:bg-white"
- onClick={() => setZoom(Math.max(0.5, zoom - 0.25))}
- >
- <ZoomOut className="h-4 w-4" />
- </Button>
- <Button
- variant="outline" size="icon"
- className="h-8 w-8 bg-zinc-900 border-gray-200 hover:bg-white"
- onClick={() => setZoom(1)}
- >
- <RotateCcw className="h-4 w-4" />
- </Button>
- <Button
- variant="outline" size="icon"
- className="h-8 w-8 bg-zinc-900 border-gray-200 hover:bg-white"
- onClick={() => setZoom(Math.min(3, zoom + 0.25))}
- >
- <ZoomIn className="h-4 w-4" />
- </Button>
- <div className="w-px h-4 bg-white mx-2" />
+      <Dialog open={!!viewingProof} onOpenChange={(open) => !open && setViewingProof(null)}>
+        <DialogContent className="max-w-5xl w-full bg-background border-border p-0 overflow-hidden flex flex-col h-[90vh]">
+          {/* Toolbar */}
+          <div className="flex items-center justify-between p-4 border-b border-border bg-gray-50">
+            <div className="flex items-center gap-2">
+              <h3 className="font-bold text-foreground">Payment Proof</h3>
+              <span className="text-xs text-muted-foreground font-bold px-2 py-0.5 bg-gray-200 rounded-full">
+                {Math.round(zoom * 100)}%
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline" size="icon"
+                className="h-8 w-8 bg-background border-border hover:bg-gray-50 text-foreground"
+                onClick={() => setZoom(Math.max(0.5, zoom - 0.25))}
+              >
+                <ZoomOut className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline" size="icon"
+                className="h-8 w-8 bg-background border-border hover:bg-gray-50 text-foreground"
+                onClick={() => setZoom(1)}
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline" size="icon"
+                className="h-8 w-8 bg-background border-border hover:bg-gray-50 text-foreground"
+                onClick={() => setZoom(Math.min(3, zoom + 0.25))}
+              >
+                <ZoomIn className="h-4 w-4" />
+              </Button>
+              <div className="w-px h-4 bg-gray-300 mx-2" />
  {viewingProof && (
  <Button
  variant="default" size="sm"
@@ -692,7 +692,7 @@ export default function RegistrationsPage() {
  <img
  src={viewingProof}
  alt="Payment Proof"
- className="max-w-full max-h-[70vh] object-contain rounded-md border border-gray-200"
+ className="max-w-full max-h-[70vh] object-contain rounded-md border border-border"
  />
  </div>
  )}
@@ -730,7 +730,7 @@ export default function RegistrationsPage() {
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={handleBulkReject}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  {isBulkProcessing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
  Reject {selectedIds.length} Registration{selectedIds.length === 1 ? "" : "s"}

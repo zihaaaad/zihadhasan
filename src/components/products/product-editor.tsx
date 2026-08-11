@@ -90,17 +90,17 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  };
 
  return (
- <div className="rounded-[2rem] border border-white/[0.05] bg-white/[0.02] p-8 md:p-10">
- <div className="mb-10 flex items-center justify-between">
- <div>
- <h2 className="text-2xl font-bold text-white tracking-tight">
- {product ? "Refine Product" : "New Digital Asset"}
+    <div className="rounded-[2rem] border border-border bg-background shadow-sm p-8 md:p-10">
+      <div className="mb-10 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-foreground tracking-tight">
+            {product ? "Refine Product" : "New Digital Asset"}
  </h2>
- <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Shop Management</p>
+ <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1">Shop Management</p>
  </div>
- <Button variant="ghost" size="icon" onClick={onCancel} className="rounded-xl h-10 w-10 text-gray-500 hover:text-white hover:bg-white">
- <X className="h-5 w-5" />
- </Button>
+        <Button variant="ghost" size="icon" onClick={onCancel} className="rounded-xl h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-gray-100">
+          <X className="h-5 w-5" />
+        </Button>
  </div>
 
  <Form {...form}>
@@ -114,9 +114,9 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  name="title"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Asset Title</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Asset Title</FormLabel>
  <FormControl>
- <Input placeholder="E.G. GENERATIVE DESIGN KIT" className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white font-bold uppercase tracking-widest text-[11px] px-5" {...field} />
+                      <Input placeholder="E.G. GENERATIVE DESIGN KIT" className="bg-gray-50 border-border h-12 rounded-xl text-foreground font-bold uppercase tracking-widest text-[11px] px-5" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -128,9 +128,9 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  name="price"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Value (BDT)</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Value (BDT)</FormLabel>
  <FormControl>
- <Input type="number" className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white font-bold px-5" {...field} />
+                      <Input type="number" className="bg-gray-50 border-border h-12 rounded-xl text-foreground font-bold px-5" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -142,14 +142,14 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  name="type"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Classification</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Classification</FormLabel>
  <Select onValueChange={field.onChange} defaultValue={field.value}>
  <FormControl>
- <SelectTrigger className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-white text-xs font-bold uppercase tracking-widest px-5">
- <SelectValue placeholder="Select type" />
- </SelectTrigger>
- </FormControl>
- <SelectContent className="bg-gray-50 border-gray-200 text-white">
+                      <SelectTrigger className="bg-gray-50 border-border h-12 rounded-xl text-foreground text-xs font-bold uppercase tracking-widest px-5">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-background border-border text-foreground">
  <SelectItem value="digital">Digital (Download)</SelectItem>
  <SelectItem value="physical">Physical (Shipping)</SelectItem>
  </SelectContent>
@@ -166,9 +166,9 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  name="downloadUrl"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Secure Delivery URL</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Secure Delivery URL</FormLabel>
  <FormControl>
- <Input placeholder="HTTPS://DRIVE.GOOGLE.COM/..." className="bg-white/[0.03] border-white/[0.05] h-12 rounded-xl text-gray-600 font-mono text-[10px] px-5 uppercase" {...field} />
+                      <Input placeholder="HTTPS://DRIVE.GOOGLE.COM/..." className="bg-gray-50 border-border h-12 rounded-xl text-gray-600 font-mono text-[10px] px-5 uppercase" {...field} />
  </FormControl>
  <p className="text-[9px] font-bold text-gray-800 uppercase tracking-widest ml-1">Accessible only upon verified purchase.</p>
  <FormMessage />
@@ -185,7 +185,7 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  name="imageUrl"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Visual Preview</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Visual Preview</FormLabel>
  <FormControl>
  <ImageUploader
  label="Upload Product Artwork"
@@ -201,11 +201,11 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  <FormField
  control={form.control}
  name="published"
- render={({ field }) => (
- <FormItem className="flex flex-row items-center justify-between rounded-[1.5rem] border border-white/[0.05] bg-white/[0.01] p-6 transition-all hover:bg-white/[0.02]">
- <div className="space-y-1">
- <FormLabel className="text-sm font-bold text-white uppercase tracking-widest">Public Status</FormLabel>
- <p className="text-[10px] font-bold text-gray-800 uppercase tracking-widest">
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-[1.5rem] border border-border bg-gray-50 p-6 transition-all hover:bg-background">
+                <div className="space-y-1">
+                  <FormLabel className="text-sm font-bold text-foreground uppercase tracking-widest">Public Status</FormLabel>
+                  <p className="text-[10px] font-bold text-gray-800 uppercase tracking-widest">
  Toggle store visibility
  </p>
  </div>
@@ -226,22 +226,22 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  name="description"
  render={({ field }) => (
  <FormItem>
- <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-gray-500 ml-1">Asset Narrative</FormLabel>
+ <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Asset Narrative</FormLabel>
  <FormControl>
- <Textarea rows={5} placeholder="DESCRIBE THE STRATEGIC VALUE OF THIS PRODUCT..." className="bg-white/[0.03] border-white/[0.05] rounded-2xl text-white text-sm leading-loose px-5 py-4" {...field} />
+                    <Textarea rows={5} placeholder="DESCRIBE THE STRATEGIC VALUE OF THIS PRODUCT..." className="bg-gray-50 border-border rounded-2xl text-foreground text-sm leading-loose px-5 py-4" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
  )}
  />
 
- <div className="flex justify-end gap-4 pt-8 border-t border-white/[0.03]">
- <Button type="button" variant="ghost" onClick={onCancel} className="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-white">
- Cancel
- </Button>
- <Button type="submit" disabled={saving} className="bg-white text-black hover:bg-neutral-200 rounded-xl h-12 px-10 text-[10px] font-bold uppercase tracking-widest transition-all duration-500">
- {saving && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}
- Sync Digital Asset
+        <div className="flex justify-end gap-4 pt-8 border-t border-border">
+          <Button type="button" variant="ghost" onClick={onCancel} className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground">
+            Cancel
+          </Button>
+          <Button type="submit" disabled={saving} className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-12 px-10 text-[10px] font-bold uppercase tracking-widest transition-all duration-500">
+            {saving && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}
+            Sync Digital Asset
  </Button>
  </div>
 

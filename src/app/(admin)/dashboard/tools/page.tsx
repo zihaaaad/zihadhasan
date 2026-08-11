@@ -101,26 +101,26 @@ export default function ToolsPage() {
  };
 
  return (
- <div className="space-y-6">
- <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
- <div>
- <h2 className="text-3xl font-bold tracking-tight text-white">AI Tools</h2>
- <p className="text-muted-foreground">Manage your curated list of AI resources.</p>
- </div>
- <div className="flex items-center gap-2">
- {selectedIds.length > 0 && (
- <Button variant="destructive" onClick={() => setConfirmBulkDelete(true)}>
- <Trash2 className="mr-2 h-4 w-4" /> Delete ({selectedIds.length})
- </Button>
- )}
- <Button onClick={toggleAll} variant="outline" className="border-gray-200 text-white hover:bg-white">
- {selectedIds.length === tools.length ? "Deselect All" : "Select All"}
- </Button>
- <Button onClick={handleCreate} className="bg-primary text-black hover:bg-primary/90">
- <Plus className="mr-2 h-4 w-4" /> Add Tool
- </Button>
- </div>
- </div>
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">AI Tools</h2>
+          <p className="text-muted-foreground font-medium">Manage your curated list of AI resources.</p>
+        </div>
+        <div className="flex items-center gap-2">
+          {selectedIds.length > 0 && (
+            <Button variant="destructive" onClick={() => setConfirmBulkDelete(true)}>
+              <Trash2 className="mr-2 h-4 w-4" /> Delete ({selectedIds.length})
+            </Button>
+          )}
+          <Button onClick={toggleAll} variant="outline" className="border-border text-foreground hover:bg-gray-50">
+            {selectedIds.length === tools.length ? "Deselect All" : "Select All"}
+          </Button>
+          <Button onClick={handleCreate} className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Plus className="mr-2 h-4 w-4" /> Add Tool
+          </Button>
+        </div>
+      </div>
 
  {loading ? (
  <div className="flex justify-center p-12">
@@ -129,71 +129,71 @@ export default function ToolsPage() {
  ) : (
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
  {tools.map((tool) => (
- <div
- key={tool.id}
- className={`group relative flex flex-col rounded-lg border p-4 transition-all hover:bg-white ${selectedIds.includes(tool.id!)
- ? "border-primary bg-primary/5"
- : "border-gray-200 bg-white hover:border-primary/20"
- }`}
- >
- <div className="absolute top-3 right-3 z-10">
- <input
- type="checkbox"
- aria-label={`Select tool ${tool.name}`}
- checked={selectedIds.includes(tool.id!)}
- onChange={() => toggleSelection(tool.id!)}
- className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer accent-primary"
- />
- </div>
+              <div
+                key={tool.id}
+                className={`group relative flex flex-col rounded-lg border p-4 transition-all hover:bg-gray-50 shadow-sm ${selectedIds.includes(tool.id!)
+                  ? "border-primary bg-gray-50"
+                  : "border-border bg-background hover:border-gray-300"
+                  }`}
+              >
+                <div className="absolute top-3 right-3 z-10">
+                  <input
+                    type="checkbox"
+                    aria-label={`Select tool ${tool.name}`}
+                    checked={selectedIds.includes(tool.id!)}
+                    onChange={() => toggleSelection(tool.id!)}
+                    className="w-4 h-4 rounded border-gray-300 text-foreground focus:ring-black cursor-pointer accent-black"
+                  />
+                </div>
 
- <div className="flex items-start justify-between mb-3 pr-6">
- <div className="flex items-center gap-3">
- <div className="h-10 w-10 rounded-lg bg-gray-50 overflow-hidden border border-gray-200 flex items-center justify-center">
- {tool.imageUrl ? (
- <img src={tool.imageUrl} alt={tool.name} className="h-full w-full object-cover" />
- ) : (
- <span className="text-xs font-bold text-gray-500">{tool.name.substring(0, 2)}</span>
- )}
- </div>
- <div>
- <h3 className="font-semibold text-white text-sm">{tool.name}</h3>
- <span className="text-[10px] uppercase tracking-wider text-primary bg-primary/10 px-1.5 py-0.5 rounded-sm">
- {tool.category}
- </span>
- </div>
- </div>
- </div>
+                <div className="flex items-start justify-between mb-3 pr-6">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-gray-100 overflow-hidden border border-border flex items-center justify-center">
+                      {tool.imageUrl ? (
+                        <img src={tool.imageUrl} alt={tool.name} className="h-full w-full object-cover" />
+                      ) : (
+                        <span className="text-xs font-bold text-muted-foreground">{tool.name.substring(0, 2)}</span>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-foreground text-sm">{tool.name}</h3>
+                      <span className="text-[10px] uppercase tracking-widest font-bold text-foreground bg-gray-100 border border-border px-1.5 py-0.5 rounded-sm">
+                        {tool.category}
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
- <p className="text-xs text-gray-400 line-clamp-2 mb-3 flex-1">
- {tool.description}
- </p>
+                <p className="text-xs font-medium text-muted-foreground line-clamp-2 mb-3 flex-1">
+                  {tool.description}
+                </p>
 
- <div className="mt-auto flex gap-2">
- <a
- href={tool.url}
- target="_blank"
- rel="noreferrer"
- className="flex-1 flex items-center justify-center gap-2 rounded bg-white py-2 text-xs font-medium text-gray-300 hover:bg-primary hover:text-black transition-colors"
- >
- <ExternalLink className="h-3 w-3" /> Visit
- </a>
- <button onClick={() => handleEdit(tool)} className="p-2 hover:bg-white rounded text-gray-400 hover:text-white border border-gray-200">
- <Pencil className="h-3.5 w-3.5" />
- </button>
- <button onClick={() => tool.id && setDeletingId(tool.id)} className="p-2 hover:bg-red-500/20 rounded text-gray-400 hover:text-red-400 border border-gray-200">
- <Trash2 className="h-3.5 w-3.5" />
- </button>
- </div>
- </div>
+                <div className="mt-auto flex gap-2">
+                  <a
+                    href={tool.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 rounded bg-gray-50 border border-border py-2 text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:bg-gray-100 hover:text-foreground transition-colors"
+                  >
+                    <ExternalLink className="h-3 w-3" /> Visit
+                  </a>
+                  <button onClick={() => handleEdit(tool)} className="p-2 hover:bg-gray-100 rounded text-muted-foreground hover:text-foreground border border-border">
+                    <Pencil className="h-3.5 w-3.5" />
+                  </button>
+                  <button onClick={() => tool.id && setDeletingId(tool.id)} className="p-2 hover:bg-red-50 rounded text-muted-foreground hover:text-red-600 border border-border">
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </div>
  ))}
 
 
- {tools.length === 0 && (
- <div className="col-span-full py-16 text-center border border-dashed border-gray-200 rounded-xl">
- <p className="text-gray-500 mb-4">No tools added yet.</p>
- <Button variant="outline" onClick={handleCreate}>Create First Tool</Button>
- </div>
- )}
+          {tools.length === 0 && (
+            <div className="col-span-full py-16 text-center border border-dashed border-gray-300 rounded-xl bg-gray-50">
+              <p className="text-muted-foreground font-medium mb-4">No tools added yet.</p>
+              <Button variant="outline" className="border-border text-foreground hover:bg-gray-100" onClick={handleCreate}>Create First Tool</Button>
+            </div>
+          )}
  </div>
  )}
 
@@ -216,7 +216,7 @@ export default function ToolsPage() {
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={() => deletingId && handleDelete(deletingId)}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  Delete Tool
  </AlertDialogAction>
@@ -236,7 +236,7 @@ export default function ToolsPage() {
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={handleBulkDelete}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  Delete {selectedIds.length} Tool{selectedIds.length === 1 ? "" : "s"}
  </AlertDialogAction>

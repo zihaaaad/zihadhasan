@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/components/auth/auth-provider";
 import { CMSService, Registration, Course, Event } from "@/lib/cms-service";
-import { GlassCard } from "@/components/shared/glass-card";
 import { Button } from "@/components/ui/button";
 import { Loader2, LogOut, CheckCircle, Clock, LayoutDashboard, Ticket, BookOpen, Crown } from "lucide-react";
 import { auth } from "@/lib/firebase";
@@ -81,10 +80,10 @@ export default function MyAccountPage() {
  if (!user) {
  return (
  <div className="min-h-screen pt-32 text-center px-4">
- <h1 className="text-3xl font-bold text-white mb-4">Access Restricted</h1>
- <p className="text-gray-400 mb-8">Please login to view your command center.</p>
- <Link href="/">
- <Button size="lg" className="bg-primary text-black hover:bg-primary/90">Go Home</Button>
+        <h1 className="text-3xl font-bold text-foreground mb-4">Access Restricted</h1>
+        <p className="text-muted-foreground font-medium mb-8">Please login to view your command center.</p>
+        <Link href="/">
+          <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">Go Home</Button>
  </Link>
  </div>
  )
@@ -101,12 +100,12 @@ export default function MyAccountPage() {
  <motion.div
  initial={{ opacity: 0, x: -20 }}
  animate={{ opacity: 1, x: 0 }}
- className="w-full md:w-80 shrink-0"
- >
- <GlassCard className="p-6">
+            className="w-full md:w-80 shrink-0"
+          >
+            <div className="p-6 bg-background border border-border shadow-sm rounded-xl">
  <div className="flex flex-col items-center text-center">
  <div className="relative">
- <div className="h-24 w-24 rounded-full overflow-hidden border border-gray-200 mb-4 bg-white ring-4 ring-gray-200">
+ <div className="h-24 w-24 rounded-full overflow-hidden border border-border mb-4 bg-background ring-4 ring-gray-200">
  {user.photoURL ? (
  <img src={user.photoURL} alt={user.displayName || "User"} className="h-full w-full object-cover" />
  ) : (
@@ -116,63 +115,63 @@ export default function MyAccountPage() {
  )}
  </div>
  {isAdmin && (
- <div className="absolute -top-2 -right-2 bg-white text-black text-[10px] font-bold px-2 py-1 rounded-full shadow-xl flex items-center gap-1 border border-black/10">
+ <div className="absolute -top-2 -right-2 bg-background text-foreground text-[10px] font-bold px-2 py-1 rounded-full shadow-xl flex items-center gap-1 border border-primary/10">
  <Crown strokeWidth={1.5} className="h-3 w-3" /> ADMIN
  </div>
  )}
  </div>
 
- <h2 className="text-xl font-bold text-white mb-1">{user.displayName || "User"}</h2>
- <p className="text-sm text-gray-400 mb-6 font-mono">{user.email}</p>
+              <h2 className="text-xl font-bold text-foreground mb-1">{user.displayName || "User"}</h2>
+              <p className="text-sm text-muted-foreground font-medium mb-6 font-mono">{user.email}</p>
 
  <div className="w-full space-y-3">
  {isAdmin && (
  <Link href="/dashboard">
- <Button className="w-full bg-white text-black hover:bg-neutral-200 font-bold rounded-xl h-11 text-[10px] uppercase tracking-widest mb-3">
+ <Button className="w-full bg-background text-foreground hover:bg-neutral-200 font-bold rounded-xl h-11 text-[10px] uppercase tracking-widest mb-3">
  <LayoutDashboard strokeWidth={1.5} className="h-4 w-4 mr-2" /> Admin Dashboard
  </Button>
  </Link>
  )}
 
- <Button variant="outline" className="w-full border-gray-200 text-gray-500 hover:bg-white hover:text-white rounded-xl h-11 text-[10px] uppercase tracking-widest transition-all" onClick={handleLogout}>
+                <Button variant="outline" className="w-full border-border text-muted-foreground hover:bg-gray-100 hover:text-foreground rounded-xl h-11 text-[10px] uppercase tracking-widest transition-all" onClick={handleLogout}>
  <LogOut strokeWidth={1.5} className="h-4 w-4 mr-2" /> Sign Out
  </Button>
  </div>
- </div>
- </GlassCard>
+              </div>
+            </div>
  </motion.div>
 
  {/* Main Dashboard Area */}
  <div className="flex-1 w-full relative">
  {/* Tabs */}
- <div className="flex items-center gap-4 mb-8 border-b border-gray-200 pb-1">
+ <div className="flex items-center gap-4 mb-8 border-b border-border pb-1">
  <button
  onClick={() => setActiveTab("learning")}
- className={cn(
- "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
- activeTab === "learning" ? "text-white" : "text-gray-500 hover:text-white"
- )}
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
+                    activeTab === "learning" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  )}
  >
  <BookOpen strokeWidth={1.5} className="h-4 w-4" />
  My Learning
- <span className="bg-white px-2 py-0.5 rounded-full text-[10px] ml-1">{courseRegs.length}</span>
- {activeTab === "learning" && (
- <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-white" />
- )}
+                  <span className="bg-gray-100 px-2 py-0.5 rounded-full text-[10px] ml-1">{courseRegs.length}</span>
+                  {activeTab === "learning" && (
+                    <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-primary" />
+                  )}
  </button>
  <button
  onClick={() => setActiveTab("events")}
- className={cn(
- "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
- activeTab === "events" ? "text-white" : "text-gray-500 hover:text-white"
- )}
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
+                    activeTab === "events" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  )}
  >
  <Ticket strokeWidth={1.5} className="h-4 w-4" />
  My Events
- <span className="bg-white px-2 py-0.5 rounded-full text-[10px] ml-1">{eventRegs.length}</span>
- {activeTab === "events" && (
- <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-white" />
- )}
+                  <span className="bg-gray-100 px-2 py-0.5 rounded-full text-[10px] ml-1">{eventRegs.length}</span>
+                  {activeTab === "events" && (
+                    <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-primary" />
+                  )}
  </button>
  </div>
 
@@ -241,13 +240,13 @@ function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registra
  const isApproved = reg.status === 'approved';
 
  return (
- <GlassCard className="p-0 overflow-hidden flex flex-col sm:flex-row group hover:border-gray-200 transition-all duration-500 border-white/[0.05] bg-white/[0.02] rounded-2xl shadow-none">
+    <div className="p-0 overflow-hidden flex flex-col sm:flex-row group hover:border-gray-300 transition-all duration-500 border border-border bg-background rounded-2xl shadow-sm">
  <div className="h-40 sm:h-auto sm:w-56 bg-gray-50 relative overflow-hidden shrink-0">
  {image ? (
  <img src={image} alt={title} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out" />
  ) : (
  <div className="w-full h-full flex items-center justify-center">
- {type === 'course' ? <BookOpen className="h-10 w-10 text-white/5" /> : <Ticket className="h-10 w-10 text-white/5" />}
+            {type === 'course' ? <BookOpen className="h-10 w-10 text-foreground/5" /> : <Ticket className="h-10 w-10 text-foreground/5" />}
  </div>
  )}
  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/20" />
@@ -260,16 +259,16 @@ function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registra
 
  <div className="flex-1 p-8 flex flex-col justify-between">
  <div>
- <div className="flex justify-between items-start mb-4">
- <h3 className="font-bold text-xl text-white tracking-tight leading-tight line-clamp-1">{title}</h3>
- <div className="hidden sm:block">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="font-bold text-xl text-foreground tracking-tight leading-tight line-clamp-1">{title}</h3>
+            <div className="hidden sm:block">
  <StatusBadge status={reg.status} />
  </div>
  </div>
 
- <div className="flex flex-col gap-1 text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-6">
+ <div className="flex flex-col gap-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-6">
  <div className="flex items-center gap-4">
- <span className="bg-white/[0.03] px-2.5 py-1 rounded border border-white/[0.05]">TRX: {reg.trxId || "N/A"}</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded border border-border">TRX: {reg.trxId || "N/A"}</span>
  {date && (
  <span className="text-primary opacity-70">
  {formatDate(date)}
@@ -279,13 +278,13 @@ function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registra
  </div>
  </div>
 
- <div className="flex items-center gap-3 mt-auto pt-6 border-t border-white/[0.03]">
- {isApproved ? (
- <Link href={type === 'course' ? `/courses/view?id=${id}` : `/events`}>
- <Button size="sm" className={cn(
- "rounded-xl h-10 px-6 text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shadow-none",
- type === 'course' ? "bg-white text-black hover:bg-neutral-200" : "bg-white text-black hover:bg-neutral-200"
- )}>
+          <div className="flex items-center gap-3 mt-auto pt-6 border-t border-gray-100">
+            {isApproved ? (
+              <Link href={type === 'course' ? `/courses/view?id=${id}` : `/events`}>
+                <Button size="sm" className={cn(
+                  "rounded-xl h-10 px-6 text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shadow-none",
+                  type === 'course' ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-primary text-primary-foreground hover:bg-primary/90"
+                )}>
  {type === 'course' ? "Enter Portal" : "Access Ticket"}
  </Button>
  </Link>
@@ -295,21 +294,21 @@ function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registra
  </div>
  )}
  </div>
- </div>
- </GlassCard>
+      </div>
+    </div>
  );
 }
 
 function StatusBadge({ status }: { status: 'approved' | 'pending' }) {
  if (status === 'approved') {
  return (
- <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-black border border-white shadow-lg ">
+ <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-background text-foreground border border-white shadow-lg ">
  <CheckCircle strokeWidth={1.5} className="h-3 w-3" /> Active
  </span>
  );
  }
  return (
- <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-white/70 border border-gray-200 shadow-lg animate-pulse">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-background text-muted-foreground border border-border shadow-lg animate-pulse">
  <Clock strokeWidth={1.5} className="h-3 w-3" /> Pending
  </span>
  );
@@ -317,14 +316,14 @@ function StatusBadge({ status }: { status: 'approved' | 'pending' }) {
 
 function EmptyState({ icon: Icon, title, desc, actionLink, actionText }: { icon: any, title: string, desc: string, actionLink: string, actionText: string }) {
  return (
- <div className="text-center py-16 border border-dashed border-gray-200 rounded-2xl bg-white flex flex-col items-center">
- <div className="h-16 w-16 bg-white rounded-full flex items-center justify-center mb-4">
- <Icon className="h-8 w-8 text-gray-500" />
- </div>
- <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
- <p className="text-gray-400 mb-6 max-w-sm mx-auto">{desc}</p>
- <Link href={actionLink}>
- <Button className="bg-white hover:bg-white text-white border border-gray-200">
+      <div className="text-center py-16 border border-dashed border-border rounded-2xl bg-gray-50 flex flex-col items-center">
+        <div className="h-16 w-16 bg-background rounded-full flex items-center justify-center mb-4 border border-border shadow-sm">
+          <Icon className="h-8 w-8 text-muted-foreground" />
+        </div>
+        <h3 className="text-xl font-bold text-foreground mb-2">{title}</h3>
+        <p className="text-muted-foreground font-medium mb-6 max-w-sm mx-auto">{desc}</p>
+        <Link href={actionLink}>
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground border-transparent">
  {actionText}
  </Button>
  </Link>

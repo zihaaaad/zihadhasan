@@ -36,29 +36,29 @@ export default function ShopPage() {
 
  if (loading) {
  return (
- <div className="flex min-h-screen items-center justify-center bg-black">
- <Loader2 className="h-8 w-8 animate-spin text-primary" />
- </div>
- );
- }
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
- return (
- <main className="min-h-screen bg-black px-4 py-24 md:px-8">
+  return (
+    <main className="min-h-screen bg-background px-4 py-24 md:px-8">
  <div className="container mx-auto max-w-7xl px-4">
  {/* Header */}
  <div className="mb-20">
  <motion.h1
  initial={{ opacity: 0, y: 10 }}
- animate={{ opacity: 1, y: 0 }}
- className="mb-4 text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl"
- >
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl"
+          >
  Digital <span className="text-primary italic font-serif">Assets</span>
  </motion.h1>
  <motion.p
  initial={{ opacity: 0 }}
  animate={{ opacity: 1 }}
  transition={{ delay: 0.1 }}
- className="max-w-2xl text-lg text-gray-500 font-medium leading-relaxed"
+ className="max-w-2xl text-lg text-muted-foreground font-medium leading-relaxed"
  >
  Premium source codes, architecture patterns, and tools designed to accelerate your development workflow.
  </motion.p>
@@ -71,9 +71,9 @@ export default function ShopPage() {
  key={product.id}
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
- transition={{ delay: i * 0.05 }}
- className={`group relative overflow-hidden rounded-[2rem] border border-white/[0.05] bg-white/[0.02] transition-all duration-700 hover:border-gray-200 h-[500px] flex flex-col ${i === 0 ? "md:col-span-2 lg:col-span-2" : ""
- }`}
+            transition={{ delay: i * 0.05 }}
+            className={`group relative overflow-hidden rounded-[2rem] border border-border bg-gray-50 transition-all duration-700 hover:border-gray-300 h-[500px] flex flex-col shadow-sm ${i === 0 ? "md:col-span-2 lg:col-span-2" : ""
+              }`}
  >
  {/* Image Background */}
  <div className="absolute inset-0 z-0">
@@ -86,31 +86,30 @@ export default function ShopPage() {
  ) : (
  <div className="h-full w-full bg-gray-50" />
  )}
- <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
- </div>
+          </div>
 
  {/* Content */}
  <div className="absolute inset-0 z-10 flex flex-col justify-end p-10">
  <div className="mb-8">
- <div className="mb-4 inline-flex items-center rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white/70 ">
- {product.type === 'digital' ? <Download className="mr-2 h-3 w-3" /> : <ShoppingBag className="mr-2 h-3 w-3" />}
- {product.type}
- </div>
- <h3 className="text-3xl font-bold text-white tracking-tight leading-tight">{product.title}</h3>
- <p className="mt-3 line-clamp-2 text-sm text-gray-600 font-medium leading-relaxed">{product.description}</p>
+            <div className="mb-4 inline-flex items-center rounded-full border border-border bg-background px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-foreground shadow-sm">
+              {product.type === 'digital' ? <Download className="mr-2 h-3 w-3" /> : <ShoppingBag className="mr-2 h-3 w-3" />}
+              {product.type}
+            </div>
+            <h3 className="text-3xl font-bold text-foreground tracking-tight leading-tight">{product.title}</h3>
+            <p className="mt-3 line-clamp-2 text-sm text-gray-600 font-medium leading-relaxed">{product.description}</p>
  </div>
 
- <div className="flex items-center justify-between border-t border-white/[0.05] pt-6">
- <div className="flex flex-col">
- <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Value</span>
- <span className="text-xl font-bold text-white tracking-tight">{formatCurrency(product.price)}</span>
- </div>
- <Button
- onClick={() => handleBuy(product)}
- className="rounded-xl bg-white px-8 h-12 text-[11px] font-bold uppercase tracking-widest text-black hover:bg-neutral-200 transition-all duration-500"
- >
- Acquire Asset
- </Button>
+            <div className="flex items-center justify-between border-t border-border pt-6">
+              <div className="flex flex-col">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Value</span>
+                <span className="text-xl font-bold text-foreground tracking-tight">{formatCurrency(product.price)}</span>
+              </div>
+              <Button
+                onClick={() => handleBuy(product)}
+                className="rounded-xl bg-primary px-8 h-12 text-[11px] font-bold uppercase tracking-widest text-primary-foreground hover:bg-primary/90 transition-all duration-500"
+              >
+                Acquire Asset
+              </Button>
  </div>
  </div>
  </motion.div>
@@ -118,7 +117,7 @@ export default function ShopPage() {
  </div>
 
  {products.length === 0 && (
- <div className="text-center text-gray-500 py-20">
+ <div className="text-center text-muted-foreground py-20">
  No products available yet. Check back soon!
  </div>
  )}

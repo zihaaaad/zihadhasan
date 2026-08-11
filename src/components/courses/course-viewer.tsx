@@ -8,7 +8,7 @@ import { CMSService, Registration, Course } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
 import { Loader2, Users, BookOpen, CheckCircle, Clock, PlayCircle } from "lucide-react";
 import { toast } from "sonner";
-import { GlassCard } from "@/components/shared/glass-card";
+
 import { EnrollmentModal } from "@/components/courses/enrollment-modal";
 import { LessonsList } from "@/components/courses/lessons-list";
 import { generateCourseSchema } from "@/lib/schema-generator";
@@ -166,7 +166,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  setShowEnrollModal(true);
  };
 
- if (!id) return <div className="min-h-screen pt-24 text-center text-white">Initializing course viewer...</div>;
+  if (!id) return <div className="min-h-screen pt-24 text-center text-foreground">Initializing course viewer...</div>;
 
  if (loading) {
  return (
@@ -180,8 +180,8 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  return (
  <div className="flex flex-col items-center justify-center py-20 min-h-screen text-center px-4">
  <BookOpen className="h-16 w-16 text-gray-600 mb-4" />
- <h1 className="text-2xl font-bold text-white mb-2">Course Not Found</h1>
- <p className="text-gray-400">The course you are looking for does not exist or has been removed.</p>
+        <h1 className="text-2xl font-bold text-foreground mb-2">Course Not Found</h1>
+ <p className="text-muted-foreground/80">The course you are looking for does not exist or has been removed.</p>
  </div>
  );
  }
@@ -193,32 +193,31 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  {registration ? (
  <div className="space-y-4">
  {registration.status === 'approved' ? (
- <div className="rounded-xl bg-white border border-gray-200 p-4">
+ <div className="rounded-xl bg-background border border-border p-4">
  <div className="flex items-center gap-3 mb-4">
- <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center shrink-0">
- <CheckCircle className="h-4 w-4 text-white" />
+ <div className="h-8 w-8 rounded-full bg-background flex items-center justify-center shrink-0">
+ <CheckCircle className="h-4 w-4 text-primary-foreground" />
  </div>
  <div>
- <h3 className="font-bold text-white text-sm">Course Progress</h3>
+              <h3 className="font-bold text-foreground text-sm">Course Progress</h3>
  </div>
  </div>
  <div className="space-y-2">
- <div className="flex justify-between text-xs text-gray-400">
+ <div className="flex justify-between text-xs text-muted-foreground/80">
  <span>Completed</span>
  <span>{Math.round((registration.completedLessonIds?.length || 0) / (course.lessons?.length || 1) * 100)}%</span>
  </div>
- <div className="h-1.5 w-full bg-gray-50 rounded-full overflow-hidden border border-gray-200">
- <div
- className="h-full bg-white transition-all duration-500 ease-out"
- style={{ width: `${((registration.completedLessonIds?.length || 0) / (course.lessons?.length || 1) * 100)}%` }}
- />
+                  <div className="h-1.5 w-full bg-gray-50 rounded-full overflow-hidden border border-border">
+                    <div className="h-full bg-gray-800 transition-all duration-500 ease-out"
+                      style={{ width: `${((registration.completedLessonIds?.length || 0) / (course.lessons?.length || 1) * 100)}%` }}
+                    />
  </div>
  </div>
  </div>
  ) : (
- <div className="w-full py-4 px-4 rounded-xl bg-white border border-gray-200 text-center">
- <h3 className="font-bold text-white text-sm mb-1">Approval Pending</h3>
- <p className="text-xs text-white/70">Access will be granted soon.</p>
+ <div className="w-full py-4 px-4 rounded-xl bg-background border border-border text-center">
+              <h3 className="font-bold text-foreground text-sm mb-1">Approval Pending</h3>
+              <p className="text-xs text-muted-foreground">Access will be granted soon.</p>
  </div>
  )}
  </div>
@@ -238,11 +237,11 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  </div>
  )}
 
- <div className="h-px bg-white" />
+      <div className="h-px bg-gray-200" />
 
  {/* Lessons List in Sidebar */}
  <div className="space-y-2">
- <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Curriculum</h3>
+ <h3 className="text-sm font-semibold text-muted-foreground/80 uppercase tracking-wider">Curriculum</h3>
  <LessonsList
  course={course}
  registration={registration}
@@ -312,9 +311,9 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  transition={{ duration: 0.4, type: "spring", bounce: 0 }}
  className="w-full lg:w-1/3 shrink-0"
  >
- <GlassCard className="p-5 sticky top-24 max-h-[85vh] overflow-y-auto custom-scrollbar">
- <SidebarContent />
- </GlassCard>
+          <div className="p-5 bg-background border border-border rounded-3xl sticky top-24 max-h-[85vh] overflow-y-auto custom-scrollbar shadow-sm">
+            <SidebarContent />
+          </div>
  </motion.div>
 
  {/* RIGHT (or TOP mobile) - Video Player & Main Content */}
@@ -325,7 +324,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  {/* Video Player Container */}
  <motion.div
  layoutId="video-container"
- className="relative aspect-video bg-black rounded-xl overflow-hidden border border-gray-200 shadow-2xl z-20"
+ className="relative aspect-video bg-primary rounded-xl overflow-hidden border border-border shadow-2xl z-20"
  >
  {activeLesson?.videoUrl ? (
  <iframe
@@ -343,12 +342,12 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  className="w-full h-full object-cover opacity-90 group-hover:opacity-70 transition-opacity"
  />
  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
- <PlayCircle strokeWidth={1.5} className="h-20 w-20 text-white opacity-80 group-hover:scale-110 transition-transform duration-300" />
+ <PlayCircle strokeWidth={1.5} className="h-20 w-20 text-primary-foreground opacity-80 group-hover:scale-110 transition-transform duration-300" />
  </div>
- <p className="absolute bottom-10 w-full text-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 pointer-events-none">Select a lesson to start learning</p>
+ <p className="absolute bottom-10 w-full text-center text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/80 pointer-events-none">Select a lesson to start learning</p>
  </div>
  ) : (
- <div className="w-full h-full flex items-center justify-center text-gray-500 bg-gray-50">
+ <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-gray-50">
  <PlayCircle strokeWidth={1.5} className="h-16 w-16 opacity-50" />
  </div>
  )}
@@ -357,7 +356,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  <Button
  variant="secondary"
  size="sm"
- className="bg-gray-50 hover:bg-black text-white border border-gray-200 text-[9px] font-bold uppercase tracking-widest h-8"
+                className="bg-gray-50 hover:bg-primary text-foreground hover:text-primary-foreground border border-border text-[9px] font-bold uppercase tracking-widest h-8"
  onClick={() => setIsTheaterMode(!isTheaterMode)}
  >
  {isTheaterMode ? "Exit Theater" : "Theater Mode"}
@@ -367,7 +366,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  {/* Overlay Content if not playing */}
  {!activeLesson && (
  <div className="absolute bottom-0 left-0 w-full p-10 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none">
- <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">{course.title}</h1>
+ <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4 tracking-tight">{course.title}</h1>
  <p className="text-gray-600 text-sm max-w-xl line-clamp-2 leading-relaxed">{course.description}</p>
  </div>
  )}
@@ -386,7 +385,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  }
  }}
  disabled={!activeLesson || course.lessons.findIndex(l => l.id === activeLesson.id) <= 0}
- className="flex-1 border-gray-200 hover:bg-white text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
+ className="flex-1 border-border hover:bg-background text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
  >
  <ChevronLeft strokeWidth={1.5} className="mr-2 h-4 w-4" /> Previous Lesson
  </Button>
@@ -417,7 +416,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  !activeLesson && course.lessons.length === 0 ||
  !!(activeLesson && course.lessons.findIndex(l => l.id === activeLesson.id) >= course.lessons.length - 1)
  }
- className="flex-1 bg-white text-black hover:bg-neutral-200 text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
+              className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
  >
  Next Lesson <ChevronRight strokeWidth={1.5} className="ml-2 h-4 w-4" />
  </Button>
@@ -429,24 +428,24 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  layout
  className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10"
  >
- <GlassCard className="p-8 border-white/[0.05] bg-white/[0.02] rounded-3xl">
- <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-tight">About this Course</h2>
- <div className="prose prose-invert prose-sm max-w-none text-gray-600 font-medium leading-relaxed">
- {course.description}
- </div>
- </GlassCard>
+        <div className="p-8 border border-border bg-background rounded-3xl shadow-sm">
+          <h2 className="text-xl font-bold text-foreground mb-6 uppercase tracking-tight">About this Course</h2>
+          <div className="prose prose-sm max-w-none text-gray-600 font-medium leading-relaxed">
+            {course.description}
+          </div>
+        </div>
 
- <GlassCard className="p-8 border-white/[0.05] bg-white/[0.02] rounded-3xl">
- <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-tight">What you'll learn</h2>
- <ul className="space-y-4">
- {[1, 2, 3].map((_, i) => (
- <li key={i} className="flex items-start gap-3 text-sm text-gray-600 font-medium">
- <CheckCircle strokeWidth={1.5} className="h-4 w-4 text-white shrink-0 mt-0.5" />
- <span>Comprehensive understanding of the subject matter.</span>
- </li>
- ))}
- </ul>
- </GlassCard>
+        <div className="p-8 border border-border bg-background rounded-3xl shadow-sm">
+          <h2 className="text-xl font-bold text-foreground mb-6 uppercase tracking-tight">What you'll learn</h2>
+          <ul className="space-y-4">
+            {[1, 2, 3].map((_, i) => (
+              <li key={i} className="flex items-start gap-3 text-sm text-gray-600 font-medium">
+                <CheckCircle strokeWidth={1.5} className="h-4 w-4 text-foreground shrink-0 mt-0.5" />
+                <span>Comprehensive understanding of the subject matter.</span>
+              </li>
+            ))}
+          </ul>
+        </div>
  </motion.div>
  </motion.div>
  </div>

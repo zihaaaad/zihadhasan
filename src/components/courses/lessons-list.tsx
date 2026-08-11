@@ -43,8 +43,8 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
 
  return (
  <div id="lessons-list" className={cn("space-y-4", className)}>
- <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-3 uppercase tracking-tight">
- <MonitorPlay strokeWidth={1.5} className="h-5 w-5 text-white" />
+      <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3 uppercase tracking-tight">
+        <MonitorPlay strokeWidth={1.5} className="h-5 w-5 text-foreground" />
  Course Content
  </h2>
 
@@ -83,7 +83,7 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
  );
  })
  ) : (
- <div className="text-center py-12 border border-dashed border-gray-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-gray-800">
+ <div className="text-center py-12 border border-dashed border-border rounded-2xl text-[10px] font-bold uppercase tracking-widest text-gray-800">
  No modules available.
  </div>
  )}
@@ -93,15 +93,15 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
  {/* Video Player Modal - Only render if NOT controlled (no onSelectLesson) */}
  {!onSelectLesson && (
  <Dialog open={!!localSelectedLesson} onOpenChange={(open) => !open && setLocalSelectedLesson(null)}>
- <DialogContent className="max-w-4xl bg-black border-gray-200 text-white p-0 overflow-hidden rounded-3xl">
- <DialogHeader className="p-6 border-b border-gray-200 bg-white/[0.02]">
- <DialogTitle className="text-lg font-bold flex items-center gap-3 tracking-tight">
- <PlayCircle strokeWidth={1.5} className="h-5 w-5 text-white" />
- {localSelectedLesson?.title}
+        <DialogContent className="max-w-4xl bg-background border-border text-foreground p-0 overflow-hidden rounded-3xl">
+          <DialogHeader className="p-6 border-b border-border bg-gray-50">
+            <DialogTitle className="text-lg font-bold flex items-center gap-3 tracking-tight">
+              <PlayCircle strokeWidth={1.5} className="h-5 w-5 text-foreground" />
+              {localSelectedLesson?.title}
  </DialogTitle>
  </DialogHeader>
 
- <div className="aspect-video w-full bg-black relative">
+ <div className="aspect-video w-full bg-primary relative">
  {localSelectedLesson?.videoUrl ? (
  <iframe
  src={getEmbedUrl(localSelectedLesson.videoUrl)}
@@ -122,18 +122,18 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
 
  {/* Locked Lesson Premium Modal */}
  <Dialog open={showLockedModal} onOpenChange={setShowLockedModal}>
- <DialogContent className="max-w-md p-0 overflow-hidden bg-black border-gray-200 text-white rounded-3xl">
- <div className="relative h-40 bg-white/[0.03] flex items-center justify-center overflow-hidden border-b border-gray-200">
- <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-150"></div>
- <div className="h-20 w-20 rounded-full bg-black flex items-center justify-center border border-gray-200 shadow-2xl relative z-10">
- <Lock strokeWidth={1.5} className="h-8 w-8 text-white" />
- </div>
+        <DialogContent className="max-w-md p-0 overflow-hidden bg-background border-border text-foreground rounded-3xl shadow-sm">
+          <div className="relative h-40 bg-gray-50 flex items-center justify-center overflow-hidden border-b border-border">
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-150"></div>
+            <div className="h-20 w-20 rounded-full bg-background flex items-center justify-center border border-border shadow-2xl relative z-10">
+              <Lock strokeWidth={1.5} className="h-8 w-8 text-foreground" />
+            </div>
  </div>
 
  <div className="p-10 space-y-6 text-center">
  <div>
- <h3 className="text-2xl font-bold text-white mb-3 tracking-tight uppercase">Locked Module</h3>
- <p className="text-gray-500 text-sm font-medium leading-relaxed">
+            <h3 className="text-2xl font-bold text-foreground mb-3 tracking-tight uppercase">Locked Module</h3>
+ <p className="text-muted-foreground text-sm font-medium leading-relaxed">
  This technical module is restricted to verified students. Authenticate or acquire access to continue.
  </p>
  </div>
@@ -145,19 +145,19 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
  setShowLockedModal(false);
  onEnroll?.();
  }}
- className="w-full bg-white text-black hover:bg-neutral-200 border-0 h-14 rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-500"
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border-0 h-14 rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-500"
  >
  Authorize Access
  </Button>
  ) : (
- <div className="p-4 rounded-xl bg-white border border-gray-200 text-gray-600 text-[10px] font-bold uppercase tracking-widest">
- Status: <span className="text-white">{registration.status}</span> • Awaiting clearance
- </div>
+                <div className="p-4 rounded-xl bg-gray-100 border border-border text-gray-600 text-[10px] font-bold uppercase tracking-widest">
+                  Status: <span className="text-foreground">{registration.status}</span> • Awaiting clearance
+                </div>
  )}
  <Button
  variant="ghost"
  onClick={() => setShowLockedModal(false)}
- className="w-full text-gray-800 hover:text-white text-[10px] font-bold uppercase tracking-widest h-10"
+                className="w-full text-gray-800 hover:text-foreground hover:bg-gray-100 text-[10px] font-bold uppercase tracking-widest h-10"
  >
  Dismiss
  </Button>

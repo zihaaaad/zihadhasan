@@ -21,31 +21,31 @@ export function BlogPostRenderer({ post }: BlogPostRendererProps) {
     : "";
 
   return (
-    <article className="min-h-screen pt-32 pb-20 bg-white text-black">
+    <article className="min-h-screen pt-32 pb-20 bg-background text-foreground">
       <div className="container mx-auto px-4 max-w-3xl">
-        <Link href="/blog" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-black mb-8 transition-colors">
+        <Link href="/blog" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground mb-8 transition-colors">
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to Archive
         </Link>
 
         <header className="mb-12 text-center">
           <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
             {post.tags.map(tag => (
-              <Badge key={tag} variant="secondary" className="bg-gray-100 text-black border border-gray-200 uppercase tracking-widest text-[10px] font-bold py-1 px-3">
+              <Badge key={tag} variant="secondary" className="bg-gray-100 text-foreground border border-border uppercase tracking-widest text-[10px] font-bold py-1 px-3">
                 {tag}
               </Badge>
             ))}
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-black mb-8 leading-[1.1]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-8 leading-[1.1]">
             {post.title}
           </h1>
 
-          <div className="flex items-center justify-center gap-4 text-gray-500 text-sm font-medium">
+          <div className="flex items-center justify-center gap-4 text-muted-foreground text-sm font-medium">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden border border-gray-200">
+              <div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden border border-border">
                 <img src="https://github.com/zihaaaad.png" alt="Zihad Hasan" className="h-full w-full object-cover" />
               </div>
-              <span className="text-black font-semibold">Zihad Hasan</span>
+              <span className="text-foreground font-semibold">Zihad Hasan</span>
             </div>
             <span>•</span>
             <div className="flex items-center gap-1.5 uppercase tracking-widest text-[11px] font-bold">
@@ -56,7 +56,7 @@ export function BlogPostRenderer({ post }: BlogPostRendererProps) {
         </header>
 
         {post.coverImage && (
-          <div className="relative aspect-video w-full rounded-2xl overflow-hidden mb-16 border border-gray-200 shadow-sm">
+          <div className="relative aspect-video w-full rounded-2xl overflow-hidden mb-16 border border-border shadow-sm">
             <img src={post.coverImage} alt={post.title} className="object-cover w-full h-full" />
           </div>
         )}
@@ -69,7 +69,7 @@ export function BlogPostRenderer({ post }: BlogPostRendererProps) {
           }}
         />
 
-        <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-black prose-a:font-semibold prose-a:underline prose-a:decoration-gray-300 hover:prose-a:decoration-black prose-img:rounded-2xl prose-img:border prose-img:border-gray-200 prose-img:shadow-sm prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200 prose-pre:text-black">
+        <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-foreground prose-a:font-semibold prose-a:underline prose-a:decoration-gray-300 hover:prose-a:decoration-black prose-img:rounded-2xl prose-img:border prose-img:border-border prose-img:shadow-sm prose-pre:bg-gray-50 prose-pre:border prose-pre:border-border prose-pre:text-foreground">
           <div dangerouslySetInnerHTML={{
             __html: sanitizeHtml(post.content, {
               allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'pre', 'code', 'span']),
@@ -84,7 +84,7 @@ export function BlogPostRenderer({ post }: BlogPostRendererProps) {
           }} />
         </div>
 
-        <hr className="my-16 border-gray-200" />
+        <hr className="my-16 border-border" />
 
         <NewsletterForm variant="card" />
       </div>
@@ -94,7 +94,7 @@ export function BlogPostRenderer({ post }: BlogPostRendererProps) {
 
 function ButtonAsLink({ href, children, variant }: { href: string, children: React.ReactNode, variant?: "default" | "outline" }) {
   return (
-    <Button asChild variant={variant} className="bg-black text-white hover:bg-gray-800 rounded-lg">
+    <Button asChild variant={variant} className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg">
       <Link href={href}>{children}</Link>
     </Button>
   )

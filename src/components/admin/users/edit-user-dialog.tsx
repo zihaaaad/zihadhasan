@@ -60,7 +60,7 @@ export function EditUserDialog({ user, open, onOpenChange, onSubmit }: EditUserD
 
  return (
  <Dialog open={open} onOpenChange={onOpenChange}>
- <DialogContent className="sm:max-w-[425px] bg-zinc-950 border-gray-200 text-white">
+ <DialogContent className="sm:max-w-[425px] bg-zinc-950 border-border text-primary-foreground">
  <DialogHeader>
  <DialogTitle>Edit User Profile</DialogTitle>
  </DialogHeader>
@@ -83,7 +83,7 @@ export function EditUserDialog({ user, open, onOpenChange, onSubmit }: EditUserD
 
  <div className="space-y-2">
  <Label htmlFor="name">Full Name</Label>
- <Input id="name" {...form.register("name")} className="bg-gray-50 border-gray-200" />
+ <Input id="name" {...form.register("name")} className="bg-gray-50 border-border" />
  {form.formState.errors.name && (
  <p className="text-xs text-red-400">{form.formState.errors.name.message}</p>
  )}
@@ -96,10 +96,10 @@ export function EditUserDialog({ user, open, onOpenChange, onSubmit }: EditUserD
  name="role"
  render={({ field }) => (
  <Select onValueChange={field.onChange} defaultValue={field.value}>
- <SelectTrigger className="bg-gray-50 border-gray-200">
+ <SelectTrigger className="bg-gray-50 border-border">
  <SelectValue placeholder="Select a role" />
  </SelectTrigger>
- <SelectContent className="bg-zinc-900 border-gray-200 text-white">
+ <SelectContent className="bg-zinc-900 border-border text-primary-foreground">
  <SelectItem value="user">User</SelectItem>
  <SelectItem value="admin">Admin</SelectItem>
  </SelectContent>
@@ -110,7 +110,7 @@ export function EditUserDialog({ user, open, onOpenChange, onSubmit }: EditUserD
 
  <div className="space-y-2">
  <Label htmlFor="phone">Phone Number</Label>
- <Input id="phone" {...form.register("phone")} className="bg-gray-50 border-gray-200" placeholder="+880..." />
+ <Input id="phone" {...form.register("phone")} className="bg-gray-50 border-border" placeholder="+880..." />
  </div>
 
  <DialogFooter>
@@ -118,11 +118,11 @@ export function EditUserDialog({ user, open, onOpenChange, onSubmit }: EditUserD
  type="button"
  variant="ghost"
  onClick={() => onOpenChange(false)}
- className="hover:bg-white hover:text-white"
+ className="hover:bg-background hover:text-primary-foreground"
  >
  Cancel
  </Button>
- <Button type="submit" disabled={form.formState.isSubmitting} className="bg-primary hover:bg-primary/90 text-white">
+ <Button type="submit" disabled={form.formState.isSubmitting} className="bg-primary hover:bg-primary/90 text-primary-foreground">
  {form.formState.isSubmitting ? (
  <>
  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...

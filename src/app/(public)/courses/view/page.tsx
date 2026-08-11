@@ -5,7 +5,7 @@ import { Suspense } from "react";
 
 export default function CourseViewerPage() {
  return (
- <Suspense fallback={<div className="min-h-screen pt-24 text-center text-white">Loading viewer...</div>}>
+    <Suspense fallback={<div className="min-h-screen pt-24 text-center text-muted-foreground">Loading viewer...</div>}>
  <CourseViewer />
  </Suspense>
  );

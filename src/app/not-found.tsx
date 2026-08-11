@@ -7,11 +7,11 @@ import { Home, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
  return (
- <div className="relative min-h-screen bg-black flex flex-col items-center justify-center p-4 overflow-hidden">
+ <div className="relative min-h-screen bg-primary flex flex-col items-center justify-center p-4 overflow-hidden">
  {/* Background Effects */}
  <div className="absolute inset-0 z-0">
  <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
- <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white rounded-full blur-[120px] opacity-20 animate-pulse"></div>
+ <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-background rounded-full blur-[120px] opacity-20 animate-pulse"></div>
  </div>
 
  <motion.div
@@ -44,7 +44,7 @@ export default function NotFound() {
  initial={{ width: 0 }}
  animate={{ width: "100px" }}
  transition={{ delay: 0.7, duration: 0.8 }}
- className="h-1 bg-white mx-auto rounded-full"
+ className="h-1 bg-background mx-auto rounded-full"
  />
  </div>
  </div>
@@ -56,7 +56,7 @@ export default function NotFound() {
  transition={{ delay: 0.8 }}
  className="space-y-4 max-w-md mx-auto"
  >
- <p className="text-lg text-white/60 font-light">
+ <p className="text-lg text-primary-foreground/60 font-light">
  The page you are looking for has been moved, deleted, or possibly never existed.
  </p>
  </motion.div>
@@ -70,14 +70,14 @@ export default function NotFound() {
  <Button
  variant="outline"
  onClick={() => window.history.back()}
- className="h-12 px-6 border-gray-200 hover:bg-white text-white hover:text-white rounded-full transition-all duration-300 hover:scale-105"
+ className="h-12 px-6 border-border hover:bg-background text-primary-foreground hover:text-primary-foreground rounded-full transition-all duration-300 hover:scale-105"
  >
  <ArrowLeft strokeWidth={1.5} className="mr-2 h-4 w-4" /> Go Back
  </Button>
 
  <Button
  asChild
- className="h-12 px-8 bg-white text-black hover:bg-neutral-200 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+ className="h-12 px-8 bg-background text-foreground hover:bg-neutral-200 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
  >
  <Link href="/">
  <Home strokeWidth={1.5} className="mr-2 h-4 w-4" /> Return Home

@@ -108,45 +108,45 @@ export function EventForm({ open, onOpenChange, onSubmit, initialData }: EventFo
 
  return (
  <Dialog open={open} onOpenChange={onOpenChange}>
- <DialogContent className="bg-gray-50 border-gray-200 text-white sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+ <DialogContent className="bg-gray-50 border-border text-primary-foreground sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
  <DialogHeader>
  <DialogTitle>{initialData ? "Edit Event" : "Create Event"}</DialogTitle>
- <DialogDescription className="text-gray-400">
+ <DialogDescription className="text-muted-foreground/80">
  Schedule an upcoming speaking engagement or workshop.
  </DialogDescription>
  </DialogHeader>
 
  <div className="grid gap-4 py-4">
  <div className="grid gap-2">
- <Label htmlFor="title" className="text-white">Event Title</Label>
- <Input id="title" {...form.register("title")} className="bg-white border-gray-200 text-white" />
+ <Label htmlFor="title" className="text-primary-foreground">Event Title</Label>
+ <Input id="title" {...form.register("title")} className="bg-background border-border text-primary-foreground" />
  {form.formState.errors.title && <p className="text-xs text-red-500">{form.formState.errors.title.message}</p>}
  </div>
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  <div className="grid gap-2">
- <Label htmlFor="date" className="text-white">Date & Time</Label>
+ <Label htmlFor="date" className="text-primary-foreground">Date & Time</Label>
  <div className="relative">
- <CalendarIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+ <CalendarIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
  <Input
  id="date"
  type="datetime-local"
  {...form.register("date")}
- className="pl-9 bg-white border-gray-200 text-white [color-scheme:dark]"
+ className="pl-9 bg-background border-border text-primary-foreground [color-scheme:dark]"
  />
  </div>
  {form.formState.errors.date && <p className="text-xs text-red-500">{form.formState.errors.date.message}</p>}
  </div>
 
  <div className="grid gap-2">
- <Label htmlFor="totalSeats" className="text-white">Total Seats</Label>
+ <Label htmlFor="totalSeats" className="text-primary-foreground">Total Seats</Label>
  <div className="relative">
- <Users className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+ <Users className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
  <Input
  id="totalSeats"
  type="number"
  {...form.register("totalSeats", { valueAsNumber: true })}
- className="pl-9 bg-white border-gray-200 text-white"
+ className="pl-9 bg-background border-border text-primary-foreground"
  min={1}
  />
  </div>
@@ -160,30 +160,30 @@ export function EventForm({ open, onOpenChange, onSubmit, initialData }: EventFo
  checked={form.watch("isVirtual")}
  onCheckedChange={(c) => form.setValue("isVirtual", c)}
  />
- <Label htmlFor="isVirtual" className="text-white">Virtual Event (Online)</Label>
+ <Label htmlFor="isVirtual" className="text-primary-foreground">Virtual Event (Online)</Label>
  </div>
 
  <div className="grid gap-2">
- <Label htmlFor="location" className="text-white">{form.watch("isVirtual") ? "Meeting Link" : "Venue Location"}</Label>
+ <Label htmlFor="location" className="text-primary-foreground">{form.watch("isVirtual") ? "Meeting Link" : "Venue Location"}</Label>
  <div className="relative">
  {form.watch("isVirtual") ? (
- <Globe className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+ <Globe className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
  ) : (
- <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+ <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
  )}
  <Input
  id="location"
  {...form.register("location")}
  placeholder={form.watch("isVirtual") ? "https://meet.google.com/..." : "Dhaka, Bangladesh"}
- className="pl-9 bg-white border-gray-200 text-white"
+ className="pl-9 bg-background border-border text-primary-foreground"
  />
  </div>
  {form.formState.errors.location && <p className="text-xs text-red-500">{form.formState.errors.location.message}</p>}
  </div>
 
  {/* Pricing Section */}
- <div className="space-y-3 p-4 border border-gray-200 rounded-lg bg-white">
- <Label className="text-white flex items-center gap-2">
+ <div className="space-y-3 p-4 border border-border rounded-lg bg-background">
+ <Label className="text-primary-foreground flex items-center gap-2">
  <Coins className="h-4 w-4 text-primary" /> Pricing
  </Label>
 
@@ -194,23 +194,23 @@ export function EventForm({ open, onOpenChange, onSubmit, initialData }: EventFo
  className="flex space-x-4"
  >
  <div className="flex items-center space-x-2">
- <RadioGroupItem value="free" id="evt-free" className="border-gray-200 text-primary" />
- <Label htmlFor="evt-free" className="text-sm font-normal cursor-pointer text-white">Free Event</Label>
+ <RadioGroupItem value="free" id="evt-free" className="border-border text-primary" />
+ <Label htmlFor="evt-free" className="text-sm font-normal cursor-pointer text-primary-foreground">Free Event</Label>
  </div>
  <div className="flex items-center space-x-2">
- <RadioGroupItem value="paid" id="evt-paid" className="border-gray-200 text-primary" />
- <Label htmlFor="evt-paid" className="text-sm font-normal cursor-pointer text-white">Paid Event</Label>
+ <RadioGroupItem value="paid" id="evt-paid" className="border-border text-primary" />
+ <Label htmlFor="evt-paid" className="text-sm font-normal cursor-pointer text-primary-foreground">Paid Event</Label>
  </div>
  </RadioGroup>
 
  {pricingType === 'paid' && (
  <div className="grid gap-2 animate-in fade-in slide-in-from-top-2">
- <Label htmlFor="price" className="text-white">Ticket Price (BDT)</Label>
+ <Label htmlFor="price" className="text-primary-foreground">Ticket Price (BDT)</Label>
  <Input
  id="price"
  type="number"
  {...form.register("price", { valueAsNumber: true })}
- className="bg-gray-50 border-gray-200 text-white"
+ className="bg-gray-50 border-border text-primary-foreground"
  placeholder="e.g. 500"
  />
  {form.formState.errors.price && <p className="text-xs text-red-500">{form.formState.errors.price.message}</p>}
@@ -220,8 +220,8 @@ export function EventForm({ open, onOpenChange, onSubmit, initialData }: EventFo
  </div>
 
  <div className="grid gap-2">
- <Label htmlFor="description" className="text-white">Description</Label>
- <Textarea id="description" {...form.register("description")} className="bg-white border-gray-200 text-white min-h-[100px]" />
+ <Label htmlFor="description" className="text-primary-foreground">Description</Label>
+ <Textarea id="description" {...form.register("description")} className="bg-background border-border text-primary-foreground min-h-[100px]" />
  {form.formState.errors.description && <p className="text-xs text-red-500">{form.formState.errors.description.message}</p>}
  </div>
 
@@ -235,8 +235,8 @@ export function EventForm({ open, onOpenChange, onSubmit, initialData }: EventFo
  </div>
 
  <DialogFooter>
- <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-gray-400 hover:text-white">Cancel</Button>
- <Button onClick={form.handleSubmit(handleSubmit)} disabled={submitting} className="bg-primary text-black">
+ <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground/80 hover:text-primary-foreground">Cancel</Button>
+ <Button onClick={form.handleSubmit(handleSubmit)} disabled={submitting} className="bg-primary text-foreground">
  {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
  {initialData ? "Save Changes" : "Publish Event"}
  </Button>

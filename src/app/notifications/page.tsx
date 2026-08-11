@@ -162,46 +162,46 @@ export default function NotificationsPage() {
  );
  }
 
- if (!user) return <div className="min-h-screen flex items-center justify-center text-white">Please log in.</div>;
+ if (!user) return <div className="min-h-screen flex items-center justify-center text-primary-foreground">Please log in.</div>;
 
  return (
- <main className="min-h-screen bg-background text-white">
+ <main className="min-h-screen bg-background text-primary-foreground">
  <div className="container mx-auto py-12 px-4 md:px-6 max-w-4xl">
  <div className="flex items-center justify-between mb-8">
  <div className="flex items-center gap-4">
  <Link href="/my-learning">
- <Button variant="ghost" size="icon" className="hover:bg-white text-white/70">
+ <Button variant="ghost" size="icon" className="hover:bg-background text-primary-foreground/70">
  <ArrowLeft className="h-5 w-5" />
  </Button>
  </Link>
  <h1 className="text-3xl font-bold">Notifications</h1>
  </div>
  <div className="flex items-center gap-2">
- <div className="bg-white rounded-lg p-1 flex items-center text-sm">
+ <div className="bg-background rounded-lg p-1 flex items-center text-sm">
  <button
  onClick={() => setFilter('all')}
- className={cn("px-3 py-1.5 rounded-md transition-colors", filter === 'all' ? "bg-primary text-black font-medium" : "text-white/60 hover:text-white")}
+ className={cn("px-3 py-1.5 rounded-md transition-colors", filter === 'all' ? "bg-primary text-foreground font-medium" : "text-primary-foreground/60 hover:text-primary-foreground")}
  >
  All
  </button>
  <button
  onClick={() => setFilter('unread')}
- className={cn("px-3 py-1.5 rounded-md transition-colors", filter === 'unread' ? "bg-primary text-black font-medium" : "text-white/60 hover:text-white")}
+ className={cn("px-3 py-1.5 rounded-md transition-colors", filter === 'unread' ? "bg-primary text-foreground font-medium" : "text-primary-foreground/60 hover:text-primary-foreground")}
  >
  Unread
  </button>
  </div>
- <Button onClick={markAllRead} variant="outline" size="sm" className="hidden md:flex gap-2 border-gray-200 hover:bg-white">
+ <Button onClick={markAllRead} variant="outline" size="sm" className="hidden md:flex gap-2 border-border hover:bg-background">
  <CheckCheck className="h-4 w-4" /> Mark all read
  </Button>
  </div>
  </div>
 
  {notifications.length === 0 ? (
- <div className="text-center py-20 bg-white rounded-xl border border-gray-200">
- <MailOpen className="h-12 w-12 text-white/20 mx-auto mb-4" />
- <h2 className="text-xl font-semibold text-white mb-2">No notifications found</h2>
- <p className="text-white/50">You're all caught up!</p>
+ <div className="text-center py-20 bg-background rounded-xl border border-border">
+ <MailOpen className="h-12 w-12 text-primary-foreground/20 mx-auto mb-4" />
+ <h2 className="text-xl font-semibold text-primary-foreground mb-2">No notifications found</h2>
+ <p className="text-primary-foreground/50">You're all caught up!</p>
  </div>
  ) : (
  <div className="space-y-4">
@@ -210,16 +210,16 @@ export default function NotificationsPage() {
  key={notification.id}
  className={cn(
  "p-5 rounded-xl border transition-all flex gap-4 group relative overflow-hidden",
- notification.read ? "bg-background border-gray-200 opacity-80 hover:opacity-100" : "bg-white border-primary/20",
+ notification.read ? "bg-background border-border opacity-80 hover:opacity-100" : "bg-background border-primary/20",
  !notification.read && "shadow-[0_0_30px_-10px_rgba(var(--primary),0.1)]"
  )}
  >
- <div className={cn("h-10 w-10 rounded-full flex items-center justify-center shrink-0", notification.read ? "bg-white text-white/40" : "bg-primary/20 text-primary")}>
+ <div className={cn("h-10 w-10 rounded-full flex items-center justify-center shrink-0", notification.read ? "bg-background text-primary-foreground/40" : "bg-primary/20 text-primary")}>
  <Bell className="h-5 w-5" />
  </div>
  <div className="flex-1 min-w-0">
  <div className="flex items-start justify-between gap-4">
- <h3 className={cn("font-semibold text-lg", !notification.read ? "text-white" : "text-white/70")}>{notification.title}</h3>
+ <h3 className={cn("font-semibold text-lg", !notification.read ? "text-primary-foreground" : "text-primary-foreground/70")}>{notification.title}</h3>
  {!notification.read && (
  <Button
  variant="ghost"
@@ -232,8 +232,8 @@ export default function NotificationsPage() {
  </Button>
  )}
  </div>
- <p className="text-white/60 mb-3">{notification.message}</p>
- <div className="flex items-center justify-between text-xs text-white/40">
+ <p className="text-primary-foreground/60 mb-3">{notification.message}</p>
+ <div className="flex items-center justify-between text-xs text-primary-foreground/40">
  <span>{notification.createdAt?.seconds ? formatDistanceToNow(new Date(notification.createdAt.seconds * 1000), { addSuffix: true }) : 'Just now'}</span>
  {notification.link && (
  <Link href={notification.link} className="text-primary hover:underline z-10 relative">
@@ -248,7 +248,7 @@ export default function NotificationsPage() {
 
  {hasMore && (
  <div className="pt-4 text-center">
- <Button variant="ghost" onClick={loadMore} disabled={loading} className="text-white/50 hover:text-white">
+ <Button variant="ghost" onClick={loadMore} disabled={loading} className="text-primary-foreground/50 hover:text-primary-foreground">
  {loading ? "Loading..." : "Load More"}
  </Button>
  </div>

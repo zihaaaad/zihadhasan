@@ -11,7 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 // page is actually visited instead of bundling it into every admin route.
 const BlogEditor = dynamic(
  () => import("@/components/admin/blog-editor").then((mod) => mod.BlogEditor),
- { ssr: false, loading: () => <Skeleton className="h-[600px] w-full bg-white" /> }
+ { ssr: false, loading: () => <Skeleton className="h-[600px] w-full bg-background" /> }
 );
 
 function EditBlogPostContent() {
@@ -51,7 +51,7 @@ function EditBlogPostContent() {
 
  if (!id) {
  return (
- <div className="flex h-[50vh] items-center justify-center text-gray-400">
+ <div className="flex h-[50vh] items-center justify-center text-muted-foreground/80">
  Invalid Request: Missing Post ID.
  </div>
  );
@@ -59,7 +59,7 @@ function EditBlogPostContent() {
 
  if (!post) {
  return (
- <div className="flex h-[50vh] items-center justify-center text-gray-400">
+ <div className="flex h-[50vh] items-center justify-center text-muted-foreground/80">
  Post not found.
  </div>
  );
@@ -68,7 +68,7 @@ function EditBlogPostContent() {
  return (
  <div className="space-y-6">
  <div>
- <h2 className="text-3xl font-bold tracking-tight text-white">Edit Post</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-foreground">Edit Post</h2>
  <p className="text-muted-foreground">Make changes to your article.</p>
  </div>
  <BlogEditor initialData={post} localStorageKey={`blog_draft_${post.id}`} />

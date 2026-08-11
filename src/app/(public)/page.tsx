@@ -9,7 +9,7 @@ export default async function Home() {
   });
 
   return (
-    <main className="bg-white min-h-screen text-black selection:bg-black selection:text-white">
+    <main className="bg-background min-h-screen text-foreground selection:bg-primary selection:text-primary-foreground">
       <ScrollPortfolio settings={settings} />
     </main>
   );

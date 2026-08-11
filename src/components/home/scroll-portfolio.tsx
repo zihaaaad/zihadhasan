@@ -74,17 +74,17 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       id: 0,
       tagIcon: <Code className="h-4 w-4" />,
       tagText: "Hello, I am Zihad",
-      title: <>The <span className="text-gray-400">Architect.</span></>,
+      title: <>The <span className="text-muted-foreground/80">Architect.</span></>,
       content: (
         <>
           <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed font-light mb-6 md:mb-8 max-w-lg">
             I am a full-stack engineer and educator who bridges the gap between complex technical systems and human-centered design. I specialize in building scalable software, teaching artificial intelligence, and crafting digital experiences that feel intuitive and powerful.
           </p>
           <div className="flex flex-wrap gap-3 md:gap-4">
-            <Link href="/contact" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full bg-black px-6 md:px-8 text-xs md:text-sm font-semibold text-white transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/10">
+            <Link href="/contact" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full bg-primary px-6 md:px-8 text-xs md:text-sm font-semibold text-primary-foreground transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/10">
               Let's Collaborate
             </Link>
-            <Link href="/projects" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full border border-gray-200 bg-white px-6 md:px-8 text-xs md:text-sm font-semibold text-black transition-all hover:bg-gray-50 hover:scale-105 active:scale-95">
+            <Link href="/projects" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full border border-border bg-background px-6 md:px-8 text-xs md:text-sm font-semibold text-foreground transition-all hover:bg-gray-50 hover:scale-105 active:scale-95">
               Explore Archive <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </div>
@@ -95,7 +95,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       id: 1,
       tagIcon: <GraduationCap className="h-4 w-4" />,
       tagText: "Digital Literacy",
-      title: <>Empowering through <br className="hidden md:block"/><span className="text-gray-400">Education.</span></>,
+      title: <>Empowering through <br className="hidden md:block"/><span className="text-muted-foreground/80">Education.</span></>,
       content: (
         <>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed font-light mb-4 md:mb-6 max-w-lg">
@@ -104,7 +104,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
           <ul className="space-y-2 md:space-y-4">
             {["500+ Students Mentored", "Curriculum Development", "AI-Assisted Learning", "Interactive Workshops"].map((item, i) => (
               <li key={i} className="flex items-center gap-3 text-sm md:text-base text-gray-800 font-medium">
-                <div className="h-1.5 w-1.5 bg-black rounded-full" />
+                <div className="h-1.5 w-1.5 bg-primary rounded-full" />
                 {item}
               </li>
             ))}
@@ -116,16 +116,16 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       id: 2,
       tagIcon: <Lightbulb className="h-4 w-4" />,
       tagText: "Core Philosophy",
-      title: <>Building for the <br className="hidden md:block"/><span className="text-gray-400">Long Term.</span></>,
+      title: <>Building for the <br className="hidden md:block"/><span className="text-muted-foreground/80">Long Term.</span></>,
       content: (
         <>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed font-light mb-4 md:mb-6 max-w-lg">
             Great software isn't just about writing code; it's about solving real human problems elegantly. I approach every project with a mindset geared towards scalability, security, and exceptional user experience.
           </p>
-          <blockquote className="border-l-4 border-black pl-4 md:pl-6 italic text-lg md:text-xl text-gray-800 my-6 md:my-8 py-1 md:py-2 max-w-lg">
+          <blockquote className="border-l-4 border-primary pl-4 md:pl-6 italic text-lg md:text-xl text-gray-800 my-6 md:my-8 py-1 md:py-2 max-w-lg">
             "Technology should fade into the background, allowing human creativity and connection to take center stage."
           </blockquote>
-          <Link href="/blog" className="font-semibold text-black hover:text-gray-600 transition-colors inline-flex items-center gap-2 text-sm md:text-base">
+          <Link href="/blog" className="font-semibold text-foreground hover:text-gray-600 transition-colors inline-flex items-center gap-2 text-sm md:text-base">
             Read my latest thoughts <ArrowRight className="h-4 w-4" />
           </Link>
         </>
@@ -135,13 +135,13 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       id: 3,
       tagIcon: <Briefcase className="h-4 w-4" />,
       tagText: "Career Journey",
-      title: <>Engineering <br className="hidden md:block"/><span className="text-gray-400">Excellence.</span></>,
+      title: <>Engineering <br className="hidden md:block"/><span className="text-muted-foreground/80">Excellence.</span></>,
       content: (
         <div className="space-y-6 md:space-y-8 max-w-lg">
           <div className="border-l-2 border-gray-100 pl-4 md:pl-6 relative">
-            <div className="absolute w-3 h-3 bg-black rounded-full -left-[7px] top-1.5 md:top-2" />
+            <div className="absolute w-3 h-3 bg-primary rounded-full -left-[7px] top-1.5 md:top-2" />
             <h3 className="text-lg md:text-xl font-bold">Core AI Team & Trainer</h3>
-            <p className="text-xs md:text-sm font-mono text-gray-500 mb-2 md:mb-3 mt-1">As-Sunnah Foundation • 2024 - Present</p>
+            <p className="text-xs md:text-sm font-mono text-muted-foreground mb-2 md:mb-3 mt-1">As-Sunnah Foundation • 2024 - Present</p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
               Architected enterprise event automation using Google Apps Script. Managed large-scale AI instruction and mitigated critical data breaches.
             </p>
@@ -149,7 +149,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
           <div className="border-l-2 border-gray-100 pl-4 md:pl-6 relative">
             <div className="absolute w-3 h-3 bg-gray-300 rounded-full -left-[7px] top-1.5 md:top-2" />
             <h3 className="text-lg md:text-xl font-bold">Assistant Teacher & IT Admin</h3>
-            <p className="text-xs md:text-sm font-mono text-gray-500 mb-2 md:mb-3 mt-1">Real Multimedia School • 2022 - 2023</p>
+            <p className="text-xs md:text-sm font-mono text-muted-foreground mb-2 md:mb-3 mt-1">Real Multimedia School • 2022 - 2023</p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
               Integrated Generative AI into lesson plans. Managed digital student records and enforced institutional data compliance.
             </p>
@@ -160,13 +160,13 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
   ];
 
   return (
-    <div className="bg-white text-black relative">
+    <div className="bg-background text-foreground relative">
       
       {/* 
         The GSAP Pinned Container 
         Must be exactly 100vh. GSAP wraps it in a pin-spacer automatically.
       */}
-      <div ref={containerRef} className="h-screen w-full relative overflow-hidden bg-white">
+      <div ref={containerRef} className="h-screen w-full relative overflow-hidden bg-background">
         
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-4 md:gap-12 lg:gap-20 h-full py-24 md:py-20 relative z-10">
           
@@ -185,7 +185,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
                 className="object-cover" 
                 priority
               />
-              <div className="absolute inset-0 bg-black/5 mix-blend-overlay pointer-events-none" />
+             
             </div>
 
             {/* Images 2, 1, 0: Portrait Stack */}
@@ -217,8 +217,8 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
                   Backdrop blur removed on mobile so it doesn't blur the background. 
                   On desktop, a subtle blur ensures text is always legible if an image slides directly under it.
                 */}
-                <div className="pointer-events-auto bg-white/60 md:bg-transparent backdrop-blur-sm md:backdrop-blur-none p-4 md:p-0 rounded-2xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-[10px] md:text-xs font-mono uppercase tracking-widest text-gray-600 mb-4 md:mb-6 shadow-sm">
+                               <div className="pointer-events-auto bg-background p-4 md:p-6 rounded-2xl shadow-sm border border-gray-100">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-gray-50 text-[10px] md:text-xs font-mono uppercase tracking-widest text-gray-600 mb-4 md:mb-6 shadow-sm">
                     {slide.tagIcon} {slide.tagText}
                   </div>
                   <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight mb-4 md:mb-8 leading-[1.1]">

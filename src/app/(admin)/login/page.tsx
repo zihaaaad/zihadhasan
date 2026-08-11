@@ -38,10 +38,10 @@ export default function LoginPage() {
  };
 
  return (
- <div className="flex min-h-screen items-center justify-center bg-black p-4">
- <Card className="w-full max-w-md border-gray-200 bg-white ">
+ <div className="flex min-h-screen items-center justify-center bg-primary p-4">
+ <Card className="w-full max-w-md border-border bg-background ">
  <CardHeader className="text-center">
- <CardTitle className="text-2xl font-bold text-white">Admin Access</CardTitle>
+ <CardTitle className="text-2xl font-bold text-primary-foreground">Admin Access</CardTitle>
  <CardDescription>Enter your credentials to manage the portfolio.</CardDescription>
  </CardHeader>
  <CardContent>
@@ -52,7 +52,7 @@ export default function LoginPage() {
  placeholder="admin@zihadhasan.com"
  value={email}
  onChange={(e) => setEmail(e.target.value)}
- className="bg-gray-50 border-gray-200 text-white placeholder:text-gray-500"
+ className="bg-gray-50 border-border text-primary-foreground placeholder:text-muted-foreground"
  required
  />
  </div>
@@ -62,7 +62,7 @@ export default function LoginPage() {
  placeholder="••••••••"
  value={password}
  onChange={(e) => setPassword(e.target.value)}
- className="bg-gray-50 border-gray-200 text-white placeholder:text-gray-500"
+ className="bg-gray-50 border-border text-primary-foreground placeholder:text-muted-foreground"
  required
  />
  </div>

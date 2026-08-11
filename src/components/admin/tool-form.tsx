@@ -93,22 +93,22 @@ export function ToolForm({ open, onOpenChange, onSubmit, initialData }: ToolForm
 
  return (
  <Dialog open={open} onOpenChange={onOpenChange}>
- <DialogContent className="bg-gray-50 border-gray-200 text-white sm:max-w-[500px] ">
+ <DialogContent className="bg-gray-50 border-border text-primary-foreground sm:max-w-[500px] ">
  <DialogHeader>
  <DialogTitle>{initialData ? "Edit AI Tool" : "Add AI Tool"}</DialogTitle>
- <DialogDescription className="text-gray-400">
+ <DialogDescription className="text-muted-foreground/80">
  Add a new tool to your curated collection.
  </DialogDescription>
  </DialogHeader>
 
  <div className="grid gap-4 py-4">
  <div className="grid gap-2">
- <Label htmlFor="name" className="text-white">Tool Name</Label>
+ <Label htmlFor="name" className="text-primary-foreground">Tool Name</Label>
  <Input
  id="name"
  {...form.register("name")}
  placeholder="e.g. ChatGPT"
- className="bg-white border-gray-200 text-white focus:border-primary/50"
+ className="bg-background border-border text-primary-foreground focus:border-primary/50"
  />
  {form.formState.errors.name && (
  <p className="text-xs text-red-500">{form.formState.errors.name.message}</p>
@@ -116,15 +116,15 @@ export function ToolForm({ open, onOpenChange, onSubmit, initialData }: ToolForm
  </div>
 
  <div className="grid gap-2">
- <Label htmlFor="category" className="text-white">Category</Label>
+ <Label htmlFor="category" className="text-primary-foreground">Category</Label>
  <select
  id="category"
  {...form.register("category")}
- className="flex h-9 w-full rounded-md border border-gray-200 bg-white px-3 py-1 text-sm shadow-sm transition-colors text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+ className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-1 text-sm shadow-sm transition-colors text-primary-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
  >
- <option value="" className="bg-black">Select a category</option>
+ <option value="" className="bg-primary">Select a category</option>
  {CATEGORIES.map(cat => (
- <option key={cat} value={cat} className="bg-black">{cat}</option>
+ <option key={cat} value={cat} className="bg-primary">{cat}</option>
  ))}
  </select>
  {form.formState.errors.category && (
@@ -133,12 +133,12 @@ export function ToolForm({ open, onOpenChange, onSubmit, initialData }: ToolForm
  </div>
 
  <div className="grid gap-2">
- <Label htmlFor="description" className="text-white">Description</Label>
+ <Label htmlFor="description" className="text-primary-foreground">Description</Label>
  <Textarea
  id="description"
  {...form.register("description")}
  placeholder="What does it do?"
- className="bg-white border-gray-200 text-white min-h-[80px] focus:border-primary/50"
+ className="bg-background border-border text-primary-foreground min-h-[80px] focus:border-primary/50"
  />
  {form.formState.errors.description && (
  <p className="text-xs text-red-500">{form.formState.errors.description.message}</p>
@@ -154,12 +154,12 @@ export function ToolForm({ open, onOpenChange, onSubmit, initialData }: ToolForm
  </div>
 
  <div className="grid gap-2">
- <Label htmlFor="url" className="text-white">Website URL</Label>
+ <Label htmlFor="url" className="text-primary-foreground">Website URL</Label>
  <Input
  id="url"
  {...form.register("url")}
  placeholder="https://..."
- className="bg-white border-gray-200 text-white focus:border-primary/50"
+ className="bg-background border-border text-primary-foreground focus:border-primary/50"
  />
  {form.formState.errors.url && (
  <p className="text-xs text-red-500">{form.formState.errors.url.message}</p>
@@ -168,10 +168,10 @@ export function ToolForm({ open, onOpenChange, onSubmit, initialData }: ToolForm
  </div>
 
  <DialogFooter>
- <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-gray-400 hover:text-white hover:bg-white">
+ <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground/80 hover:text-primary-foreground hover:bg-background">
  Cancel
  </Button>
- <Button onClick={form.handleSubmit(handleSubmit)} disabled={submitting} className="bg-primary text-black hover:bg-primary/90">
+ <Button onClick={form.handleSubmit(handleSubmit)} disabled={submitting} className="bg-primary text-foreground hover:bg-primary/90">
  {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
  {initialData ? "Save Tool" : "Add Tool"}
  </Button>

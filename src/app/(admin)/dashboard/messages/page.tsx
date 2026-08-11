@@ -73,56 +73,56 @@ export default function MessagesPage() {
 
  return (
  <div className="space-y-6">
- <div>
- <h1 className="text-3xl font-bold text-white">Inbox</h1>
- <p className="text-gray-400">View messages from your contact form.</p>
- </div>
+      <div>
+        <h1 className="text-3xl font-bold text-foreground">Inbox</h1>
+        <p className="text-muted-foreground font-medium">View messages from your contact form.</p>
+      </div>
 
  <div className="grid gap-4">
- {messages.length === 0 ? (
- <GlassCard className="p-8 text-center text-gray-400">
- <Mail className="h-12 w-12 mx-auto mb-4 opacity-50" />
- <p>No messages yet.</p>
- </GlassCard>
- ) : (
- messages.map((msg) => (
- <GlassCard key={msg.id} className="p-6 transition-all hover:bg-white group">
- <div className="flex flex-col md:flex-row gap-4 justify-between md:items-start">
- <div className="space-y-1">
- <div className="flex items-center gap-2">
- <h3 className="font-bold text-white text-lg">{msg.subject}</h3>
- {!msg.read && (
- <Badge className="bg-primary text-black hover:bg-primary/90">New</Badge>
- )}
- </div>
- <div className="flex items-center gap-2 text-sm text-gray-400">
- <span className="font-medium text-gray-300">{msg.name}</span>
- <span>•</span>
- <span className="text-primary">{msg.email}</span>
- </div>
- </div>
- <div className="flex items-center gap-4">
- <div className="flex items-center gap-2 text-xs text-gray-500 whitespace-nowrap">
- <Clock className="h-3 w-3" />
- {msg.createdAt ? formatDistanceToNow(msg.createdAt.toDate(), { addSuffix: true }) : 'Just now'}
- </div>
- <Button
- variant="ghost"
- size="icon"
- className="h-8 w-8 text-gray-400 hover:text-red-500 hover:bg-red-500/10"
- onClick={() => msg.id && setDeletingId(msg.id)}
- >
- <Trash2 className="h-4 w-4" />
- </Button>
- </div>
- </div>
+        {messages.length === 0 ? (
+          <div className="p-12 text-center text-muted-foreground font-medium bg-background border border-dashed border-gray-300 rounded-xl">
+            <Mail className="h-12 w-12 mx-auto mb-4 text-muted-foreground/80" />
+            <p>No messages yet.</p>
+          </div>
+        ) : (
+          messages.map((msg) => (
+            <div key={msg.id} className="p-6 transition-all bg-background border border-border shadow-sm rounded-xl hover:border-gray-300 group">
+              <div className="flex flex-col md:flex-row gap-4 justify-between md:items-start">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-foreground text-lg">{msg.subject}</h3>
+                    {!msg.read && (
+                      <Badge className="bg-primary text-primary-foreground hover:bg-primary/90 text-[10px] font-bold uppercase tracking-widest">New</Badge>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
+                    <span className="text-foreground font-bold">{msg.name}</span>
+                    <span>•</span>
+                    <span className="text-foreground">{msg.email}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground whitespace-nowrap">
+                    <Clock className="h-3 w-3" />
+                    {msg.createdAt ? formatDistanceToNow(msg.createdAt.toDate(), { addSuffix: true }) : 'Just now'}
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-muted-foreground/80 hover:text-red-600 hover:bg-red-50"
+                    onClick={() => msg.id && setDeletingId(msg.id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
 
- <div className="mt-4 p-4 rounded-lg bg-gray-50 border border-gray-200 text-gray-300 whitespace-pre-wrap">
- {msg.message}
- </div>
- </GlassCard>
- ))
- )}
+              <div className="mt-4 p-4 rounded-lg bg-gray-50 border border-border text-foreground font-medium whitespace-pre-wrap">
+                {msg.message}
+              </div>
+            </div>
+          ))
+        )}
  </div>
 
  <AlertDialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
@@ -137,7 +137,7 @@ export default function MessagesPage() {
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={() => deletingId && handleDelete(deletingId)}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  Delete Message
  </AlertDialogAction>

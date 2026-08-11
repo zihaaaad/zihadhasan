@@ -104,26 +104,26 @@ export default function ProjectsPage() {
  };
 
  return (
- <div className="space-y-6">
- <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
- <div>
- <h2 className="text-3xl font-bold tracking-tight text-white">Projects</h2>
- <p className="text-muted-foreground">Manage your portfolio showcase.</p>
- </div>
- <div className="flex items-center gap-2">
- {selectedIds.length > 0 && (
- <Button variant="destructive" onClick={() => setConfirmBulkDelete(true)}>
- <Trash2 className="mr-2 h-4 w-4" /> Delete ({selectedIds.length})
- </Button>
- )}
- <Button onClick={toggleAll} variant="outline" className="border-gray-200 text-white hover:bg-white">
- {selectedIds.length === projects.length ? "Deselect All" : "Select All"}
- </Button>
- <Button onClick={handleCreate} className="bg-primary text-black hover:bg-primary/90">
- <Plus className="mr-2 h-4 w-4" /> Add Project
- </Button>
- </div>
- </div>
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Projects</h2>
+          <p className="text-muted-foreground font-medium">Manage your portfolio showcase.</p>
+        </div>
+        <div className="flex items-center gap-2">
+          {selectedIds.length > 0 && (
+            <Button variant="destructive" onClick={() => setConfirmBulkDelete(true)}>
+              <Trash2 className="mr-2 h-4 w-4" /> Delete ({selectedIds.length})
+            </Button>
+          )}
+          <Button onClick={toggleAll} variant="outline" className="border-border text-foreground hover:bg-gray-50">
+            {selectedIds.length === projects.length ? "Deselect All" : "Select All"}
+          </Button>
+          <Button onClick={handleCreate} className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Plus className="mr-2 h-4 w-4" /> Add Project
+          </Button>
+        </div>
+      </div>
 
  {loading ? (
  <div className="flex justify-center p-12">
@@ -132,20 +132,20 @@ export default function ProjectsPage() {
  ) : (
  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
  {projects.map((project) => (
- <div
- key={project.id}
- className={`group relative flex flex-col overflow-hidden rounded-xl border transition-all hover:shadow-lg ${selectedIds.includes(project.id!)
- ? "border-primary bg-primary/5 shadow-primary/10"
- : "border-gray-200 bg-white hover:border-primary/50 hover:shadow-primary/5"
- }`}
- >
+              <div
+                key={project.id}
+                className={`group relative flex flex-col overflow-hidden rounded-xl border transition-all hover:shadow-md ${selectedIds.includes(project.id!)
+                  ? "border-primary bg-gray-50 shadow-sm"
+                  : "border-border bg-background hover:border-gray-300"
+                  }`}
+              >
  <div className="absolute top-3 right-3 z-30">
  <input
  type="checkbox"
  aria-label={`Select project ${project.title}`}
  checked={selectedIds.includes(project.id!)}
  onChange={() => toggleSelection(project.id!)}
- className="w-5 h-5 rounded border-gray-200 bg-gray-50 text-primary focus:ring-primary cursor-pointer accent-primary "
+ className="w-5 h-5 rounded border-border bg-gray-50 text-primary focus:ring-primary cursor-pointer accent-primary "
  />
  </div>
 
@@ -172,55 +172,55 @@ export default function ProjectsPage() {
  </div>
  </div>
 
- <div className="flex flex-1 flex-col p-5">
- <div className="flex items-center justify-between mb-2">
- <h3 className="font-semibold text-white text-lg line-clamp-1">{project.title}</h3>
- </div>
- <p className="text-sm text-gray-400 line-clamp-2 mb-4 flex-1">
- {project.description}
- </p>
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-bold text-foreground text-lg line-clamp-1">{project.title}</h3>
+                  </div>
+                  <p className="text-sm font-medium text-muted-foreground line-clamp-2 mb-4 flex-1">
+                    {project.description}
+                  </p>
 
- <div className="flex flex-wrap gap-2 mb-4">
- {project.tags.slice(0, 3).map((tag, i) => (
- <span key={i} className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full border border-primary/20">
- {tag}
- </span>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.slice(0, 3).map((tag, i) => (
+                      <span key={i} className="text-[10px] font-bold uppercase tracking-widest bg-gray-100 text-foreground px-2 py-1 rounded-md border border-border">
+                        {tag}
+                      </span>
+                    ))}
+                    {project.tags.length > 3 && (
+                      <span className="text-[10px] font-bold uppercase tracking-widest bg-background text-muted-foreground px-2 py-1 rounded-md border border-border">
+                        +{project.tags.length - 3}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-3 mt-auto pt-4 border-t border-gray-100">
+                    {project.liveLink && (
+                      <a href={project.liveLink} target="_blank" rel="noreferrer" className="text-[10px] font-bold uppercase tracking-widest flex items-center text-muted-foreground hover:text-foreground transition-colors">
+                        <ExternalLink className="h-3 w-3 mr-1" /> Live Demo
+                      </a>
+                    )}
+                    {project.githubLink && (
+                      <a href={project.githubLink} target="_blank" rel="noreferrer" className="text-[10px] font-bold uppercase tracking-widest flex items-center text-muted-foreground hover:text-foreground transition-colors ml-auto">
+                        <Github className="h-3 w-3 mr-1" /> Code
+                      </a>
+                    )}
+                  </div>
+                </div>
+ </div>
  ))}
- {project.tags.length > 3 && (
- <span className="text-[10px] bg-white text-gray-400 px-2 py-1 rounded-full border border-gray-200">
- +{project.tags.length - 3}
- </span>
- )}
- </div>
 
- <div className="flex items-center gap-3 mt-auto pt-4 border-t border-gray-200">
- {project.liveLink && (
- <a href={project.liveLink} target="_blank" rel="noreferrer" className="text-xs flex items-center text-gray-400 hover:text-primary transition-colors">
- <ExternalLink className="h-3 w-3 mr-1" /> Live Demo
- </a>
- )}
- {project.githubLink && (
- <a href={project.githubLink} target="_blank" rel="noreferrer" className="text-xs flex items-center text-gray-400 hover:text-white transition-colors ml-auto">
- <Github className="h-3 w-3 mr-1" /> Code
- </a>
- )}
- </div>
- </div>
- </div>
- ))}
-
- {projects.length === 0 && (
- <div className="col-span-full flex flex-col items-center justify-center py-20 text-center border border-dashed border-gray-200 rounded-xl bg-white">
- <div className="bg-white p-4 rounded-full mb-4">
- <Plus className="h-8 w-8 text-gray-400" />
- </div>
- <h3 className="text-xl font-medium text-white">No Projects Yet</h3>
- <p className="text-gray-400 max-w-sm mt-2 mb-6">Start building your portfolio by adding your first project.</p>
- <Button onClick={handleCreate} variant="outline" className="border-primary text-primary hover:bg-primary/10">
- Create Project
- </Button>
- </div>
- )}
+          {projects.length === 0 && (
+            <div className="col-span-full flex flex-col items-center justify-center py-20 text-center border border-dashed border-gray-300 rounded-xl bg-gray-50">
+              <div className="bg-background border border-border p-4 rounded-xl mb-4 shadow-sm">
+                <Plus className="h-8 w-8 text-foreground" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground">No Projects Yet</h3>
+              <p className="text-muted-foreground font-medium max-w-sm mt-2 mb-6">Start building your portfolio by adding your first project.</p>
+              <Button onClick={handleCreate} className="bg-primary text-primary-foreground hover:bg-primary/90">
+                Create Project
+              </Button>
+            </div>
+          )}
  </div>
  )}
 
@@ -243,7 +243,7 @@ export default function ProjectsPage() {
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={() => deletingId && handleDelete(deletingId)}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  Delete Project
  </AlertDialogAction>
@@ -263,7 +263,7 @@ export default function ProjectsPage() {
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={handleBulkDelete}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  Delete {selectedIds.length} Project{selectedIds.length === 1 ? "" : "s"}
  </AlertDialogAction>

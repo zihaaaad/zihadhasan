@@ -97,105 +97,105 @@ export default function ProductsPage() {
  }
 
  return (
- <div className="space-y-8 p-8 pt-6">
- <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
- <div>
- <h2 className="text-3xl font-bold tracking-tight text-white">Products</h2>
- <p className="text-muted-foreground">Manage your digital and physical shop items.</p>
- </div>
- <Button onClick={handleCreate} className="bg-blue-600 hover:bg-blue-700">
- <Plus className="mr-2 h-4 w-4" /> Add Product
- </Button>
- </div>
+    <div className="space-y-8 p-8 pt-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Products</h2>
+          <p className="text-muted-foreground font-medium">Manage your digital and physical shop items.</p>
+        </div>
+        <Button onClick={handleCreate} className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Plus className="mr-2 h-4 w-4" /> Add Product
+        </Button>
+      </div>
 
  {/* Search & Filter */}
  <div className="flex items-center gap-4">
- <div className="relative flex-1 max-w-sm">
- <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
- <Input
- placeholder="Search products..."
- className="pl-9 bg-white border-gray-200 text-white"
- value={search}
- onChange={(e) => setSearch(e.target.value)}
- />
- </div>
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground/80" />
+          <Input
+            placeholder="Search products..."
+            className="pl-9 bg-background border-border text-foreground font-medium focus-visible:ring-black"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
  </div>
 
  {/* Products Grid */}
  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
- {filtered.map((product) => (
- <GlassCard key={product.id} className="group relative overflow-hidden transition-all hover:border-primary/50">
- <div className="aspect-video w-full overflow-hidden bg-gray-50 relative">
- {product.imageUrl ? (
- <img
- src={product.imageUrl}
- alt={product.title}
- className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
- />
- ) : (
- <div className="flex h-full items-center justify-center text-gray-600">
- <Package className="h-8 w-8" />
- </div>
- )}
+        {filtered.map((product) => (
+          <div key={product.id} className="group relative overflow-hidden transition-all hover:border-gray-300 bg-background border border-border rounded-xl shadow-sm">
+            <div className="aspect-video w-full overflow-hidden bg-gray-50 relative border-b border-gray-100">
+              {product.imageUrl ? (
+                <img
+                  src={product.imageUrl}
+                  alt={product.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center text-muted-foreground/80">
+                  <Package className="h-8 w-8" />
+                </div>
+              )}
 
- {/* Badges */}
- <div className="absolute top-2 right-2 flex gap-2">
- <Badge variant={product.published ? "default" : "secondary"} className={product.published ? "bg-green-500/80" : "bg-gray-500/80"}>
- {product.published ? "Live" : "Draft"}
- </Badge>
- </div>
- <div className="absolute top-2 left-2">
- <Badge variant="outline" className="bg-gray-50 border-gray-200 text-white">
- {product.type === 'digital' ? <Download className="h-3 w-3 mr-1" /> : <Package className="h-3 w-3 mr-1" />}
- {product.type}
- </Badge>
- </div>
- </div>
+              {/* Badges */}
+              <div className="absolute top-2 right-2 flex gap-2">
+                <Badge variant="outline" className={`text-[10px] font-bold uppercase tracking-widest border-border ${product.published ? "bg-background text-foreground" : "bg-gray-100 text-muted-foreground"}`}>
+                  {product.published ? "Live" : "Draft"}
+                </Badge>
+              </div>
+              <div className="absolute top-2 left-2">
+                <Badge variant="outline" className="bg-background border-border text-foreground text-[10px] font-bold uppercase tracking-widest">
+                  {product.type === 'digital' ? <Download className="h-3 w-3 mr-1" /> : <Package className="h-3 w-3 mr-1" />}
+                  {product.type}
+                </Badge>
+              </div>
+            </div>
 
- <div className="p-4 space-y-3">
- <div className="flex justify-between items-start">
- <h3 className="font-semibold text-lg text-white line-clamp-1">{product.title}</h3>
- <DropdownMenu>
- <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400">
- <MoreVertical className="h-4 w-4" />
- </Button>
- </DropdownMenuTrigger>
- <DropdownMenuContent align="end" className="bg-gray-50 border-gray-200 text-gray-200">
- <DropdownMenuItem onClick={() => handleEdit(product)} className="cursor-pointer hover:bg-white">
- <Pencil className="mr-2 h-4 w-4" /> Edit
- </DropdownMenuItem>
- <DropdownMenuItem onClick={() => product.id && setDeletingId(product.id)} className="cursor-pointer text-red-400 hover:text-red-300 hover:bg-red-500/10">
- <Trash2 className="mr-2 h-4 w-4" /> Delete
- </DropdownMenuItem>
- </DropdownMenuContent>
- </DropdownMenu>
- </div>
+            <div className="p-4 space-y-3">
+              <div className="flex justify-between items-start">
+                <h3 className="font-bold text-lg text-foreground line-clamp-1">{product.title}</h3>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:bg-gray-100">
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
+                    <DropdownMenuItem onClick={() => handleEdit(product)} className="cursor-pointer hover:bg-gray-50 font-medium">
+                      <Pencil className="mr-2 h-4 w-4" /> Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => product.id && setDeletingId(product.id)} className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50 font-medium">
+                      <Trash2 className="mr-2 h-4 w-4" /> Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
 
- <p className="text-sm text-gray-400 line-clamp-2 min-h-[40px]">
- {product.description}
- </p>
+              <p className="text-sm font-medium text-muted-foreground line-clamp-2 min-h-[40px]">
+                {product.description}
+              </p>
 
- <div className="pt-2 border-t border-gray-200 flex items-center justify-between">
- <div className="text-lg font-bold text-white">{formatCurrency(product.price)}</div>
- <div className="text-xs text-gray-500">
- {/* Placeholder for sales stats if available */}
- </div>
- </div>
- </div>
- </GlassCard>
- ))}
+              <div className="pt-2 border-t border-gray-100 flex items-center justify-between">
+                <div className="text-lg font-bold text-foreground">{formatCurrency(product.price)}</div>
+                <div className="text-xs text-muted-foreground">
+                  {/* Placeholder for sales stats if available */}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
 
  {/* Add New Card (Empty State) */}
- {filtered.length === 0 && !loading && (
- <button
- onClick={handleCreate}
- className="flex h-[300px] flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 bg-white transition-colors hover:border-primary/50 hover:bg-white"
- >
- <ShoppingBag className="h-10 w-10 text-gray-500 mb-2" />
- <span className="text-lg font-medium text-gray-300">Add First Product</span>
- </button>
- )}
+        {filtered.length === 0 && !loading && (
+          <button
+            onClick={handleCreate}
+            className="flex h-[300px] flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 transition-colors hover:border-gray-400 hover:bg-gray-100"
+          >
+            <ShoppingBag className="h-10 w-10 text-foreground mb-2" />
+            <span className="text-lg font-bold text-foreground">Add First Product</span>
+          </button>
+        )}
  </div>
 
  <AlertDialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
@@ -210,7 +210,7 @@ export default function ProductsPage() {
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={() => deletingId && handleDelete(deletingId)}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  Delete Product
  </AlertDialogAction>

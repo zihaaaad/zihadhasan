@@ -13,7 +13,7 @@ import { Loader2 } from "lucide-react";
 // page is actually visited instead of bundling it into every admin route.
 const BookEditor = dynamic(
  () => import("@/components/admin/book-editor").then((mod) => mod.BookEditor),
- { ssr: false, loading: () => <Skeleton className="h-[600px] w-full bg-white" /> }
+ { ssr: false, loading: () => <Skeleton className="h-[600px] w-full bg-background" /> }
 );
 
 function EditBookContent() {
@@ -45,12 +45,12 @@ function EditBookContent() {
  }, [id]);
 
  if (loading) {
- return <Skeleton className="h-[600px] w-full rounded-[2rem] bg-white" />;
+ return <Skeleton className="h-[600px] w-full rounded-[2rem] bg-background" />;
  }
 
  if (!id) {
  return (
- <div className="flex h-[50vh] items-center justify-center text-gray-400">
+ <div className="flex h-[50vh] items-center justify-center text-muted-foreground/80">
  Invalid Request: Missing Book ID.
  </div>
  );
@@ -58,7 +58,7 @@ function EditBookContent() {
 
  if (!book) {
  return (
- <div className="flex h-[50vh] items-center justify-center text-gray-400">
+ <div className="flex h-[50vh] items-center justify-center text-muted-foreground/80">
  Book not found.
  </div>
  );

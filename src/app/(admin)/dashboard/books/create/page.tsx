@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 // page is actually visited instead of bundling it into every admin route.
 const BookEditor = dynamic(
  () => import("@/components/admin/book-editor").then((mod) => mod.BookEditor),
- { ssr: false, loading: () => <Skeleton className="h-[600px] w-full bg-white" /> }
+ { ssr: false, loading: () => <Skeleton className="h-[600px] w-full bg-background" /> }
 );
 
 export default function CreateBookPage() {

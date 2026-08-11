@@ -69,16 +69,16 @@ export function RegistrationForm({ eventId, eventTitle, price }: { eventId: stri
  <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-500/20">
  <CheckCircle2 className="h-10 w-10 text-green-500" />
  </div>
- <h2 className="text-2xl font-bold text-white mb-2">Registration Pending!</h2>
+ <h2 className="text-2xl font-bold text-primary-foreground mb-2">Registration Pending!</h2>
  <p className="text-muted-foreground mb-6">
  We have received your request for <strong>{eventTitle}</strong>. <br />
  You will receive a confirmation email once your payment is verified.
  </p>
  <div className="flex flex-col sm:flex-row gap-3 justify-center">
- <Button onClick={() => window.location.href = '/my-learning'} className="bg-primary text-black hover:bg-primary/90">
+ <Button onClick={() => window.location.href = '/my-learning'} className="bg-primary text-foreground hover:bg-primary/90">
  View My Ticket
  </Button>
- <Button onClick={() => setIsSuccess(false)} variant="outline" className="border-gray-200 text-white hover:bg-white">
+ <Button onClick={() => setIsSuccess(false)} variant="outline" className="border-border text-primary-foreground hover:bg-background">
  Register Another
  </Button>
  </div>
@@ -87,7 +87,7 @@ export function RegistrationForm({ eventId, eventTitle, price }: { eventId: stri
  }
 
  return (
- <Card className="border-gray-200 bg-gray-50 ">
+ <Card className="border-border bg-gray-50 ">
  <CardHeader>
  <CardTitle>Register for {eventTitle}</CardTitle>
  <CardDescription>Secure your spot by completing the payment.</CardDescription>
@@ -102,18 +102,18 @@ export function RegistrationForm({ eventId, eventTitle, price }: { eventId: stri
  </div>
  <div className="space-y-3">
  <div className="flex items-center justify-between text-sm">
- <span className="text-white">bKash (Send Money)</span>
+ <span className="text-primary-foreground">bKash (Send Money)</span>
  <div className="flex items-center gap-2">
- <span className="font-mono text-white/80">017XXXXXXXX</span>
+ <span className="font-mono text-primary-foreground/80">017XXXXXXXX</span>
  <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => copyNumber("017XXXXXXXX")}>
  <Copy className="h-3 w-3" />
  </Button>
  </div>
  </div>
  <div className="flex items-center justify-between text-sm">
- <span className="text-white">Nagad (Send Money)</span>
+ <span className="text-primary-foreground">Nagad (Send Money)</span>
  <div className="flex items-center gap-2">
- <span className="font-mono text-white/80">018XXXXXXXX</span>
+ <span className="font-mono text-primary-foreground/80">018XXXXXXXX</span>
  <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => copyNumber("018XXXXXXXX")}>
  <Copy className="h-3 w-3" />
  </Button>
@@ -131,7 +131,7 @@ export function RegistrationForm({ eventId, eventTitle, price }: { eventId: stri
  <FormItem>
  <FormLabel>Full Name</FormLabel>
  <FormControl>
- <Input placeholder="John Doe" className="bg-white border-gray-200" {...field} />
+ <Input placeholder="John Doe" className="bg-background border-border" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -145,7 +145,7 @@ export function RegistrationForm({ eventId, eventTitle, price }: { eventId: stri
  <FormItem>
  <FormLabel>Email Address</FormLabel>
  <FormControl>
- <Input placeholder="john@example.com" className="bg-white border-gray-200" {...field} />
+ <Input placeholder="john@example.com" className="bg-background border-border" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -158,7 +158,7 @@ export function RegistrationForm({ eventId, eventTitle, price }: { eventId: stri
  <FormItem>
  <FormLabel>Phone Number</FormLabel>
  <FormControl>
- <Input placeholder="017..." className="bg-white border-gray-200" {...field} />
+ <Input placeholder="017..." className="bg-background border-border" {...field} />
  </FormControl>
  <FormMessage />
  </FormItem>
@@ -173,7 +173,7 @@ export function RegistrationForm({ eventId, eventTitle, price }: { eventId: stri
  <FormItem>
  <FormLabel className="text-primary font-bold">Transaction ID (TrxID)</FormLabel>
  <FormControl>
- <Input placeholder="8X2..." className="bg-white border-primary/30 focus-visible:ring-primary" {...field} />
+ <Input placeholder="8X2..." className="bg-background border-primary/30 focus-visible:ring-primary" {...field} />
  </FormControl>
  <FormDescription>Enter the Transaction ID from your payment SMS.</FormDescription>
  <FormMessage />

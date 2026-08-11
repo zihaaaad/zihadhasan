@@ -90,33 +90,33 @@ export default function CoursesPage() {
  }
 
  return (
- <div className="space-y-6">
- <div className="flex items-center justify-between">
- <div>
- <h1 className="text-2xl font-bold text-white">Course Management</h1>
- <p className="text-gray-400">Create and manage your educational content.</p>
- </div>
- <Button onClick={handleCreate} className="bg-primary hover:bg-primary/90">
- <Plus className="mr-2 h-4 w-4" /> New Course
- </Button>
- </div>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Course Management</h1>
+          <p className="text-muted-foreground font-medium">Create and manage your educational content.</p>
+        </div>
+        <Button onClick={handleCreate} className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Plus className="mr-2 h-4 w-4" /> New Course
+        </Button>
+      </div>
 
  {loading ? (
  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
  {/* Skeleton Grid */}
  {Array(3).fill(0).map((_, i) => (
- <div key={i} className="rounded-xl border border-gray-200 bg-white overflow-hidden">
- <Skeleton className="aspect-video w-full bg-white" />
+ <div key={i} className="rounded-xl border border-border bg-background overflow-hidden">
+ <Skeleton className="aspect-video w-full bg-background" />
  <div className="p-5 space-y-3">
- <Skeleton className="h-6 w-3/4 bg-white" />
- <Skeleton className="h-4 w-full bg-white" />
- <Skeleton className="h-4 w-2/3 bg-white" />
- <div className="pt-4 mt-4 border-t border-gray-200 flex items-center justify-between">
- <Skeleton className="h-5 w-16 bg-white" />
+ <Skeleton className="h-6 w-3/4 bg-background" />
+ <Skeleton className="h-4 w-full bg-background" />
+ <Skeleton className="h-4 w-2/3 bg-background" />
+ <div className="pt-4 mt-4 border-t border-border flex items-center justify-between">
+ <Skeleton className="h-5 w-16 bg-background" />
  <div className="flex gap-2">
- <Skeleton className="h-8 w-8 bg-white" />
- <Skeleton className="h-8 w-8 bg-white" />
- <Skeleton className="h-8 w-8 bg-white" />
+ <Skeleton className="h-8 w-8 bg-background" />
+ <Skeleton className="h-8 w-8 bg-background" />
+ <Skeleton className="h-8 w-8 bg-background" />
  </div>
  </div>
  </div>
@@ -124,55 +124,55 @@ export default function CoursesPage() {
  ))}
  </div>
  ) : courses.length === 0 ? (
- <div className="text-center py-12 px-4 rounded-xl border border-dashed border-gray-200 bg-white">
- <BookOpen className="mx-auto h-12 w-12 text-gray-500 mb-4" />
- <h3 className="text-lg font-medium text-white">No courses yet</h3>
- <p className="text-gray-400 mb-6">Get started by creating your first course.</p>
- <Button onClick={handleCreate}>Create Course</Button>
- </div>
+        <div className="text-center py-12 px-4 rounded-xl border border-dashed border-gray-300 bg-gray-50">
+          <BookOpen className="mx-auto h-12 w-12 text-foreground mb-4" />
+          <h3 className="text-lg font-bold text-foreground">No courses yet</h3>
+          <p className="text-muted-foreground font-medium mb-6">Get started by creating your first course.</p>
+          <Button onClick={handleCreate} className="bg-primary text-primary-foreground hover:bg-primary/90">Create Course</Button>
+        </div>
  ) : (
  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
  {courses.map(course => (
- <GlassCard key={course.id} className="p-0 overflow-hidden group flex flex-col h-full">
- <div className="relative aspect-video bg-gray-50 overflow-hidden border-b border-gray-200">
- {course.headerImage ? (
- <img
- src={course.headerImage}
- alt={course.title}
- className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
- />
- ) : (
- <div className="flex items-center justify-center h-full text-white/20">
- <BookOpen className="h-10 w-10" />
- </div>
- )}
- <div className="absolute top-2 right-2">
- <span className={`px-2 py-1 rounded text-xs font-bold ${course.published ? "bg-green-500/80 text-white" : "bg-yellow-500/80 text-black"
- }`}>
- {course.published ? "Published" : "Draft"}
- </span>
- </div>
- </div>
- <div className="p-5 flex flex-col flex-1">
- <h3 className="font-bold text-lg text-white mb-2 line-clamp-1">{course.title}</h3>
- <p className="text-gray-400 text-sm line-clamp-2 mb-4 flex-1">{course.description}</p>
+            <div key={course.id} className="p-0 overflow-hidden group flex flex-col h-full border border-border rounded-xl bg-background shadow-sm hover:border-gray-300 transition-colors">
+              <div className="relative aspect-video bg-gray-100 overflow-hidden border-b border-border">
+                {course.headerImage ? (
+                  <img
+                    src={course.headerImage}
+                    alt={course.title}
+                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-300">
+                    <BookOpen className="h-10 w-10" />
+                  </div>
+                )}
+                <div className="absolute top-2 right-2">
+                  <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest border ${course.published ? "bg-background text-foreground border-border" : "bg-gray-50 text-muted-foreground border-border"
+                    }`}>
+                    {course.published ? "Published" : "Draft"}
+                  </span>
+                </div>
+              </div>
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-1">{course.title}</h3>
+                <p className="text-muted-foreground font-medium text-sm line-clamp-2 mb-4 flex-1">{course.description}</p>
 
- <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-200">
- <span className="font-bold text-primary">{formatCurrency(course.price)}</span>
- <div className="flex gap-2">
- <Button variant="ghost" size="sm" onClick={() => setViewingStudentsCourse(course)} className="h-8 w-8 p-0" title="View Students">
- <Users className="h-4 w-4" />
- </Button>
- <Button variant="ghost" size="sm" onClick={() => handleEdit(course)} className="h-8 w-8 p-0">
- <Edit className="h-4 w-4" />
- </Button>
- <Button variant="ghost" size="sm" onClick={() => course.id && setDeletingId(course.id)} className="h-8 w-8 p-0 text-red-400 hover:text-red-300">
- <Trash2 className="h-4 w-4" />
- </Button>
- </div>
- </div>
- </div>
- </GlassCard>
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+                  <span className="font-bold text-foreground">{formatCurrency(course.price)}</span>
+                  <div className="flex gap-2">
+                    <Button variant="ghost" size="sm" onClick={() => setViewingStudentsCourse(course)} className="h-8 w-8 p-0 text-muted-foreground hover:bg-gray-100 hover:text-foreground" title="View Students">
+                      <Users className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => handleEdit(course)} className="h-8 w-8 p-0 text-muted-foreground hover:bg-gray-100 hover:text-foreground">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => course.id && setDeletingId(course.id)} className="h-8 w-8 p-0 text-red-500 hover:text-red-600 hover:bg-red-50">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
  ))}
  </div>
  )}
@@ -189,7 +189,7 @@ export default function CoursesPage() {
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={() => deletingId && handleDelete(deletingId)}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  Delete Course
  </AlertDialogAction>

@@ -167,125 +167,125 @@ export default function UsersPage() {
  return (
  <div className="space-y-6">
  <div className="flex items-center justify-between">
- <div>
- <h1 className="text-2xl font-bold text-white">User Directory</h1>
- <p className="text-gray-400">Manage registered users and permissions.</p>
- </div>
- <div className="relative">
- <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
- <Input
- placeholder="Search users..."
- className="pl-9 w-[250px] bg-white border-gray-200 text-white"
- value={searchTerm}
- onChange={(e) => setSearchTerm(e.target.value)}
- />
- </div>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">User Directory</h1>
+          <p className="text-muted-foreground font-medium">Manage registered users and permissions.</p>
+        </div>
+        <div className="relative">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground/80" />
+          <Input
+            placeholder="Search users..."
+            className="pl-9 w-[250px] bg-background border-border text-foreground font-medium focus-visible:ring-black"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
  </div>
 
- <GlassCard className="p-0 overflow-hidden">
- <Table>
- <TableHeader className="bg-white">
- <TableRow className="border-gray-200 hover:bg-white">
- <TableHead className="text-gray-400">Name</TableHead>
- <TableHead className="text-gray-400">Email</TableHead>
- <TableHead className="text-gray-400">Role</TableHead>
- <TableHead className="text-gray-400">Joined</TableHead>
- <TableHead className="text-right text-gray-400">Actions</TableHead>
- </TableRow>
- </TableHeader>
- <TableBody>
- {loading ? (
- <TableRow>
- <TableCell colSpan={5} className="h-24 text-center">
- <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary" />
- </TableCell>
- </TableRow>
- ) : filteredUsers.length === 0 ? (
- <TableRow>
- <TableCell colSpan={5} className="h-24 text-center text-gray-500">
- No users found.
- </TableCell>
- </TableRow>
- ) : (
- filteredUsers.map((user) => (
- <TableRow key={user.uid} className="border-gray-200 hover:bg-white">
- <TableCell className="font-medium text-white">
- <div className="flex items-center gap-3">
- <div className="h-8 w-8 rounded-full bg-white p-[1px]">
- <div className="h-full w-full rounded-full bg-black overflow-hidden border border-gray-200">
- {user.photoURL ? (
- <img src={user.photoURL} alt="" className="h-full w-full object-cover" />
- ) : (
- <div className="h-full w-full flex items-center justify-center text-[10px] font-bold text-gray-500">
- {user.name?.[0] || "?"}
- </div>
- )}
- </div>
- </div>
- <span className="text-sm font-bold tracking-tight">{user.name || "No Name"}</span>
- </div>
- </TableCell>
- <TableCell className="text-gray-600 font-mono text-xs">{user.email}</TableCell>
- <TableCell>
- <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest border ${user.role === 'admin' ? 'bg-white text-black border-white' : 'bg-white text-gray-600 border-gray-200'
- }`}>
- {user.role}
- </span>
- </TableCell>
- <TableCell className="text-gray-500 text-[10px] font-bold uppercase tracking-widest">
- {user.createdAt?.toDate ? formatDate(user.createdAt.toDate()) : "N/A"}
- </TableCell>
+      <div className="overflow-hidden border border-border bg-background rounded-xl shadow-sm">
+        <Table>
+          <TableHeader className="bg-gray-50">
+            <TableRow className="border-border hover:bg-gray-50">
+              <TableHead className="text-muted-foreground font-bold uppercase text-[10px] tracking-widest">Name</TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase text-[10px] tracking-widest">Email</TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase text-[10px] tracking-widest">Role</TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase text-[10px] tracking-widest">Joined</TableHead>
+              <TableHead className="text-right text-muted-foreground font-bold uppercase text-[10px] tracking-widest">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={5} className="h-24 text-center">
+                  <Loader2 className="h-6 w-6 animate-spin mx-auto text-foreground" />
+                </TableCell>
+              </TableRow>
+            ) : filteredUsers.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5} className="h-24 text-center text-muted-foreground font-medium">
+                  No users found.
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredUsers.map((user) => (
+                <TableRow key={user.uid} className="border-border hover:bg-gray-50">
+                  <TableCell className="font-medium text-foreground">
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-full bg-gray-100 p-[1px] border border-border">
+                        <div className="h-full w-full rounded-full bg-background overflow-hidden">
+                          {user.photoURL ? (
+                            <img src={user.photoURL} alt="" className="h-full w-full object-cover" />
+                          ) : (
+                            <div className="h-full w-full flex items-center justify-center text-[10px] font-bold text-muted-foreground">
+                              {user.name?.[0] || "?"}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <span className="text-sm font-bold tracking-tight">{user.name || "No Name"}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-muted-foreground font-medium text-sm">{user.email}</TableCell>
+                  <TableCell>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-widest border ${user.role === 'admin' ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-gray-600 border-border'
+                      }`}>
+                      {user.role}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest">
+                    {user.createdAt?.toDate ? formatDate(user.createdAt.toDate()) : "N/A"}
+                  </TableCell>
  <TableCell className="text-right">
  <div className="flex justify-end gap-2">
- <Button
- size="sm"
- variant="ghost"
- disabled={processing === user.uid}
- onClick={() => setEditingUser(user)}
- className="h-8 w-8 p-0 text-gray-500 hover:text-white hover:bg-white"
- title="Edit User"
- >
- <Pencil strokeWidth={1.5} className="h-4 w-4" />
- </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          disabled={processing === user.uid}
+                          onClick={() => setEditingUser(user)}
+                          className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:bg-gray-100"
+                          title="Edit User"
+                        >
+                          <Pencil strokeWidth={1.5} className="h-4 w-4" />
+                        </Button>
 
- {/* Role Toggle */}
- <Button
- size="sm"
- variant="ghost"
- disabled={processing === user.uid}
- onClick={() => toggleRole(user.uid, user.role)}
- className={cn(
- "h-8 w-8 p-0 hover:bg-white",
- user.role === 'admin' ? "text-white" : "text-gray-800 hover:text-white"
- )}
- title={user.role === 'admin' ? "Demote to User" : "Promote to Admin"}
- >
- <Shield strokeWidth={1.5} className={cn("h-4 w-4", user.role === 'admin' && "fill-current")} />
- </Button>
+                        {/* Role Toggle */}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          disabled={processing === user.uid}
+                          onClick={() => toggleRole(user.uid, user.role)}
+                          className={cn(
+                            "h-8 w-8 p-0 hover:bg-gray-100",
+                            user.role === 'admin' ? "text-foreground" : "text-muted-foreground/80 hover:text-foreground"
+                          )}
+                          title={user.role === 'admin' ? "Demote to User" : "Promote to Admin"}
+                        >
+                          <Shield strokeWidth={1.5} className={cn("h-4 w-4", user.role === 'admin' && "fill-current")} />
+                        </Button>
 
- {/* Ban Toggle */}
- <Button
- size="sm"
- variant="ghost"
- disabled={processing === user.uid || user.uid === users.find(u => u.role === 'admin')?.uid}
- onClick={() => toggleBan(user.uid, !!user.isBanned)}
- className={cn(
- "h-8 w-8 p-0 hover:bg-white",
- user.isBanned ? "text-white bg-white" : "text-gray-800 hover:text-white"
- )}
- title={user.isBanned ? "Unban User" : "Ban User"}
- >
- {user.isBanned ? <CheckCircle strokeWidth={1.5} className="h-4 w-4" /> : <Ban strokeWidth={1.5} className="h-4 w-4" />}
- </Button>
+                        {/* Ban Toggle */}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          disabled={processing === user.uid || user.uid === users.find(u => u.role === 'admin')?.uid}
+                          onClick={() => toggleBan(user.uid, !!user.isBanned)}
+                          className={cn(
+                            "h-8 w-8 p-0 hover:bg-gray-100",
+                            user.isBanned ? "text-red-500 bg-red-50" : "text-muted-foreground/80 hover:text-foreground"
+                          )}
+                          title={user.isBanned ? "Unban User" : "Ban User"}
+                        >
+                          {user.isBanned ? <CheckCircle strokeWidth={1.5} className="h-4 w-4" /> : <Ban strokeWidth={1.5} className="h-4 w-4" />}
+                        </Button>
 
- <Button
- size="sm"
- variant="ghost"
- disabled={processing === user.uid}
- onClick={() => setDeletingId(user.uid)}
- className="h-8 w-8 p-0 text-red-500/50 hover:text-red-500 hover:bg-red-500/5"
- title="Delete Profile"
- >
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          disabled={processing === user.uid}
+                          onClick={() => setDeletingId(user.uid)}
+                          className="h-8 w-8 p-0 text-red-500 hover:text-red-600 hover:bg-red-50"
+                          title="Delete Profile"
+                        >
  <Trash2 strokeWidth={1.5} className="h-4 w-4" />
  </Button>
  </div>
@@ -295,36 +295,36 @@ export default function UsersPage() {
  )}
  </TableBody>
  </Table>
- </GlassCard>
+        </div>
 
  {/* Pagination Controls */}
- <div className="flex items-center justify-between px-2">
- <div className="text-sm text-gray-400">
- Page {currentPage}
- </div>
- <div className="flex gap-2">
- <Button
- variant="outline"
- size="sm"
- onClick={loadPrevious}
- disabled={currentPage === 1 || loading}
- className="bg-white border-gray-200 hover:bg-white text-white"
- >
- <ChevronLeft className="h-4 w-4 mr-1" />
- Previous
- </Button>
- <Button
- variant="outline"
- size="sm"
- onClick={loadNext}
- disabled={!hasMore || loading}
- className="bg-white border-gray-200 hover:bg-white text-white"
- >
- Next
- <ChevronRight className="h-4 w-4 ml-1" />
- </Button>
- </div>
- </div>
+      <div className="flex items-center justify-between px-2">
+        <div className="text-sm font-bold text-foreground uppercase tracking-widest">
+          Page {currentPage}
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={loadPrevious}
+            disabled={currentPage === 1 || loading}
+            className="bg-background border-border hover:bg-gray-50 text-foreground font-bold uppercase text-[10px] tracking-widest"
+          >
+            <ChevronLeft className="h-4 w-4 mr-1" />
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={loadNext}
+            disabled={!hasMore || loading}
+            className="bg-background border-border hover:bg-gray-50 text-foreground font-bold uppercase text-[10px] tracking-widest"
+          >
+            Next
+            <ChevronRight className="h-4 w-4 ml-1" />
+          </Button>
+        </div>
+      </div>
 
  <AlertDialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
  <AlertDialogContent>
@@ -339,7 +339,7 @@ export default function UsersPage() {
  <AlertDialogCancel>Cancel</AlertDialogCancel>
  <AlertDialogAction
  onClick={() => deletingId && handleDelete(deletingId)}
- className="bg-red-600 hover:bg-red-700 text-white"
+ className="bg-red-600 hover:bg-red-700 text-primary-foreground"
  >
  Delete Profile
  </AlertDialogAction>

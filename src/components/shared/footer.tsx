@@ -35,16 +35,16 @@ export function Footer() {
  };
 
  return (
- <footer className="w-full border-t border-white/[0.05] bg-black py-20 mt-20">
+  <footer className="w-full border-t border-border bg-background py-20 mt-20">
  <div className="container mx-auto px-4 grid gap-16 lg:grid-cols-12">
 
  {/* Brand & Socials */}
  <div className="lg:col-span-7 flex flex-col gap-8">
  <div>
- <span className="text-xl font-bold tracking-tighter text-white mb-3 block">
- ZH<span className="text-white">.</span>
- </span>
- <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest leading-relaxed max-w-sm">
+            <span className="text-xl font-bold tracking-tighter text-foreground mb-3 block">
+              ZH<span className="text-foreground">.</span>
+            </span>
+ <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest leading-relaxed max-w-sm">
  Building digital experiences at the intersection of design, engineering, and artificial intelligence.
  </p>
  </div>
@@ -67,8 +67,8 @@ export function Footer() {
  )}
  </div>
 
- <p className="text-[10px] font-bold text-gray-800 uppercase tracking-[0.3em] pt-12 border-t border-white/[0.03]">
- © {new Date().getFullYear()} Zihad Hasan / ALL RIGHTS RESERVED
+          <p className="text-[10px] font-bold text-gray-800 uppercase tracking-[0.3em] pt-12 border-t border-border">
+            © {new Date().getFullYear()} Zihad Hasan / ALL RIGHTS RESERVED
  </p>
  </div>
 
@@ -86,8 +86,8 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
  <Link
  href={href}
  target="_blank"
- className="text-gray-500 transition-all duration-300 hover:text-white hover:scale-110"
- aria-label={label}
+      className="text-muted-foreground transition-all duration-300 hover:text-foreground hover:scale-110"
+      aria-label={label}
  >
  {icon}
  </Link>

@@ -85,22 +85,22 @@ export function ProjectForm({ open, onOpenChange, onSubmit, initialData }: Proje
 
  return (
  <Dialog open={open} onOpenChange={onOpenChange}>
- <DialogContent className="bg-gray-50 border-gray-200 text-white sm:max-w-[600px] ">
+ <DialogContent className="bg-gray-50 border-border text-primary-foreground sm:max-w-[600px] ">
  <DialogHeader>
  <DialogTitle>{initialData ? "Edit Project" : "Add New Project"}</DialogTitle>
- <DialogDescription className="text-gray-400">
+ <DialogDescription className="text-muted-foreground/80">
  Showcase your latest work. Click save when you're done.
  </DialogDescription>
  </DialogHeader>
 
  <div className="grid gap-6 py-4">
  <div className="grid gap-2">
- <Label htmlFor="title" className="text-white">Project Title</Label>
+ <Label htmlFor="title" className="text-primary-foreground">Project Title</Label>
  <Input
  id="title"
  {...form.register("title")}
  placeholder="e.g. Neon Analytics Dashboard"
- className="bg-white border-gray-200 text-white focus:border-primary/50"
+ className="bg-background border-border text-primary-foreground focus:border-primary/50"
  />
  {form.formState.errors.title && (
  <p className="text-xs text-red-500">{form.formState.errors.title.message}</p>
@@ -108,12 +108,12 @@ export function ProjectForm({ open, onOpenChange, onSubmit, initialData }: Proje
  </div>
 
  <div className="grid gap-2">
- <Label htmlFor="description" className="text-white">Description</Label>
+ <Label htmlFor="description" className="text-primary-foreground">Description</Label>
  <Textarea
  id="description"
  {...form.register("description")}
  placeholder="Briefly describe the tech stack and problem solved..."
- className="bg-white border-gray-200 text-white min-h-[100px] focus:border-primary/50"
+ className="bg-background border-border text-primary-foreground min-h-[100px] focus:border-primary/50"
  />
  {form.formState.errors.description && (
  <p className="text-xs text-red-500">{form.formState.errors.description.message}</p>
@@ -121,12 +121,12 @@ export function ProjectForm({ open, onOpenChange, onSubmit, initialData }: Proje
  </div>
 
  <div className="grid gap-2">
- <Label htmlFor="tags" className="text-white">Tags (Comma separated)</Label>
+ <Label htmlFor="tags" className="text-primary-foreground">Tags (Comma separated)</Label>
  <Input
  id="tags"
  {...form.register("tags")}
  placeholder="Next.js, Firebase, Tailwind"
- className="bg-white border-gray-200 text-white focus:border-primary/50"
+ className="bg-background border-border text-primary-foreground focus:border-primary/50"
  />
  {form.formState.errors.tags && (
  <p className="text-xs text-red-500">{form.formState.errors.tags.message}</p>
@@ -143,25 +143,25 @@ export function ProjectForm({ open, onOpenChange, onSubmit, initialData }: Proje
 
  <div className="grid grid-cols-2 gap-4">
  <div className="grid gap-2">
- <Label htmlFor="liveLink" className="text-white">Live Demo</Label>
+ <Label htmlFor="liveLink" className="text-primary-foreground">Live Demo</Label>
  <div className="relative">
- <LinkIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+ <LinkIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
  <Input
  id="liveLink"
  {...form.register("liveLink")}
- className="pl-9 bg-white border-gray-200 text-white focus:border-primary/50"
+ className="pl-9 bg-background border-border text-primary-foreground focus:border-primary/50"
  placeholder="https://"
  />
  </div>
  </div>
  <div className="grid gap-2">
- <Label htmlFor="githubLink" className="text-white">GitHub Repo</Label>
+ <Label htmlFor="githubLink" className="text-primary-foreground">GitHub Repo</Label>
  <div className="relative">
- <Github className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+ <Github className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
  <Input
  id="githubLink"
  {...form.register("githubLink")}
- className="pl-9 bg-white border-gray-200 text-white focus:border-primary/50"
+ className="pl-9 bg-background border-border text-primary-foreground focus:border-primary/50"
  placeholder="https://"
  />
  </div>
@@ -170,10 +170,10 @@ export function ProjectForm({ open, onOpenChange, onSubmit, initialData }: Proje
  </div>
 
  <DialogFooter>
- <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-gray-400 hover:text-white hover:bg-white">
+ <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground/80 hover:text-primary-foreground hover:bg-background">
  Cancel
  </Button>
- <Button onClick={form.handleSubmit(handleSubmit)} disabled={submitting} className="bg-primary text-black hover:bg-primary/90">
+ <Button onClick={form.handleSubmit(handleSubmit)} disabled={submitting} className="bg-primary text-foreground hover:bg-primary/90">
  {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
  {initialData ? "Save Changes" : "Create Project"}
  </Button>

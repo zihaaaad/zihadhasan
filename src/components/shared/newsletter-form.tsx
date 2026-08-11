@@ -47,31 +47,29 @@ export function NewsletterForm({
 
  if (variant === "card") {
  return (
- <div className={cn("bg-white/[0.02] border border-white/[0.05] rounded-[2rem] p-10 text-center relative overflow-hidden", className)}>
- {/* Subtle Background Glow */}
- <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-white blur-[100px] -z-10" />
+      <div className={cn("bg-gray-50 border border-border rounded-[2rem] p-10 text-center relative overflow-hidden", className)}>
 
- <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
- {title || "Strategic Insights"}
- </h3>
- <p className="text-gray-500 text-sm font-medium mb-8 max-w-sm mx-auto leading-relaxed">
+        <h3 className="text-2xl font-bold text-foreground mb-3 tracking-tight">
+          {title || "Strategic Insights"}
+        </h3>
+ <p className="text-muted-foreground text-sm font-medium mb-8 max-w-sm mx-auto leading-relaxed">
  {subtitle || "Subscribe to the newsletter for deep dives into engineering, AI, and digital philosophy."}
  </p>
 
  <form onSubmit={handleSubscribe} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
  <div className="relative flex-1 group">
- <Mail strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-500 group-focus-within:text-white transition-colors" />
- <Input
+            <Mail strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground group-focus-within:text-foreground transition-colors" />
+            <Input
  type="email"
  placeholder="TRANSMISSION@EMAIL.COM"
  value={email}
  onChange={(e) => setEmail(e.target.value)}
- className="pl-11 h-12 bg-white/[0.05] border-white/[0.1] text-white focus:ring-gray-200 text-[10px] font-bold uppercase tracking-widest rounded-xl"
- required
+              className="pl-11 h-12 bg-background border-border text-foreground focus:ring-gray-300 text-[10px] font-bold uppercase tracking-widest rounded-xl"
+              required
  />
  </div>
- <Button type="submit" disabled={submitting} className="bg-white text-black hover:bg-neutral-200 rounded-xl h-12 px-8 text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shrink-0">
- {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Authorize"}
+          <Button type="submit" disabled={submitting} className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-12 px-8 text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shrink-0">
+            {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Authorize"}
  </Button>
  </form>
  </div>
@@ -80,26 +78,26 @@ export function NewsletterForm({
 
  return (
  <div className={cn("w-full max-w-sm", className)}>
- <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4">
+ <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] mb-4">
  {title || "Newsletter"}
  </h3>
  <form onSubmit={handleSubscribe} className="space-y-3">
  <div className="relative group">
- <Mail strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-500 group-focus-within:text-white transition-colors" />
- <Input
+          <Mail strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground group-focus-within:text-foreground transition-colors" />
+          <Input
  type="email"
  placeholder="ENTER YOUR EMAIL"
  value={email}
  onChange={(e) => setEmail(e.target.value)}
- className="pl-11 h-12 bg-white/[0.03] border-white/[0.05] text-white focus:ring-gray-200 text-[10px] font-bold uppercase tracking-widest rounded-xl"
- required
+            className="pl-11 h-12 bg-gray-50 border-border text-foreground focus:ring-gray-300 text-[10px] font-bold uppercase tracking-widest rounded-xl"
+            required
  />
  <Button
  type="submit"
  disabled={submitting}
- className="absolute right-1.5 top-1.5 h-9 w-9 p-0 bg-white text-black hover:bg-neutral-200 rounded-lg transition-all duration-500"
- >
- {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ArrowRight strokeWidth={1.5} className="h-3.5 w-3.5" />}
+            className="absolute right-1.5 top-1.5 h-9 w-9 p-0 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transition-all duration-500"
+          >
+            {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ArrowRight strokeWidth={1.5} className="h-3.5 w-3.5" />}
  </Button>
  </div>
  </form>
