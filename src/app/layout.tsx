@@ -92,7 +92,7 @@ export default function RootLayout({
  interTight.variable,
  outfit.variable,
  anekBangla.variable,
- "antialiased bg-background text-foreground relative overflow-x-hidden selection:bg-primary/20 selection:text-primary font-sans"
+ "antialiased bg-background text-foreground relative selection:bg-primary/20 selection:text-primary font-sans"
  )}
  >
  <ThemeProvider
