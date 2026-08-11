@@ -33,7 +33,7 @@ function SpotlightItem({ children, className = "" }: { children: React.ReactNode
         <div
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className={`relative overflow-hidden rounded-xl border border-white/10 bg-[#093D2A]/50 backdrop-blur-xl transition-colors hover:border-white/20 ${className}`}
+            className={`relative overflow-hidden rounded-xl border border-white/10 bg-forest-800/50 backdrop-blur-xl transition-colors hover:border-white/20 ${className}`}
         >
             <div
                 className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
@@ -50,8 +50,8 @@ function SpotlightItem({ children, className = "" }: { children: React.ReactNode
 export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
 
     return (
-        <section className="py-20 px-4 bg-[#041F14] relative">
-            <div className="absolute inset-0 bg-[#062B1D]/50" />
+        <section className="py-20 px-4 bg-forest-950 relative">
+            <div className="absolute inset-0 bg-forest-900/50" />
 
             <div className="max-w-7xl mx-auto mb-12 relative z-10">
                 <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
@@ -94,7 +94,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                     <BentoGridItem
                         className="md:col-span-2 md:row-span-2 min-h-[400px]"
                         header={
-                            <SpotlightItem className="h-full w-full p-8 flex flex-col justify-center items-center text-center group bg-[#093D2A]/40">
+                            <SpotlightItem className="h-full w-full p-8 flex flex-col justify-center items-center text-center group bg-forest-800/40">
                                 <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mb-6">
                                     <Cpu strokeWidth={1.5} className="h-8 w-8 text-emerald-500/60" />
                                 </div>

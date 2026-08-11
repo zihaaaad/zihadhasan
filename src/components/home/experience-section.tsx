@@ -36,7 +36,7 @@ const experiences = [
 
 export function ExperienceSection() {
   return (
-    <section className="py-32 px-4 relative bg-[#041F14] text-white overflow-hidden">
+    <section className="py-32 px-4 relative bg-forest-950 text-white overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
@@ -80,7 +80,7 @@ export function ExperienceSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 * idx }}
-              className="group relative p-8 md:p-10 rounded-3xl border border-white/5 bg-[#093D2A]/20 hover:bg-[#093D2A]/40 hover:border-white/10 transition-all backdrop-blur-sm"
+              className="group relative p-8 md:p-10 rounded-3xl border border-white/5 bg-forest-800/20 hover:bg-forest-800/40 hover:border-white/10 transition-all backdrop-blur-sm"
             >
               {/* Subtle hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl pointer-events-none" />

@@ -46,6 +46,9 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --color-forest-950: #041F14;
+  --color-forest-900: #062B1D;
+  --color-forest-800: #093D2A;
 }
 
 :root {
@@ -199,6 +202,22 @@
 
 @utility glass-card {
   @apply bg-white/5 backdrop-blur-xl border border-white/5 shadow-2xl;
+}
+
+@utility perspective-1200 {
+  perspective: 1200px;
+}
+
+@utility translate-z-30 {
+  transform: translateZ(30px);
+}
+
+@utility translate-z-50 {
+  transform: translateZ(50px);
+}
+
+@utility translate-z-75 {
+  transform: translateZ(75px);
 }
 
 /* Expert Polish Utilities */

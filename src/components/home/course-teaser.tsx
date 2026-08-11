@@ -15,10 +15,10 @@ interface CourseTeaserProps {
 export function CourseTeaser({ courses }: CourseTeaserProps) {
     if (courses.length === 0) {
         return (
-            <section className="py-24 px-4 bg-[#041F14] relative overflow-hidden border-t border-white/5">
+            <section className="py-24 px-4 bg-forest-950 relative overflow-hidden border-t border-white/5">
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     <h2 className="text-3xl font-bold text-white mb-4">Premium Courses</h2>
-                    <div className="p-12 rounded-2xl bg-[#093D2A]/50 border border-white/10 backdrop-blur-sm">
+                    <div className="p-12 rounded-2xl bg-forest-800/50 border border-white/10 backdrop-blur-sm">
                         <BookOpen className="h-12 w-12 text-white/50 mx-auto mb-4 opacity-50" />
                         <h3 className="text-xl font-bold text-white mb-2">Curriculum in Development</h3>
                         <p className="text-emerald-100/70 max-w-lg mx-auto">
@@ -31,7 +31,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
     }
 
     return (
-        <section className="py-24 px-4 bg-[#041F14] relative overflow-hidden">
+        <section className="py-24 px-4 bg-forest-950 relative overflow-hidden">
             {/* Background Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -54,7 +54,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
 
                 <div className="grid md:grid-cols-3 gap-8">
                     {courses.map((course) => (
-                        <SpotlightCard key={course.id} className="group flex flex-col h-full bg-[#093D2A] border-neutral-800 rounded-3xl">
+                        <SpotlightCard key={course.id} className="group flex flex-col h-full bg-forest-800 border-neutral-800 rounded-3xl">
                             <div className="relative h-48 w-full overflow-hidden rounded-t-3xl bg-neutral-800">
                                 {course.headerImage ? (
                                     <Image
@@ -69,7 +69,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
                                     </div>
                                 )}
                                 <div className="absolute top-4 right-4">
-                                    <Badge className="bg-[#041F14]/50 backdrop-blur border-white/10 text-white hover:bg-[#041F14]/70 text-[10px] font-bold px-3">
+                                    <Badge className="bg-forest-950/50 backdrop-blur border-white/10 text-white hover:bg-forest-950/70 text-[10px] font-bold px-3">
                                         {course.price === 0 ? "FREE" : `$${course.price}`}
                                     </Badge>
                                 </div>

@@ -14,7 +14,7 @@ const socialLinks = [
 
 export function PhilosophySection() {
   return (
-    <section className="relative py-32 px-4 overflow-hidden bg-[#041F14] text-white">
+    <section className="relative py-32 px-4 overflow-hidden bg-forest-950 text-white">
       {/* Background Grids for that "Figma" precision look */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
       
@@ -64,7 +64,7 @@ export function PhilosophySection() {
             {/* Decorative 'Connect' line */}
             <div className="absolute -left-8 top-1/2 w-8 h-px bg-gradient-to-r from-transparent to-white/20 hidden md:block" />
 
-            <div className="group relative rounded-2xl border border-white/10 bg-[#093D2A]/50 backdrop-blur-xl p-8 md:p-12 overflow-hidden transition-all hover:border-white/20">
+            <div className="group relative rounded-2xl border border-white/10 bg-forest-800/50 backdrop-blur-xl p-8 md:p-12 overflow-hidden transition-all hover:border-white/20">
               
               {/* Subtle hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />

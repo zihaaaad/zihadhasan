@@ -76,23 +76,23 @@ async function CourseSection() {
 
 // --- Skeletons ---
 function HeroSkeleton() {
-  return <div className="h-screen w-full bg-[#062B1D] animate-pulse" />;
+  return <div className="h-screen w-full bg-forest-900 animate-pulse" />;
 }
 
 function SectionSkeleton() {
-  return <div className="h-[500px] w-full bg-[#093D2A]/20 animate-pulse my-20" />;
+  return <div className="h-[500px] w-full bg-forest-800/20 animate-pulse my-20" />;
 }
 
 export default function Home() {
   return (
-    <main className="bg-[#041F14] min-h-screen text-white overflow-hidden selection:bg-white selection:text-black relative">
+    <main className="bg-forest-950 min-h-screen text-white overflow-hidden selection:bg-white selection:text-black relative">
       {/* Global Noise Texture for that "Film/Figma" Feel */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }} />
+      <div className="noise-bg" />
 
       <Anime3DScroll>
         {/* A. Hero Section - Suspense enables instant page load while data fetches */}
         <Suspense fallback={<HeroSkeleton />}>
-          <div className="anime-section" style={{ transformOrigin: "center center" }}>
+          <div className="anime-section origin-center">
             <HeroSection />
           </div>
         </Suspense>
@@ -104,37 +104,37 @@ export default function Home() {
 
         {/* C. Bento Showcase - Massive Spacing */}
         <Suspense fallback={<SectionSkeleton />}>
-          <div className="py-24 anime-section" style={{ transformOrigin: "center center" }}>
+          <div className="py-24 anime-section origin-center">
              <BentoSection />
           </div>
         </Suspense>
 
         {/* D. Course Teaser */}
         <Suspense fallback={<SectionSkeleton />}>
-          <div className="anime-section" style={{ transformOrigin: "center center" }}>
+          <div className="anime-section origin-center">
             <CourseSection />
           </div>
         </Suspense>
 
         {/* E. Experience Section */}
-        <div className="anime-section" style={{ transformOrigin: "center center" }}>
+        <div className="anime-section origin-center">
           <ExperienceSection />
         </div>
         
         {/* E2. Skills Section */}
-        <div className="anime-section" style={{ transformOrigin: "center center" }}>
+        <div className="anime-section origin-center">
           <SkillsSection />
         </div>
 
         {/* F. Philosophy / About - Clean Component */}
-        <div className="anime-section" style={{ transformOrigin: "center center" }}>
+        <div className="anime-section origin-center">
           <PhilosophySection />
         </div>
 
         {/* G. Newsletter */}
-        <div className="anime-section" style={{ transformOrigin: "center center" }}>
+        <div className="anime-section origin-center">
           <Section className="py-40 px-4 container mx-auto relative z-10">
-            <div className="relative rounded-[2.5rem] overflow-hidden bg-[#093D2A]/30 border border-white/10 p-8 md:p-24 text-center backdrop-blur-md group hover:border-white/20 transition-all duration-500">
+            <div className="relative rounded-[2.5rem] overflow-hidden bg-forest-800/30 border border-white/10 p-8 md:p-24 text-center backdrop-blur-md group hover:border-white/20 transition-all duration-500">
               {/* Subtle Grid Background for this card too */}
                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 

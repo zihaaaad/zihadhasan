@@ -54,7 +54,7 @@ export function Anime3DScroll({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ perspective: '1200px' }}>
+    <div ref={containerRef} className="perspective-1200">
       {children}
     </div>
   );
