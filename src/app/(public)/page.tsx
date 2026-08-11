@@ -7,6 +7,7 @@ import { PhilosophySection } from "@/components/home/philosophy-section";
 import { NewsletterForm } from "@/components/shared/newsletter-form";
 import { ExperienceSection } from "@/components/home/experience-section";
 import { SkillsSection } from "@/components/home/skills-section";
+import { Anime3DScroll } from "@/components/home/anime-3d-scroll";
 // Modular Imports for Tree Shaking
 import { CoreService } from "@/lib/services/core-service";
 import { ProjectService } from "@/lib/services/project-service";
@@ -88,64 +89,78 @@ export default function Home() {
       {/* Global Noise Texture for that "Film/Figma" Feel */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }} />
 
-      {/* A. Hero Section - Suspense enables instant page load while data fetches */}
-      <Suspense fallback={<HeroSkeleton />}>
-        <HeroSection />
-      </Suspense>
-
-      {/* B. Tech Marquee - Cleaner, Floating */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 border-b border-white/5">
-        <TechMarquee />
-      </div>
-
-      {/* C. Bento Showcase - Massive Spacing */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <div className="py-24">
-           <BentoSection />
-        </div>
-      </Suspense>
-
-      {/* D. Course Teaser */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <CourseSection />
-      </Suspense>
-
-      {/* E. Experience Section */}
-      <ExperienceSection />
-      
-      {/* E2. Skills Section */}
-      <SkillsSection />
-
-      {/* F. Philosophy / About - Clean Component */}
-      <PhilosophySection />
-
-      {/* G. Newsletter */}
-      <Section className="py-40 px-4 container mx-auto relative z-10">
-        <div className="relative rounded-[2.5rem] overflow-hidden bg-neutral-900/30 border border-white/10 p-8 md:p-24 text-center backdrop-blur-md group hover:border-white/20 transition-all duration-500">
-          {/* Subtle Grid Background for this card too */}
-           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-
-          {/* Background Glow - Reduced intensity, White */}
-          <div className="absolute top-0 right-1/2 w-[300px] h-[300px] bg-white/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-white/10 transition-all duration-700" />
-
-          <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-            <div>
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tighter">Join the Inner Circle</h2>
-              <p className="text-neutral-400 text-lg font-light leading-relaxed">
-                Get weekly insights on full-stack development, AI engineering, and building software products from scratch.
-              </p>
-            </div>
-
-            <div className="max-w-md mx-auto">
-              <NewsletterForm />
-            </div>
-
-            <div className="pt-8 text-neutral-600 text-[10px] uppercase tracking-[0.2em] font-medium">
-              No spam. Unsubscribe at any time.
-            </div>
+      <Anime3DScroll>
+        {/* A. Hero Section - Suspense enables instant page load while data fetches */}
+        <Suspense fallback={<HeroSkeleton />}>
+          <div className="anime-section" style={{ transformOrigin: "center center" }}>
+            <HeroSection />
           </div>
+        </Suspense>
+
+        {/* B. Tech Marquee - Cleaner, Floating */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 border-b border-white/5">
+          <TechMarquee />
         </div>
-      </Section>
+
+        {/* C. Bento Showcase - Massive Spacing */}
+        <Suspense fallback={<SectionSkeleton />}>
+          <div className="py-24 anime-section" style={{ transformOrigin: "center center" }}>
+             <BentoSection />
+          </div>
+        </Suspense>
+
+        {/* D. Course Teaser */}
+        <Suspense fallback={<SectionSkeleton />}>
+          <div className="anime-section" style={{ transformOrigin: "center center" }}>
+            <CourseSection />
+          </div>
+        </Suspense>
+
+        {/* E. Experience Section */}
+        <div className="anime-section" style={{ transformOrigin: "center center" }}>
+          <ExperienceSection />
+        </div>
+        
+        {/* E2. Skills Section */}
+        <div className="anime-section" style={{ transformOrigin: "center center" }}>
+          <SkillsSection />
+        </div>
+
+        {/* F. Philosophy / About - Clean Component */}
+        <div className="anime-section" style={{ transformOrigin: "center center" }}>
+          <PhilosophySection />
+        </div>
+
+        {/* G. Newsletter */}
+        <div className="anime-section" style={{ transformOrigin: "center center" }}>
+          <Section className="py-40 px-4 container mx-auto relative z-10">
+            <div className="relative rounded-[2.5rem] overflow-hidden bg-neutral-900/30 border border-white/10 p-8 md:p-24 text-center backdrop-blur-md group hover:border-white/20 transition-all duration-500">
+              {/* Subtle Grid Background for this card too */}
+               <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+
+              {/* Background Glow - Reduced intensity, White */}
+              <div className="absolute top-0 right-1/2 w-[300px] h-[300px] bg-white/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-white/10 transition-all duration-700" />
+
+              <div className="relative z-10 max-w-2xl mx-auto space-y-8">
+                <div>
+                  <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tighter">Join the Inner Circle</h2>
+                  <p className="text-neutral-400 text-lg font-light leading-relaxed">
+                    Get weekly insights on full-stack development, AI engineering, and building software products from scratch.
+                  </p>
+                </div>
+
+                <div className="max-w-md mx-auto">
+                  <NewsletterForm />
+                </div>
+
+                <div className="pt-8 text-neutral-600 text-[10px] uppercase tracking-[0.2em] font-medium">
+                  No spam. Unsubscribe at any time.
+                </div>
+              </div>
+            </div>
+          </Section>
+        </div>
+      </Anime3DScroll>
     </main>
   );
 }
