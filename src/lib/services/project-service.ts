@@ -1,154 +1,154 @@
 import { db } from "../firebase";
 import {
-    collection,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
-    getDocs,
-    query,
-    orderBy,
-    Timestamp,
-    where,
-    limit,
+ collection,
+ addDoc,
+ updateDoc,
+ deleteDoc,
+ doc,
+ getDocs,
+ query,
+ orderBy,
+ Timestamp,
+ where,
+ limit,
 } from "firebase/firestore";
 
 export interface Project {
-    id?: string;
-    title: string;
-    description: string;
-    tags: string[];
-    imageUrl: string;
-    liveLink: string;
-    githubLink: string;
-    createdAt?: Timestamp;
-    isDeleted?: boolean;
+ id?: string;
+ title: string;
+ description: string;
+ tags: string[];
+ imageUrl: string;
+ liveLink: string;
+ githubLink: string;
+ createdAt?: Timestamp;
+ isDeleted?: boolean;
 }
 
 export interface Tool {
-    id?: string;
-    name: string;
-    description: string;
-    category: string;
-    url: string;
-    imageUrl?: string;
-    createdAt?: Timestamp;
-    isDeleted?: boolean;
+ id?: string;
+ name: string;
+ description: string;
+ category: string;
+ url: string;
+ imageUrl?: string;
+ createdAt?: Timestamp;
+ isDeleted?: boolean;
 }
 
 export const ProjectService = {
-    // --- Projects ---
-    addProject: async (project: Project) => {
-        return await addDoc(collection(db, "projects"), {
-            ...project,
-            isDeleted: false,
-            createdAt: Timestamp.now(),
-        });
-    },
+ // --- Projects ---
+ addProject: async (project: Project) => {
+ return await addDoc(collection(db, "projects"), {
+ ...project,
+ isDeleted: false,
+ createdAt: Timestamp.now(),
+ });
+ },
 
-    getProjects: async (limitCount: number = 20) => {
-        try {
-            const q = query(
-                collection(db, "projects"),
-                where("isDeleted", "==", false),
-                orderBy("createdAt", "desc"),
-                limit(limitCount)
-            );
-            const snapshot = await getDocs(q);
-            return snapshot.docs
-                .map(doc => ({ id: doc.id, ...doc.data() } as Project));
-        } catch (error) {
-            console.error("[ProjectService] getProjects failed:", error);
-            throw error;
-        }
-    },
+ getProjects: async (limitCount: number = 20) => {
+ try {
+ const q = query(
+ collection(db, "projects"),
+ where("isDeleted", "==", false),
+ orderBy("createdAt", "desc"),
+ limit(limitCount)
+ );
+ const snapshot = await getDocs(q);
+ return snapshot.docs
+ .map(doc => ({ id: doc.id, ...doc.data() } as Project));
+ } catch (error) {
+ console.error("[ProjectService] getProjects failed:", error);
+ throw error;
+ }
+ },
 
-    getLatestProject: async () => {
-        try {
-            const q = query(
-                collection(db, "projects"),
-                where("isDeleted", "==", false),
-                orderBy("createdAt", "desc"),
-                limit(1)
-            );
-            const snapshot = await getDocs(q);
-            return snapshot.empty ? null : { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as Project;
-        } catch (error) {
-            console.error("[ProjectService] getLatestProject failed:", error);
-            return null;
-        }
-    },
+ getLatestProject: async () => {
+ try {
+ const q = query(
+ collection(db, "projects"),
+ where("isDeleted", "==", false),
+ orderBy("createdAt", "desc"),
+ limit(1)
+ );
+ const snapshot = await getDocs(q);
+ return snapshot.empty ? null : { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as Project;
+ } catch (error) {
+ console.error("[ProjectService] getLatestProject failed:", error);
+ return null;
+ }
+ },
 
-    deleteProject: async (id: string) => {
-        // Soft Delete
-        await updateDoc(doc(db, "projects", id), { isDeleted: true });
-    },
+ deleteProject: async (id: string) => {
+ // Soft Delete
+ await updateDoc(doc(db, "projects", id), { isDeleted: true });
+ },
 
-    updateProject: async (id: string, data: Partial<Project>) => {
-        const docRef = doc(db, "projects", id);
-        await updateDoc(docRef, data);
-    },
+ updateProject: async (id: string, data: Partial<Project>) => {
+ const docRef = doc(db, "projects", id);
+ await updateDoc(docRef, data);
+ },
 
-    bulkDeleteProjects: async (ids: string[]) => {
-        const promises = ids.map(id => updateDoc(doc(db, "projects", id), { isDeleted: true }));
-        await Promise.all(promises);
-    },
+ bulkDeleteProjects: async (ids: string[]) => {
+ const promises = ids.map(id => updateDoc(doc(db, "projects", id), { isDeleted: true }));
+ await Promise.all(promises);
+ },
 
-    // --- Tools ---
-    addTool: async (tool: Tool) => {
-        return await addDoc(collection(db, "tools"), {
-            ...tool,
-            isDeleted: false,
-            createdAt: Timestamp.now(),
-        });
-    },
+ // --- Tools ---
+ addTool: async (tool: Tool) => {
+ return await addDoc(collection(db, "tools"), {
+ ...tool,
+ isDeleted: false,
+ createdAt: Timestamp.now(),
+ });
+ },
 
-    getTools: async (limitCount: number = 20) => {
-        try {
-            const q = query(
-                collection(db, "tools"),
-                where("isDeleted", "==", false),
-                orderBy("createdAt", "desc"),
-                limit(limitCount)
-            );
-            const snapshot = await getDocs(q);
-            return snapshot.docs
-                .map(doc => ({ id: doc.id, ...doc.data() } as Tool));
-        } catch (error) {
-            console.error("[ProjectService] getTools failed:", error);
-            throw error;
-        }
-    },
+ getTools: async (limitCount: number = 20) => {
+ try {
+ const q = query(
+ collection(db, "tools"),
+ where("isDeleted", "==", false),
+ orderBy("createdAt", "desc"),
+ limit(limitCount)
+ );
+ const snapshot = await getDocs(q);
+ return snapshot.docs
+ .map(doc => ({ id: doc.id, ...doc.data() } as Tool));
+ } catch (error) {
+ console.error("[ProjectService] getTools failed:", error);
+ throw error;
+ }
+ },
 
-    getLatestTool: async () => {
-        try {
-            const q = query(
-                collection(db, "tools"),
-                where("isDeleted", "==", false),
-                orderBy("createdAt", "desc"),
-                limit(1)
-            );
-            const snapshot = await getDocs(q);
-            return snapshot.empty ? null : { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as Tool;
-        } catch (error) {
-            console.error("[ProjectService] getLatestTool failed:", error);
-            return null;
-        }
-    },
+ getLatestTool: async () => {
+ try {
+ const q = query(
+ collection(db, "tools"),
+ where("isDeleted", "==", false),
+ orderBy("createdAt", "desc"),
+ limit(1)
+ );
+ const snapshot = await getDocs(q);
+ return snapshot.empty ? null : { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as Tool;
+ } catch (error) {
+ console.error("[ProjectService] getLatestTool failed:", error);
+ return null;
+ }
+ },
 
-    deleteTool: async (id: string) => {
-        // Soft Delete
-        await updateDoc(doc(db, "tools", id), { isDeleted: true });
-    },
+ deleteTool: async (id: string) => {
+ // Soft Delete
+ await updateDoc(doc(db, "tools", id), { isDeleted: true });
+ },
 
-    updateTool: async (id: string, data: Partial<Tool>) => {
-        const docRef = doc(db, "tools", id);
-        await updateDoc(docRef, data);
-    },
+ updateTool: async (id: string, data: Partial<Tool>) => {
+ const docRef = doc(db, "tools", id);
+ await updateDoc(docRef, data);
+ },
 
-    bulkDeleteTools: async (ids: string[]) => {
-        const promises = ids.map(id => updateDoc(doc(db, "tools", id), { isDeleted: true }));
-        await Promise.all(promises);
-    },
+ bulkDeleteTools: async (ids: string[]) => {
+ const promises = ids.map(id => updateDoc(doc(db, "tools", id), { isDeleted: true }));
+ await Promise.all(promises);
+ },
 };
 ;

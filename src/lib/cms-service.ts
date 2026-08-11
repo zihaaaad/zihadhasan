@@ -9,20 +9,20 @@ import { RegistrationService, Registration } from "./services/registration-servi
 import { BookService, Book } from "./services/book-service";
 
 export type {
-    Project,
-    Tool,
-    BlogPost,
-    Event,
-    Message,
-    UserNotification,
-    Subscriber,
-    Course,
-    Lesson,
-    Product,
-    GlobalSettings,
-    SocialLink,
-    Registration,
-    Book
+ Project,
+ Tool,
+ BlogPost,
+ Event,
+ Message,
+ UserNotification,
+ Subscriber,
+ Course,
+ Lesson,
+ Product,
+ GlobalSettings,
+ SocialLink,
+ Registration,
+ Book
 };
 
 // Re-export as a unified service for backward compatibility
@@ -31,13 +31,13 @@ export type {
  * This facade will be removed in future versions to improve tree-shaking.
  */
 export const CMSService = {
-    ...ProjectService,
-    ...BlogService,
-    ...EventService,
-    ...UserService,
-    ...CourseService,
-    ...ShopService,
-    ...CoreService,
-    ...RegistrationService,
-    ...BookService
+ ...ProjectService,
+ ...BlogService,
+ ...EventService,
+ ...UserService,
+ ...CourseService,
+ ...ShopService,
+ ...CoreService,
+ ...RegistrationService,
+ ...BookService
 };

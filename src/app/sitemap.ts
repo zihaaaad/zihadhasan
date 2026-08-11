@@ -6,44 +6,44 @@ export const dynamic = 'force-static';
 
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://zihadhasan.web.app'; // Updated to current Firebase domain
+ const baseUrl = 'https://zihadhasan.web.app'; // Updated to current Firebase domain
 
-    // Static Routes
-    const routes = [
-        '',
-        '/about',
-        '/projects',
-        '/tools',
-        '/blog',
-        '/events',
-        '/contact',
-    ].map((route) => ({
-        url: `${baseUrl}${route}`,
-        lastModified: new Date(),
-        changeFrequency: 'daily' as const,
-        priority: route === '' ? 1 : 0.8,
-    }));
+ // Static Routes
+ const routes = [
+ '',
+ '/about',
+ '/projects',
+ '/tools',
+ '/blog',
+ '/events',
+ '/contact',
+ ].map((route) => ({
+ url: `${baseUrl}${route}`,
+ lastModified: new Date(),
+ changeFrequency: 'daily' as const,
+ priority: route === '' ? 1 : 0.8,
+ }));
 
-    // Dynamic Blog Posts
-    const posts = await CMSService.getPosts(true);
-    const blogRoutes = posts.map((post) => ({
-        url: `${baseUrl}/blog/${post.slug}`,
-        lastModified: post.publishedAt ? new Date(post.publishedAt.seconds * 1000) : new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-    }));
+ // Dynamic Blog Posts
+ const posts = await CMSService.getPosts(true);
+ const blogRoutes = posts.map((post) => ({
+ url: `${baseUrl}/blog/${post.slug}`,
+ lastModified: post.publishedAt ? new Date(post.publishedAt.seconds * 1000) : new Date(),
+ changeFrequency: 'weekly' as const,
+ priority: 0.7,
+ }));
 
-    // Dynamic Courses
-    const courses = await CMSService.getPublishedCourses();
-    const courseRoutes = courses.map((course) => ({
-        url: `${baseUrl}/courses/${course.id}`,
-        lastModified: course.createdAt ? new Date(course.createdAt.seconds * 1000) : new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-    }));
+ // Dynamic Courses
+ const courses = await CMSService.getPublishedCourses();
+ const courseRoutes = courses.map((course) => ({
+ url: `${baseUrl}/courses/${course.id}`,
+ lastModified: course.createdAt ? new Date(course.createdAt.seconds * 1000) : new Date(),
+ changeFrequency: 'weekly' as const,
+ priority: 0.8,
+ }));
 
-    // Dynamic Events? Maybe not critical for SEO if they expire, but good to have if we have detail pages.
-    // For now, let's keep it simple.
+ // Dynamic Events? Maybe not critical for SEO if they expire, but good to have if we have detail pages.
+ // For now, let's keep it simple.
 
-    return [...routes, ...blogRoutes, ...courseRoutes];
+ return [...routes, ...blogRoutes, ...courseRoutes];
 }

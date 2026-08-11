@@ -13,114 +13,114 @@ import { Toaster } from "sonner";
 import { SettingsProvider } from "@/components/providers/settings-provider";
 
 const interTight = Inter_Tight({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
+ variable: "--font-sans",
+ subsets: ["latin"],
+ display: "swap",
 });
 
 const outfit = Outfit({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  display: "swap",
+ variable: "--font-heading",
+ subsets: ["latin"],
+ display: "swap",
 });
 
 const anekBangla = Anek_Bangla({
-  variable: "--font-bengali",
-  subsets: ["bengali"],
-  display: "swap",
+ variable: "--font-bengali",
+ subsets: ["bengali"],
+ display: "swap",
 });
 
 import { CMSService } from "@/lib/cms-service";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await CMSService.getGlobalSettings();
+ const settings = await CMSService.getGlobalSettings();
 
-  const title = settings?.siteTitle || "Zihad Hasan | Futuristic AI & Code";
-  const description = settings?.siteDescription || "Zihad Hasan is a visionary Software Engineer building the future with AI and Next.js. Explore his portfolio of next-gen tools, events, and insights.";
+ const title = settings?.siteTitle || "Zihad Hasan | Futuristic AI & Code";
+ const description = settings?.siteDescription || "Zihad Hasan is a visionary Software Engineer building the future with AI and Next.js. Explore his portfolio of next-gen tools, events, and insights.";
 
-  // Default keywords + dynamic ones
-  const defaultKeywords = [
-    "Zihad Hasan", "Software Engineer", "AI Expert", "Next.js", "React", "Bangladesh",
-    "Next.js Developer", "React Specialist", "Web Developer Bangladesh", "Full Stack Developer", "JavaScript", "Artificial Intelligence"
-  ];
+ // Default keywords + dynamic ones
+ const defaultKeywords = [
+ "Zihad Hasan", "Software Engineer", "AI Expert", "Next.js", "React", "Bangladesh",
+ "Next.js Developer", "React Specialist", "Web Developer Bangladesh", "Full Stack Developer", "JavaScript", "Artificial Intelligence"
+ ];
 
-  const dynamicKeywords = settings?.seoKeywords || [];
-  const keywords = Array.from(new Set([...defaultKeywords, ...dynamicKeywords]));
+ const dynamicKeywords = settings?.seoKeywords || [];
+ const keywords = Array.from(new Set([...defaultKeywords, ...dynamicKeywords]));
 
-  return {
-    metadataBase: new URL("https://zihadhasan.web.app"),
-    title: {
-      default: title,
-      template: "%s | Zihad Hasan"
-    },
-    description: description,
-    keywords: keywords,
-    authors: [{ name: "Zihad Hasan" }],
-    creator: "Zihad Hasan",
-    openGraph: {
-      type: "website",
-      locale: "en_US",
-      url: "https://zihadhasan.web.app",
-      siteName: "Zihad Hasan",
-      title: title,
-      description: description,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: title,
-      description: description,
-      creator: "@zihadhasan",
-    },
-    icons: {
-      icon: "/favicon.ico",
-    },
-    verification: {
-      google: "jPkgFKbB6U3TsCNK8ijsHyM6hJWLNWwFA3F-sU0zy0I",
-    },
-  };
+ return {
+ metadataBase: new URL("https://zihadhasan.web.app"),
+ title: {
+ default: title,
+ template: "%s | Zihad Hasan"
+ },
+ description: description,
+ keywords: keywords,
+ authors: [{ name: "Zihad Hasan" }],
+ creator: "Zihad Hasan",
+ openGraph: {
+ type: "website",
+ locale: "en_US",
+ url: "https://zihadhasan.web.app",
+ siteName: "Zihad Hasan",
+ title: title,
+ description: description,
+ },
+ twitter: {
+ card: "summary_large_image",
+ title: title,
+ description: description,
+ creator: "@zihadhasan",
+ },
+ icons: {
+ icon: "/favicon.ico",
+ },
+ verification: {
+ google: "jPkgFKbB6U3TsCNK8ijsHyM6hJWLNWwFA3F-sU0zy0I",
+ },
+ };
 }
 
 export default function RootLayout({
-  children,
+ children,
 }: Readonly<{
-  children: React.ReactNode;
+ children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          interTight.variable,
-          outfit.variable,
-          anekBangla.variable,
-          "antialiased bg-background text-foreground relative overflow-x-hidden selection:bg-primary/20 selection:text-primary font-sans"
-        )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          forcedTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <SmoothScroll>
-            <AuthProvider>
-              <SettingsProvider>
-                <AuthModal />
-                <GoogleTagManager containerId="GTM-WBP6HZV2" />
-                <script
-                  type="application/ld+json"
-                  dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(generatePersonSchema()),
-                  }}
-                />
-                {children}
-                <MobileDock />
-                <Toaster position="top-center" richColors theme="system" />
-              </SettingsProvider>
-            </AuthProvider>
-          </SmoothScroll>
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+ return (
+ <html lang="en" suppressHydrationWarning>
+ <body
+ className={cn(
+ interTight.variable,
+ outfit.variable,
+ anekBangla.variable,
+ "antialiased bg-background text-foreground relative overflow-x-hidden selection:bg-primary/20 selection:text-primary font-sans"
+ )}
+ >
+ <ThemeProvider
+ attribute="class"
+ defaultTheme="dark"
+ forcedTheme="dark"
+ enableSystem={false}
+ disableTransitionOnChange
+ >
+ <SmoothScroll>
+ <AuthProvider>
+ <SettingsProvider>
+ <AuthModal />
+ <GoogleTagManager containerId="GTM-WBP6HZV2" />
+ <script
+ type="application/ld+json"
+ dangerouslySetInnerHTML={{
+ __html: JSON.stringify(generatePersonSchema()),
+ }}
+ />
+ {children}
+ <MobileDock />
+ <Toaster position="top-center" richColors theme="system" />
+ </SettingsProvider>
+ </AuthProvider>
+ </SmoothScroll>
+ </ThemeProvider>
+ </body>
+ </html>
+ );
 }

@@ -12,226 +12,226 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 
 export interface UserNotification {
-    id: string;
-    title: string;
-    message: string;
-    read: boolean;
-    createdAt: any;
-    link?: string;
+ id: string;
+ title: string;
+ message: string;
+ read: boolean;
+ createdAt: any;
+ link?: string;
 }
 
 export function NotificationBell() {
-    const { user } = useAuth();
-    const [notifications, setNotifications] = useState<UserNotification[]>([]);
-    const [unreadCount, setUnreadCount] = useState(0);
-    const [isOpen, setIsOpen] = useState(false);
+ const { user } = useAuth();
+ const [notifications, setNotifications] = useState<UserNotification[]>([]);
+ const [unreadCount, setUnreadCount] = useState(0);
+ const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        if (!user) return;
+ useEffect(() => {
+ if (!user) return;
 
-        // Subscribe to notifications subcollection
-        const q = query(
-            collection(db, "users", user.uid, "notifications"),
-            orderBy("createdAt", "desc"),
-            limit(20)
-        );
+ // Subscribe to notifications subcollection
+ const q = query(
+ collection(db, "users", user.uid, "notifications"),
+ orderBy("createdAt", "desc"),
+ limit(20)
+ );
 
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const items = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            } as UserNotification));
-            setNotifications(items);
-            setUnreadCount(items.filter(n => !n.read).length);
-        });
+ const unsubscribe = onSnapshot(q, (snapshot) => {
+ const items = snapshot.docs.map(doc => ({
+ id: doc.id,
+ ...doc.data()
+ } as UserNotification));
+ setNotifications(items);
+ setUnreadCount(items.filter(n => !n.read).length);
+ });
 
-        return () => unsubscribe();
-    }, [user]);
+ return () => unsubscribe();
+ }, [user]);
 
-    const markAsRead = async (notificationId: string) => {
-        if (!user) return;
-        try {
-            const ref = doc(db, "users", user.uid, "notifications", notificationId);
-            await updateDoc(ref, { read: true });
-        } catch (error) {
-            console.error("Error marking read", error);
-        }
-    };
+ const markAsRead = async (notificationId: string) => {
+ if (!user) return;
+ try {
+ const ref = doc(db, "users", user.uid, "notifications", notificationId);
+ await updateDoc(ref, { read: true });
+ } catch (error) {
+ console.error("Error marking read", error);
+ }
+ };
 
-    const markAllAsRead = async () => {
-        if (!user || unreadCount === 0) return;
-        try {
-            const batch = writeBatch(db);
-            // Strategy: Fetch recent notifications (mixed read/unread) and update the unread ones.
-            // This avoids the need for a composite index on (read + createdAt).
-            const q = query(
-                collection(db, "users", user.uid, "notifications"),
-                orderBy("createdAt", "desc"),
-                limit(50) // Check last 50 items to catch visible unread ones
-            );
+ const markAllAsRead = async () => {
+ if (!user || unreadCount === 0) return;
+ try {
+ const batch = writeBatch(db);
+ // Strategy: Fetch recent notifications (mixed read/unread) and update the unread ones.
+ // This avoids the need for a composite index on (read + createdAt).
+ const q = query(
+ collection(db, "users", user.uid, "notifications"),
+ orderBy("createdAt", "desc"),
+ limit(50) // Check last 50 items to catch visible unread ones
+ );
 
-            const snapshot = await getDocs(q);
-            let updateCount = 0;
+ const snapshot = await getDocs(q);
+ let updateCount = 0;
 
-            snapshot.docs.forEach((doc) => {
-                if (doc.data().read === false) {
-                    batch.update(doc.ref, { read: true });
-                    updateCount++;
-                }
-            });
+ snapshot.docs.forEach((doc) => {
+ if (doc.data().read === false) {
+ batch.update(doc.ref, { read: true });
+ updateCount++;
+ }
+ });
 
-            if (updateCount > 0) {
-                await batch.commit();
-            }
-        } catch (error) {
-            console.error("Error marking all read", error);
-        }
-    };
+ if (updateCount > 0) {
+ await batch.commit();
+ }
+ } catch (error) {
+ console.error("Error marking all read", error);
+ }
+ };
 
-    const clearAllNotifications = async () => {
-        if (!user || notifications.length === 0) return;
-        try {
-            const batch = writeBatch(db);
-            const q = query(
-                collection(db, "users", user.uid, "notifications"),
-                limit(20) // Batch limit
-            );
-            const snapshot = await getDocs(q);
-            snapshot.docs.forEach((doc) => {
-                batch.delete(doc.ref);
-            });
-            await batch.commit();
-        } catch (error) {
-            console.error("Error clearing notifications", error);
-        }
-    };
+ const clearAllNotifications = async () => {
+ if (!user || notifications.length === 0) return;
+ try {
+ const batch = writeBatch(db);
+ const q = query(
+ collection(db, "users", user.uid, "notifications"),
+ limit(20) // Batch limit
+ );
+ const snapshot = await getDocs(q);
+ snapshot.docs.forEach((doc) => {
+ batch.delete(doc.ref);
+ });
+ await batch.commit();
+ } catch (error) {
+ console.error("Error clearing notifications", error);
+ }
+ };
 
-    const handleNotificationClick = (notification: UserNotification) => {
-        if (!notification.read) {
-            markAsRead(notification.id);
-        }
-        setIsOpen(false);
-    };
+ const handleNotificationClick = (notification: UserNotification) => {
+ if (!notification.read) {
+ markAsRead(notification.id);
+ }
+ setIsOpen(false);
+ };
 
-    if (!user) return null;
+ if (!user) return null;
 
-    return (
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-            <PopoverTrigger asChild>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label={unreadCount > 0 ? `Notifications (${unreadCount} unread)` : "Notifications"}
-                    className="relative text-white/70 hover:text-white hover:bg-white/10 rounded-full h-9 w-9"
-                >
-                    <Bell strokeWidth={1.5} className="h-5 w-5" />
-                    {unreadCount > 0 && (
-                        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-white border border-black animate-pulse" />
-                    )}
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80 p-0 bg-zinc-950 border-white/10 text-white backdrop-blur-xl" align="end">
-                <div className="flex items-center justify-between p-4 border-b border-white/10 bg-white/5">
-                    <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-sm">Notifications</h4>
-                        {unreadCount > 0 && (
-                            <span className="text-[10px] font-bold bg-white text-black px-1.5 py-0.5 rounded-full">
-                                {unreadCount}
-                            </span>
-                        )}
-                    </div>
-                    {notifications.length > 0 && (
-                        <div className="flex items-center gap-1">
-                            {unreadCount > 0 && (
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-6 text-[10px] px-2 text-white hover:text-black hover:bg-white"
-                                    onClick={markAllAsRead}
-                                >
-                                    <CheckCheck strokeWidth={1.5} className="mr-1 h-3 w-3" /> Mark read
-                                </Button>
-                            )}
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-6 text-[10px] px-2 text-white/50 hover:text-white hover:bg-white/10"
-                                onClick={clearAllNotifications}
-                            >
-                                <Trash2 strokeWidth={1.5} className="mr-1 h-3 w-3" /> Clear
-                            </Button>
-                        </div>
-                    )}
-                </div>
-                <div className="max-h-[300px] overflow-y-auto">
-                    {notifications.length === 0 ? (
-                        <div className="p-8 text-center flex flex-col items-center gap-2 text-white/40">
-                            <div className="p-3 bg-white/5 rounded-full">
-                                <MailOpen strokeWidth={1.5} className="h-6 w-6 opacity-50" />
-                            </div>
-                            <p className="text-sm">No notifications yet</p>
-                            <p className="text-xs text-white/20">We'll notify you when something arrives</p>
-                        </div>
-                    ) : (
-                        <div className="divide-y divide-white/5">
-                            {notifications.map((notification) => (
-                                <div
-                                    key={notification.id}
-                                    className={cn(
-                                        "p-4 transition-colors hover:bg-white/5 relative group block text-left w-full",
-                                        !notification.read && "bg-white/[0.02]"
-                                    )}
-                                >
-                                    <div className="flex gap-3">
-                                        <div className="flex-1 space-y-1">
-                                            <p className={cn("text-sm font-medium", !notification.read ? "text-white" : "text-white/70")}>
-                                                {notification.title}
-                                            </p>
-                                            <p className="text-xs text-white/50 line-clamp-2">
-                                                {notification.message}
-                                            </p>
-                                            <p className="text-[10px] text-white/30">
-                                                {notification.createdAt?.seconds ? formatDistanceToNow(new Date(notification.createdAt.seconds * 1000), { addSuffix: true }) : 'Just now'}
-                                            </p>
-                                        </div>
-                                        {!notification.read && (
-                                            <div className="flex flex-col justify-center">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="h-6 w-6 text-white hover:text-black hover:bg-white rounded-full"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        markAsRead(notification.id);
-                                                    }}
-                                                    title="Mark as read"
-                                                    aria-label="Mark as read"
-                                                >
-                                                    <Check strokeWidth={1.5} className="h-3 w-3" />
-                                                </Button>
-                                            </div>
-                                        )}
-                                    </div>
-                                    {notification.link && (
-                                        <Link
-                                            href={notification.link}
-                                            className="absolute inset-0 z-10"
-                                            onClick={() => handleNotificationClick(notification)}
-                                        />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-                <div className="p-2 border-t border-white/10 bg-white/5">
-                    <Link href="/notifications" onClick={() => setIsOpen(false)}>
-                        <Button variant="ghost" className="w-full h-8 text-xs text-white/60 hover:text-white hover:bg-white/10">
-                            View all notifications
-                        </Button>
-                    </Link>
-                </div>
-            </PopoverContent>
-        </Popover>
-    );
+ return (
+ <Popover open={isOpen} onOpenChange={setIsOpen}>
+ <PopoverTrigger asChild>
+ <Button
+ variant="ghost"
+ size="icon"
+ aria-label={unreadCount > 0 ? `Notifications (${unreadCount} unread)` : "Notifications"}
+ className="relative text-white/70 hover:text-white hover:bg-white rounded-full h-9 w-9"
+ >
+ <Bell strokeWidth={1.5} className="h-5 w-5" />
+ {unreadCount > 0 && (
+ <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-white border border-black animate-pulse" />
+ )}
+ </Button>
+ </PopoverTrigger>
+ <PopoverContent className="w-80 p-0 bg-zinc-950 border-gray-200 text-white " align="end">
+ <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+ <div className="flex items-center gap-2">
+ <h4 className="font-semibold text-sm">Notifications</h4>
+ {unreadCount > 0 && (
+ <span className="text-[10px] font-bold bg-white text-black px-1.5 py-0.5 rounded-full">
+ {unreadCount}
+ </span>
+ )}
+ </div>
+ {notifications.length > 0 && (
+ <div className="flex items-center gap-1">
+ {unreadCount > 0 && (
+ <Button
+ variant="ghost"
+ size="sm"
+ className="h-6 text-[10px] px-2 text-white hover:text-black hover:bg-white"
+ onClick={markAllAsRead}
+ >
+ <CheckCheck strokeWidth={1.5} className="mr-1 h-3 w-3" /> Mark read
+ </Button>
+ )}
+ <Button
+ variant="ghost"
+ size="sm"
+ className="h-6 text-[10px] px-2 text-white/50 hover:text-white hover:bg-white"
+ onClick={clearAllNotifications}
+ >
+ <Trash2 strokeWidth={1.5} className="mr-1 h-3 w-3" /> Clear
+ </Button>
+ </div>
+ )}
+ </div>
+ <div className="max-h-[300px] overflow-y-auto">
+ {notifications.length === 0 ? (
+ <div className="p-8 text-center flex flex-col items-center gap-2 text-white/40">
+ <div className="p-3 bg-white rounded-full">
+ <MailOpen strokeWidth={1.5} className="h-6 w-6 opacity-50" />
+ </div>
+ <p className="text-sm">No notifications yet</p>
+ <p className="text-xs text-white/20">We'll notify you when something arrives</p>
+ </div>
+ ) : (
+ <div className="divide-y divide-white/5">
+ {notifications.map((notification) => (
+ <div
+ key={notification.id}
+ className={cn(
+ "p-4 transition-colors hover:bg-white relative group block text-left w-full",
+ !notification.read && "bg-white/[0.02]"
+ )}
+ >
+ <div className="flex gap-3">
+ <div className="flex-1 space-y-1">
+ <p className={cn("text-sm font-medium", !notification.read ? "text-white" : "text-white/70")}>
+ {notification.title}
+ </p>
+ <p className="text-xs text-white/50 line-clamp-2">
+ {notification.message}
+ </p>
+ <p className="text-[10px] text-white/30">
+ {notification.createdAt?.seconds ? formatDistanceToNow(new Date(notification.createdAt.seconds * 1000), { addSuffix: true }) : 'Just now'}
+ </p>
+ </div>
+ {!notification.read && (
+ <div className="flex flex-col justify-center">
+ <Button
+ variant="ghost"
+ size="icon"
+ className="h-6 w-6 text-white hover:text-black hover:bg-white rounded-full"
+ onClick={(e) => {
+ e.stopPropagation();
+ markAsRead(notification.id);
+ }}
+ title="Mark as read"
+ aria-label="Mark as read"
+ >
+ <Check strokeWidth={1.5} className="h-3 w-3" />
+ </Button>
+ </div>
+ )}
+ </div>
+ {notification.link && (
+ <Link
+ href={notification.link}
+ className="absolute inset-0 z-10"
+ onClick={() => handleNotificationClick(notification)}
+ />
+ )}
+ </div>
+ ))}
+ </div>
+ )}
+ </div>
+ <div className="p-2 border-t border-gray-200 bg-white">
+ <Link href="/notifications" onClick={() => setIsOpen(false)}>
+ <Button variant="ghost" className="w-full h-8 text-xs text-white/60 hover:text-white hover:bg-white">
+ View all notifications
+ </Button>
+ </Link>
+ </div>
+ </PopoverContent>
+ </Popover>
+ );
 }

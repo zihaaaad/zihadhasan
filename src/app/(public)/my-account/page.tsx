@@ -15,319 +15,319 @@ import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/format";
 
 export default function MyAccountPage() {
-    const { user, profile, isAdmin } = useAuth();
-    const router = useRouter();
-    const [registrations, setRegistrations] = useState<Registration[]>([]);
-    const [courses, setCourses] = useState<{ [key: string]: Course }>({});
-    const [events, setEvents] = useState<{ [key: string]: Event }>({});
-    const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<"learning" | "events">("learning");
+ const { user, profile, isAdmin } = useAuth();
+ const router = useRouter();
+ const [registrations, setRegistrations] = useState<Registration[]>([]);
+ const [courses, setCourses] = useState<{ [key: string]: Course }>({});
+ const [events, setEvents] = useState<{ [key: string]: Event }>({});
+ const [loading, setLoading] = useState(true);
+ const [activeTab, setActiveTab] = useState<"learning" | "events">("learning");
 
-    useEffect(() => {
-        if (user === undefined) return; // Auth initializing
-        if (user === null) {
-            // Not logged in
-        } else {
-            fetchData();
-        }
-    }, [user]);
+ useEffect(() => {
+ if (user === undefined) return; // Auth initializing
+ if (user === null) {
+ // Not logged in
+ } else {
+ fetchData();
+ }
+ }, [user]);
 
-    const fetchData = async () => {
-        if (!user?.uid) return;
+ const fetchData = async () => {
+ if (!user?.uid) return;
 
-        try {
-            const userRegs = await CMSService.getRegistrationsByUser(user.uid);
-            setRegistrations(userRegs);
+ try {
+ const userRegs = await CMSService.getRegistrationsByUser(user.uid);
+ setRegistrations(userRegs);
 
-            // Fetch details
-            const courseData: { [key: string]: Course } = {};
-            const eventData: { [key: string]: Event } = {};
+ // Fetch details
+ const courseData: { [key: string]: Course } = {};
+ const eventData: { [key: string]: Event } = {};
 
-            const promises = userRegs.map(async (reg) => {
-                if (reg.courseId && !courseData[reg.courseId]) {
-                    const c = await CMSService.getCourse(reg.courseId);
-                    if (c) courseData[reg.courseId] = c;
-                }
-                if (reg.eventId && !eventData[reg.eventId]) {
-                    const e = await CMSService.getEvent(reg.eventId);
-                    if (e) eventData[reg.eventId] = e;
-                }
-            });
+ const promises = userRegs.map(async (reg) => {
+ if (reg.courseId && !courseData[reg.courseId]) {
+ const c = await CMSService.getCourse(reg.courseId);
+ if (c) courseData[reg.courseId] = c;
+ }
+ if (reg.eventId && !eventData[reg.eventId]) {
+ const e = await CMSService.getEvent(reg.eventId);
+ if (e) eventData[reg.eventId] = e;
+ }
+ });
 
-            await Promise.all(promises);
-            setCourses(courseData);
-            setEvents(eventData);
+ await Promise.all(promises);
+ setCourses(courseData);
+ setEvents(eventData);
 
-        } catch (error) {
-            console.error("Failed to load dashboard", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+ } catch (error) {
+ console.error("Failed to load dashboard", error);
+ } finally {
+ setLoading(false);
+ }
+ };
 
-    const handleLogout = async () => {
-        await signOut(auth);
-        router.push("/");
-    };
+ const handleLogout = async () => {
+ await signOut(auth);
+ router.push("/");
+ };
 
-    if (loading) {
-        return (
-            <div className="min-h-screen pt-32 flex justify-center">
-                <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            </div>
-        );
-    }
+ if (loading) {
+ return (
+ <div className="min-h-screen pt-32 flex justify-center">
+ <Loader2 className="h-10 w-10 animate-spin text-primary" />
+ </div>
+ );
+ }
 
-    if (!user) {
-        return (
-            <div className="min-h-screen pt-32 text-center px-4">
-                <h1 className="text-3xl font-bold text-white mb-4">Access Restricted</h1>
-                <p className="text-gray-400 mb-8">Please login to view your command center.</p>
-                <Link href="/">
-                    <Button size="lg" className="bg-primary text-black hover:bg-primary/90">Go Home</Button>
-                </Link>
-            </div>
-        )
-    }
+ if (!user) {
+ return (
+ <div className="min-h-screen pt-32 text-center px-4">
+ <h1 className="text-3xl font-bold text-white mb-4">Access Restricted</h1>
+ <p className="text-gray-400 mb-8">Please login to view your command center.</p>
+ <Link href="/">
+ <Button size="lg" className="bg-primary text-black hover:bg-primary/90">Go Home</Button>
+ </Link>
+ </div>
+ )
+ }
 
-    const courseRegs = registrations.filter(r => r.courseId);
-    const eventRegs = registrations.filter(r => r.eventId);
+ const courseRegs = registrations.filter(r => r.courseId);
+ const eventRegs = registrations.filter(r => r.eventId);
 
-    return (
-        <div className="min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row gap-8 items-start mb-12">
-                {/* User Profile Card */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="w-full md:w-80 shrink-0"
-                >
-                    <GlassCard className="p-6">
-                        <div className="flex flex-col items-center text-center">
-                            <div className="relative">
-                                <div className="h-24 w-24 rounded-full overflow-hidden border border-white/10 mb-4 bg-white/5 ring-4 ring-white/5">
-                                    {user.photoURL ? (
-                                        <img src={user.photoURL} alt={user.displayName || "User"} className="h-full w-full object-cover" />
-                                    ) : (
-                                        <div className="h-full w-full flex items-center justify-center text-3xl font-bold text-neutral-600">
-                                            {user.email?.[0].toUpperCase()}
-                                        </div>
-                                    )}
-                                </div>
-                                {isAdmin && (
-                                    <div className="absolute -top-2 -right-2 bg-white text-black text-[10px] font-bold px-2 py-1 rounded-full shadow-xl flex items-center gap-1 border border-black/10">
-                                        <Crown strokeWidth={1.5} className="h-3 w-3" /> ADMIN
-                                    </div>
-                                )}
-                            </div>
+ return (
+ <div className="min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+ {/* Header Section */}
+ <div className="flex flex-col md:flex-row gap-8 items-start mb-12">
+ {/* User Profile Card */}
+ <motion.div
+ initial={{ opacity: 0, x: -20 }}
+ animate={{ opacity: 1, x: 0 }}
+ className="w-full md:w-80 shrink-0"
+ >
+ <GlassCard className="p-6">
+ <div className="flex flex-col items-center text-center">
+ <div className="relative">
+ <div className="h-24 w-24 rounded-full overflow-hidden border border-gray-200 mb-4 bg-white ring-4 ring-gray-200">
+ {user.photoURL ? (
+ <img src={user.photoURL} alt={user.displayName || "User"} className="h-full w-full object-cover" />
+ ) : (
+ <div className="h-full w-full flex items-center justify-center text-3xl font-bold text-gray-800">
+ {user.email?.[0].toUpperCase()}
+ </div>
+ )}
+ </div>
+ {isAdmin && (
+ <div className="absolute -top-2 -right-2 bg-white text-black text-[10px] font-bold px-2 py-1 rounded-full shadow-xl flex items-center gap-1 border border-black/10">
+ <Crown strokeWidth={1.5} className="h-3 w-3" /> ADMIN
+ </div>
+ )}
+ </div>
 
-                            <h2 className="text-xl font-bold text-white mb-1">{user.displayName || "User"}</h2>
-                            <p className="text-sm text-gray-400 mb-6 font-mono">{user.email}</p>
+ <h2 className="text-xl font-bold text-white mb-1">{user.displayName || "User"}</h2>
+ <p className="text-sm text-gray-400 mb-6 font-mono">{user.email}</p>
 
-                            <div className="w-full space-y-3">
-                                {isAdmin && (
-                                    <Link href="/dashboard">
-                                        <Button className="w-full bg-white text-black hover:bg-neutral-200 font-bold rounded-xl h-11 text-[10px] uppercase tracking-widest mb-3">
-                                            <LayoutDashboard strokeWidth={1.5} className="h-4 w-4 mr-2" /> Admin Dashboard
-                                        </Button>
-                                    </Link>
-                                )}
+ <div className="w-full space-y-3">
+ {isAdmin && (
+ <Link href="/dashboard">
+ <Button className="w-full bg-white text-black hover:bg-neutral-200 font-bold rounded-xl h-11 text-[10px] uppercase tracking-widest mb-3">
+ <LayoutDashboard strokeWidth={1.5} className="h-4 w-4 mr-2" /> Admin Dashboard
+ </Button>
+ </Link>
+ )}
 
-                                <Button variant="outline" className="w-full border-white/10 text-neutral-500 hover:bg-white/5 hover:text-white rounded-xl h-11 text-[10px] uppercase tracking-widest transition-all" onClick={handleLogout}>
-                                    <LogOut strokeWidth={1.5} className="h-4 w-4 mr-2" /> Sign Out
-                                </Button>
-                            </div>
-                        </div>
-                    </GlassCard>
-                </motion.div>
+ <Button variant="outline" className="w-full border-gray-200 text-gray-500 hover:bg-white hover:text-white rounded-xl h-11 text-[10px] uppercase tracking-widest transition-all" onClick={handleLogout}>
+ <LogOut strokeWidth={1.5} className="h-4 w-4 mr-2" /> Sign Out
+ </Button>
+ </div>
+ </div>
+ </GlassCard>
+ </motion.div>
 
-                {/* Main Dashboard Area */}
-                <div className="flex-1 w-full relative">
-                    {/* Tabs */}
-                    <div className="flex items-center gap-4 mb-8 border-b border-white/10 pb-1">
-                        <button
-                            onClick={() => setActiveTab("learning")}
-                            className={cn(
-                                "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
-                                activeTab === "learning" ? "text-white" : "text-neutral-500 hover:text-white"
-                            )}
-                        >
-                            <BookOpen strokeWidth={1.5} className="h-4 w-4" />
-                            My Learning
-                            <span className="bg-white/10 px-2 py-0.5 rounded-full text-[10px] ml-1">{courseRegs.length}</span>
-                            {activeTab === "learning" && (
-                                <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-white" />
-                            )}
-                        </button>
-                        <button
-                            onClick={() => setActiveTab("events")}
-                            className={cn(
-                                "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
-                                activeTab === "events" ? "text-white" : "text-neutral-500 hover:text-white"
-                            )}
-                        >
-                            <Ticket strokeWidth={1.5} className="h-4 w-4" />
-                            My Events
-                            <span className="bg-white/10 px-2 py-0.5 rounded-full text-[10px] ml-1">{eventRegs.length}</span>
-                            {activeTab === "events" && (
-                                <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-white" />
-                            )}
-                        </button>
-                    </div>
+ {/* Main Dashboard Area */}
+ <div className="flex-1 w-full relative">
+ {/* Tabs */}
+ <div className="flex items-center gap-4 mb-8 border-b border-gray-200 pb-1">
+ <button
+ onClick={() => setActiveTab("learning")}
+ className={cn(
+ "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
+ activeTab === "learning" ? "text-white" : "text-gray-500 hover:text-white"
+ )}
+ >
+ <BookOpen strokeWidth={1.5} className="h-4 w-4" />
+ My Learning
+ <span className="bg-white px-2 py-0.5 rounded-full text-[10px] ml-1">{courseRegs.length}</span>
+ {activeTab === "learning" && (
+ <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-white" />
+ )}
+ </button>
+ <button
+ onClick={() => setActiveTab("events")}
+ className={cn(
+ "flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all relative",
+ activeTab === "events" ? "text-white" : "text-gray-500 hover:text-white"
+ )}
+ >
+ <Ticket strokeWidth={1.5} className="h-4 w-4" />
+ My Events
+ <span className="bg-white px-2 py-0.5 rounded-full text-[10px] ml-1">{eventRegs.length}</span>
+ {activeTab === "events" && (
+ <motion.div layoutId="activeTab" className="absolute bottom-[-5px] left-0 right-0 h-[2px] bg-white" />
+ )}
+ </button>
+ </div>
 
-                    <AnimatePresence mode="wait">
-                        {activeTab === "learning" ? (
-                            <motion.div
-                                key="learning"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="space-y-4"
-                            >
-                                {courseRegs.length === 0 ? (
-                                    <EmptyState
-                                        icon={BookOpen}
-                                        title="Start Your Journey"
-                                        desc="You haven't enrolled in any courses yet."
-                                        actionLink="/courses"
-                                        actionText="Browse Courses"
-                                    />
-                                ) : (
-                                    <div className="grid gap-4">
-                                        {courseRegs.map((reg) => {
-                                            const course = courses[reg.courseId!];
-                                            if (!course) return null;
-                                            return <RegistrationCard key={reg.id} reg={reg} title={course.title} image={course.headerImage} type="course" id={course.id!} />;
-                                        })}
-                                    </div>
-                                )}
-                            </motion.div>
-                        ) : (
-                            <motion.div
-                                key="events"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="space-y-4"
-                            >
-                                {eventRegs.length === 0 ? (
-                                    <EmptyState
-                                        icon={Ticket}
-                                        title="No Upcoming Events"
-                                        desc="You haven't registered for any events yet."
-                                        actionLink="/events"
-                                        actionText="Explore Events"
-                                    />
-                                ) : (
-                                    <div className="grid gap-4">
-                                        {eventRegs.map((reg) => {
-                                            const event = events[reg.eventId!];
-                                            if (!event) return null;
-                                            return <RegistrationCard key={reg.id} reg={reg} title={event.title} image={event.imageUrl} type="event" id={event.id!} date={event.date} />;
-                                        })}
-                                    </div>
-                                )}
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </div>
-            </div>
-        </div>
-    );
+ <AnimatePresence mode="wait">
+ {activeTab === "learning" ? (
+ <motion.div
+ key="learning"
+ initial={{ opacity: 0, y: 10 }}
+ animate={{ opacity: 1, y: 0 }}
+ exit={{ opacity: 0, y: -10 }}
+ className="space-y-4"
+ >
+ {courseRegs.length === 0 ? (
+ <EmptyState
+ icon={BookOpen}
+ title="Start Your Journey"
+ desc="You haven't enrolled in any courses yet."
+ actionLink="/courses"
+ actionText="Browse Courses"
+ />
+ ) : (
+ <div className="grid gap-4">
+ {courseRegs.map((reg) => {
+ const course = courses[reg.courseId!];
+ if (!course) return null;
+ return <RegistrationCard key={reg.id} reg={reg} title={course.title} image={course.headerImage} type="course" id={course.id!} />;
+ })}
+ </div>
+ )}
+ </motion.div>
+ ) : (
+ <motion.div
+ key="events"
+ initial={{ opacity: 0, y: 10 }}
+ animate={{ opacity: 1, y: 0 }}
+ exit={{ opacity: 0, y: -10 }}
+ className="space-y-4"
+ >
+ {eventRegs.length === 0 ? (
+ <EmptyState
+ icon={Ticket}
+ title="No Upcoming Events"
+ desc="You haven't registered for any events yet."
+ actionLink="/events"
+ actionText="Explore Events"
+ />
+ ) : (
+ <div className="grid gap-4">
+ {eventRegs.map((reg) => {
+ const event = events[reg.eventId!];
+ if (!event) return null;
+ return <RegistrationCard key={reg.id} reg={reg} title={event.title} image={event.imageUrl} type="event" id={event.id!} date={event.date} />;
+ })}
+ </div>
+ )}
+ </motion.div>
+ )}
+ </AnimatePresence>
+ </div>
+ </div>
+ </div>
+ );
 }
 
 function RegistrationCard({ reg, title, image, type, id, date }: { reg: Registration, title: string, image?: string, type: 'course' | 'event', id: string, date?: any }) {
-    const isApproved = reg.status === 'approved';
+ const isApproved = reg.status === 'approved';
 
-    return (
-        <GlassCard className="p-0 overflow-hidden flex flex-col sm:flex-row group hover:border-white/20 transition-all duration-500 border-white/[0.05] bg-white/[0.02] rounded-2xl shadow-none">
-            <div className="h-40 sm:h-auto sm:w-56 bg-neutral-900 relative overflow-hidden shrink-0">
-                {image ? (
-                    <img src={image} alt={title} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out" />
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                        {type === 'course' ? <BookOpen className="h-10 w-10 text-white/5" /> : <Ticket className="h-10 w-10 text-white/5" />}
-                    </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/20" />
+ return (
+ <GlassCard className="p-0 overflow-hidden flex flex-col sm:flex-row group hover:border-gray-200 transition-all duration-500 border-white/[0.05] bg-white/[0.02] rounded-2xl shadow-none">
+ <div className="h-40 sm:h-auto sm:w-56 bg-gray-50 relative overflow-hidden shrink-0">
+ {image ? (
+ <img src={image} alt={title} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out" />
+ ) : (
+ <div className="w-full h-full flex items-center justify-center">
+ {type === 'course' ? <BookOpen className="h-10 w-10 text-white/5" /> : <Ticket className="h-10 w-10 text-white/5" />}
+ </div>
+ )}
+ <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/20" />
 
-                {/* Mobile Status Badge */}
-                <div className="absolute top-4 right-4 sm:hidden">
-                    <StatusBadge status={reg.status} />
-                </div>
-            </div>
+ {/* Mobile Status Badge */}
+ <div className="absolute top-4 right-4 sm:hidden">
+ <StatusBadge status={reg.status} />
+ </div>
+ </div>
 
-            <div className="flex-1 p-8 flex flex-col justify-between">
-                <div>
-                    <div className="flex justify-between items-start mb-4">
-                        <h3 className="font-bold text-xl text-white tracking-tight leading-tight line-clamp-1">{title}</h3>
-                        <div className="hidden sm:block">
-                            <StatusBadge status={reg.status} />
-                        </div>
-                    </div>
+ <div className="flex-1 p-8 flex flex-col justify-between">
+ <div>
+ <div className="flex justify-between items-start mb-4">
+ <h3 className="font-bold text-xl text-white tracking-tight leading-tight line-clamp-1">{title}</h3>
+ <div className="hidden sm:block">
+ <StatusBadge status={reg.status} />
+ </div>
+ </div>
 
-                    <div className="flex flex-col gap-1 text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-6">
-                        <div className="flex items-center gap-4">
-                            <span className="bg-white/[0.03] px-2.5 py-1 rounded border border-white/[0.05]">TRX: {reg.trxId || "N/A"}</span>
-                            {date && (
-                                <span className="text-primary opacity-70">
-                                    {formatDate(date)}
-                                </span>
-                            )}
-                        </div>
-                    </div>
-                </div>
+ <div className="flex flex-col gap-1 text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-6">
+ <div className="flex items-center gap-4">
+ <span className="bg-white/[0.03] px-2.5 py-1 rounded border border-white/[0.05]">TRX: {reg.trxId || "N/A"}</span>
+ {date && (
+ <span className="text-primary opacity-70">
+ {formatDate(date)}
+ </span>
+ )}
+ </div>
+ </div>
+ </div>
 
-                <div className="flex items-center gap-3 mt-auto pt-6 border-t border-white/[0.03]">
-                    {isApproved ? (
-                        <Link href={type === 'course' ? `/courses/view?id=${id}` : `/events`}>
-                            <Button size="sm" className={cn(
-                                "rounded-xl h-10 px-6 text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shadow-none",
-                                type === 'course' ? "bg-white text-black hover:bg-neutral-200" : "bg-white text-black hover:bg-neutral-200"
-                            )}>
-                                {type === 'course' ? "Enter Portal" : "Access Ticket"}
-                            </Button>
-                        </Link>
-                    ) : (
-                        <div className="flex items-center gap-2 text-[10px] font-bold text-neutral-600 uppercase tracking-widest italic">
-                            <Clock className="h-3 w-3" /> Awaiting Security Clearance
-                        </div>
-                    )}
-                </div>
-            </div>
-        </GlassCard>
-    );
+ <div className="flex items-center gap-3 mt-auto pt-6 border-t border-white/[0.03]">
+ {isApproved ? (
+ <Link href={type === 'course' ? `/courses/view?id=${id}` : `/events`}>
+ <Button size="sm" className={cn(
+ "rounded-xl h-10 px-6 text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shadow-none",
+ type === 'course' ? "bg-white text-black hover:bg-neutral-200" : "bg-white text-black hover:bg-neutral-200"
+ )}>
+ {type === 'course' ? "Enter Portal" : "Access Ticket"}
+ </Button>
+ </Link>
+ ) : (
+ <div className="flex items-center gap-2 text-[10px] font-bold text-gray-800 uppercase tracking-widest italic">
+ <Clock className="h-3 w-3" /> Awaiting Security Clearance
+ </div>
+ )}
+ </div>
+ </div>
+ </GlassCard>
+ );
 }
 
 function StatusBadge({ status }: { status: 'approved' | 'pending' }) {
-    if (status === 'approved') {
-        return (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-black border border-white shadow-lg backdrop-blur-md">
-                <CheckCircle strokeWidth={1.5} className="h-3 w-3" /> Active
-            </span>
-        );
-    }
-    return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/10 text-white/70 border border-white/10 shadow-lg backdrop-blur-md animate-pulse">
-            <Clock strokeWidth={1.5} className="h-3 w-3" /> Pending
-        </span>
-    );
+ if (status === 'approved') {
+ return (
+ <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-black border border-white shadow-lg ">
+ <CheckCircle strokeWidth={1.5} className="h-3 w-3" /> Active
+ </span>
+ );
+ }
+ return (
+ <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-white/70 border border-gray-200 shadow-lg animate-pulse">
+ <Clock strokeWidth={1.5} className="h-3 w-3" /> Pending
+ </span>
+ );
 }
 
 function EmptyState({ icon: Icon, title, desc, actionLink, actionText }: { icon: any, title: string, desc: string, actionLink: string, actionText: string }) {
-    return (
-        <div className="text-center py-16 border border-dashed border-white/10 rounded-2xl bg-white/5 flex flex-col items-center">
-            <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mb-4">
-                <Icon className="h-8 w-8 text-gray-500" />
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-            <p className="text-gray-400 mb-6 max-w-sm mx-auto">{desc}</p>
-            <Link href={actionLink}>
-                <Button className="bg-white/10 hover:bg-white/20 text-white border border-white/10">
-                    {actionText}
-                </Button>
-            </Link>
-        </div>
-    );
+ return (
+ <div className="text-center py-16 border border-dashed border-gray-200 rounded-2xl bg-white flex flex-col items-center">
+ <div className="h-16 w-16 bg-white rounded-full flex items-center justify-center mb-4">
+ <Icon className="h-8 w-8 text-gray-500" />
+ </div>
+ <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
+ <p className="text-gray-400 mb-6 max-w-sm mx-auto">{desc}</p>
+ <Link href={actionLink}>
+ <Button className="bg-white hover:bg-white text-white border border-gray-200">
+ {actionText}
+ </Button>
+ </Link>
+ </div>
+ );
 }

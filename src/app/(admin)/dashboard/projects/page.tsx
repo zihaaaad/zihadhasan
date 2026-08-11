@@ -7,269 +7,269 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ProjectForm } from "@/components/admin/project-form";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
+ AlertDialog,
+ AlertDialogAction,
+ AlertDialogCancel,
+ AlertDialogContent,
+ AlertDialogDescription,
+ AlertDialogFooter,
+ AlertDialogHeader,
+ AlertDialogTitle,
 } from "@/components/ui/alert-dialog"; // Need to ensure alert-dialog exists, if not, stub or install. Assuming simple dialog logic for now or will fail if missing. 
 // Plan: I'll check after this. If missing, I'll install. `alert-dialog` is a shadcn component.
 
 export default function ProjectsPage() {
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [isFormOpen, setIsFormOpen] = useState(false);
-    const [editingProject, setEditingProject] = useState<Project | null>(null);
-    const [deletingId, setDeletingId] = useState<string | null>(null);
-    const [confirmBulkDelete, setConfirmBulkDelete] = useState(false);
+ const [projects, setProjects] = useState<Project[]>([]);
+ const [loading, setLoading] = useState(true);
+ const [isFormOpen, setIsFormOpen] = useState(false);
+ const [editingProject, setEditingProject] = useState<Project | null>(null);
+ const [deletingId, setDeletingId] = useState<string | null>(null);
+ const [confirmBulkDelete, setConfirmBulkDelete] = useState(false);
 
-    // Initial Load
-    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+ // Initial Load
+ const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-    // Initial Load
-    useEffect(() => {
-        loadProjects();
-    }, []);
+ // Initial Load
+ useEffect(() => {
+ loadProjects();
+ }, []);
 
-    const loadProjects = async () => {
-        setLoading(true);
-        try {
-            const data = await CMSService.getProjects();
-            setProjects(data);
-        } catch (error) {
-            console.error("Failed to load projects", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+ const loadProjects = async () => {
+ setLoading(true);
+ try {
+ const data = await CMSService.getProjects();
+ setProjects(data);
+ } catch (error) {
+ console.error("Failed to load projects", error);
+ } finally {
+ setLoading(false);
+ }
+ };
 
-    const handleCreate = () => {
-        setEditingProject(null);
-        setIsFormOpen(true);
-    };
+ const handleCreate = () => {
+ setEditingProject(null);
+ setIsFormOpen(true);
+ };
 
-    const handleEdit = (project: Project) => {
-        setEditingProject(project);
-        setIsFormOpen(true);
-    };
+ const handleEdit = (project: Project) => {
+ setEditingProject(project);
+ setIsFormOpen(true);
+ };
 
-    const handleSubmit = async (data: Project) => {
-        if (editingProject && editingProject.id) {
-            await CMSService.updateProject(editingProject.id, data);
-        } else {
-            await CMSService.addProject(data);
-        }
-        await loadProjects();
-    };
+ const handleSubmit = async (data: Project) => {
+ if (editingProject && editingProject.id) {
+ await CMSService.updateProject(editingProject.id, data);
+ } else {
+ await CMSService.addProject(data);
+ }
+ await loadProjects();
+ };
 
-    const handleDelete = async (id: string) => {
-        // Confirmation handled by AlertDialog
-        try {
-            await CMSService.deleteProject(id);
-            // Optimistic update
-            setProjects(prev => prev.filter(p => p.id !== id));
-            setDeletingId(null);
-            setSelectedIds(prev => prev.filter(selId => selId !== id));
-        } catch (error) {
-            console.error("Failed to delete", error);
-        }
-    };
+ const handleDelete = async (id: string) => {
+ // Confirmation handled by AlertDialog
+ try {
+ await CMSService.deleteProject(id);
+ // Optimistic update
+ setProjects(prev => prev.filter(p => p.id !== id));
+ setDeletingId(null);
+ setSelectedIds(prev => prev.filter(selId => selId !== id));
+ } catch (error) {
+ console.error("Failed to delete", error);
+ }
+ };
 
-    const toggleSelection = (id: string) => {
-        setSelectedIds(prev =>
-            prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
-        );
-    };
+ const toggleSelection = (id: string) => {
+ setSelectedIds(prev =>
+ prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+ );
+ };
 
-    const toggleAll = () => {
-        if (selectedIds.length === projects.length) {
-            setSelectedIds([]);
-        } else {
-            setSelectedIds(projects.map(p => p.id).filter(Boolean) as string[]);
-        }
-    };
+ const toggleAll = () => {
+ if (selectedIds.length === projects.length) {
+ setSelectedIds([]);
+ } else {
+ setSelectedIds(projects.map(p => p.id).filter(Boolean) as string[]);
+ }
+ };
 
-    const handleBulkDelete = async () => {
-        try {
-            await CMSService.bulkDeleteProjects(selectedIds);
-            setProjects(prev => prev.filter(p => !selectedIds.includes(p.id!)));
-            setSelectedIds([]);
-            setConfirmBulkDelete(false);
-        } catch (error) {
-            console.error("Bulk delete failed", error);
-        }
-    };
+ const handleBulkDelete = async () => {
+ try {
+ await CMSService.bulkDeleteProjects(selectedIds);
+ setProjects(prev => prev.filter(p => !selectedIds.includes(p.id!)));
+ setSelectedIds([]);
+ setConfirmBulkDelete(false);
+ } catch (error) {
+ console.error("Bulk delete failed", error);
+ }
+ };
 
-    return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                    <h2 className="text-3xl font-bold tracking-tight text-white">Projects</h2>
-                    <p className="text-muted-foreground">Manage your portfolio showcase.</p>
-                </div>
-                <div className="flex items-center gap-2">
-                    {selectedIds.length > 0 && (
-                        <Button variant="destructive" onClick={() => setConfirmBulkDelete(true)}>
-                            <Trash2 className="mr-2 h-4 w-4" /> Delete ({selectedIds.length})
-                        </Button>
-                    )}
-                    <Button onClick={toggleAll} variant="outline" className="border-white/10 text-white hover:bg-white/10">
-                        {selectedIds.length === projects.length ? "Deselect All" : "Select All"}
-                    </Button>
-                    <Button onClick={handleCreate} className="bg-primary text-black hover:bg-primary/90">
-                        <Plus className="mr-2 h-4 w-4" /> Add Project
-                    </Button>
-                </div>
-            </div>
+ return (
+ <div className="space-y-6">
+ <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+ <div>
+ <h2 className="text-3xl font-bold tracking-tight text-white">Projects</h2>
+ <p className="text-muted-foreground">Manage your portfolio showcase.</p>
+ </div>
+ <div className="flex items-center gap-2">
+ {selectedIds.length > 0 && (
+ <Button variant="destructive" onClick={() => setConfirmBulkDelete(true)}>
+ <Trash2 className="mr-2 h-4 w-4" /> Delete ({selectedIds.length})
+ </Button>
+ )}
+ <Button onClick={toggleAll} variant="outline" className="border-gray-200 text-white hover:bg-white">
+ {selectedIds.length === projects.length ? "Deselect All" : "Select All"}
+ </Button>
+ <Button onClick={handleCreate} className="bg-primary text-black hover:bg-primary/90">
+ <Plus className="mr-2 h-4 w-4" /> Add Project
+ </Button>
+ </div>
+ </div>
 
-            {loading ? (
-                <div className="flex justify-center p-12">
-                    <Loader2 className="animate-spin text-primary h-8 w-8" />
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {projects.map((project) => (
-                        <div
-                            key={project.id}
-                            className={`group relative flex flex-col overflow-hidden rounded-xl border backdrop-blur-sm transition-all hover:shadow-lg ${selectedIds.includes(project.id!)
-                                    ? "border-primary bg-primary/5 shadow-primary/10"
-                                    : "border-white/10 bg-white/5 hover:border-primary/50 hover:shadow-primary/5"
-                                }`}
-                        >
-                            <div className="absolute top-3 right-3 z-30">
-                                <input
-                                    type="checkbox"
-                                    aria-label={`Select project ${project.title}`}
-                                    checked={selectedIds.includes(project.id!)}
-                                    onChange={() => toggleSelection(project.id!)}
-                                    className="w-5 h-5 rounded border-white/50 bg-black/50 text-primary focus:ring-primary cursor-pointer accent-primary backdrop-blur"
-                                />
-                            </div>
+ {loading ? (
+ <div className="flex justify-center p-12">
+ <Loader2 className="animate-spin text-primary h-8 w-8" />
+ </div>
+ ) : (
+ <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+ {projects.map((project) => (
+ <div
+ key={project.id}
+ className={`group relative flex flex-col overflow-hidden rounded-xl border transition-all hover:shadow-lg ${selectedIds.includes(project.id!)
+ ? "border-primary bg-primary/5 shadow-primary/10"
+ : "border-gray-200 bg-white hover:border-primary/50 hover:shadow-primary/5"
+ }`}
+ >
+ <div className="absolute top-3 right-3 z-30">
+ <input
+ type="checkbox"
+ aria-label={`Select project ${project.title}`}
+ checked={selectedIds.includes(project.id!)}
+ onChange={() => toggleSelection(project.id!)}
+ className="w-5 h-5 rounded border-gray-200 bg-gray-50 text-primary focus:ring-primary cursor-pointer accent-primary "
+ />
+ </div>
 
-                            {/* Image Aspect Ratio */}
-                            <div className="relative aspect-video w-full overflow-hidden bg-black/50">
-                                <img
-                                    src={project.imageUrl || "/placeholder.png"}
-                                    alt={project.title}
-                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                />
-                                <div className="absolute inset-0 bg-black/60 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center gap-2 z-20 pointer-events-none">
-                                    {/* pointer-events-none on overlay to let clicks confirm passing through? No, wait. 
-                                        If I want buttons to work, pointer-events must be auto. 
-                                        But Checkbox is z-30. Buttons are z-20. 
-                                    */}
-                                    <div className="pointer-events-auto flex gap-2">
-                                        <Button size="sm" variant="secondary" onClick={() => handleEdit(project)}>
-                                            <Pencil className="h-4 w-4 mr-2" /> Edit
-                                        </Button>
-                                        <Button size="sm" variant="destructive" onClick={() => project.id && setDeletingId(project.id)}>
-                                            <Trash2 className="h-4 w-4 mr-2" /> Delete
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
+ {/* Image Aspect Ratio */}
+ <div className="relative aspect-video w-full overflow-hidden bg-gray-50">
+ <img
+ src={project.imageUrl || "/placeholder.png"}
+ alt={project.title}
+ className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+ />
+ <div className="absolute inset-0 bg-gray-50 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center gap-2 z-20 pointer-events-none">
+ {/* pointer-events-none on overlay to let clicks confirm passing through? No, wait. 
+ If I want buttons to work, pointer-events must be auto. 
+ But Checkbox is z-30. Buttons are z-20. 
+ */}
+ <div className="pointer-events-auto flex gap-2">
+ <Button size="sm" variant="secondary" onClick={() => handleEdit(project)}>
+ <Pencil className="h-4 w-4 mr-2" /> Edit
+ </Button>
+ <Button size="sm" variant="destructive" onClick={() => project.id && setDeletingId(project.id)}>
+ <Trash2 className="h-4 w-4 mr-2" /> Delete
+ </Button>
+ </div>
+ </div>
+ </div>
 
-                            <div className="flex flex-1 flex-col p-5">
-                                <div className="flex items-center justify-between mb-2">
-                                    <h3 className="font-semibold text-white text-lg line-clamp-1">{project.title}</h3>
-                                </div>
-                                <p className="text-sm text-gray-400 line-clamp-2 mb-4 flex-1">
-                                    {project.description}
-                                </p>
+ <div className="flex flex-1 flex-col p-5">
+ <div className="flex items-center justify-between mb-2">
+ <h3 className="font-semibold text-white text-lg line-clamp-1">{project.title}</h3>
+ </div>
+ <p className="text-sm text-gray-400 line-clamp-2 mb-4 flex-1">
+ {project.description}
+ </p>
 
-                                <div className="flex flex-wrap gap-2 mb-4">
-                                    {project.tags.slice(0, 3).map((tag, i) => (
-                                        <span key={i} className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full border border-primary/20">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                    {project.tags.length > 3 && (
-                                        <span className="text-[10px] bg-white/5 text-gray-400 px-2 py-1 rounded-full border border-white/10">
-                                            +{project.tags.length - 3}
-                                        </span>
-                                    )}
-                                </div>
+ <div className="flex flex-wrap gap-2 mb-4">
+ {project.tags.slice(0, 3).map((tag, i) => (
+ <span key={i} className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full border border-primary/20">
+ {tag}
+ </span>
+ ))}
+ {project.tags.length > 3 && (
+ <span className="text-[10px] bg-white text-gray-400 px-2 py-1 rounded-full border border-gray-200">
+ +{project.tags.length - 3}
+ </span>
+ )}
+ </div>
 
-                                <div className="flex items-center gap-3 mt-auto pt-4 border-t border-white/5">
-                                    {project.liveLink && (
-                                        <a href={project.liveLink} target="_blank" rel="noreferrer" className="text-xs flex items-center text-gray-400 hover:text-primary transition-colors">
-                                            <ExternalLink className="h-3 w-3 mr-1" /> Live Demo
-                                        </a>
-                                    )}
-                                    {project.githubLink && (
-                                        <a href={project.githubLink} target="_blank" rel="noreferrer" className="text-xs flex items-center text-gray-400 hover:text-white transition-colors ml-auto">
-                                            <Github className="h-3 w-3 mr-1" /> Code
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+ <div className="flex items-center gap-3 mt-auto pt-4 border-t border-gray-200">
+ {project.liveLink && (
+ <a href={project.liveLink} target="_blank" rel="noreferrer" className="text-xs flex items-center text-gray-400 hover:text-primary transition-colors">
+ <ExternalLink className="h-3 w-3 mr-1" /> Live Demo
+ </a>
+ )}
+ {project.githubLink && (
+ <a href={project.githubLink} target="_blank" rel="noreferrer" className="text-xs flex items-center text-gray-400 hover:text-white transition-colors ml-auto">
+ <Github className="h-3 w-3 mr-1" /> Code
+ </a>
+ )}
+ </div>
+ </div>
+ </div>
+ ))}
 
-                    {projects.length === 0 && (
-                        <div className="col-span-full flex flex-col items-center justify-center py-20 text-center border border-dashed border-white/10 rounded-xl bg-white/5">
-                            <div className="bg-white/10 p-4 rounded-full mb-4">
-                                <Plus className="h-8 w-8 text-gray-400" />
-                            </div>
-                            <h3 className="text-xl font-medium text-white">No Projects Yet</h3>
-                            <p className="text-gray-400 max-w-sm mt-2 mb-6">Start building your portfolio by adding your first project.</p>
-                            <Button onClick={handleCreate} variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                                Create Project
-                            </Button>
-                        </div>
-                    )}
-                </div>
-            )}
+ {projects.length === 0 && (
+ <div className="col-span-full flex flex-col items-center justify-center py-20 text-center border border-dashed border-gray-200 rounded-xl bg-white">
+ <div className="bg-white p-4 rounded-full mb-4">
+ <Plus className="h-8 w-8 text-gray-400" />
+ </div>
+ <h3 className="text-xl font-medium text-white">No Projects Yet</h3>
+ <p className="text-gray-400 max-w-sm mt-2 mb-6">Start building your portfolio by adding your first project.</p>
+ <Button onClick={handleCreate} variant="outline" className="border-primary text-primary hover:bg-primary/10">
+ Create Project
+ </Button>
+ </div>
+ )}
+ </div>
+ )}
 
-            <ProjectForm
-                open={isFormOpen}
-                onOpenChange={setIsFormOpen}
-                onSubmit={handleSubmit}
-                initialData={editingProject}
-            />
+ <ProjectForm
+ open={isFormOpen}
+ onOpenChange={setIsFormOpen}
+ onSubmit={handleSubmit}
+ initialData={editingProject}
+ />
 
-            <AlertDialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the project from your portfolio.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                            onClick={() => deletingId && handleDelete(deletingId)}
-                            className="bg-red-600 hover:bg-red-700 text-white"
-                        >
-                            Delete Project
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+ <AlertDialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
+ <AlertDialogContent>
+ <AlertDialogHeader>
+ <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+ <AlertDialogDescription>
+ This action cannot be undone. This will permanently delete the project from your portfolio.
+ </AlertDialogDescription>
+ </AlertDialogHeader>
+ <AlertDialogFooter>
+ <AlertDialogCancel>Cancel</AlertDialogCancel>
+ <AlertDialogAction
+ onClick={() => deletingId && handleDelete(deletingId)}
+ className="bg-red-600 hover:bg-red-700 text-white"
+ >
+ Delete Project
+ </AlertDialogAction>
+ </AlertDialogFooter>
+ </AlertDialogContent>
+ </AlertDialog>
 
-            <AlertDialog open={confirmBulkDelete} onOpenChange={setConfirmBulkDelete}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This will permanently delete {selectedIds.length} project{selectedIds.length === 1 ? "" : "s"} from your portfolio. This action cannot be undone.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                            onClick={handleBulkDelete}
-                            className="bg-red-600 hover:bg-red-700 text-white"
-                        >
-                            Delete {selectedIds.length} Project{selectedIds.length === 1 ? "" : "s"}
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </div>
-    );
+ <AlertDialog open={confirmBulkDelete} onOpenChange={setConfirmBulkDelete}>
+ <AlertDialogContent>
+ <AlertDialogHeader>
+ <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+ <AlertDialogDescription>
+ This will permanently delete {selectedIds.length} project{selectedIds.length === 1 ? "" : "s"} from your portfolio. This action cannot be undone.
+ </AlertDialogDescription>
+ </AlertDialogHeader>
+ <AlertDialogFooter>
+ <AlertDialogCancel>Cancel</AlertDialogCancel>
+ <AlertDialogAction
+ onClick={handleBulkDelete}
+ className="bg-red-600 hover:bg-red-700 text-white"
+ >
+ Delete {selectedIds.length} Project{selectedIds.length === 1 ? "" : "s"}
+ </AlertDialogAction>
+ </AlertDialogFooter>
+ </AlertDialogContent>
+ </AlertDialog>
+ </div>
+ );
 }

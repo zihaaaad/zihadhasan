@@ -7,12 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signInWithPopup,
-    GoogleAuthProvider,
-    updateProfile,
-    sendEmailVerification
+ createUserWithEmailAndPassword,
+ signInWithEmailAndPassword,
+ signInWithPopup,
+ GoogleAuthProvider,
+ updateProfile,
+ sendEmailVerification
 } from "firebase/auth";
 import { toast } from "sonner";
 import { auth, db } from "@/lib/firebase";
@@ -20,231 +20,231 @@ import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Loader2, Mail, Lock, User as UserIcon, Phone, Chrome } from "lucide-react";
 
 export function AuthModal() {
-    const { isAuthModalOpen, closeAuthModal } = useAuth();
-    const [isLogin, setIsLogin] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
+ const { isAuthModalOpen, closeAuthModal } = useAuth();
+ const [isLogin, setIsLogin] = useState(true);
+ const [isLoading, setIsLoading] = useState(false);
+ const [error, setError] = useState("");
 
-    // Form States
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
+ // Form States
+ const [email, setEmail] = useState("");
+ const [password, setPassword] = useState("");
+ const [name, setName] = useState("");
+ const [phone, setPhone] = useState("");
 
-    const resetForm = () => {
-        setEmail("");
-        setPassword("");
-        setName("");
-        setPhone("");
-        setError("");
-        setIsLoading(false);
-    };
+ const resetForm = () => {
+ setEmail("");
+ setPassword("");
+ setName("");
+ setPhone("");
+ setError("");
+ setIsLoading(false);
+ };
 
-    const handleGoogleLogin = async () => {
-        setIsLoading(true);
-        setError("");
-        try {
-            const provider = new GoogleAuthProvider();
-            await signInWithPopup(auth, provider);
-            // Profile creation handled by AuthProvider's onAuthStateChanged
-            closeAuthModal();
-        } catch (err: any) {
-            console.error(err);
-            setError(err.message || "Failed to sign in with Google");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+ const handleGoogleLogin = async () => {
+ setIsLoading(true);
+ setError("");
+ try {
+ const provider = new GoogleAuthProvider();
+ await signInWithPopup(auth, provider);
+ // Profile creation handled by AuthProvider's onAuthStateChanged
+ closeAuthModal();
+ } catch (err: any) {
+ console.error(err);
+ setError(err.message || "Failed to sign in with Google");
+ } finally {
+ setIsLoading(false);
+ }
+ };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setError("");
+ const handleSubmit = async (e: React.FormEvent) => {
+ e.preventDefault();
+ setIsLoading(true);
+ setError("");
 
-        try {
-            if (isLogin) {
-                // Login
-                await signInWithEmailAndPassword(auth, email, password);
-                closeAuthModal();
-                toast.success("Welcome back!");
-            } else {
-                // Signup
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
+ try {
+ if (isLogin) {
+ // Login
+ await signInWithEmailAndPassword(auth, email, password);
+ closeAuthModal();
+ toast.success("Welcome back!");
+ } else {
+ // Signup
+ const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+ const user = userCredential.user;
 
-                // Update Auth Profile
-                await updateProfile(user, {
-                    displayName: name,
-                    // photoURL can be default
-                });
+ // Update Auth Profile
+ await updateProfile(user, {
+ displayName: name,
+ // photoURL can be default
+ });
 
-                // Send Verification Email
-                await sendEmailVerification(user);
+ // Send Verification Email
+ await sendEmailVerification(user);
 
-                // Create Firestore Profile manually
-                await setDoc(doc(db, "users", user.uid), {
-                    uid: user.uid,
-                    email: user.email!,
-                    name: name,
-                    phone: phone || null,
-                    role: "user",
-                    createdAt: serverTimestamp(),
-                    enrolledCourses: [],
-                    photoURL: user.photoURL,
-                    isBanned: false
-                }, { merge: true });
+ // Create Firestore Profile manually
+ await setDoc(doc(db, "users", user.uid), {
+ uid: user.uid,
+ email: user.email!,
+ name: name,
+ phone: phone || null,
+ role: "user",
+ createdAt: serverTimestamp(),
+ enrolledCourses: [],
+ photoURL: user.photoURL,
+ isBanned: false
+ }, { merge: true });
 
-                closeAuthModal();
-                toast.success("Account created!", {
-                    description: "We've sent a verification email to your inbox."
-                });
-            }
-            resetForm();
-        } catch (err: any) {
-            console.error(err);
-            if (err.code === 'auth/email-already-in-use') {
-                setError("This email is already registered. Please login.");
-            } else if (err.code === 'auth/invalid-credential') {
-                setError("Invalid email or password.");
-            } else {
-                setError(err.message || "Authentication failed.");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
+ closeAuthModal();
+ toast.success("Account created!", {
+ description: "We've sent a verification email to your inbox."
+ });
+ }
+ resetForm();
+ } catch (err: any) {
+ console.error(err);
+ if (err.code === 'auth/email-already-in-use') {
+ setError("This email is already registered. Please login.");
+ } else if (err.code === 'auth/invalid-credential') {
+ setError("Invalid email or password.");
+ } else {
+ setError(err.message || "Authentication failed.");
+ }
+ } finally {
+ setIsLoading(false);
+ }
+ };
 
-    return (
-        <Dialog open={isAuthModalOpen} onOpenChange={(open) => !open && closeAuthModal()}>
-            <DialogContent className="sm:max-w-md bg-black/90 border-white/10 backdrop-blur-xl text-white p-0 overflow-hidden gap-0">
-                <div className="p-6 pb-0">
-                    <DialogTitle className="text-2xl font-bold text-center mb-2">
-                        {isLogin ? "Welcome Back" : "Create Account"}
-                    </DialogTitle>
-                    <p className="text-center text-gray-400 text-sm mb-6">
-                        {isLogin ? "Enter your details to access your learning hub." : "Join thousands of students learning with Zihad."}
-                    </p>
+ return (
+ <Dialog open={isAuthModalOpen} onOpenChange={(open) => !open && closeAuthModal()}>
+ <DialogContent className="sm:max-w-md bg-gray-50 border-gray-200 text-white p-0 overflow-hidden gap-0">
+ <div className="p-6 pb-0">
+ <DialogTitle className="text-2xl font-bold text-center mb-2">
+ {isLogin ? "Welcome Back" : "Create Account"}
+ </DialogTitle>
+ <p className="text-center text-gray-400 text-sm mb-6">
+ {isLogin ? "Enter your details to access your learning hub." : "Join thousands of students learning with Zihad."}
+ </p>
 
-                    {/* Google Button */}
-                    <Button
-                        type="button"
-                        variant="ghost"
-                        onClick={handleGoogleLogin}
-                        className="w-full bg-white text-black hover:bg-zinc-200 border border-transparent h-12 font-medium relative overflow-hidden group"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? (
-                            <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                            <Chrome strokeWidth={1.5} className="mr-2 h-4 w-4 text-black group-hover:scale-110 transition-transform" />
-                        )}
-                        <span className="relative z-10">Continue with Google</span>
-                    </Button>
+ {/* Google Button */}
+ <Button
+ type="button"
+ variant="ghost"
+ onClick={handleGoogleLogin}
+ className="w-full bg-white text-black hover:bg-zinc-200 border border-transparent h-12 font-medium relative overflow-hidden group"
+ disabled={isLoading}
+ >
+ {isLoading ? (
+ <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />
+ ) : (
+ <Chrome strokeWidth={1.5} className="mr-2 h-4 w-4 text-black group-hover:scale-110 transition-transform" />
+ )}
+ <span className="relative z-10">Continue with Google</span>
+ </Button>
 
-                    <div className="relative my-6">
-                        <div className="absolute inset-0 flex items-center">
-                            <span className="w-full border-t border-white/10" />
-                        </div>
-                        <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-black/90 px-2 text-gray-500">Or continue with</span>
-                        </div>
-                    </div>
-                </div>
+ <div className="relative my-6">
+ <div className="absolute inset-0 flex items-center">
+ <span className="w-full border-t border-gray-200" />
+ </div>
+ <div className="relative flex justify-center text-xs uppercase">
+ <span className="bg-gray-50 px-2 text-gray-500">Or continue with</span>
+ </div>
+ </div>
+ </div>
 
-                <form onSubmit={handleSubmit} className="p-6 pt-0 space-y-4">
-                    {!isLogin && (
-                        <div className="space-y-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="name">Full Name</Label>
-                                <div className="relative">
-                                    <UserIcon strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                                    <Input
-                                        id="name"
-                                        placeholder="John Doe"
-                                        className="pl-9 bg-white/5 border-white/10 text-white"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="phone">Phone (Optional)</Label>
-                                <div className="relative">
-                                    <Phone strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                                    <Input
-                                        id="phone"
-                                        placeholder="017..."
-                                        className="pl-9 bg-white/5 border-white/10 text-white"
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    )}
+ <form onSubmit={handleSubmit} className="p-6 pt-0 space-y-4">
+ {!isLogin && (
+ <div className="space-y-4">
+ <div className="space-y-2">
+ <Label htmlFor="name">Full Name</Label>
+ <div className="relative">
+ <UserIcon strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+ <Input
+ id="name"
+ placeholder="John Doe"
+ className="pl-9 bg-white border-gray-200 text-white"
+ value={name}
+ onChange={(e) => setName(e.target.value)}
+ required
+ />
+ </div>
+ </div>
+ <div className="space-y-2">
+ <Label htmlFor="phone">Phone (Optional)</Label>
+ <div className="relative">
+ <Phone strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+ <Input
+ id="phone"
+ placeholder="017..."
+ className="pl-9 bg-white border-gray-200 text-white"
+ value={phone}
+ onChange={(e) => setPhone(e.target.value)}
+ />
+ </div>
+ </div>
+ </div>
+ )}
 
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <div className="relative">
-                            <Mail strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="hello@example.com"
-                                className="pl-9 bg-white/5 border-white/10 text-white"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-                    </div>
+ <div className="space-y-2">
+ <Label htmlFor="email">Email</Label>
+ <div className="relative">
+ <Mail strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+ <Input
+ id="email"
+ type="email"
+ placeholder="hello@example.com"
+ className="pl-9 bg-white border-gray-200 text-white"
+ value={email}
+ onChange={(e) => setEmail(e.target.value)}
+ required
+ />
+ </div>
+ </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
-                        <div className="relative">
-                            <Lock strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                            <Input
-                                id="password"
-                                type="password"
-                                placeholder="••••••••"
-                                className="pl-9 bg-white/5 border-white/10 text-white"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                minLength={6}
-                            />
-                        </div>
-                    </div>
+ <div className="space-y-2">
+ <Label htmlFor="password">Password</Label>
+ <div className="relative">
+ <Lock strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+ <Input
+ id="password"
+ type="password"
+ placeholder="••••••••"
+ className="pl-9 bg-white border-gray-200 text-white"
+ value={password}
+ onChange={(e) => setPassword(e.target.value)}
+ required
+ minLength={6}
+ />
+ </div>
+ </div>
 
-                    {error && (
-                        <div className="text-red-400 text-sm text-center bg-red-500/10 p-2 rounded">
-                            {error}
-                        </div>
-                    )}
+ {error && (
+ <div className="text-red-400 text-sm text-center bg-red-500/10 p-2 rounded">
+ {error}
+ </div>
+ )}
 
-                    <Button type="submit" className="w-full bg-white text-black hover:bg-neutral-200 h-11" disabled={isLoading}>
-                        {isLoading && <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />}
-                        {isLogin ? "Sign In" : "Create Account"}
-                    </Button>
+ <Button type="submit" className="w-full bg-white text-black hover:bg-neutral-200 h-11" disabled={isLoading}>
+ {isLoading && <Loader2 strokeWidth={1.5} className="mr-2 h-4 w-4 animate-spin" />}
+ {isLogin ? "Sign In" : "Create Account"}
+ </Button>
 
-                    <div className="text-center text-sm pt-2">
-                        <span className="text-gray-400">
-                            {isLogin ? "Don't have an account? " : "Already have an account? "}
-                        </span>
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setIsLogin(!isLogin);
-                                setError("");
-                            }}
-                            className="text-white hover:text-white/80 font-medium hover:underline"
-                        >
-                            {isLogin ? "Sign up" : "Log in"}
-                        </button>
-                    </div>
-                </form>
-            </DialogContent>
-        </Dialog>
-    );
+ <div className="text-center text-sm pt-2">
+ <span className="text-gray-400">
+ {isLogin ? "Don't have an account? " : "Already have an account? "}
+ </span>
+ <button
+ type="button"
+ onClick={() => {
+ setIsLogin(!isLogin);
+ setError("");
+ }}
+ className="text-white hover:text-white/80 font-medium hover:underline"
+ >
+ {isLogin ? "Sign up" : "Log in"}
+ </button>
+ </div>
+ </form>
+ </DialogContent>
+ </Dialog>
+ );
 }

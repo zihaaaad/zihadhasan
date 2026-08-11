@@ -20,453 +20,453 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { formatCurrency } from "@/lib/format";
 
 interface CourseViewerProps {
-    initialId?: string;
+ initialId?: string;
 }
 
 export function CourseViewer({ initialId }: CourseViewerProps) {
-    const pathname = usePathname();
-    const { user, profile, openAuthModal } = useAuth();
+ const pathname = usePathname();
+ const { user, profile, openAuthModal } = useAuth();
 
-    const [id, setId] = useState<string | null>(initialId || null);
-    const [course, setCourse] = useState<Course | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [registration, setRegistration] = useState<Registration | null>(null);
-    const [regLoading, setRegLoading] = useState(false);
-    const [showEnrollModal, setShowEnrollModal] = useState(false);
+ const [id, setId] = useState<string | null>(initialId || null);
+ const [course, setCourse] = useState<Course | null>(null);
+ const [loading, setLoading] = useState(true);
+ const [registration, setRegistration] = useState<Registration | null>(null);
+ const [regLoading, setRegLoading] = useState(false);
+ const [showEnrollModal, setShowEnrollModal] = useState(false);
 
-    // UI States
-    const [isTheaterMode, setIsTheaterMode] = useState(false);
-    const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
-    const searchParams = useSearchParams();
+ // UI States
+ const [isTheaterMode, setIsTheaterMode] = useState(false);
+ const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
+ const searchParams = useSearchParams();
 
-    useEffect(() => {
-        // Priority: Prop > SearchParam > Pathname
-        if (initialId) {
-            setId(initialId);
-            return;
-        }
+ useEffect(() => {
+ // Priority: Prop > SearchParam > Pathname
+ if (initialId) {
+ setId(initialId);
+ return;
+ }
 
-        const queryId = searchParams.get("id");
-        if (queryId) {
-            setId(queryId);
-            return;
-        }
+ const queryId = searchParams.get("id");
+ if (queryId) {
+ setId(queryId);
+ return;
+ }
 
-        if (pathname) {
-            const parts = pathname.split('/').filter(Boolean);
-            const extractedId = parts[parts.length - 1];
-            if (extractedId && extractedId !== 'view') {
-                setId(extractedId);
-            }
-        }
-    }, [pathname, searchParams, initialId]);
+ if (pathname) {
+ const parts = pathname.split('/').filter(Boolean);
+ const extractedId = parts[parts.length - 1];
+ if (extractedId && extractedId !== 'view') {
+ setId(extractedId);
+ }
+ }
+ }, [pathname, searchParams, initialId]);
 
-    // Handle Deep Linking (Lesson ID) with Security Check
-    useEffect(() => {
-        const lessonId = searchParams.get("lessonId");
-        if (lessonId && course && !activeLesson) {
-            const lesson = course.lessons.find(l => l.id === lessonId);
-            if (lesson) {
-                // Check Access
-                if (course.pricingType === 'paid') {
-                    if (!registration || registration.status !== 'approved') {
-                        if (!lesson.isFreePreview) {
-                            toast.error("This lesson is locked.");
-                            return;
-                        }
-                    } else if (course.isSequential) {
-                        // Check sequential lock
-                        const index = course.lessons.findIndex(l => l.id === lessonId);
-                        if (index > 0) {
-                            const prevId = course.lessons[index - 1].id;
-                            if (!registration.completedLessonIds?.includes(prevId)) {
-                                toast.error("You must complete previous lessons first.");
-                                // Redirect to first uncompleted or last completed?
-                                // For now just don't activate it.
-                                return;
-                            }
-                        }
-                    }
-                }
-                setActiveLesson(lesson);
-            }
-        }
-    }, [course, registration, searchParams, activeLesson]);
+ // Handle Deep Linking (Lesson ID) with Security Check
+ useEffect(() => {
+ const lessonId = searchParams.get("lessonId");
+ if (lessonId && course && !activeLesson) {
+ const lesson = course.lessons.find(l => l.id === lessonId);
+ if (lesson) {
+ // Check Access
+ if (course.pricingType === 'paid') {
+ if (!registration || registration.status !== 'approved') {
+ if (!lesson.isFreePreview) {
+ toast.error("This lesson is locked.");
+ return;
+ }
+ } else if (course.isSequential) {
+ // Check sequential lock
+ const index = course.lessons.findIndex(l => l.id === lessonId);
+ if (index > 0) {
+ const prevId = course.lessons[index - 1].id;
+ if (!registration.completedLessonIds?.includes(prevId)) {
+ toast.error("You must complete previous lessons first.");
+ // Redirect to first uncompleted or last completed?
+ // For now just don't activate it.
+ return;
+ }
+ }
+ }
+ }
+ setActiveLesson(lesson);
+ }
+ }
+ }, [course, registration, searchParams, activeLesson]);
 
-    useEffect(() => {
-        if (id) {
-            fetchCourse(id);
-        }
-    }, [id]);
+ useEffect(() => {
+ if (id) {
+ fetchCourse(id);
+ }
+ }, [id]);
 
-    useEffect(() => {
-        if (user && id) {
-            checkRegistration(id);
-        } else {
-            setRegistration(null);
-        }
-    }, [user, id]);
+ useEffect(() => {
+ if (user && id) {
+ checkRegistration(id);
+ } else {
+ setRegistration(null);
+ }
+ }, [user, id]);
 
-    const fetchCourse = async (courseId: string) => {
-        setLoading(true);
-        try {
-            const data = await CMSService.getCourse(courseId);
-            setCourse(data);
-        } catch (error) {
-            console.error("Failed to fetch course", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+ const fetchCourse = async (courseId: string) => {
+ setLoading(true);
+ try {
+ const data = await CMSService.getCourse(courseId);
+ setCourse(data);
+ } catch (error) {
+ console.error("Failed to fetch course", error);
+ } finally {
+ setLoading(false);
+ }
+ };
 
-    const checkRegistration = async (courseId: string) => {
-        if (!user?.email) return;
-        try {
-            const reg = await CMSService.getUserCourseRegistration(user.uid, courseId);
-            setRegistration(reg);
-        } catch (error) {
-            console.error("Failed to check registration", error);
-        }
-    };
+ const checkRegistration = async (courseId: string) => {
+ if (!user?.email) return;
+ try {
+ const reg = await CMSService.getUserCourseRegistration(user.uid, courseId);
+ setRegistration(reg);
+ } catch (error) {
+ console.error("Failed to check registration", error);
+ }
+ };
 
-    const handleEnroll = async () => {
-        if (!user) {
-            openAuthModal();
-            return;
-        }
+ const handleEnroll = async () => {
+ if (!user) {
+ openAuthModal();
+ return;
+ }
 
-        if (!course || !id) return;
+ if (!course || !id) return;
 
-        // If FREE, skip modal and just enroll
-        if (course.pricingType === 'free') {
-            setRegLoading(true);
-            try {
-                const result = await CMSService.registerForCourse(course.id!, {
-                    email: user.email!,
-                    name: user.displayName || "Unknown",
-                    userId: user.uid,
-                    phone: profile?.phone
-                });
+ // If FREE, skip modal and just enroll
+ if (course.pricingType === 'free') {
+ setRegLoading(true);
+ try {
+ const result = await CMSService.registerForCourse(course.id!, {
+ email: user.email!,
+ name: user.displayName || "Unknown",
+ userId: user.uid,
+ phone: profile?.phone
+ });
 
-                if (result.success) {
-                    toast.success("Enrolled successfully!");
-                    await checkRegistration(id);
-                } else {
-                    toast.error("Enrollment failed", { description: String(result.error) });
-                }
-            } catch (error) {
-                console.error("Enrollment error", error);
-                toast.error("An error occurred during enrollment.");
-            } finally {
-                setRegLoading(false);
-            }
-            return;
-        }
+ if (result.success) {
+ toast.success("Enrolled successfully!");
+ await checkRegistration(id);
+ } else {
+ toast.error("Enrollment failed", { description: String(result.error) });
+ }
+ } catch (error) {
+ console.error("Enrollment error", error);
+ toast.error("An error occurred during enrollment.");
+ } finally {
+ setRegLoading(false);
+ }
+ return;
+ }
 
-        setShowEnrollModal(true);
-    };
+ setShowEnrollModal(true);
+ };
 
-    if (!id) return <div className="min-h-screen pt-24 text-center text-white">Initializing course viewer...</div>;
+ if (!id) return <div className="min-h-screen pt-24 text-center text-white">Initializing course viewer...</div>;
 
-    if (loading) {
-        return (
-            <div className="flex justify-center py-20 min-h-screen">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
-    }
+ if (loading) {
+ return (
+ <div className="flex justify-center py-20 min-h-screen">
+ <Loader2 className="h-8 w-8 animate-spin text-primary" />
+ </div>
+ );
+ }
 
-    if (!course) {
-        return (
-            <div className="flex flex-col items-center justify-center py-20 min-h-screen text-center px-4">
-                <BookOpen className="h-16 w-16 text-gray-600 mb-4" />
-                <h1 className="text-2xl font-bold text-white mb-2">Course Not Found</h1>
-                <p className="text-gray-400">The course you are looking for does not exist or has been removed.</p>
-            </div>
-        );
-    }
+ if (!course) {
+ return (
+ <div className="flex flex-col items-center justify-center py-20 min-h-screen text-center px-4">
+ <BookOpen className="h-16 w-16 text-gray-600 mb-4" />
+ <h1 className="text-2xl font-bold text-white mb-2">Course Not Found</h1>
+ <p className="text-gray-400">The course you are looking for does not exist or has been removed.</p>
+ </div>
+ );
+ }
 
-    // Logic for Sidebar Content
-    const SidebarContent = () => (
-        <div className="space-y-6">
-            {/* Student Status / Buy Card */}
-            {registration ? (
-                <div className="space-y-4">
-                    {registration.status === 'approved' ? (
-                        <div className="rounded-xl bg-white/5 border border-white/10 p-4">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                                    <CheckCircle className="h-4 w-4 text-white" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-white text-sm">Course Progress</h3>
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <div className="flex justify-between text-xs text-gray-400">
-                                    <span>Completed</span>
-                                    <span>{Math.round((registration.completedLessonIds?.length || 0) / (course.lessons?.length || 1) * 100)}%</span>
-                                </div>
-                                <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden border border-white/5">
-                                    <div
-                                        className="h-full bg-white transition-all duration-500 ease-out"
-                                        style={{ width: `${((registration.completedLessonIds?.length || 0) / (course.lessons?.length || 1) * 100)}%` }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="w-full py-4 px-4 rounded-xl bg-white/5 border border-white/10 text-center">
-                            <h3 className="font-bold text-white text-sm mb-1">Approval Pending</h3>
-                            <p className="text-xs text-white/70">Access will be granted soon.</p>
-                        </div>
-                    )}
-                </div>
-            ) : (
-                <div className="space-y-3">
-                    <div className="text-2xl font-bold text-primary">
-                        {course.pricingType === 'free' ? "Free" : formatCurrency(course.price)}
-                    </div>
-                    <Button
-                        size="lg"
-                        className="w-full font-bold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25"
-                        onClick={handleEnroll}
-                        disabled={regLoading}
-                    >
-                        {regLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Enroll Now"}
-                    </Button>
-                </div>
-            )}
+ // Logic for Sidebar Content
+ const SidebarContent = () => (
+ <div className="space-y-6">
+ {/* Student Status / Buy Card */}
+ {registration ? (
+ <div className="space-y-4">
+ {registration.status === 'approved' ? (
+ <div className="rounded-xl bg-white border border-gray-200 p-4">
+ <div className="flex items-center gap-3 mb-4">
+ <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center shrink-0">
+ <CheckCircle className="h-4 w-4 text-white" />
+ </div>
+ <div>
+ <h3 className="font-bold text-white text-sm">Course Progress</h3>
+ </div>
+ </div>
+ <div className="space-y-2">
+ <div className="flex justify-between text-xs text-gray-400">
+ <span>Completed</span>
+ <span>{Math.round((registration.completedLessonIds?.length || 0) / (course.lessons?.length || 1) * 100)}%</span>
+ </div>
+ <div className="h-1.5 w-full bg-gray-50 rounded-full overflow-hidden border border-gray-200">
+ <div
+ className="h-full bg-white transition-all duration-500 ease-out"
+ style={{ width: `${((registration.completedLessonIds?.length || 0) / (course.lessons?.length || 1) * 100)}%` }}
+ />
+ </div>
+ </div>
+ </div>
+ ) : (
+ <div className="w-full py-4 px-4 rounded-xl bg-white border border-gray-200 text-center">
+ <h3 className="font-bold text-white text-sm mb-1">Approval Pending</h3>
+ <p className="text-xs text-white/70">Access will be granted soon.</p>
+ </div>
+ )}
+ </div>
+ ) : (
+ <div className="space-y-3">
+ <div className="text-2xl font-bold text-primary">
+ {course.pricingType === 'free' ? "Free" : formatCurrency(course.price)}
+ </div>
+ <Button
+ size="lg"
+ className="w-full font-bold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25"
+ onClick={handleEnroll}
+ disabled={regLoading}
+ >
+ {regLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Enroll Now"}
+ </Button>
+ </div>
+ )}
 
-            <div className="h-px bg-white/10" />
+ <div className="h-px bg-white" />
 
-            {/* Lessons List in Sidebar */}
-            <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Curriculum</h3>
-                <LessonsList
-                    course={course}
-                    registration={registration}
-                    onEnroll={handleEnroll}
-                    onToggleLesson={async (lessonId, isCompleted) => {
-                        if (!registration) return;
-                        // Optimistic update
-                        const currentCompleted = registration.completedLessonIds || [];
-                        const newCompleted = isCompleted
-                            ? [...currentCompleted, lessonId]
-                            : currentCompleted.filter(id => id !== lessonId);
+ {/* Lessons List in Sidebar */}
+ <div className="space-y-2">
+ <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Curriculum</h3>
+ <LessonsList
+ course={course}
+ registration={registration}
+ onEnroll={handleEnroll}
+ onToggleLesson={async (lessonId, isCompleted) => {
+ if (!registration) return;
+ // Optimistic update
+ const currentCompleted = registration.completedLessonIds || [];
+ const newCompleted = isCompleted
+ ? [...currentCompleted, lessonId]
+ : currentCompleted.filter(id => id !== lessonId);
 
-                        setRegistration({ ...registration, completedLessonIds: newCompleted });
+ setRegistration({ ...registration, completedLessonIds: newCompleted });
 
-                        try {
-                            await CMSService.toggleLessonCompletion(registration.id!, lessonId, isCompleted);
-                            toast.success(isCompleted ? "Lesson completed!" : "Progress updated");
-                        } catch (error) {
-                            console.error("Failed to toggle completion", error);
-                            setRegistration({ ...registration, completedLessonIds: currentCompleted }); // Revert
-                        }
-                    }}
-                    activeLesson={activeLesson}
-                    onSelectLesson={setActiveLesson}
-                />
-            </div>
-        </div>
-    );
+ try {
+ await CMSService.toggleLessonCompletion(registration.id!, lessonId, isCompleted);
+ toast.success(isCompleted ? "Lesson completed!" : "Progress updated");
+ } catch (error) {
+ console.error("Failed to toggle completion", error);
+ setRegistration({ ...registration, completedLessonIds: currentCompleted }); // Revert
+ }
+ }}
+ activeLesson={activeLesson}
+ onSelectLesson={setActiveLesson}
+ />
+ </div>
+ </div>
+ );
 
-    return (
-        <div className="min-h-screen pb-20 pt-24">
-            {course && (
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify(generateCourseSchema(course)),
-                    }}
-                />
-            )}
+ return (
+ <div className="min-h-screen pb-20 pt-24">
+ {course && (
+ <script
+ type="application/ld+json"
+ dangerouslySetInnerHTML={{
+ __html: JSON.stringify(generateCourseSchema(course)),
+ }}
+ />
+ )}
 
-            <div className={cn(
-                "container mx-auto px-4 transition-all duration-300",
-                isTheaterMode ? "max-w-[1600px]" : "max-w-7xl"
-            )}>
-                {/* Enrollment Modal */}
-                {course && (
-                    <EnrollmentModal
-                        course={course}
-                        open={showEnrollModal}
-                        onOpenChange={setShowEnrollModal}
-                        onSuccess={() => checkRegistration(course.id!)}
-                    />
-                )}
+ <div className={cn(
+ "container mx-auto px-4 transition-all duration-300",
+ isTheaterMode ? "max-w-[1600px]" : "max-w-7xl"
+ )}>
+ {/* Enrollment Modal */}
+ {course && (
+ <EnrollmentModal
+ course={course}
+ open={showEnrollModal}
+ onOpenChange={setShowEnrollModal}
+ onSuccess={() => checkRegistration(course.id!)}
+ />
+ )}
 
-                <div className="flex flex-col-reverse lg:flex-row gap-6 items-start">
+ <div className="flex flex-col-reverse lg:flex-row gap-6 items-start">
 
-                    {/* LEFT - Sidebar (Hidden in Theater Mode) */}
-                    <motion.div
-                        layout
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{
-                            opacity: isTheaterMode ? 0 : 1,
-                            x: 0,
-                            width: isTheaterMode ? 0 : "auto",
-                            display: isTheaterMode ? "none" : "block"
-                        }}
-                        transition={{ duration: 0.4, type: "spring", bounce: 0 }}
-                        className="w-full lg:w-1/3 shrink-0"
-                    >
-                        <GlassCard className="p-5 sticky top-24 max-h-[85vh] overflow-y-auto custom-scrollbar">
-                            <SidebarContent />
-                        </GlassCard>
-                    </motion.div>
+ {/* LEFT - Sidebar (Hidden in Theater Mode) */}
+ <motion.div
+ layout
+ initial={{ opacity: 0, x: -20 }}
+ animate={{
+ opacity: isTheaterMode ? 0 : 1,
+ x: 0,
+ width: isTheaterMode ? 0 : "auto",
+ display: isTheaterMode ? "none" : "block"
+ }}
+ transition={{ duration: 0.4, type: "spring", bounce: 0 }}
+ className="w-full lg:w-1/3 shrink-0"
+ >
+ <GlassCard className="p-5 sticky top-24 max-h-[85vh] overflow-y-auto custom-scrollbar">
+ <SidebarContent />
+ </GlassCard>
+ </motion.div>
 
-                    {/* RIGHT (or TOP mobile) - Video Player & Main Content */}
-                    <motion.div
-                        layout
-                        className={cn("w-full transition-all duration-400 ease-in-out", isTheaterMode ? "lg:w-full" : "lg:w-2/3")}
-                    >
-                        {/* Video Player Container */}
-                        <motion.div
-                            layoutId="video-container"
-                            className="relative aspect-video bg-black rounded-xl overflow-hidden border border-white/10 shadow-2xl z-20"
-                        >
-                            {activeLesson?.videoUrl ? (
-                                <iframe
-                                    src={getEmbedUrl(activeLesson.videoUrl)}
-                                    title={activeLesson.title}
-                                    className="w-full h-full"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
-                            ) : course.headerImage ? (
-                                <div className="relative w-full h-full group">
-                                    <img
-                                        src={course.headerImage}
-                                        alt={course.title}
-                                        className="w-full h-full object-cover opacity-90 group-hover:opacity-70 transition-opacity"
-                                    />
-                                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                        <PlayCircle strokeWidth={1.5} className="h-20 w-20 text-white opacity-80 group-hover:scale-110 transition-transform duration-300" />
-                                    </div>
-                                    <p className="absolute bottom-10 w-full text-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 pointer-events-none">Select a lesson to start learning</p>
-                                </div>
-                            ) : (
-                                <div className="w-full h-full flex items-center justify-center text-gray-500 bg-neutral-900">
-                                    <PlayCircle strokeWidth={1.5} className="h-16 w-16 opacity-50" />
-                                </div>
-                            )}
+ {/* RIGHT (or TOP mobile) - Video Player & Main Content */}
+ <motion.div
+ layout
+ className={cn("w-full transition-all duration-400 ease-in-out", isTheaterMode ? "lg:w-full" : "lg:w-2/3")}
+ >
+ {/* Video Player Container */}
+ <motion.div
+ layoutId="video-container"
+ className="relative aspect-video bg-black rounded-xl overflow-hidden border border-gray-200 shadow-2xl z-20"
+ >
+ {activeLesson?.videoUrl ? (
+ <iframe
+ src={getEmbedUrl(activeLesson.videoUrl)}
+ title={activeLesson.title}
+ className="w-full h-full"
+ allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+ allowFullScreen
+ />
+ ) : course.headerImage ? (
+ <div className="relative w-full h-full group">
+ <img
+ src={course.headerImage}
+ alt={course.title}
+ className="w-full h-full object-cover opacity-90 group-hover:opacity-70 transition-opacity"
+ />
+ <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+ <PlayCircle strokeWidth={1.5} className="h-20 w-20 text-white opacity-80 group-hover:scale-110 transition-transform duration-300" />
+ </div>
+ <p className="absolute bottom-10 w-full text-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 pointer-events-none">Select a lesson to start learning</p>
+ </div>
+ ) : (
+ <div className="w-full h-full flex items-center justify-center text-gray-500 bg-gray-50">
+ <PlayCircle strokeWidth={1.5} className="h-16 w-16 opacity-50" />
+ </div>
+ )}
 
-                            <div className="absolute top-4 right-4 z-20">
-                                <Button
-                                    variant="secondary"
-                                    size="sm"
-                                    className="bg-black/50 hover:bg-black text-white border border-white/10 backdrop-blur-md text-[9px] font-bold uppercase tracking-widest h-8"
-                                    onClick={() => setIsTheaterMode(!isTheaterMode)}
-                                >
-                                    {isTheaterMode ? "Exit Theater" : "Theater Mode"}
-                                </Button>
-                            </div>
+ <div className="absolute top-4 right-4 z-20">
+ <Button
+ variant="secondary"
+ size="sm"
+ className="bg-gray-50 hover:bg-black text-white border border-gray-200 text-[9px] font-bold uppercase tracking-widest h-8"
+ onClick={() => setIsTheaterMode(!isTheaterMode)}
+ >
+ {isTheaterMode ? "Exit Theater" : "Theater Mode"}
+ </Button>
+ </div>
 
-                            {/* Overlay Content if not playing */}
-                            {!activeLesson && (
-                                <div className="absolute bottom-0 left-0 w-full p-10 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none">
-                                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">{course.title}</h1>
-                                    <p className="text-neutral-400 text-sm max-w-xl line-clamp-2 leading-relaxed">{course.description}</p>
-                                </div>
-                            )}
-                        </motion.div>
+ {/* Overlay Content if not playing */}
+ {!activeLesson && (
+ <div className="absolute bottom-0 left-0 w-full p-10 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none">
+ <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">{course.title}</h1>
+ <p className="text-gray-600 text-sm max-w-xl line-clamp-2 leading-relaxed">{course.description}</p>
+ </div>
+ )}
+ </motion.div>
 
-                        {/* Navigation Buttons */}
-                        {user && registration && registration.status === 'approved' && course.lessons.length > 0 && (
-                            <div className="flex items-center justify-between gap-4 mt-6">
-                                <Button
-                                    variant="outline"
-                                    onClick={() => {
-                                        if (!activeLesson) return;
-                                        const currentIndex = course.lessons.findIndex(l => l.id === activeLesson.id);
-                                        if (currentIndex > 0) {
-                                            setActiveLesson(course.lessons[currentIndex - 1]);
-                                        }
-                                    }}
-                                    disabled={!activeLesson || course.lessons.findIndex(l => l.id === activeLesson.id) <= 0}
-                                    className="flex-1 border-white/10 hover:bg-white/5 text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
-                                >
-                                    <ChevronLeft strokeWidth={1.5} className="mr-2 h-4 w-4" /> Previous Lesson
-                                </Button>
-                                <Button
-                                    onClick={() => {
-                                        if (!activeLesson) {
-                                            if (course.lessons.length > 0) setActiveLesson(course.lessons[0]);
-                                            return;
-                                        }
-                                        const currentIndex = course.lessons.findIndex(l => l.id === activeLesson.id);
-                                        if (currentIndex < course.lessons.length - 1) {
-                                            const nextLesson = course.lessons[currentIndex + 1];
-                                            let isLocked = false;
-                                            if (course.isSequential) {
-                                                if (!registration.completedLessonIds?.includes(activeLesson.id)) {
-                                                    isLocked = true;
-                                                }
-                                            }
+ {/* Navigation Buttons */}
+ {user && registration && registration.status === 'approved' && course.lessons.length > 0 && (
+ <div className="flex items-center justify-between gap-4 mt-6">
+ <Button
+ variant="outline"
+ onClick={() => {
+ if (!activeLesson) return;
+ const currentIndex = course.lessons.findIndex(l => l.id === activeLesson.id);
+ if (currentIndex > 0) {
+ setActiveLesson(course.lessons[currentIndex - 1]);
+ }
+ }}
+ disabled={!activeLesson || course.lessons.findIndex(l => l.id === activeLesson.id) <= 0}
+ className="flex-1 border-gray-200 hover:bg-white text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
+ >
+ <ChevronLeft strokeWidth={1.5} className="mr-2 h-4 w-4" /> Previous Lesson
+ </Button>
+ <Button
+ onClick={() => {
+ if (!activeLesson) {
+ if (course.lessons.length > 0) setActiveLesson(course.lessons[0]);
+ return;
+ }
+ const currentIndex = course.lessons.findIndex(l => l.id === activeLesson.id);
+ if (currentIndex < course.lessons.length - 1) {
+ const nextLesson = course.lessons[currentIndex + 1];
+ let isLocked = false;
+ if (course.isSequential) {
+ if (!registration.completedLessonIds?.includes(activeLesson.id)) {
+ isLocked = true;
+ }
+ }
 
-                                            if (isLocked) {
-                                                toast.error("Complete this lesson to unlock the next one!");
-                                            } else {
-                                                setActiveLesson(nextLesson);
-                                            }
-                                        }
-                                    }}
-                                    disabled={
-                                        !activeLesson && course.lessons.length === 0 ||
-                                        !!(activeLesson && course.lessons.findIndex(l => l.id === activeLesson.id) >= course.lessons.length - 1)
-                                    }
-                                    className="flex-1 bg-white text-black hover:bg-neutral-200 text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
-                                >
-                                    Next Lesson <ChevronRight strokeWidth={1.5} className="ml-2 h-4 w-4" />
-                                </Button>
-                            </div>
-                        )}
+ if (isLocked) {
+ toast.error("Complete this lesson to unlock the next one!");
+ } else {
+ setActiveLesson(nextLesson);
+ }
+ }
+ }}
+ disabled={
+ !activeLesson && course.lessons.length === 0 ||
+ !!(activeLesson && course.lessons.findIndex(l => l.id === activeLesson.id) >= course.lessons.length - 1)
+ }
+ className="flex-1 bg-white text-black hover:bg-neutral-200 text-[10px] font-bold uppercase tracking-widest h-12 rounded-xl"
+ >
+ Next Lesson <ChevronRight strokeWidth={1.5} className="ml-2 h-4 w-4" />
+ </Button>
+ </div>
+ )}
 
-                        {/* Details Tabs / Content */}
-                        <motion.div
-                            layout
-                            className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10"
-                        >
-                            <GlassCard className="p-8 border-white/[0.05] bg-white/[0.02] rounded-3xl">
-                                <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-tight">About this Course</h2>
-                                <div className="prose prose-invert prose-sm max-w-none text-neutral-400 font-medium leading-relaxed">
-                                    {course.description}
-                                </div>
-                            </GlassCard>
+ {/* Details Tabs / Content */}
+ <motion.div
+ layout
+ className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10"
+ >
+ <GlassCard className="p-8 border-white/[0.05] bg-white/[0.02] rounded-3xl">
+ <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-tight">About this Course</h2>
+ <div className="prose prose-invert prose-sm max-w-none text-gray-600 font-medium leading-relaxed">
+ {course.description}
+ </div>
+ </GlassCard>
 
-                            <GlassCard className="p-8 border-white/[0.05] bg-white/[0.02] rounded-3xl">
-                                <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-tight">What you'll learn</h2>
-                                <ul className="space-y-4">
-                                    {[1, 2, 3].map((_, i) => (
-                                        <li key={i} className="flex items-start gap-3 text-sm text-neutral-400 font-medium">
-                                            <CheckCircle strokeWidth={1.5} className="h-4 w-4 text-white shrink-0 mt-0.5" />
-                                            <span>Comprehensive understanding of the subject matter.</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </GlassCard>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </div>
-        </div>
-    );
+ <GlassCard className="p-8 border-white/[0.05] bg-white/[0.02] rounded-3xl">
+ <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-tight">What you'll learn</h2>
+ <ul className="space-y-4">
+ {[1, 2, 3].map((_, i) => (
+ <li key={i} className="flex items-start gap-3 text-sm text-gray-600 font-medium">
+ <CheckCircle strokeWidth={1.5} className="h-4 w-4 text-white shrink-0 mt-0.5" />
+ <span>Comprehensive understanding of the subject matter.</span>
+ </li>
+ ))}
+ </ul>
+ </GlassCard>
+ </motion.div>
+ </motion.div>
+ </div>
+ </div>
+ </div>
+ );
 }
 
 function getEmbedUrl(url: string): string {
-    if (!url) return "";
-    if (url.includes("youtube.com") || url.includes("youtu.be")) {
-        let videoId = "";
-        if (url.includes("youtu.be")) videoId = url.split("/").pop() || "";
-        else if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
-        else if (url.includes("embed/")) return url;
-        return `https://www.youtube.com/embed/${videoId}`;
-    }
-    if (url.includes("vimeo.com")) {
-        const videoId = url.split("/").pop();
-        return `https://player.vimeo.com/video/${videoId}`;
-    }
-    return url;
+ if (!url) return "";
+ if (url.includes("youtube.com") || url.includes("youtu.be")) {
+ let videoId = "";
+ if (url.includes("youtu.be")) videoId = url.split("/").pop() || "";
+ else if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
+ else if (url.includes("embed/")) return url;
+ return `https://www.youtube.com/embed/${videoId}`;
+ }
+ if (url.includes("vimeo.com")) {
+ const videoId = url.split("/").pop();
+ return `https://player.vimeo.com/video/${videoId}`;
+ }
+ return url;
 }
