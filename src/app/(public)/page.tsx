@@ -76,16 +76,16 @@ async function CourseSection() {
 
 // --- Skeletons ---
 function HeroSkeleton() {
-  return <div className="h-screen w-full bg-neutral-950 animate-pulse" />;
+  return <div className="h-screen w-full bg-[#062B1D] animate-pulse" />;
 }
 
 function SectionSkeleton() {
-  return <div className="h-[500px] w-full bg-neutral-900/20 animate-pulse my-20" />;
+  return <div className="h-[500px] w-full bg-[#093D2A]/20 animate-pulse my-20" />;
 }
 
 export default function Home() {
   return (
-    <main className="bg-black min-h-screen text-white overflow-hidden selection:bg-white selection:text-black relative">
+    <main className="bg-[#041F14] min-h-screen text-white overflow-hidden selection:bg-white selection:text-black relative">
       {/* Global Noise Texture for that "Film/Figma" Feel */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }} />
 
@@ -134,7 +134,7 @@ export default function Home() {
         {/* G. Newsletter */}
         <div className="anime-section" style={{ transformOrigin: "center center" }}>
           <Section className="py-40 px-4 container mx-auto relative z-10">
-            <div className="relative rounded-[2.5rem] overflow-hidden bg-neutral-900/30 border border-white/10 p-8 md:p-24 text-center backdrop-blur-md group hover:border-white/20 transition-all duration-500">
+            <div className="relative rounded-[2.5rem] overflow-hidden bg-[#093D2A]/30 border border-white/10 p-8 md:p-24 text-center backdrop-blur-md group hover:border-white/20 transition-all duration-500">
               {/* Subtle Grid Background for this card too */}
                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
@@ -144,7 +144,7 @@ export default function Home() {
               <div className="relative z-10 max-w-2xl mx-auto space-y-8">
                 <div>
                   <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tighter">Join the Inner Circle</h2>
-                  <p className="text-neutral-400 text-lg font-light leading-relaxed">
+                  <p className="text-emerald-100/70 text-lg font-light leading-relaxed">
                     Get weekly insights on full-stack development, AI engineering, and building software products from scratch.
                   </p>
                 </div>

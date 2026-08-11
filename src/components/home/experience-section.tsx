@@ -36,7 +36,7 @@ const experiences = [
 
 export function ExperienceSection() {
   return (
-    <section className="py-32 px-4 relative bg-black text-white overflow-hidden">
+    <section className="py-32 px-4 relative bg-[#041F14] text-white overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
@@ -59,14 +59,14 @@ export function ExperienceSection() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-4xl md:text-6xl font-medium tracking-tight text-white mb-6"
           >
-            Professional <span className="text-neutral-500">Experience</span>
+            Professional <span className="text-emerald-500/60">Experience</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg text-neutral-400 font-light max-w-2xl"
+            className="text-lg text-emerald-100/70 font-light max-w-2xl"
           >
             A track record of building automated systems, teaching generative AI, and leading community initiatives.
           </motion.p>
@@ -80,20 +80,20 @@ export function ExperienceSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 * idx }}
-              className="group relative p-8 md:p-10 rounded-3xl border border-white/5 bg-neutral-900/20 hover:bg-neutral-900/40 hover:border-white/10 transition-all backdrop-blur-sm"
+              className="group relative p-8 md:p-10 rounded-3xl border border-white/5 bg-[#093D2A]/20 hover:bg-[#093D2A]/40 hover:border-white/10 transition-all backdrop-blur-sm"
             >
               {/* Subtle hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl pointer-events-none" />
 
               <div className="relative z-10 grid md:grid-cols-[1fr_3fr] gap-6 md:gap-12 items-start">
-                <div className="text-neutral-500 font-mono text-sm uppercase tracking-widest pt-1 flex items-center gap-2">
+                <div className="text-emerald-500/60 font-mono text-sm uppercase tracking-widest pt-1 flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
                   {exp.period}
                 </div>
                 
                 <div>
                   <h3 className="text-2xl font-semibold text-white mb-2">{exp.role}</h3>
-                  <div className="text-lg text-neutral-400 mb-6">{exp.company}</div>
+                  <div className="text-lg text-emerald-100/70 mb-6">{exp.company}</div>
                   <p className="text-neutral-300 font-light leading-relaxed mb-8 max-w-2xl">
                     {exp.description}
                   </p>

@@ -63,7 +63,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
     return (
         <section ref={containerRef} className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden px-4 md:px-8 pt-20">
             {/* Minimal Background */}
-            <div className="absolute inset-0 -z-10 bg-black">
+            <div className="absolute inset-0 -z-10 bg-[#041F14]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_70%)]" />
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             </div>
@@ -82,7 +82,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                             ) : heroTitle}
                         </h1>
 
-                        <p className="mb-10 max-w-xl text-lg md:text-xl text-neutral-400 font-normal leading-relaxed">
+                        <p className="mb-10 max-w-xl text-lg md:text-xl text-emerald-100/70 font-normal leading-relaxed">
                             {heroSubtitle}
                         </p>
 
@@ -109,7 +109,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                             ].map((stat, i) => (
                                 <div key={i} className="flex flex-col">
                                     <span className="text-xl font-semibold text-white tracking-tight">{stat.value}</span>
-                                    <span className="text-[11px] text-neutral-500 uppercase tracking-widest">{stat.label}</span>
+                                    <span className="text-[11px] text-emerald-500/60 uppercase tracking-widest">{stat.label}</span>
                                 </div>
                             ))}
                         </div>
@@ -133,7 +133,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                         }}
                         className="relative aspect-[4/5] w-full"
                     >
-                        <div className="relative h-full w-full overflow-hidden rounded-3xl bg-neutral-900 border border-white/5 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
+                        <div className="relative h-full w-full overflow-hidden rounded-3xl bg-[#093D2A] border border-white/5 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
                             <Image
                                 src={getImageUrl(heroImage)}
                                 alt="Zihad Hasan"
@@ -141,13 +141,13 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                                 className="object-cover object-center transition-all duration-700 ease-in-out scale-105"
                                 priority
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#041F14]/60 via-transparent to-transparent" />
                         </div>
 
                         {/* Floating Elements - More Subtle */}
                         <div
                             style={{ transform: "translateZ(30px)" }}
-                            className="absolute -bottom-4 -left-4 z-40 flex items-center gap-3 rounded-xl border border-white/5 bg-black/60 p-4 backdrop-blur-md"
+                            className="absolute -bottom-4 -left-4 z-40 flex items-center gap-3 rounded-xl border border-white/5 bg-[#041F14]/60 p-4 backdrop-blur-md"
                         >
                             <div className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center">
                                 <Code strokeWidth={1.5} className="h-4 w-4 text-white/70" />

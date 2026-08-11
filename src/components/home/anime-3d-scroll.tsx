@@ -34,12 +34,12 @@ export function Anime3DScroll({ children }: { children: React.ReactNode }) {
         distance = Math.max(-1, Math.min(1, distance));
 
         // Use anime.set for immediate transform updates based on scroll position
-        // This gives a 3D perspective effect (rotating and moving back in Z space when off-center)
+        // This gives a premium, elegant parallax effect instead of harsh 3D rotations
         anime.set(section, {
-          rotateX: distance * 15, // Rotate up to 15 degrees
-          translateZ: Math.abs(distance) * -100, // Push back up to 100px
-          scale: 1 - Math.abs(distance) * 0.05, // Scale down slightly when off-center
-          opacity: 1 - Math.abs(distance) * 0.3, // Fade slightly
+          translateY: distance * 50, // Subtle parallax shift
+          translateZ: Math.abs(distance) * -30, // Slight push back
+          scale: 1 - Math.abs(distance) * 0.02, // Very subtle scale
+          opacity: 1 - Math.abs(distance) * 0.4, // Smooth fade
         });
       });
     };
