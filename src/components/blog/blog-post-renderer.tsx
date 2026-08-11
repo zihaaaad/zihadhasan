@@ -12,89 +12,90 @@ import "@/styles/syntax-highlight.css";
 import { formatDate } from "@/lib/format";
 
 interface BlogPostRendererProps {
- post: BlogPost;
+  post: BlogPost;
 }
 
 export function BlogPostRenderer({ post }: BlogPostRendererProps) {
- const formattedDate = post.publishedAt
- ? formatDate(post.publishedAt, { month: "long", day: "numeric", year: "numeric" })
- : "";
+  const formattedDate = post.publishedAt
+    ? formatDate(post.publishedAt, { month: "long", day: "numeric", year: "numeric" })
+    : "";
 
- return (
- <article className="min-h-screen pt-24 pb-20 container mx-auto px-4 max-w-3xl">
- <Link href="/blog" className="inline-flex items-center text-sm text-gray-400 hover:text-white mb-8 transition-colors">
- <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blog
- </Link>
+  return (
+    <article className="min-h-screen pt-32 pb-20 bg-white text-black">
+      <div className="container mx-auto px-4 max-w-3xl">
+        <Link href="/blog" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-black mb-8 transition-colors">
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Archive
+        </Link>
 
- <header className="mb-12 text-center">
- <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
- {post.tags.map(tag => (
- <Badge key={tag} variant="secondary" className="bg-white text-white border-gray-200">
- {tag}
- </Badge>
- ))}
- </div>
+        <header className="mb-12 text-center">
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+            {post.tags.map(tag => (
+              <Badge key={tag} variant="secondary" className="bg-gray-100 text-black border border-gray-200 uppercase tracking-widest text-[10px] font-bold py-1 px-3">
+                {tag}
+              </Badge>
+            ))}
+          </div>
 
- <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
- {post.title}
- </h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-black mb-8 leading-[1.1]">
+            {post.title}
+          </h1>
 
- <div className="flex items-center justify-center gap-4 text-gray-400 text-sm">
- <div className="flex items-center gap-2">
- <div className="h-8 w-8 rounded-full bg-gray-700 overflow-hidden">
- {/* Placeholder Avatar */}
- <img src="https://github.com/shadcn.png" alt="Zihad" className="h-full w-full object-cover" />
- </div>
- <span>Zihad Hasan</span>
- </div>
- <span>•</span>
- <div className="flex items-center gap-1">
- <Calendar className="h-3 w-3" />
- {formattedDate}
- </div>
- </div>
- </header>
+          <div className="flex items-center justify-center gap-4 text-gray-500 text-sm font-medium">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden border border-gray-200">
+                <img src="https://github.com/zihaaaad.png" alt="Zihad Hasan" className="h-full w-full object-cover" />
+              </div>
+              <span className="text-black font-semibold">Zihad Hasan</span>
+            </div>
+            <span>•</span>
+            <div className="flex items-center gap-1.5 uppercase tracking-widest text-[11px] font-bold">
+              <Calendar className="h-3.5 w-3.5" />
+              {formattedDate}
+            </div>
+          </div>
+        </header>
 
- {post.coverImage && (
- <div className="relative aspect-video w-full rounded-2xl overflow-hidden mb-12 border border-gray-200">
- <img src={post.coverImage} alt={post.title} className="object-cover w-full h-full" />
- </div>
- )}
+        {post.coverImage && (
+          <div className="relative aspect-video w-full rounded-2xl overflow-hidden mb-16 border border-gray-200 shadow-sm">
+            <img src={post.coverImage} alt={post.title} className="object-cover w-full h-full" />
+          </div>
+        )}
 
- {/* Schema.org JSON-LD */}
- <script
- type="application/ld+json"
- dangerouslySetInnerHTML={{
- __html: JSON.stringify(generateBlogPostSchema(post)),
- }}
- />
+        {/* Schema.org JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateBlogPostSchema(post)),
+          }}
+        />
 
- <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-white prose-a:underline prose-a:decoration-white/30 hover:prose-a:decoration-white prose-img:rounded-xl">
- <div dangerouslySetInnerHTML={{
- __html: sanitizeHtml(post.content, {
- allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'pre', 'code', 'span']),
- allowedAttributes: {
- ...sanitizeHtml.defaults.allowedAttributes,
- 'img': ['src', 'alt', 'class'],
- 'code': ['class'],
- 'span': ['class', 'style'],
- '*': ['style']
- }
- })
- }} />
- </div>
+        <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-black prose-a:font-semibold prose-a:underline prose-a:decoration-gray-300 hover:prose-a:decoration-black prose-img:rounded-2xl prose-img:border prose-img:border-gray-200 prose-img:shadow-sm prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200 prose-pre:text-black">
+          <div dangerouslySetInnerHTML={{
+            __html: sanitizeHtml(post.content, {
+              allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'pre', 'code', 'span']),
+              allowedAttributes: {
+                ...sanitizeHtml.defaults.allowedAttributes,
+                'img': ['src', 'alt', 'class'],
+                'code': ['class'],
+                'span': ['class', 'style'],
+                '*': ['style']
+              }
+            })
+          }} />
+        </div>
 
- <hr className="my-12 border-gray-200" />
+        <hr className="my-16 border-gray-200" />
 
- <NewsletterForm variant="card" />
- </article>
- );
+        <NewsletterForm variant="card" />
+      </div>
+    </article>
+  );
 }
 
 function ButtonAsLink({ href, children, variant }: { href: string, children: React.ReactNode, variant?: "default" | "outline" }) {
- return (
- <Button asChild variant={variant} className="bg-primary text-black hover:bg-primary/90">
- <Link href={href}>{children}</Link>
- </Button>
- )
+  return (
+    <Button asChild variant={variant} className="bg-black text-white hover:bg-gray-800 rounded-lg">
+      <Link href={href}>{children}</Link>
+    </Button>
+  )
 }
