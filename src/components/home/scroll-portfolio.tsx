@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight, Code, Briefcase, GraduationCap, Lightbulb } from "lucide-react";
 import Link from "next/link";
@@ -11,46 +11,67 @@ interface ScrollPortfolioProps {
   settings: GlobalSettings | null;
 }
 
+// Custom hook to detect when a section is active
+function useSectionObserver(sectionIds: string[]) {
+  const [activeSection, setActiveSection] = useState(0);
+
+  useEffect(() => {
+    const observers = sectionIds.map((id, index) => {
+      const element = document.getElementById(id);
+      if (!element) return null;
+
+      // The margin means: trigger when the section crosses the middle of the screen
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveSection(index);
+            }
+          });
+        },
+        { rootMargin: "-50% 0px -50% 0px" }
+      );
+
+      observer.observe(element);
+      return observer;
+    });
+
+    return () => {
+      observers.forEach((observer) => observer?.disconnect());
+    };
+  }, [sectionIds]);
+
+  return activeSection;
+}
+
 export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Track scroll progress across the entire container
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  const sectionIds = ["section-0", "section-1", "section-2", "section-3"];
+  const activeIndex = useSectionObserver(sectionIds);
 
-  // Crossfade opacity mappings for the 4 images based on scroll percentage
-  // Section 1 (Intro): 0.0 - 0.25
-  const opacity1 = useTransform(scrollYProgress, [0, 0.2, 0.3], [1, 1, 0]);
-  
-  // Section 2 (Experience): 0.25 - 0.50
-  const opacity2 = useTransform(scrollYProgress, [0.2, 0.3, 0.45, 0.55], [0, 1, 1, 0]);
-  
-  // Section 3 (Teaching): 0.50 - 0.75
-  const opacity3 = useTransform(scrollYProgress, [0.45, 0.55, 0.7, 0.8], [0, 1, 1, 0]);
-  
-  // Section 4 (Philosophy): 0.75 - 1.0
-  const opacity4 = useTransform(scrollYProgress, [0.7, 0.8, 1], [0, 1, 1]);
-
-  // Content configuration for each section
   const heroTitle = settings?.heroTitle || "Teaching Generative AI & Digital Literacy.";
   const heroSubtitle = settings?.heroSubtitle || "Software Engineer and Tech Educator crafting high-performance digital experiences.";
 
+  const images = [
+    { src: "/images/portfolio/Man_posing_for_professional_port.png", alt: "Zihad Hasan posing" },
+    { src: "/images/portfolio/Man_working_at_desk.png", alt: "Zihad Hasan working at desk" },
+    { src: "/images/portfolio/Man_speaking_in_technology_class.png", alt: "Zihad Hasan teaching in class" },
+    { src: "/images/portfolio/Man_thinking.png", alt: "Zihad Hasan thinking" },
+  ];
+
   return (
-    <div ref={containerRef} className="relative w-full bg-white text-black">
+    <div className="relative w-full bg-white text-black">
       
       {/* 
         Two-column layout on Desktop.
-        Mobile defaults to a stacked layout where the images appear inline.
+        Mobile defaults to a stacked layout.
       */}
       <div className="flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* LEFT COLUMN: Scrolling Content */}
         <div className="w-full md:w-1/2 md:pr-12 lg:pr-20">
           
-          {/* SECTION 1: Intro / Hero */}
-          <section className="min-h-screen flex flex-col justify-center py-20">
+          {/* SECTION 0: Intro / Hero */}
+          <section id="section-0" className="min-h-screen flex flex-col justify-center py-20">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-mono uppercase tracking-widest text-gray-600 mb-8 self-start">
               <Code className="h-3 w-3" /> Hello, I am Zihad
             </div>
@@ -65,9 +86,9 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
               {heroSubtitle}
             </p>
 
-            {/* Mobile-only image display */}
-            <div className="md:hidden relative w-full aspect-[4/5] rounded-3xl overflow-hidden mb-10">
-              <Image src="/images/portfolio/Man_posing_for_professional_port.png" alt="Zihad Hasan" fill className="object-cover" />
+            {/* Mobile-only image display (Fixed to 16:9 aspect ratio) */}
+            <div className="md:hidden relative w-full aspect-video rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
+              <Image src={images[0].src} alt={images[0].alt} fill className="object-cover" />
             </div>
 
             <div className="flex flex-wrap gap-4">
@@ -81,8 +102,8 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
           </section>
 
 
-          {/* SECTION 2: Professional Experience */}
-          <section className="min-h-screen flex flex-col justify-center py-20">
+          {/* SECTION 1: Professional Experience */}
+          <section id="section-1" className="min-h-screen flex flex-col justify-center py-20">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-mono uppercase tracking-widest text-gray-600 mb-8 self-start">
               <Briefcase className="h-3 w-3" /> Career Journey
             </div>
@@ -91,9 +112,9 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
               Engineering <br/><span className="text-gray-400">Excellence.</span>
             </h2>
 
-            {/* Mobile-only image display */}
-            <div className="md:hidden relative w-full aspect-[4/5] rounded-3xl overflow-hidden mb-10">
-              <Image src="/images/portfolio/Man_working_at_desk.png" alt="Working at desk" fill className="object-cover" />
+            {/* Mobile-only image display (Fixed to 16:9 aspect ratio) */}
+            <div className="md:hidden relative w-full aspect-video rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
+              <Image src={images[1].src} alt={images[1].alt} fill className="object-cover" />
             </div>
 
             <div className="space-y-12">
@@ -118,8 +139,8 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
           </section>
 
 
-          {/* SECTION 3: Teaching & Leadership */}
-          <section className="min-h-screen flex flex-col justify-center py-20">
+          {/* SECTION 2: Teaching & Leadership */}
+          <section id="section-2" className="min-h-screen flex flex-col justify-center py-20">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-mono uppercase tracking-widest text-gray-600 mb-8 self-start">
               <GraduationCap className="h-3 w-3" /> Digital Literacy
             </div>
@@ -128,9 +149,9 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
               Empowering through <br/><span className="text-gray-400">Education.</span>
             </h2>
 
-            {/* Mobile-only image display */}
-            <div className="md:hidden relative w-full aspect-[4/5] rounded-3xl overflow-hidden mb-10">
-              <Image src="/images/portfolio/Man_speaking_in_technology_class.png" alt="Teaching class" fill className="object-cover" />
+            {/* Mobile-only image display (Fixed to 16:9 aspect ratio) */}
+            <div className="md:hidden relative w-full aspect-video rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
+              <Image src={images[2].src} alt={images[2].alt} fill className="object-cover" />
             </div>
 
             <p className="text-lg text-gray-600 leading-relaxed mb-8">
@@ -148,8 +169,8 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
           </section>
 
 
-          {/* SECTION 4: Philosophy & Future */}
-          <section className="min-h-screen flex flex-col justify-center py-20">
+          {/* SECTION 3: Philosophy & Future */}
+          <section id="section-3" className="min-h-screen flex flex-col justify-center py-20">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-mono uppercase tracking-widest text-gray-600 mb-8 self-start">
               <Lightbulb className="h-3 w-3" /> Core Philosophy
             </div>
@@ -158,9 +179,9 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
               Building for the <br/><span className="text-gray-400">Long Term.</span>
             </h2>
 
-            {/* Mobile-only image display */}
-            <div className="md:hidden relative w-full aspect-[4/5] rounded-3xl overflow-hidden mb-10">
-              <Image src="/images/portfolio/Man_thinking.png" alt="Thinking" fill className="object-cover" />
+            {/* Mobile-only image display (Fixed to 16:9 aspect ratio) */}
+            <div className="md:hidden relative w-full aspect-video rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
+              <Image src={images[3].src} alt={images[3].alt} fill className="object-cover" />
             </div>
 
             <p className="text-lg text-gray-600 leading-relaxed mb-6">
@@ -182,53 +203,30 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
 
 
         {/* RIGHT COLUMN: Sticky Interactive Image (Desktop Only) */}
-        <div className="hidden md:block w-1/2 h-screen sticky top-0 pt-[10vh] pb-[10vh]">
+        <div className="hidden md:flex w-1/2 h-screen sticky top-0 items-center justify-center p-8">
           {/* 
-            The image container. We use motion.divs mapped to scrollYProgress to crossfade them.
+            The image container. We use AnimatePresence for flawless fade transitions.
+            Fixed to 16:9 aspect ratio (aspect-video) to perfectly match your 1376x768 photos without cropping.
           */}
-          <div className="relative w-full h-[80vh] rounded-[2rem] overflow-hidden shadow-2xl bg-gray-100 border border-gray-200">
-            
-            {/* Image 1: Hero */}
-            <motion.div style={{ opacity: opacity1 }} className="absolute inset-0 z-10 bg-gray-100">
-              <Image 
-                src="/images/portfolio/Man_posing_for_professional_port.png" 
-                alt="Zihad Hasan posing" 
-                fill 
-                className="object-cover" 
-                priority
-              />
-            </motion.div>
-            
-            {/* Image 2: Experience / Desk */}
-            <motion.div style={{ opacity: opacity2 }} className="absolute inset-0 z-20 bg-gray-100">
-              <Image 
-                src="/images/portfolio/Man_working_at_desk.png" 
-                alt="Zihad Hasan working at desk" 
-                fill 
-                className="object-cover" 
-              />
-            </motion.div>
-            
-            {/* Image 3: Teaching */}
-            <motion.div style={{ opacity: opacity3 }} className="absolute inset-0 z-30 bg-gray-100">
-              <Image 
-                src="/images/portfolio/Man_speaking_in_technology_class.png" 
-                alt="Zihad Hasan teaching in class" 
-                fill 
-                className="object-cover" 
-              />
-            </motion.div>
-            
-            {/* Image 4: Philosophy / Thinking */}
-            <motion.div style={{ opacity: opacity4 }} className="absolute inset-0 z-40 bg-gray-100">
-              <Image 
-                src="/images/portfolio/Man_thinking.png" 
-                alt="Zihad Hasan thinking" 
-                fill 
-                className="object-cover" 
-              />
-            </motion.div>
-
+          <div className="relative w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl bg-gray-100 border border-gray-200">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+                className="absolute inset-0"
+              >
+                <Image 
+                  src={images[activeIndex].src}
+                  alt={images[activeIndex].alt}
+                  fill 
+                  className="object-cover" 
+                  priority={activeIndex === 0}
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 
