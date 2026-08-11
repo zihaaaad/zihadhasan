@@ -54,7 +54,7 @@ export function ProjectTiltCard({ project }: { project: Project }) {
         >
             <div
                 style={{ transform: "translateZ(75px)" }}
-                className="absolute inset-4 overflow-hidden rounded-xl bg-black/50 shadow-2xl"
+                className="absolute inset-4 overflow-hidden rounded-xl bg-white/50 shadow-2xl"
             >
                 {/* Project Image */}
                 <div className="relative h-full w-full">

@@ -56,24 +56,24 @@
   --font-mono: var(--font-geist-mono);
   --radius: 0.5rem;
 
-  /* Clean Black & White Palette - FORCED DARK MODE */
-  --background: oklch(0.02 0 0); /* Slightly Off-Black for eye comfort */
-  --foreground: oklch(0.98 0 0); /* Crisp Off-White */
+  /* Clean White Palette - Default Mode */
+  --background: oklch(1 0 0); /* White */
+  --foreground: oklch(0 0 0); /* Black */
 
   /* Value Scale for Typography */
-  --text-primary: oklch(0.98 0 0);
-  --text-secondary: oklch(0.7 0 0); /* Refined for readability */
-  --text-tertiary: oklch(0.45 0 0);  /* For "quiet" metadata */
+  --text-primary: oklch(0 0 0);
+  --text-secondary: oklch(0.3 0 0);
+  --text-tertiary: oklch(0.5 0 0);
 
   /* Glassmorphism Cards */
-  --card: oklch(0.05 0 0);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.05 0 0);
-  --popover-foreground: oklch(0.98 0 0);
+  --card: oklch(0.98 0 0);
+  --card-foreground: oklch(0 0 0);
+  --popover: oklch(0.98 0 0);
+  --popover-foreground: oklch(0 0 0);
 
-  /* Minimalist Primary (White) */
-  --primary: oklch(1 0 0);
-  --primary-foreground: oklch(0 0 0);
+  /* Minimalist Primary (Black) */
+  --primary: oklch(0 0 0);
+  --primary-foreground: oklch(1 0 0);
 
   --secondary: oklch(1 0 0 / 5%);
   --secondary-foreground: oklch(0.98 0 0);

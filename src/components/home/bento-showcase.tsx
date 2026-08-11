@@ -33,7 +33,7 @@ function SpotlightItem({ children, className = "" }: { children: React.ReactNode
         <div
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className={`relative overflow-hidden rounded-xl border border-white/10 bg-forest-800/50 backdrop-blur-xl transition-colors hover:border-white/20 ${className}`}
+            className={`relative overflow-hidden rounded-xl border border-gray-200 bg-gray-100/50 backdrop-blur-xl transition-colors hover:border-white/20 ${className}`}
         >
             <div
                 className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
@@ -50,8 +50,8 @@ function SpotlightItem({ children, className = "" }: { children: React.ReactNode
 export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
 
     return (
-        <section className="py-20 px-4 bg-forest-950 relative">
-            <div className="absolute inset-0 bg-forest-900/50" />
+        <section className="py-20 px-4 bg-white relative">
+            <div className="absolute inset-0 bg-gray-50/50" />
 
             <div className="max-w-7xl mx-auto mb-12 relative z-10">
                 <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
@@ -76,11 +76,11 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                     className="object-cover transition-all duration-500 group-hover:scale-105 opacity-60 group-hover:opacity-80"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#041F14] via-[#041F14]/50 to-transparent p-6 flex flex-col justify-end">
-                                    <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
+                                    <h3 className="text-2xl font-bold text-black mb-2">{project.title}</h3>
                                     <p className="text-neutral-300 line-clamp-2">{project.description}</p>
                                     <div className="flex gap-2 mt-4">
                                         {project.tags.slice(0, 3).map(tag => (
-                                            <span key={tag} className="text-xs bg-white/10 px-2 py-1 rounded-full text-white/80 border border-white/5">
+                                            <span key={tag} className="text-xs bg-white/10 px-2 py-1 rounded-full text-black/80 border border-gray-100">
                                                 {tag}
                                             </span>
                                         ))}
@@ -94,11 +94,11 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                     <BentoGridItem
                         className="md:col-span-2 md:row-span-2 min-h-[400px]"
                         header={
-                            <SpotlightItem className="h-full w-full p-8 flex flex-col justify-center items-center text-center group bg-forest-800/40">
+                            <SpotlightItem className="h-full w-full p-8 flex flex-col justify-center items-center text-center group bg-gray-100/40">
                                 <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mb-6">
                                     <Cpu strokeWidth={1.5} className="h-8 w-8 text-emerald-500/60" />
                                 </div>
-                                <h3 className="text-2xl font-bold text-white mb-2">Work in Progress</h3>
+                                <h3 className="text-2xl font-bold text-black mb-2">Work in Progress</h3>
                                 <p className="text-emerald-100/70 max-w-sm">
                                     Something extraordinary is being built in the lab. Check back soon for the reveal.
                                 </p>
@@ -116,9 +116,9 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                 <div>
                                     <div className="flex items-center justify-between mb-4">
                                         <span className="text-xs font-mono text-emerald-100/70">LATEST POST</span>
-                                        <ArrowUpRight strokeWidth={1.5} className="h-4 w-4 text-white/40 group-hover:text-white transition-colors" />
+                                        <ArrowUpRight strokeWidth={1.5} className="h-4 w-4 text-black/40 group-hover:text-black transition-colors" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-neutral-300 transition-colors line-clamp-2">
+                                    <h3 className="text-xl font-bold text-black mb-2 group-hover:text-neutral-300 transition-colors line-clamp-2">
                                         {blog.title}
                                     </h3>
                                 </div>
@@ -136,8 +136,8 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                     className="md:col-span-1 md:row-span-1"
                     header={
                         <SpotlightItem className="h-full w-full p-6 flex flex-col items-center justify-center group text-center">
-                            <Github strokeWidth={1.5} className="h-12 w-12 text-white mb-4 group-hover:scale-110 transition-transform" />
-                            <h3 className="text-lg font-bold text-white">Open Source</h3>
+                            <Github strokeWidth={1.5} className="h-12 w-12 text-black mb-4 group-hover:scale-110 transition-transform" />
+                            <h3 className="text-lg font-bold text-black">Open Source</h3>
                             <p className="text-sm text-emerald-100/70 mt-2">Check out my contributions</p>
                             <Link href="https://github.com/Z-root-X" target="_blank" className="absolute inset-0 z-20" aria-label="Visit GitHub Profile" />
                         </SpotlightItem>
@@ -151,11 +151,11 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                         header={
                             <SpotlightItem className="h-full w-full p-6 group relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-50">
-                                    <Cpu strokeWidth={1.5} className="h-24 w-24 text-white/5 -rotate-12" />
+                                    <Cpu strokeWidth={1.5} className="h-24 w-24 text-black/5 -rotate-12" />
                                 </div>
                                 <div className="relative z-10">
                                     <span className="text-xs font-mono text-emerald-100/70 mb-2 block">POWERED BY</span>
-                                    <h3 className="text-xl font-bold text-white mb-2">{tool.name}</h3>
+                                    <h3 className="text-xl font-bold text-black mb-2">{tool.name}</h3>
                                     <p className="text-xs text-emerald-100/70 line-clamp-2">{tool.description}</p>
                                 </div>
                                 <Link href="/tools" className="absolute inset-0 z-20" aria-label={`View details about ${tool.name}`} />
@@ -169,7 +169,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                     className="md:col-span-2 md:row-span-1"
                     header={
                         <SpotlightItem className="h-full w-full p-8 flex items-center gap-6">
-                            <Quote strokeWidth={1.5} className="h-12 w-12 text-white/20 shrink-0" />
+                            <Quote strokeWidth={1.5} className="h-12 w-12 text-black/20 shrink-0" />
                             <div>
                                 <p className="text-lg md:text-xl text-neutral-200 italic font-light">
                                     "Zihad's courses changed the way I look at web development. The focus on 'why' instead of just 'how' is evident."
@@ -177,7 +177,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                 <div className="mt-4 flex items-center gap-2">
                                     <div className="h-8 w-8 rounded-full bg-white/10" />
                                     <div>
-                                        <div className="text-sm font-bold text-white">Student</div>
+                                        <div className="text-sm font-bold text-black">Student</div>
                                         <div className="text-xs text-emerald-500/60">Full Stack Developer</div>
                                     </div>
                                 </div>

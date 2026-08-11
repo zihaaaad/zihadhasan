@@ -14,7 +14,7 @@ const socialLinks = [
 
 export function PhilosophySection() {
   return (
-    <section className="relative py-32 px-4 overflow-hidden bg-forest-950 text-white">
+    <section className="relative py-32 px-4 overflow-hidden bg-white text-black">
       {/* Background Grids for that "Figma" precision look */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
       
@@ -28,7 +28,7 @@ export function PhilosophySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-4xl md:text-6xl font-medium tracking-tight leading-[1.1] text-white"
+              className="text-4xl md:text-6xl font-medium tracking-tight leading-[1.1] text-black"
             >
               Software that feels <br />
               <span className="text-emerald-500/60">biological.</span>
@@ -64,7 +64,7 @@ export function PhilosophySection() {
             {/* Decorative 'Connect' line */}
             <div className="absolute -left-8 top-1/2 w-8 h-px bg-gradient-to-r from-transparent to-white/20 hidden md:block" />
 
-            <div className="group relative rounded-2xl border border-white/10 bg-forest-800/50 backdrop-blur-xl p-8 md:p-12 overflow-hidden transition-all hover:border-white/20">
+            <div className="group relative rounded-2xl border border-gray-200 bg-gray-100/50 backdrop-blur-xl p-8 md:p-12 overflow-hidden transition-all hover:border-white/20">
               
               {/* Subtle hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -72,7 +72,7 @@ export function PhilosophySection() {
               <div className="relative z-10 space-y-8">
                  <div>
                     <h3 className="text-sm font-mono text-emerald-500/60 mb-2 tracking-widest uppercase">Connect</h3>
-                    <p className="text-2xl font-semibold text-white">Let's build something impossible.</p>
+                    <p className="text-2xl font-semibold text-black">Let's build something impossible.</p>
                  </div>
 
                  <div className="grid grid-cols-2 gap-4">
@@ -81,10 +81,10 @@ export function PhilosophySection() {
                         key={i} 
                         href={social.href} 
                         target="_blank"
-                        className="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/5 hover:bg-white/10 transition-colors group/link"
+                        className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-white/5 hover:bg-white/10 transition-colors group/link"
                       >
-                        <social.icon className="h-5 w-5 text-emerald-100/70 group-hover/link:text-white transition-colors" />
-                        <span className="text-sm text-neutral-300 group-hover/link:text-white transition-colors font-medium">
+                        <social.icon className="h-5 w-5 text-emerald-100/70 group-hover/link:text-black transition-colors" />
+                        <span className="text-sm text-neutral-300 group-hover/link:text-black transition-colors font-medium">
                           {social.label}
                         </span>
                         <ArrowUpRight className="h-3 w-3 text-neutral-600 group-hover/link:text-emerald-100/70 ml-auto opacity-0 group-hover/link:opacity-100 transition-all transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1" />

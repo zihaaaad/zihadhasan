@@ -15,12 +15,12 @@ interface CourseTeaserProps {
 export function CourseTeaser({ courses }: CourseTeaserProps) {
     if (courses.length === 0) {
         return (
-            <section className="py-24 px-4 bg-forest-950 relative overflow-hidden border-t border-white/5">
+            <section className="py-24 px-4 bg-white relative overflow-hidden border-t border-gray-100">
                 <div className="max-w-7xl mx-auto text-center relative z-10">
-                    <h2 className="text-3xl font-bold text-white mb-4">Premium Courses</h2>
-                    <div className="p-12 rounded-2xl bg-forest-800/50 border border-white/10 backdrop-blur-sm">
-                        <BookOpen className="h-12 w-12 text-white/50 mx-auto mb-4 opacity-50" />
-                        <h3 className="text-xl font-bold text-white mb-2">Curriculum in Development</h3>
+                    <h2 className="text-3xl font-bold text-black mb-4">Premium Courses</h2>
+                    <div className="p-12 rounded-2xl bg-gray-100/50 border border-gray-200 backdrop-blur-sm">
+                        <BookOpen className="h-12 w-12 text-black/50 mx-auto mb-4 opacity-50" />
+                        <h3 className="text-xl font-bold text-black mb-2">Curriculum in Development</h3>
                         <p className="text-emerald-100/70 max-w-lg mx-auto">
                             We are crafting in-depth masterclasses. Stay tuned for the launch of our first course series.
                         </p>
@@ -31,20 +31,20 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
     }
 
     return (
-        <section className="py-24 px-4 bg-forest-950 relative overflow-hidden">
+        <section className="py-24 px-4 bg-white relative overflow-hidden">
             {/* Background Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div>
-                        <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Premium Courses</h2>
+                        <h2 className="text-3xl md:text-5xl font-bold text-black mb-4">Premium Courses</h2>
                         <p className="text-emerald-100/70 max-w-lg">
                             In-depth guides and masterclasses to take your development skills to the absolute limit.
                         </p>
                     </div>
                     <div>
-                        <Button variant="outline" className="rounded-full border-white/10 hover:bg-white/5 text-[10px] font-bold uppercase tracking-widest text-white h-11 px-6" asChild>
+                        <Button variant="outline" className="rounded-full border-gray-200 hover:bg-white/5 text-[10px] font-bold uppercase tracking-widest text-black h-11 px-6" asChild>
                             <Link href="/my-learning">
                                 Browse All <ArrowRight strokeWidth={1.5} className="ml-2 h-4 w-4" />
                             </Link>
@@ -54,7 +54,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
 
                 <div className="grid md:grid-cols-3 gap-8">
                     {courses.map((course) => (
-                        <SpotlightCard key={course.id} className="group flex flex-col h-full bg-forest-800 border-neutral-800 rounded-3xl">
+                        <SpotlightCard key={course.id} className="group flex flex-col h-full bg-gray-100 border-neutral-800 rounded-3xl">
                             <div className="relative h-48 w-full overflow-hidden rounded-t-3xl bg-neutral-800">
                                 {course.headerImage ? (
                                     <Image
@@ -69,26 +69,26 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
                                     </div>
                                 )}
                                 <div className="absolute top-4 right-4">
-                                    <Badge className="bg-forest-950/50 backdrop-blur border-white/10 text-white hover:bg-forest-950/70 text-[10px] font-bold px-3">
+                                    <Badge className="bg-white/50 backdrop-blur border-gray-200 text-black hover:bg-white/70 text-[10px] font-bold px-3">
                                         {course.price === 0 ? "FREE" : `$${course.price}`}
                                     </Badge>
                                 </div>
                             </div>
 
                             <div className="p-8 flex flex-col flex-grow">
-                                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-white transition-colors tracking-tight">
+                                <h3 className="text-xl font-bold text-black mb-3 line-clamp-2 group-hover:text-black transition-colors tracking-tight">
                                     {course.title}
                                 </h3>
                                 <p className="text-emerald-100/70 text-sm mb-8 line-clamp-3 flex-grow leading-relaxed">
                                     {course.description}
                                 </p>
 
-                                <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                                <div className="flex items-center justify-between pt-6 border-t border-gray-100">
                                     <div className="flex items-center text-[10px] font-bold uppercase tracking-widest text-emerald-500/60">
                                         <Clock strokeWidth={1.5} className="h-3 w-3 mr-2" />
                                         <span>{course.lessons?.length || 0} Lessons</span>
                                     </div>
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white group-hover:translate-x-1 transition-transform flex items-center">
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-black group-hover:translate-x-1 transition-transform flex items-center">
                                         Start Learning <ArrowRight strokeWidth={1.5} className="ml-2 h-3 w-3" />
                                     </span>
                                 </div>

@@ -38,7 +38,7 @@ const skillCategories = [
 
 export function SkillsSection() {
   return (
-    <section className="py-24 px-4 relative bg-forest-950 text-white overflow-hidden border-t border-white/5">
+    <section className="py-24 px-4 relative bg-white text-black overflow-hidden border-t border-gray-100">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
       
       <div className="container mx-auto max-w-5xl relative z-10">
@@ -71,10 +71,10 @@ export function SkillsSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className={`p-8 rounded-3xl border border-white/10 bg-forest-800/30 backdrop-blur-md group hover:border-white/20 transition-all ${category.colSpan}`}
+              className={`p-8 rounded-3xl border border-gray-200 bg-gray-100/30 backdrop-blur-md group hover:border-white/20 transition-all ${category.colSpan}`}
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-white/10 transition-colors">
+                <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-gray-200 group-hover:bg-white/10 transition-colors">
                   <category.icon className="h-5 w-5 text-neutral-300" />
                 </div>
                 <h3 className="text-xl font-semibold">{category.title}</h3>
@@ -84,7 +84,7 @@ export function SkillsSection() {
                 {category.skills.map((skill, sIdx) => (
                   <span 
                     key={sIdx}
-                    className="px-3 py-1.5 rounded-lg bg-forest-950/50 border border-white/5 text-sm text-emerald-100/70 hover:text-white transition-colors"
+                    className="px-3 py-1.5 rounded-lg bg-white/50 border border-gray-100 text-sm text-emerald-100/70 hover:text-black transition-colors"
                   >
                     {skill}
                   </span>

@@ -63,7 +63,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
     return (
         <section ref={containerRef} className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden px-4 md:px-8 pt-20">
             {/* Minimal Background */}
-            <div className="absolute inset-0 -z-10 bg-forest-950">
+            <div className="absolute inset-0 -z-10 bg-white">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_70%)]" />
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             </div>
@@ -76,7 +76,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
-                        <h1 className="mb-6 text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl xl:text-8xl leading-[1.1]">
+                        <h1 className="mb-6 text-5xl font-bold tracking-tight text-black sm:text-6xl md:text-7xl xl:text-8xl leading-[1.1]">
                             {typeof heroTitle === 'string' ? (
                                 <span dangerouslySetInnerHTML={{ __html: heroTitle.replace(/\n/g, "<br/>") }} />
                             ) : heroTitle}
@@ -93,7 +93,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                                 </Link>
                             </Button>
 
-                            <Button size="lg" variant="outline" className="rounded-full px-8 text-white border-white/10 hover:bg-white/5 h-14" asChild>
+                            <Button size="lg" variant="outline" className="rounded-full px-8 text-black border-gray-200 hover:bg-white/5 h-14" asChild>
                                 <Link href="/contact">
                                     Get in Touch
                                 </Link>
@@ -101,14 +101,14 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                         </div>
 
                         {/* Minimal Stats */}
-                        <div className="mt-16 flex flex-wrap items-center justify-center lg:justify-start gap-10 border-t border-white/5 pt-8">
+                        <div className="mt-16 flex flex-wrap items-center justify-center lg:justify-start gap-10 border-t border-gray-100 pt-8">
                             {[
                                 { label: "Projects", value: `${projectCount}+` },
                                 { label: "Students", value: "500+" },
                                 { label: "AI Tools", value: `${toolCount}+` }
                             ].map((stat, i) => (
                                 <div key={i} className="flex flex-col">
-                                    <span className="text-xl font-semibold text-white tracking-tight">{stat.value}</span>
+                                    <span className="text-xl font-semibold text-black tracking-tight">{stat.value}</span>
                                     <span className="text-[11px] text-emerald-500/60 uppercase tracking-widest">{stat.label}</span>
                                 </div>
                             ))}
@@ -133,7 +133,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                         }}
                         className="relative aspect-[4/5] w-full"
                     >
-                        <div className="relative h-full w-full overflow-hidden rounded-3xl bg-forest-800 border border-white/5 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
+                        <div className="relative h-full w-full overflow-hidden rounded-3xl bg-gray-100 border border-gray-100 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
                             <Image
                                 src={getImageUrl(heroImage)}
                                 alt="Zihad Hasan"
@@ -141,18 +141,18 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                                 className="object-cover object-center transition-all duration-700 ease-in-out scale-105"
                                 priority
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-forest-950/60 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent" />
                         </div>
 
                         {/* Floating Elements - More Subtle */}
                         <div
                             style={{ transform: "translateZ(30px)" }}
-                            className="absolute -bottom-4 -left-4 z-40 flex items-center gap-3 rounded-xl border border-white/5 bg-forest-950/60 p-4 backdrop-blur-md"
+                            className="absolute -bottom-4 -left-4 z-40 flex items-center gap-3 rounded-xl border border-gray-100 bg-white/60 p-4 backdrop-blur-md"
                         >
                             <div className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center">
-                                <Code strokeWidth={1.5} className="h-4 w-4 text-white/70" />
+                                <Code strokeWidth={1.5} className="h-4 w-4 text-black/70" />
                             </div>
-                            <div className="text-[10px] text-white/50 font-mono tracking-widest uppercase">DHAKA, BD</div>
+                            <div className="text-[10px] text-black/50 font-mono tracking-widest uppercase">DHAKA, BD</div>
                         </div>
                     </motion.div>
                 </motion.div>
