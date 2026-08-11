@@ -5,6 +5,8 @@ import { BentoShowcase } from "@/components/home/bento-showcase";
 import { CourseTeaser } from "@/components/home/course-teaser";
 import { PhilosophySection } from "@/components/home/philosophy-section";
 import { NewsletterForm } from "@/components/shared/newsletter-form";
+import { ExperienceSection } from "@/components/home/experience-section";
+import { SkillsSection } from "@/components/home/skills-section";
 // Modular Imports for Tree Shaking
 import { CoreService } from "@/lib/services/core-service";
 import { ProjectService } from "@/lib/services/project-service";
@@ -108,10 +110,16 @@ export default function Home() {
         <CourseSection />
       </Suspense>
 
-      {/* E. Philosophy / About - Clean Component */}
+      {/* E. Experience Section */}
+      <ExperienceSection />
+      
+      {/* E2. Skills Section */}
+      <SkillsSection />
+
+      {/* F. Philosophy / About - Clean Component */}
       <PhilosophySection />
 
-      {/* F. Newsletter */}
+      {/* G. Newsletter */}
       <Section className="py-40 px-4 container mx-auto relative z-10">
         <div className="relative rounded-[2.5rem] overflow-hidden bg-neutral-900/30 border border-white/10 p-8 md:p-24 text-center backdrop-blur-md group hover:border-white/20 transition-all duration-500">
           {/* Subtle Grid Background for this card too */}
