@@ -30,8 +30,6 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
     else setActiveSlide(3);
   });
 
-  const heroSubtitle = settings?.heroSubtitle || "Software Engineer and Tech Educator crafting high-performance digital experiences.";
-
   const slides = [
     {
       id: 0,
@@ -55,7 +53,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       ),
       imageSrc: "/images/portfolio/Man_posing_for_professional_port.png",
       imageAlt: "Zihad Hasan posing",
-      imageAspect: "aspect-[3/4]", // Portrait
+      imageAspect: "aspect-[3/4] h-[75vh] max-h-[800px]", // Portrait
     },
     {
       id: 1,
@@ -84,7 +82,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       ),
       imageSrc: "/images/portfolio/Man_working_at_desk.png",
       imageAlt: "Zihad Hasan working at desk",
-      imageAspect: "aspect-video md:aspect-[16/9] w-full max-w-[120%]", // Real Aspect Ratio (16:9 widescreen)
+      imageAspect: "aspect-video md:aspect-[16/9] w-full max-w-3xl", // Real Aspect Ratio (16:9 widescreen)
     },
     {
       id: 2,
@@ -108,7 +106,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       ),
       imageSrc: "/images/portfolio/Man_speaking_in_technology_class.png",
       imageAlt: "Zihad Hasan teaching in class",
-      imageAspect: "aspect-[3/4]", // Portrait
+      imageAspect: "aspect-[3/4] h-[75vh] max-h-[800px]", // Portrait
     },
     {
       id: 3,
@@ -130,22 +128,22 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       ),
       imageSrc: "/images/portfolio/Man_thinking.png",
       imageAlt: "Zihad Hasan thinking",
-      imageAspect: "aspect-[3/4]", // Portrait
+      imageAspect: "aspect-[3/4] h-[75vh] max-h-[800px]", // Portrait
     },
   ];
 
-  // Professional, elegant, "water-like" transition for text
+  // Simultaneous Crossfade text transition (Strong but soft)
   const textVariants = {
-    initial: { opacity: 0, y: 30, filter: "blur(4px)" },
+    initial: { opacity: 0, y: 40, filter: "blur(8px)" },
     animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-    exit: { opacity: 0, y: -30, filter: "blur(4px)" },
+    exit: { opacity: 0, y: -40, filter: "blur(8px)" },
   };
 
   const transitionSpring = {
     type: "spring",
-    stiffness: 100,
-    damping: 25,
-    mass: 1,
+    stiffness: 70,
+    damping: 20,
+    mass: 1.2,
   };
 
   return (
@@ -153,7 +151,6 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       
       {/* 
         TALL CONTAINER: 400vh tall to allow scrolling.
-        This drives the entire slideshow effect.
       */}
       <div ref={containerRef} className="h-[400vh] relative w-full">
         
@@ -165,8 +162,10 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12 lg:gap-20">
             
             {/* LEFT COLUMN: Text Content (Slideshow) */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center relative min-h-[50vh] md:min-h-0">
-              <AnimatePresence mode="wait">
+            {/* We explicitly define a fixed height container here so absolute positioning works without layout jumping */}
+            <div className="w-full md:w-1/2 flex flex-col justify-center relative min-h-[60vh]">
+              {/* Removed mode="wait" so they crossfade beautifully in realtime */}
+              <AnimatePresence>
                 <motion.div
                   key={activeSlide}
                   variants={textVariants}
@@ -174,8 +173,8 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
                   animate="animate"
                   exit="exit"
                   transition={transitionSpring as any}
-                  className="absolute inset-x-0 top-1/2 -translate-y-1/2" // Vertically center absolute div
-                  style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} // Force centering
+                  className="absolute inset-x-0 top-1/2 -translate-y-1/2" // Perfect absolute centering
+                  style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} 
                 >
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-mono uppercase tracking-widest text-gray-600 mb-6">
                     {slides[activeSlide].tagIcon} {slides[activeSlide].tagText}
@@ -191,41 +190,48 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
             </div>
 
             {/* RIGHT COLUMN: Images (Slideshow) */}
-            <div className="hidden md:flex w-full md:w-1/2 items-center justify-center relative">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeSlide}
-                  layoutId="image-container"
-                  initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
-                  transition={transitionSpring as any}
-                  className={`relative overflow-hidden rounded-[2rem] shadow-2xl bg-gray-100 border border-gray-200 ${slides[activeSlide].imageAspect} ${
-                    // If it's the desk image (id 1), make it take up full width to show real aspect ratio
-                    activeSlide === 1 ? 'w-full max-w-3xl' : 'h-[75vh] max-h-[800px]'
-                  }`}
-                >
-                  <Image 
-                    src={slides[activeSlide].imageSrc}
-                    alt={slides[activeSlide].imageAlt}
-                    fill 
-                    className="object-cover" 
-                    priority={activeSlide === 0 || activeSlide === 1}
-                  />
-                  {/* Subtle lighting gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10 pointer-events-none" />
-                </motion.div>
-              </AnimatePresence>
+            <div className="hidden md:flex w-full md:w-1/2 h-[80vh] items-center justify-center relative">
+              {/* 
+                We use a SINGLE container that morphs its shape using `layout`. 
+                Inside, the images just crossfade. This prevents the "vanishing" glitch.
+              */}
+              <motion.div
+                layout
+                transition={transitionSpring as any}
+                className={`relative overflow-hidden rounded-[2rem] shadow-2xl bg-gray-100 border border-gray-200 ${slides[activeSlide].imageAspect}`}
+              >
+                <AnimatePresence>
+                  <motion.div
+                    key={activeSlide}
+                    initial={{ opacity: 0, filter: "blur(10px)" }}
+                    animate={{ opacity: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, filter: "blur(10px)" }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="absolute inset-0"
+                  >
+                    <Image 
+                      src={slides[activeSlide].imageSrc}
+                      alt={slides[activeSlide].imageAlt}
+                      fill 
+                      className="object-cover" 
+                      priority
+                    />
+                  </motion.div>
+                </AnimatePresence>
+                {/* Subtle lighting gradient */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10 pointer-events-none" />
+              </motion.div>
             </div>
             
             {/* MOBILE IMAGE PREVIEW (Fallback if screen is too small) */}
             <div className="flex md:hidden w-full relative h-[40vh] mt-auto">
-              <AnimatePresence mode="wait">
+              <AnimatePresence>
                 <motion.div
                   key={`mobile-${activeSlide}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
                   className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg border border-gray-100"
                 >
                   <Image 
