@@ -82,7 +82,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                             ) : heroTitle}
                         </h1>
 
-                        <p className="mb-10 max-w-xl text-lg md:text-xl text-emerald-100/70 font-normal leading-relaxed">
+                        <p className="mb-10 max-w-xl text-lg md:text-xl text-gray-600 font-normal leading-relaxed">
                             {heroSubtitle}
                         </p>
 
@@ -109,7 +109,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                             ].map((stat, i) => (
                                 <div key={i} className="flex flex-col">
                                     <span className="text-xl font-semibold text-black tracking-tight">{stat.value}</span>
-                                    <span className="text-[11px] text-emerald-500/60 uppercase tracking-widest">{stat.label}</span>
+                                    <span className="text-[11px] text-gray-500 uppercase tracking-widest">{stat.label}</span>
                                 </div>
                             ))}
                         </div>
@@ -150,9 +150,9 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                             className="absolute -bottom-4 -left-4 z-40 flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-4 "
                         >
                             <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center">
-                                <Code strokeWidth={1.5} className="h-4 w-4 text-black/70" />
+                                <Code strokeWidth={1.5} className="h-4 w-4 text-gray-600" />
                             </div>
-                            <div className="text-[10px] text-black/50 font-mono tracking-widest uppercase">DHAKA, BD</div>
+                            <div className="text-[10px] text-gray-500 font-mono tracking-widest uppercase">DHAKA, BD</div>
                         </div>
                     </motion.div>
                 </motion.div>

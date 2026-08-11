@@ -79,7 +79,7 @@ export function ProjectTiltCard({ project }: { project: Project }) {
                         </Badge>
                     ))}
                 </div>
-                <h3 className="mb-2 text-2xl font-bold text-black shadow-black/50 drop-shadow-lg tracking-tight">{project.title}</h3>
+                <h3 className="mb-2 text-2xl font-bold text-black  tracking-tight">{project.title}</h3>
                 <p className="mb-6 text-sm text-gray-600 font-medium line-clamp-2 leading-relaxed">{project.description}</p>
 
                 <div className="flex items-center gap-6">
