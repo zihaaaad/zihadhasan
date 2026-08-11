@@ -44,22 +44,22 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
 
     // 1. Transition: Slide 0 -> Slide 1
     tl.to(".text-slide-0", { y: -100, opacity: 0, duration: 1 }, 0)
-      // Slide left (xPercent: -120) and flip backwards (rotationY: 15) to simulate falling into the background
-      .to(".img-slide-0", { xPercent: -120, scale: 0.8, rotationY: 15, rotationZ: -5, opacity: 0, duration: 1, ease: "power1.inOut" }, 0)
+      // Slide right (xPercent: 120) and flip backwards (rotationY: -15) to simulate falling into the right background
+      .to(".img-slide-0", { xPercent: 120, scale: 0.8, rotationY: -15, rotationZ: 5, opacity: 0, duration: 1, ease: "power1.inOut" }, 0)
       
       .to(".text-slide-1", { y: 0, opacity: 1, duration: 1, ease: "power2.out" }, 0.5) 
       .to({}, { duration: 0.7 }) // Plateau: Pause so the user can read Slide 1
 
     // 2. Transition: Slide 1 -> Slide 2
       .to(".text-slide-1", { y: -100, opacity: 0, duration: 1 })
-      .to(".img-slide-1", { xPercent: -120, scale: 0.8, rotationY: 15, rotationZ: -5, opacity: 0, duration: 1, ease: "power1.inOut" }, "<") 
+      .to(".img-slide-1", { xPercent: 120, scale: 0.8, rotationY: -15, rotationZ: 5, opacity: 0, duration: 1, ease: "power1.inOut" }, "<") 
       
       .to(".text-slide-2", { y: 0, opacity: 1, duration: 1, ease: "power2.out" }, "<0.5")
       .to({}, { duration: 0.7 }) // Plateau: Pause so the user can read Slide 2
 
     // 3. Transition: Slide 2 -> Slide 3 (Grand Finale)
       .to(".text-slide-2", { y: -100, opacity: 0, duration: 1 })
-      .to(".img-slide-2", { xPercent: -120, scale: 0.8, rotationY: 15, rotationZ: -5, opacity: 0, duration: 1, ease: "power1.inOut" }, "<")
+      .to(".img-slide-2", { xPercent: 120, scale: 0.8, rotationY: -15, rotationZ: 5, opacity: 0, duration: 1, ease: "power1.inOut" }, "<")
       
       // The landscape grand finale image scales up to fill the space
       .to(".img-slide-3", { scale: 1, opacity: 1, duration: 1, ease: "power2.out" }, "<")
@@ -82,10 +82,10 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
           </p>
           <div className="flex flex-wrap gap-3 md:gap-4">
             <Link href="/contact" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full bg-black px-6 md:px-8 text-xs md:text-sm font-semibold text-white transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/10">
-              Get in Touch
+              Let's Collaborate
             </Link>
             <Link href="/projects" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full border border-gray-200 bg-white px-6 md:px-8 text-xs md:text-sm font-semibold text-black transition-all hover:bg-gray-50 hover:scale-105 active:scale-95">
-              View Projects <ArrowRight className="ml-2 h-4 w-4" />
+              Explore Archive <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </div>
         </>
@@ -168,7 +168,19 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       */}
       <div ref={containerRef} className="h-screen w-full relative overflow-hidden bg-white">
         
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-4 md:gap-12 lg:gap-20 h-full py-24 md:py-20 relative">
+        {/* GEOMETRIC ART BACKGROUND */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          {/* Subtle Grid / Dot Pattern */}
+          <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'radial-gradient(#d1d5db 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+          
+          {/* Sharp Geometric Shapes */}
+          <div className="absolute top-[10%] right-[5%] w-64 h-64 border border-gray-200 rotate-12 opacity-60" />
+          <div className="absolute top-[15%] right-[10%] w-32 h-32 border border-gray-200 rotate-45 opacity-40" />
+          <div className="absolute bottom-[20%] left-[5%] w-48 h-48 border border-gray-200 rounded-full opacity-60" />
+          <div className="absolute bottom-[25%] left-[8%] w-16 h-16 bg-gray-100 rounded-full mix-blend-multiply" />
+        </div>
+
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-4 md:gap-12 lg:gap-20 h-full py-24 md:py-20 relative z-10">
           
           {/* 
             IMAGES (Top on mobile, Right on desktop) 

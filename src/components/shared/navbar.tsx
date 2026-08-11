@@ -61,19 +61,12 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-500",
-        scrolled ? "py-4" : "py-6"
+        "fixed top-0 z-50 w-full transition-all duration-300",
+        scrolled ? "bg-white border-b border-gray-200 py-3" : "bg-transparent py-6"
       )}
     >
-      <div className="container mx-auto px-4">
-        <div
-          className={cn(
-            "relative mx-auto flex items-center justify-between rounded-full px-6 py-2.5 transition-all duration-500",
-            scrolled
-              ? "bg-white/90 backdrop-blur-md shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] border border-gray-100 sm:w-full md:max-w-4xl"
-              : "bg-transparent border-transparent"
-          )}
-        >
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="relative mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="text-xl font-bold tracking-tighter text-black flex items-center group">
             ZH<span className="text-black group-hover:scale-125 transition-transform duration-300">.</span>
