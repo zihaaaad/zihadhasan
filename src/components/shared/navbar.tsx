@@ -60,13 +60,10 @@ export function Navbar() {
 
   return (
     <header
-      className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-300",
-        scrolled ? "bg-white border-b border-gray-200 py-3" : "bg-transparent py-6"
-      )}
+      className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 h-16 flex items-center"
     >
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="relative mx-auto flex items-center justify-between">
+      <div className="container mx-auto px-4 lg:px-8 w-full">
+        <div className="relative flex items-center justify-between w-full">
           {/* Logo */}
           <Link href="/" className="text-xl font-bold tracking-tighter text-black flex items-center group">
             ZH<span className="text-black group-hover:scale-125 transition-transform duration-300">.</span>

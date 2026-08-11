@@ -168,18 +168,6 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       */}
       <div ref={containerRef} className="h-screen w-full relative overflow-hidden bg-white">
         
-        {/* GEOMETRIC ART BACKGROUND */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          {/* Subtle Grid / Dot Pattern */}
-          <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'radial-gradient(#d1d5db 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-          
-          {/* Sharp Geometric Shapes */}
-          <div className="absolute top-[10%] right-[5%] w-64 h-64 border border-gray-200 rotate-12 opacity-60" />
-          <div className="absolute top-[15%] right-[10%] w-32 h-32 border border-gray-200 rotate-45 opacity-40" />
-          <div className="absolute bottom-[20%] left-[5%] w-48 h-48 border border-gray-200 rounded-full opacity-60" />
-          <div className="absolute bottom-[25%] left-[8%] w-16 h-16 bg-gray-100 rounded-full mix-blend-multiply" />
-        </div>
-
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-4 md:gap-12 lg:gap-20 h-full py-24 md:py-20 relative z-10">
           
           {/* 
