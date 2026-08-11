@@ -33,7 +33,7 @@ function SpotlightItem({ children, className = "" }: { children: React.ReactNode
         <div
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className={`relative overflow-hidden rounded-xl border border-gray-200 bg-gray-100/50 backdrop-blur-xl transition-colors hover:border-white/20 ${className}`}
+            className={`relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50  transition-colors hover:border-white/20 ${className}`}
         >
             <div
                 className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
@@ -77,10 +77,10 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#041F14] via-[#041F14]/50 to-transparent p-6 flex flex-col justify-end">
                                     <h3 className="text-2xl font-bold text-black mb-2">{project.title}</h3>
-                                    <p className="text-neutral-300 line-clamp-2">{project.description}</p>
+                                    <p className="text-gray-700 line-clamp-2">{project.description}</p>
                                     <div className="flex gap-2 mt-4">
                                         {project.tags.slice(0, 3).map(tag => (
-                                            <span key={tag} className="text-xs bg-white/10 px-2 py-1 rounded-full text-black/80 border border-gray-100">
+                                            <span key={tag} className="text-xs bg-white px-2 py-1 rounded-full text-black/80 border border-gray-100">
                                                 {tag}
                                             </span>
                                         ))}
@@ -94,8 +94,8 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                     <BentoGridItem
                         className="md:col-span-2 md:row-span-2 min-h-[400px]"
                         header={
-                            <SpotlightItem className="h-full w-full p-8 flex flex-col justify-center items-center text-center group bg-gray-100/40">
-                                <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mb-6">
+                            <SpotlightItem className="h-full w-full p-8 flex flex-col justify-center items-center text-center group bg-gray-50">
+                                <div className="h-16 w-16 bg-white rounded-full flex items-center justify-center mb-6">
                                     <Cpu strokeWidth={1.5} className="h-8 w-8 text-emerald-500/60" />
                                 </div>
                                 <h3 className="text-2xl font-bold text-black mb-2">Work in Progress</h3>
@@ -118,7 +118,7 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                                         <span className="text-xs font-mono text-emerald-100/70">LATEST POST</span>
                                         <ArrowUpRight strokeWidth={1.5} className="h-4 w-4 text-black/40 group-hover:text-black transition-colors" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-black mb-2 group-hover:text-neutral-300 transition-colors line-clamp-2">
+                                    <h3 className="text-xl font-bold text-black mb-2 group-hover:text-gray-700 transition-colors line-clamp-2">
                                         {blog.title}
                                     </h3>
                                 </div>
@@ -171,11 +171,11 @@ export function BentoShowcase({ project, blog, tool }: BentoShowcaseProps) {
                         <SpotlightItem className="h-full w-full p-8 flex items-center gap-6">
                             <Quote strokeWidth={1.5} className="h-12 w-12 text-black/20 shrink-0" />
                             <div>
-                                <p className="text-lg md:text-xl text-neutral-200 italic font-light">
+                                <p className="text-lg md:text-xl text-gray-900 italic font-light">
                                     "Zihad's courses changed the way I look at web development. The focus on 'why' instead of just 'how' is evident."
                                 </p>
                                 <div className="mt-4 flex items-center gap-2">
-                                    <div className="h-8 w-8 rounded-full bg-white/10" />
+                                    <div className="h-8 w-8 rounded-full bg-white" />
                                     <div>
                                         <div className="text-sm font-bold text-black">Student</div>
                                         <div className="text-xs text-emerald-500/60">Full Stack Developer</div>

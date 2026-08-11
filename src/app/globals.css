@@ -195,14 +195,7 @@
   }
 }
 
-/* Glassmorphism Utilities - B&W Refined */
-@utility glass {
-  @apply bg-white/5 backdrop-blur-md border border-white/10;
-}
 
-@utility glass-card {
-  @apply bg-white/5 backdrop-blur-xl border border-white/5 shadow-2xl;
-}
 
 @utility perspective-1200 {
   perspective: 1200px;

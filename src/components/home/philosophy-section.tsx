@@ -39,7 +39,7 @@ export function PhilosophySection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="h-px w-24 bg-white/20" 
+              className="h-px w-24 bg-white" 
             />
 
             <motion.p 
@@ -64,7 +64,7 @@ export function PhilosophySection() {
             {/* Decorative 'Connect' line */}
             <div className="absolute -left-8 top-1/2 w-8 h-px bg-gradient-to-r from-transparent to-white/20 hidden md:block" />
 
-            <div className="group relative rounded-2xl border border-gray-200 bg-gray-100/50 backdrop-blur-xl p-8 md:p-12 overflow-hidden transition-all hover:border-white/20">
+            <div className="group relative rounded-2xl border border-gray-200 bg-gray-50  p-8 md:p-12 overflow-hidden transition-all hover:border-white/20">
               
               {/* Subtle hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -81,13 +81,13 @@ export function PhilosophySection() {
                         key={i} 
                         href={social.href} 
                         target="_blank"
-                        className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-white/5 hover:bg-white/10 transition-colors group/link"
+                        className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-white hover:bg-white transition-colors group/link"
                       >
                         <social.icon className="h-5 w-5 text-emerald-100/70 group-hover/link:text-black transition-colors" />
-                        <span className="text-sm text-neutral-300 group-hover/link:text-black transition-colors font-medium">
+                        <span className="text-sm text-gray-700 group-hover/link:text-black transition-colors font-medium">
                           {social.label}
                         </span>
-                        <ArrowUpRight className="h-3 w-3 text-neutral-600 group-hover/link:text-emerald-100/70 ml-auto opacity-0 group-hover/link:opacity-100 transition-all transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1" />
+                        <ArrowUpRight className="h-3 w-3 text-gray-800 group-hover/link:text-emerald-100/70 ml-auto opacity-0 group-hover/link:opacity-100 transition-all transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1" />
                       </Link>
                     ))}
                  </div>

@@ -18,7 +18,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
             <section className="py-24 px-4 bg-white relative overflow-hidden border-t border-gray-100">
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     <h2 className="text-3xl font-bold text-black mb-4">Premium Courses</h2>
-                    <div className="p-12 rounded-2xl bg-gray-100/50 border border-gray-200 backdrop-blur-sm">
+                    <div className="p-12 rounded-2xl bg-gray-50 border border-gray-200 ">
                         <BookOpen className="h-12 w-12 text-black/50 mx-auto mb-4 opacity-50" />
                         <h3 className="text-xl font-bold text-black mb-2">Curriculum in Development</h3>
                         <p className="text-emerald-100/70 max-w-lg mx-auto">
@@ -33,7 +33,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
     return (
         <section className="py-24 px-4 bg-white relative overflow-hidden">
             {/* Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -44,7 +44,7 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
                         </p>
                     </div>
                     <div>
-                        <Button variant="outline" className="rounded-full border-gray-200 hover:bg-white/5 text-[10px] font-bold uppercase tracking-widest text-black h-11 px-6" asChild>
+                        <Button variant="outline" className="rounded-full border-gray-200 hover:bg-white text-[10px] font-bold uppercase tracking-widest text-black h-11 px-6" asChild>
                             <Link href="/my-learning">
                                 Browse All <ArrowRight strokeWidth={1.5} className="ml-2 h-4 w-4" />
                             </Link>
@@ -64,12 +64,12 @@ export function CourseTeaser({ courses }: CourseTeaserProps) {
                                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
                                 ) : (
-                                    <div className="flex h-full items-center justify-center text-neutral-600">
+                                    <div className="flex h-full items-center justify-center text-gray-800">
                                         <BookOpen strokeWidth={1.5} className="h-12 w-12" />
                                     </div>
                                 )}
                                 <div className="absolute top-4 right-4">
-                                    <Badge className="bg-white/50 backdrop-blur border-gray-200 text-black hover:bg-white/70 text-[10px] font-bold px-3">
+                                    <Badge className="bg-white  border-gray-200 text-black hover:bg-white text-[10px] font-bold px-3">
                                         {course.price === 0 ? "FREE" : `$${course.price}`}
                                     </Badge>
                                 </div>

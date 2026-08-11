@@ -50,11 +50,11 @@ export function ProjectTiltCard({ project }: { project: Project }) {
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="group relative h-96 w-full rounded-2xl bg-white/5 border border-white/10"
+            className="group relative h-96 w-full rounded-2xl bg-white border border-white/10"
         >
             <div
                 style={{ transform: "translateZ(75px)" }}
-                className="absolute inset-4 overflow-hidden rounded-xl bg-white/50 shadow-2xl"
+                className="absolute inset-4 overflow-hidden rounded-xl bg-white shadow-2xl"
             >
                 {/* Project Image */}
                 <div className="relative h-full w-full">
@@ -74,20 +74,20 @@ export function ProjectTiltCard({ project }: { project: Project }) {
             >
                 <div className="mb-3 flex flex-wrap gap-2">
                     {project.tags.map(tag => (
-                        <Badge key={tag} variant="secondary" className="bg-white/10 text-white backdrop-blur-md border-white/10 text-[10px] uppercase tracking-widest font-bold">
+                        <Badge key={tag} variant="secondary" className="bg-white text-black  border-white/10 text-[10px] uppercase tracking-widest font-bold">
                             {tag}
                         </Badge>
                     ))}
                 </div>
-                <h3 className="mb-2 text-2xl font-bold text-white shadow-black/50 drop-shadow-lg tracking-tight">{project.title}</h3>
-                <p className="mb-6 text-sm text-neutral-400 font-medium line-clamp-2 leading-relaxed">{project.description}</p>
+                <h3 className="mb-2 text-2xl font-bold text-black shadow-black/50 drop-shadow-lg tracking-tight">{project.title}</h3>
+                <p className="mb-6 text-sm text-gray-600 font-medium line-clamp-2 leading-relaxed">{project.description}</p>
 
                 <div className="flex items-center gap-6">
                     {project.liveLink && (
                         <Link
                             href={project.liveLink}
                             target="_blank"
-                            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white hover:opacity-70 transition-all"
+                            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-70 transition-all"
                         >
                             Live Demo <ArrowUpRight strokeWidth={1.5} className="h-4 w-4" />
                         </Link>
@@ -96,7 +96,7 @@ export function ProjectTiltCard({ project }: { project: Project }) {
                         <Link
                             href={project.githubLink}
                             target="_blank"
-                            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-neutral-500 hover:text-white transition-all"
+                            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-all"
                         >
                             <Github strokeWidth={1.5} className="h-4 w-4" /> Code
                         </Link>

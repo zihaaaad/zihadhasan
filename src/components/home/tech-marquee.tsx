@@ -40,7 +40,7 @@ export function TechMarquee() {
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img src={tech.icon} alt={tech.name} className="max-w-full max-h-full invert" />
                             </div>
-                            <span className="text-sm font-medium font-mono tracking-wider text-neutral-400 group-hover:text-white transition-colors">
+                            <span className="text-sm font-medium font-mono tracking-wider text-gray-600 group-hover:text-black transition-colors">
                                 {tech.name}
                             </span>
                         </div>

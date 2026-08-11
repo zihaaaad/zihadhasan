@@ -71,11 +71,11 @@ export function SkillsSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className={`p-8 rounded-3xl border border-gray-200 bg-gray-100/30 backdrop-blur-md group hover:border-white/20 transition-all ${category.colSpan}`}
+              className={`p-8 rounded-3xl border border-gray-200 bg-gray-50  group hover:border-white/20 transition-all ${category.colSpan}`}
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-gray-200 group-hover:bg-white/10 transition-colors">
-                  <category.icon className="h-5 w-5 text-neutral-300" />
+                <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center border border-gray-200 group-hover:bg-white transition-colors">
+                  <category.icon className="h-5 w-5 text-gray-700" />
                 </div>
                 <h3 className="text-xl font-semibold">{category.title}</h3>
               </div>
@@ -84,7 +84,7 @@ export function SkillsSection() {
                 {category.skills.map((skill, sIdx) => (
                   <span 
                     key={sIdx}
-                    className="px-3 py-1.5 rounded-lg bg-white/50 border border-gray-100 text-sm text-emerald-100/70 hover:text-black transition-colors"
+                    className="px-3 py-1.5 rounded-lg bg-white border border-gray-100 text-sm text-emerald-100/70 hover:text-black transition-colors"
                   >
                     {skill}
                   </span>

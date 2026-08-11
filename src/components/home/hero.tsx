@@ -93,7 +93,7 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                                 </Link>
                             </Button>
 
-                            <Button size="lg" variant="outline" className="rounded-full px-8 text-black border-gray-200 hover:bg-white/5 h-14" asChild>
+                            <Button size="lg" variant="outline" className="rounded-full px-8 text-black border-gray-200 hover:bg-white h-14" asChild>
                                 <Link href="/contact">
                                     Get in Touch
                                 </Link>
@@ -147,9 +147,9 @@ export function Hero({ settings, projectCount, toolCount }: HeroProps) {
                         {/* Floating Elements - More Subtle */}
                         <div
                             style={{ transform: "translateZ(30px)" }}
-                            className="absolute -bottom-4 -left-4 z-40 flex items-center gap-3 rounded-xl border border-gray-100 bg-white/60 p-4 backdrop-blur-md"
+                            className="absolute -bottom-4 -left-4 z-40 flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-4 "
                         >
-                            <div className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center">
+                            <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center">
                                 <Code strokeWidth={1.5} className="h-4 w-4 text-black/70" />
                             </div>
                             <div className="text-[10px] text-black/50 font-mono tracking-widest uppercase">DHAKA, BD</div>

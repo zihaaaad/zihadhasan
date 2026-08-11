@@ -47,7 +47,7 @@ export function ExperienceSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-white/5 text-sm text-neutral-300 mb-6 font-mono uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-white text-sm text-gray-700 mb-6 font-mono uppercase tracking-widest"
           >
             <Briefcase className="h-4 w-4" />
             <span>Career</span>
@@ -80,7 +80,7 @@ export function ExperienceSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 * idx }}
-              className="group relative p-8 md:p-10 rounded-3xl border border-gray-100 bg-gray-100/20 hover:bg-gray-100/40 hover:border-gray-200 transition-all backdrop-blur-sm"
+              className="group relative p-8 md:p-10 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-gray-50 hover:border-gray-200 transition-all "
             >
               {/* Subtle hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl pointer-events-none" />
@@ -94,7 +94,7 @@ export function ExperienceSection() {
                 <div>
                   <h3 className="text-2xl font-semibold text-black mb-2">{exp.role}</h3>
                   <div className="text-lg text-gray-600 mb-6">{exp.company}</div>
-                  <p className="text-neutral-300 font-light leading-relaxed mb-8 max-w-2xl">
+                  <p className="text-gray-700 font-light leading-relaxed mb-8 max-w-2xl">
                     {exp.description}
                   </p>
                   
@@ -102,7 +102,7 @@ export function ExperienceSection() {
                     {exp.skills.map((skill, sIdx) => (
                       <span 
                         key={sIdx}
-                        className="px-3 py-1 rounded-full border border-gray-200 bg-white/5 text-xs text-neutral-300 tracking-wide font-medium"
+                        className="px-3 py-1 rounded-full border border-gray-200 bg-white text-xs text-gray-700 tracking-wide font-medium"
                       >
                         {skill}
                       </span>
