@@ -1,11 +1,19 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight, Code, Briefcase, GraduationCap, Lightbulb } from "lucide-react";
 import Link from "next/link";
 import { GlobalSettings } from "@/lib/cms-service";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+// Register GSAP plugins
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 interface ScrollPortfolioProps {
   settings?: GlobalSettings | null;
@@ -13,81 +21,49 @@ interface ScrollPortfolioProps {
 
 export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Track scroll progress over a very tall container (500vh) to give plenty of scrolling room
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
 
-  // ==========================================
-  // PERFECTLY CALCULATED SCROLL RANGES
-  // ==========================================
-  // P0 (0.00) to P1 (0.15): Slide 0 is fully visible and idle.
-  // P1 (0.15) to P2 (0.30): Transition Slide 0 -> Slide 1
-  // P2 (0.30) to P3 (0.45): Slide 1 is fully visible and idle.
-  // P3 (0.45) to P4 (0.60): Transition Slide 1 -> Slide 2
-  // P4 (0.60) to P5 (0.75): Slide 2 is fully visible and idle.
-  // P5 (0.75) to P6 (0.90): Transition Slide 2 -> Slide 3 (Finale)
-  // P6 (0.90) to P7 (1.00): Slide 3 is fully visible and idle.
+  useGSAP(() => {
+    // The timeline logic exactly as requested by the user's wireframe
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        pin: true,
+        scrub: 1, // Smooth viscous scrubbing effect
+        start: "top top",
+        end: "+=3500", // Controls the scroll duration length (3500px is a smooth length for 4 slides)
+      }
+    });
 
-  // --- TEXT ANIMATIONS (Vertical Slide Up & Fade) ---
-  const y0 = useTransform(scrollYProgress, [0.15, 0.3], ["0px", "-100px"]);
-  const o0 = useTransform(scrollYProgress, [0.15, 0.25], [1, 0]);
+    // 1. First Transition: Slide 0 -> Slide 1
+    tl.to(".text-slide-0", { y: -100, opacity: 0, duration: 1 }, 0)
+      .to(".img-slide-0", { xPercent: -120, scale: 0.8, rotationY: -15, rotationZ: -5, opacity: 0, duration: 1, transformOrigin: "left center" }, 0)
+      .to(".text-slide-1", { y: 0, opacity: 1, duration: 1 }, 0.5) // New text slides in halfway through
+      
+      // Pause/Plateau to comfortably read Slide 1
+      .to({}, { duration: 0.5 }) 
 
-  const y1 = useTransform(scrollYProgress, [0.15, 0.3, 0.45, 0.6], ["100px", "0px", "0px", "-100px"]);
-  const o1 = useTransform(scrollYProgress, [0.2, 0.3, 0.45, 0.55], [0, 1, 1, 0]);
+    // 2. Second Transition: Slide 1 -> Slide 2
+      .to(".text-slide-1", { y: -100, opacity: 0, duration: 1 })
+      .to(".img-slide-1", { xPercent: -120, scale: 0.8, rotationY: -15, rotationZ: -5, opacity: 0, duration: 1, transformOrigin: "left center" }, "<") 
+      .to(".text-slide-2", { y: 0, opacity: 1, duration: 1 }, "<0.5")
 
-  const y2 = useTransform(scrollYProgress, [0.45, 0.6, 0.75, 0.9], ["100px", "0px", "0px", "-100px"]);
-  const o2 = useTransform(scrollYProgress, [0.5, 0.6, 0.75, 0.85], [0, 1, 1, 0]);
+      // Pause/Plateau to comfortably read Slide 2
+      .to({}, { duration: 0.5 })
 
-  const y3 = useTransform(scrollYProgress, [0.75, 0.9], ["100px", "0px"]);
-  const o3 = useTransform(scrollYProgress, [0.8, 0.9], [0, 1]);
+    // 3. Third Transition: Slide 2 -> Slide 3 (Grand Finale)
+      .to(".text-slide-2", { y: -100, opacity: 0, duration: 1 })
+      .to(".img-slide-2", { xPercent: -120, scale: 0.8, rotationY: -15, rotationZ: -5, opacity: 0, duration: 1, transformOrigin: "left center" }, "<")
+      
+      // The landscape grand finale image scales up to fill the space
+      .to(".img-slide-3", { scale: 1, opacity: 1, duration: 1 }, "<")
+      .to(".text-slide-3", { y: 0, opacity: 1, duration: 1 }, "<0.5")
 
-  const textTransforms = [
-    { y: y0, opacity: o0 },
-    { y: y1, opacity: o1 },
-    { y: y2, opacity: o2 },
-    { y: y3, opacity: o3 },
-  ];
+      // Final Pause at the bottom
+      .to({}, { duration: 0.5 });
+      
+  }, { scope: containerRef });
 
-  // --- IMAGE ANIMATIONS (Deck of Cards effect) ---
-  // Top image slides left (towards the text), scales down, and flips back in 3D perspective.
-  // Because the text column has a higher z-index, the image slides UNDER the text, disappearing elegantly.
-
-  // Image 0 (Top card)
-  const xImg0 = useTransform(scrollYProgress, [0.15, 0.3], ["0%", "-100%"]); 
-  const sImg0 = useTransform(scrollYProgress, [0.15, 0.3], [1, 0.8]); 
-  const rY0 = useTransform(scrollYProgress, [0.15, 0.3], ["0deg", "-15deg"]); // 3D flip backwards
-  const rZ0 = useTransform(scrollYProgress, [0.15, 0.3], ["0deg", "-5deg"]);  // 2D tilt
-  const oImg0 = useTransform(scrollYProgress, [0.25, 0.3], [1, 0]); 
-  
-  // Image 1
-  const xImg1 = useTransform(scrollYProgress, [0.45, 0.6], ["0%", "-100%"]);
-  const sImg1 = useTransform(scrollYProgress, [0.45, 0.6], [1, 0.8]);
-  const rY1 = useTransform(scrollYProgress, [0.45, 0.6], ["0deg", "-15deg"]);
-  const rZ1 = useTransform(scrollYProgress, [0.45, 0.6], ["0deg", "-5deg"]);
-  const oImg1 = useTransform(scrollYProgress, [0.55, 0.6], [1, 0]);
-
-  // Image 2
-  const xImg2 = useTransform(scrollYProgress, [0.75, 0.9], ["0%", "-100%"]);
-  const sImg2 = useTransform(scrollYProgress, [0.75, 0.9], [1, 0.8]);
-  const rY2 = useTransform(scrollYProgress, [0.75, 0.9], ["0deg", "-15deg"]);
-  const rZ2 = useTransform(scrollYProgress, [0.75, 0.9], ["0deg", "-5deg"]);
-  const oImg2 = useTransform(scrollYProgress, [0.85, 0.9], [1, 0]);
-
-  // Image 3 (Grand Finale Widescreen)
-  // Sits at the very bottom. Scales up powerfully as the final portrait card flies away.
-  const sImg3 = useTransform(scrollYProgress, [0.75, 0.9], [0.6, 1.0]);
-  const oImg3 = useTransform(scrollYProgress, [0.75, 0.85], [0, 1]);
-
-  const imgTransforms = [
-    { x: xImg0, scale: sImg0, rotateY: rY0, rotateZ: rZ0, opacity: oImg0, zIndex: 40 },
-    { x: xImg1, scale: sImg1, rotateY: rY1, rotateZ: rZ1, opacity: oImg1, zIndex: 30 },
-    { x: xImg2, scale: sImg2, rotateY: rY2, rotateZ: rZ2, opacity: oImg2, zIndex: 20 },
-  ];
-
-  // Re-ordered data to match the requested animation sequence
+  // Slide Data
   const slides = [
     {
       id: 0,
@@ -108,10 +84,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
             </Link>
           </div>
         </>
-      ),
-      imageSrc: "/images/portfolio/Man_posing_for_professional_port.png",
-      imageAlt: "Zihad Hasan posing",
-      type: "portrait"
+      )
     },
     {
       id: 1,
@@ -132,10 +105,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
             ))}
           </ul>
         </>
-      ),
-      imageSrc: "/images/portfolio/Man_speaking_in_technology_class.png",
-      imageAlt: "Zihad Hasan teaching in class",
-      type: "portrait"
+      )
     },
     {
       id: 2,
@@ -154,10 +124,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
             Read my latest thoughts <ArrowRight className="h-4 w-4" />
           </Link>
         </>
-      ),
-      imageSrc: "/images/portfolio/Man_thinking.png",
-      imageAlt: "Zihad Hasan thinking",
-      type: "portrait"
+      )
     },
     {
       id: 3, // GRAND FINALE
@@ -183,108 +150,76 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
             </p>
           </div>
         </div>
-      ),
-      imageSrc: "/images/portfolio/Man_working_at_desk.png",
-      imageAlt: "Zihad Hasan working at desk",
-      type: "landscape"
-    },
+      )
+    }
   ];
 
   return (
     <div className="bg-white text-black relative">
       
       {/* 
-        TALL CONTAINER: 500vh tall to allow plenty of scrubbing room and plateaus where the user can comfortably read text.
+        GSAP PINNED CONTAINER: 
+        This is a standard 100vh height container. GSAP's pin: true will automatically wrap it in a pin-spacer 
+        and handle all the scroll padding (unlike Framer Motion where we had to manually set it to 500vh). 
       */}
-      <div ref={containerRef} className="h-[500vh] relative w-full">
+      <div ref={containerRef} className="h-screen w-full relative overflow-hidden bg-white">
         
-        {/* 
-          STICKY WINDOW: 100vh tall, stays pinned to the screen while you scroll.
-        */}
-        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12 lg:gap-20 h-full py-20 relative">
           
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12 lg:gap-20 h-full py-20 relative">
-            
-            {/* 
-              LEFT COLUMN: Text Content (Scrubbed Vertical Slide) 
-              z-index 50 ensures that when the images slide left, they slide UNDER the text column elegantly.
-            */}
-            <div className="w-full md:w-[45%] relative h-full z-50">
-              {slides.map((slide, index) => (
-                <motion.div
-                  key={`text-${slide.id}`}
-                  style={{
-                    y: textTransforms[index].y,
-                    opacity: textTransforms[index].opacity,
-                  }}
-                  className="absolute inset-0 flex flex-col justify-center pointer-events-none"
-                >
-                  <div className="pointer-events-auto bg-white/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none p-6 md:p-0 rounded-2xl">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-mono uppercase tracking-widest text-gray-600 mb-6 shadow-sm">
-                      {slide.tagIcon} {slide.tagText}
-                    </div>
-                    
-                    <h2 className="text-5xl lg:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
-                      {slide.title}
-                    </h2>
-                    
-                    {slide.content}
+          {/* 
+            LEFT COLUMN: Text Content
+            z-index 50 ensures that images slide seamlessly UNDER the text.
+          */}
+          <div className="w-full md:w-[45%] relative h-full z-50">
+            {slides.map((slide, index) => (
+              <div
+                key={`text-${slide.id}`}
+                className={`text-slide-${index} absolute inset-0 flex flex-col justify-center pointer-events-none ${
+                  index === 0 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[100px]"
+                }`}
+              >
+                <div className="pointer-events-auto bg-white/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none p-6 md:p-0 rounded-2xl">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-mono uppercase tracking-widest text-gray-600 mb-6 shadow-sm">
+                    {slide.tagIcon} {slide.tagText}
                   </div>
-                </motion.div>
-              ))}
+                  <h2 className="text-5xl lg:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
+                    {slide.title}
+                  </h2>
+                  {slide.content}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* 
+            RIGHT COLUMN: Images Stack (Deck of Cards)
+            perspective creates the 3D flip effect.
+          */}
+          <div className="hidden md:flex w-full md:w-[55%] h-full items-center justify-center relative perspective-[1200px] z-40">
+            
+            {/* Image 3: Grand Finale Widescreen. Starts completely hidden and scaled down */}
+            <div className="img-slide-3 absolute w-full max-w-[600px] aspect-[4/3] lg:aspect-video rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-10 opacity-0 scale-[0.6]">
+              <Image 
+                src="/images/portfolio/Man_working_at_desk.png"
+                alt="Zihad Hasan working at desk"
+                fill 
+                className="object-cover" 
+                priority
+              />
+              <div className="absolute inset-0 bg-black/5 mix-blend-overlay pointer-events-none" />
             </div>
 
-            {/* 
-              RIGHT COLUMN: Images (Scrubbed Stack of Cards) 
-              perspective ensures the rotateY (3D flip) looks realistic.
-            */}
-            <div className="hidden md:flex w-full md:w-[55%] h-full items-center justify-center relative perspective-[1200px] z-40">
-              
-              {/* Image 3: Grand Finale (Landscape) - Bottom of the stack */}
-              <motion.div
-                style={{
-                  scale: sImg3,
-                  opacity: oImg3,
-                  zIndex: 10,
-                }}
-                className="absolute w-full aspect-[4/3] lg:aspect-video rounded-3xl overflow-hidden shadow-2xl border-[6px] border-white bg-gray-100"
-              >
-                <Image 
-                  src={slides[3].imageSrc}
-                  alt={slides[3].imageAlt}
-                  fill 
-                  className="object-cover" 
-                  priority
-                />
-                <div className="absolute inset-0 bg-black/5 mix-blend-overlay pointer-events-none" />
-              </motion.div>
+            {/* Images 2, 1, 0: The Portrait Stack */}
+            <div className="img-slide-2 absolute w-[85%] max-w-[400px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-20">
+              <Image src="/images/portfolio/Man_thinking.png" alt="Thinking" fill className="object-cover" priority />
+            </div>
+            
+            <div className="img-slide-1 absolute w-[85%] max-w-[400px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-30">
+              <Image src="/images/portfolio/Man_speaking_in_technology_class.png" alt="Teaching" fill className="object-cover" priority />
+            </div>
 
-              {/* Images 0, 1, 2 (Portraits) - Top of the stack sliding away */}
-              {[2, 1, 0].map((idx) => (
-                <motion.div
-                  key={`img-${slides[idx].id}`}
-                  style={{
-                    x: imgTransforms[idx].x,
-                    scale: imgTransforms[idx].scale,
-                    rotateY: imgTransforms[idx].rotateY,
-                    rotateZ: imgTransforms[idx].rotateZ,
-                    opacity: imgTransforms[idx].opacity,
-                    zIndex: imgTransforms[idx].zIndex,
-                    transformOrigin: "left center" 
-                  }}
-                  className="absolute w-[75%] max-w-md aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border-[6px] border-white bg-gray-100"
-                >
-                  <Image 
-                    src={slides[idx].imageSrc}
-                    alt={slides[idx].imageAlt}
-                    fill 
-                    className="object-cover" 
-                    priority
-                  />
-                  {/* Subtle lighting gradient to add depth to the cards */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/20 pointer-events-none mix-blend-overlay" />
-                </motion.div>
-              ))}
+            <div className="img-slide-0 absolute w-[85%] max-w-[400px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-40">
+              <Image src="/images/portfolio/Man_posing_for_professional_port.png" alt="Professional Portrait" fill className="object-cover" priority />
             </div>
 
           </div>
