@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight, Code, Briefcase, GraduationCap, Lightbulb } from "lucide-react";
@@ -13,14 +13,13 @@ interface ScrollPortfolioProps {
 
 // Custom hook to detect when a section is active
 function useSectionObserver(sectionIds: string[]) {
-  const [activeSection, setActiveSection] = useState(0);
+  const [activeSection, setActiveSection] = useState(-1);
 
   useEffect(() => {
     const observers = sectionIds.map((id, index) => {
       const element = document.getElementById(id);
       if (!element) return null;
 
-      // The margin means: trigger when the section crosses the middle of the screen
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -29,7 +28,7 @@ function useSectionObserver(sectionIds: string[]) {
             }
           });
         },
-        { rootMargin: "-50% 0px -50% 0px" }
+        { rootMargin: "-40% 0px -40% 0px" } // Triggers slightly before the exact middle
       );
 
       observer.observe(element);
@@ -52,53 +51,89 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
   const heroSubtitle = settings?.heroSubtitle || "Software Engineer and Tech Educator crafting high-performance digital experiences.";
 
   const images = [
-    { src: "/images/portfolio/Man_posing_for_professional_port.png", alt: "Zihad Hasan posing" },
-    { src: "/images/portfolio/Man_working_at_desk.png", alt: "Zihad Hasan working at desk" },
-    { src: "/images/portfolio/Man_speaking_in_technology_class.png", alt: "Zihad Hasan teaching in class" },
-    { src: "/images/portfolio/Man_thinking.png", alt: "Zihad Hasan thinking" },
+    { 
+      src: "/images/portfolio/Man_posing_for_professional_port.png", 
+      alt: "Zihad Hasan posing",
+      aspect: "aspect-[3/4]" // Portrait style for intro
+    },
+    { 
+      src: "/images/portfolio/Man_working_at_desk.png", 
+      alt: "Zihad Hasan working at desk",
+      aspect: "aspect-[4/3]" // Landscape-ish for desk
+    },
+    { 
+      src: "/images/portfolio/Man_speaking_in_technology_class.png", 
+      alt: "Zihad Hasan teaching in class",
+      aspect: "aspect-video" // Wide for teaching class
+    },
+    { 
+      src: "/images/portfolio/Man_thinking.png", 
+      alt: "Zihad Hasan thinking",
+      aspect: "aspect-square" // Square for philosophy
+    },
   ];
 
   return (
     <div className="relative w-full bg-white text-black">
       
       {/* 
-        Two-column layout on Desktop.
-        Mobile defaults to a stacked layout.
+        INITIAL LOAD HERO 
+        Clean, centered, no image initially.
+      */}
+      <section className="min-h-screen flex flex-col items-center justify-center text-center px-4 max-w-5xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} // Custom spring-like bezier
+        >
+          <div className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-sm font-mono uppercase tracking-widest text-gray-600 mb-8">
+            <Code className="h-4 w-4" /> Hello, I am Zihad
+          </div>
+          
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
+            {typeof heroTitle === 'string' 
+              ? <span dangerouslySetInnerHTML={{ __html: heroTitle.replace(/\n/g, "<br/>") }} /> 
+              : heroTitle}
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-gray-500 font-light leading-relaxed max-w-3xl mx-auto mb-12">
+            {heroSubtitle}
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/contact" className="inline-flex h-14 items-center justify-center rounded-full bg-black px-8 text-base font-semibold text-white transition-all hover:scale-105 active:scale-95">
+              Get in Touch
+            </Link>
+            <Link href="/projects" className="inline-flex h-14 items-center justify-center rounded-full border border-gray-200 bg-white px-8 text-base font-semibold text-black transition-all hover:bg-gray-50 hover:scale-105 active:scale-95">
+              View Projects <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* 
+        STICKY SCROLLING PORTFOLIO
+        Left side: Text. Right side: Dynamic Images.
       */}
       <div className="flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* LEFT COLUMN: Scrolling Content */}
-        <div className="w-full md:w-1/2 md:pr-12 lg:pr-20">
+        <div className="w-full md:w-1/2 md:pr-12 lg:pr-20 pb-40">
           
-          {/* SECTION 0: Intro / Hero */}
+          {/* SECTION 0: About Me */}
           <section id="section-0" className="min-h-screen flex flex-col justify-center py-20">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-mono uppercase tracking-widest text-gray-600 mb-8 self-start">
-              <Code className="h-3 w-3" /> Hello, I am Zihad
-            </div>
-            
-            <h1 className="text-5xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
-              {typeof heroTitle === 'string' 
-                ? <span dangerouslySetInnerHTML={{ __html: heroTitle.replace(/\n/g, "<br/>") }} /> 
-                : heroTitle}
-            </h1>
-            
-            <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-10">
-              {heroSubtitle}
-            </p>
+            <h2 className="text-5xl lg:text-6xl font-bold tracking-tight mb-8">
+              The <span className="text-gray-400">Architect.</span>
+            </h2>
 
-            {/* Mobile-only image display (Fixed to 16:9 aspect ratio) */}
-            <div className="md:hidden relative w-full aspect-video rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
+            {/* Mobile Image */}
+            <div className="md:hidden relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
               <Image src={images[0].src} alt={images[0].alt} fill className="object-cover" />
             </div>
 
-            <div className="flex flex-wrap gap-4">
-              <Link href="/contact" className="inline-flex h-14 items-center justify-center rounded-full bg-black px-8 text-sm font-semibold text-white transition-colors hover:bg-gray-800">
-                Get in Touch
-              </Link>
-              <Link href="/projects" className="inline-flex h-14 items-center justify-center rounded-full border border-gray-200 bg-white px-8 text-sm font-semibold text-black transition-colors hover:bg-gray-50">
-                View Projects <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </div>
+            <p className="text-xl text-gray-600 leading-relaxed">
+              I am a full-stack engineer and educator who bridges the gap between complex technical systems and human-centered design. I specialize in building scalable software, teaching artificial intelligence, and crafting digital experiences that feel intuitive and powerful.
+            </p>
           </section>
 
 
@@ -112,8 +147,8 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
               Engineering <br/><span className="text-gray-400">Excellence.</span>
             </h2>
 
-            {/* Mobile-only image display (Fixed to 16:9 aspect ratio) */}
-            <div className="md:hidden relative w-full aspect-video rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
+            {/* Mobile Image */}
+            <div className="md:hidden relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
               <Image src={images[1].src} alt={images[1].alt} fill className="object-cover" />
             </div>
 
@@ -149,7 +184,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
               Empowering through <br/><span className="text-gray-400">Education.</span>
             </h2>
 
-            {/* Mobile-only image display (Fixed to 16:9 aspect ratio) */}
+            {/* Mobile Image */}
             <div className="md:hidden relative w-full aspect-video rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
               <Image src={images[2].src} alt={images[2].alt} fill className="object-cover" />
             </div>
@@ -179,8 +214,8 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
               Building for the <br/><span className="text-gray-400">Long Term.</span>
             </h2>
 
-            {/* Mobile-only image display (Fixed to 16:9 aspect ratio) */}
-            <div className="md:hidden relative w-full aspect-video rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
+            {/* Mobile Image */}
+            <div className="md:hidden relative w-full aspect-square rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
               <Image src={images[3].src} alt={images[3].alt} fill className="object-cover" />
             </div>
 
@@ -204,19 +239,28 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
 
         {/* RIGHT COLUMN: Sticky Interactive Image (Desktop Only) */}
         <div className="hidden md:flex w-1/2 h-screen sticky top-0 items-center justify-center p-8">
+          
           {/* 
-            The image container. We use AnimatePresence for flawless fade transitions.
-            Fixed to 16:9 aspect ratio (aspect-video) to perfectly match your 1376x768 photos without cropping.
+            The activeIndex controls whether an image is shown.
+            We use framer-motion layout animations to smoothly morph the container size
+            between aspect-[4/3], aspect-[16/9], aspect-square, etc.
+            A highly damped spring gives it that "sticky/viscous" water-like premium feel.
           */}
-          <div className="relative w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl bg-gray-100 border border-gray-200">
-            <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait">
+            {activeIndex >= 0 && (
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, scale: 1.05 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-0"
+                layoutId="portfolio-image-container"
+                initial={{ opacity: 0, scale: 0.8, y: 50, filter: "blur(10px)" }}
+                animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 1.1, y: -50, filter: "blur(10px)" }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 20,
+                  mass: 1
+                }}
+                className={`relative w-full max-h-[80vh] rounded-[2rem] overflow-hidden shadow-2xl bg-gray-100 border border-gray-200 ${images[activeIndex].aspect}`}
               >
                 <Image 
                   src={images[activeIndex].src}
@@ -225,9 +269,13 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
                   className="object-cover" 
                   priority={activeIndex === 0}
                 />
+                
+                {/* Subtle vignette/gradient over the image for premium feel */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
               </motion.div>
-            </AnimatePresence>
-          </div>
+            )}
+          </AnimatePresence>
+          
         </div>
 
       </div>
