@@ -1,5 +1,18 @@
 [
   {
+    "id": "zihadhasan",
+    "name": "zihadhasan",
+    "description": "Personal platform and portfolio codebase built with Next.js 15, React 19, and Firebase.",
+    "html_url": "https://github.com/zihaaaad/zihadhasan",
+    "homepage": "https://zihadhasan.web.app/",
+    "stargazers_count": 0,
+    "forks_count": 1,
+    "language": "TypeScript",
+    "updated_at": "2026-09-12T10:17:29Z",
+    "topics": [],
+    "private": false
+  },
+  {
     "id": "zihaaaad",
     "name": "zihaaaad",
     "description": "Config files for my GitHub profile.",
@@ -87,19 +100,6 @@
     "forks_count": 0,
     "language": "TypeScript",
     "updated_at": "2026-09-09T07:54:32Z",
-    "topics": [],
-    "private": false
-  },
-  {
-    "id": "zihadhasan",
-    "name": "zihadhasan",
-    "description": "Personal platform and portfolio codebase built with Next.js 15, React 19, and Firebase.",
-    "html_url": "https://github.com/zihaaaad/zihadhasan",
-    "homepage": "https://zihadhasan.web.app/",
-    "stargazers_count": 0,
-    "forks_count": 1,
-    "language": "TypeScript",
-    "updated_at": "2026-09-08T08:17:36Z",
     "topics": [],
     "private": false
   },
