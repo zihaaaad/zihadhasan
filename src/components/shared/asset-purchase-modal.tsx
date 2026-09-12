@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Loader2, Copy, CheckCircle2, ShieldCheck, X } from "lucide-react";
+import { Loader2, Copy, ShieldCheck, X } from "lucide-react";
 import { formatCurrency } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,7 +18,6 @@ import {
 import {
  Form,
  FormControl,
- FormDescription,
  FormField,
  FormItem,
  FormLabel,

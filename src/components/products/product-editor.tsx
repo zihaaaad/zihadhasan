@@ -1,12 +1,13 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Loader2, Upload, X, Plus } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import { toast } from "sonner";
+import { errorMessage } from "@/lib/utils";
 import { Product, CMSService } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,7 +60,6 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  imageUrl: product?.imageUrl || "",
  downloadUrl: product?.downloadUrl || "",
  published: product?.published || false,
- // @ts-ignore - Assets array strict type workaround
  assets: product?.assets || [],
  },
  });
@@ -80,10 +80,10 @@ export function ProductEditor({ product, onSuccess, onCancel }: ProductEditorPro
  toast.success("Product created successfully");
  }
  onSuccess();
- } catch (error: any) {
+ } catch (error) {
  console.error("Product Save Error:", error);
  // Show more detailed error if available from Firebase/Schema
- toast.error(error.message || "Failed to save product");
+ toast.error(errorMessage(error, "Failed to save product"));
  } finally {
  setSaving(false);
  }

@@ -1,18 +1,17 @@
 
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useAuth, UserProfile } from "@/components/auth/auth-provider";
+import { useAuth } from "@/components/auth/auth-provider";
 import { CMSService, Registration, Course } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
-import { Loader2, Users, BookOpen, CheckCircle, Clock, PlayCircle } from "lucide-react";
+import { Loader2, BookOpen, CheckCircle, PlayCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { EnrollmentModal } from "@/components/courses/enrollment-modal";
 import { LessonsList } from "@/components/courses/lessons-list";
 import { generateCourseSchema } from "@/lib/schema-generator";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Lesson } from "@/lib/cms-service";
@@ -99,14 +98,6 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  }
  }, [id]);
 
- useEffect(() => {
- if (user && id) {
- checkRegistration(id);
- } else {
- setRegistration(null);
- }
- }, [user, id]);
-
  // Paid lesson URLs are gated behind courses/{id}/secure/lessons. Fetch them
  // once entitlement is known and merge them onto the course in state, so the
  // player has a real src while non-entitled visitors keep the locked view.
@@ -136,7 +127,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  }
  };
 
- const checkRegistration = async (courseId: string) => {
+ const checkRegistration = useCallback(async (courseId: string) => {
  if (!user?.email) return;
  try {
  const reg = await CMSService.getUserCourseRegistration(user.uid, courseId);
@@ -144,7 +135,15 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  } catch (error) {
  console.error("Failed to check registration", error);
  }
- };
+ }, [user]);
+
+ useEffect(() => {
+ if (user && id) {
+ checkRegistration(id);
+ } else {
+ setRegistration(null);
+ }
+ }, [user, id, checkRegistration]);
 
  const handleEnroll = async () => {
  if (!user) {
@@ -453,7 +452,7 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
         </div>
 
         <div className="p-8 border border-border bg-background rounded-3xl shadow-sm">
-          <h2 className="text-xl font-bold text-foreground mb-6 uppercase tracking-tight">What you'll learn</h2>
+          <h2 className="text-xl font-bold text-foreground mb-6 uppercase tracking-tight">What you&apos;ll learn</h2>
           <ul className="space-y-4">
             {[1, 2, 3].map((_, i) => (
               <li key={i} className="flex items-start gap-3 text-sm text-gray-600 font-medium">

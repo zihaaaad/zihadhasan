@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -176,16 +176,15 @@ export function EnrollmentModal({ course, open, onOpenChange, onSuccess }: Enrol
  <span className="text-muted-foreground uppercase font-bold tracking-widest text-[9px]">{paymentMethod} Number</span>
  <div className="flex items-center gap-2">
                     <span className="font-mono text-foreground text-lg font-bold">
- {paymentMethod === 'bkash' ? settings?.paymentNumbers?.bkash : settings?.paymentNumbers?.nagad || "N/A"}
+ {paymentNumber || "N/A"}
  </span>
  <button
  onClick={() => {
- const num = paymentMethod === 'bkash' ? settings?.paymentNumbers?.bkash : settings?.paymentNumbers?.nagad;
- if (num) handleCopy(num);
+ if (paymentNumber) handleCopy(paymentNumber);
  }}
                       className="text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      {copied === (paymentMethod === 'bkash' ? settings?.paymentNumbers?.bkash : settings?.paymentNumbers?.nagad) ?
+                      {copied === paymentNumber ?
                         <Check strokeWidth={1.5} className="h-4 w-4 text-foreground" /> : <Copy strokeWidth={1.5} className="h-4 w-4" />
                       }
  </button>

@@ -1,4 +1,5 @@
 import { db } from "../firebase";
+import type { Registration } from "./registration-service";
 import {
  collection,
  addDoc,
@@ -42,13 +43,13 @@ export const EventService = {
  });
  },
 
- getEvents: async (publishedOnly: boolean = false, limitCount: number = 20) => {
+ // Events have no `published` field, so there is nothing to filter on. This
+ // used to take a `publishedOnly` flag that was accepted and then silently
+ // ignored, which made getPublishedEvents() a misleading alias.
+ getEvents: async (limitCount: number = 20) => {
  try {
  const constraints = [where("isDeleted", "==", false)];
- // Note: Pricing or other logic might determine 'published' for events if needed, 
- // but currently events don't have a 'published' flag in the interface. 
- // If they did, we'd add it here. Adding it for future-proofing and consistency.
- 
+
  const q = query(
  collection(db, "events"),
  ...constraints,
@@ -63,8 +64,9 @@ export const EventService = {
  }
  },
 
+ /** @deprecated Events have no published flag; identical to getEvents(). */
  getPublishedEvents: async (limitCount: number = 20) => {
- return EventService.getEvents(true, limitCount);
+ return EventService.getEvents(limitCount);
  },
 
  getEvent: async (id: string) => {
@@ -162,7 +164,7 @@ export const EventService = {
  const docSnap = await getDoc(docRef);
 
  if (docSnap.exists()) {
- return { id: docSnap.id, ...docSnap.data() } as any; // Using explicit type is better but 'any' matches file convention
+ return { id: docSnap.id, ...docSnap.data() } as Registration;
  }
 
  // 2. Fallback Query
@@ -170,6 +172,6 @@ export const EventService = {
  const snapshot = await getDocs(q);
  if (snapshot.empty) return null;
  const fallbackDoc = snapshot.docs[0];
- return { id: fallbackDoc.id, ...fallbackDoc.data() } as any;
+ return { id: fallbackDoc.id, ...fallbackDoc.data() } as Registration;
  },
 };

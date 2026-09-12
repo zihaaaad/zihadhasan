@@ -1,10 +1,9 @@
 "use client";
 
-import { CMSService, Book } from "@/lib/cms-service";
+import { Book } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Lock } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import sanitizeHtml from "sanitize-html";
 
 interface BookPreviewClientProps {

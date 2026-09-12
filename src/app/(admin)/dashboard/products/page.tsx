@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Search, ShoppingBag, Download, Package, MoreVertical, Pencil, Trash2, ExternalLink } from "lucide-react";
+import { Plus, Search, ShoppingBag, Download, Package, MoreVertical, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Product, CMSService } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,6 @@ import {
  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatCurrency } from "@/lib/format";
-import { GlassCard } from "@/components/shared/glass-card";
 import { ProductEditor } from "@/components/products/product-editor";
 import {
  AlertDialog,

@@ -76,6 +76,19 @@
                         "value": "SAMEORIGIN"
                     }
                 ]
+            },
+            {
+                "source": "/@(dashboard|login|notifications|my-account){,/**}",
+                "headers": [
+                    {
+                        "key": "X-Robots-Tag",
+                        "value": "noindex, nofollow, noarchive"
+                    },
+                    {
+                        "key": "Cache-Control",
+                        "value": "no-store"
+                    }
+                ]
             }
         ],
         "rewrites": [

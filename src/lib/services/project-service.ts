@@ -3,7 +3,6 @@ import {
  collection,
  addDoc,
  updateDoc,
- deleteDoc,
  doc,
  getDocs,
  query,
@@ -34,6 +33,29 @@ export interface Tool {
  imageUrl?: string;
  createdAt?: Timestamp;
  isDeleted?: boolean;
+}
+
+/**
+ * TEMPORARY - delete once `node scripts/fix-project-descriptions.mjs` has run.
+ *
+ * Two of these three descriptions are wrong in Firestore: Rupantor is an
+ * Electron/React desktop font manager and Adobe automation hub, not a compiler,
+ * and Jontro is an offline desktop utility suite, not a build tool. Both the
+ * repositories' own descriptions and the CV say so. Applied in one place so the
+ * build-time render and the client-side refresh cannot disagree.
+ */
+const COPY_OVERRIDES: Record<string, string> = {
+ Jontro: "An offline, privacy-first utility suite for the desktop - video conversion, WASM-powered OCR, PDF tools, image cropping and vector tracing, all running locally with zero cloud dependency.",
+ Chuti: "An offline-first leave and holiday management system using SQLite WAL storage with LAN sharing, so a small team can run scheduling entirely on its own network.",
+ Rupantor: "Free, open-source desktop font manager and Adobe automation hub for Windows and macOS. Built with Electron, React and TypeScript, with a serverless Firebase licensing system, offline grace periods and deep Adobe After Effects integration.",
+};
+
+export function applyProjectCopyOverrides(projects: Project[]): Project[] {
+ return projects.map((project) =>
+ COPY_OVERRIDES[project.title]
+ ? { ...project, description: COPY_OVERRIDES[project.title] }
+ : project
+ );
 }
 
 export const ProjectService = {

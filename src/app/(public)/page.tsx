@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { CoreService } from "@/lib/services/core-service";
 import { ScrollPortfolio } from "@/components/home/scroll-portfolio";
 

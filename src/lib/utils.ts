@@ -32,3 +32,25 @@ export function downloadCSV(filename: string, headers: string[], rows: (string |
  link.click();
  document.body.removeChild(link);
 }
+
+/**
+ * Narrow an unknown thrown value to a displayable message.
+ *
+ * Catch clauses used to be typed `catch (error: any)` and read `error.message`
+ * directly, which is undefined for anything that is not an Error - a thrown
+ * string, or one of the bare string rejections this codebase uses in a few
+ * transactions ("Registration not found").
+ */
+export function errorMessage(error: unknown, fallback = "Something went wrong"): string {
+  if (error instanceof Error && error.message) return error.message;
+  if (typeof error === "string" && error) return error;
+  return fallback;
+}
+
+/** Firebase Auth and Firestore errors carry a string `code` such as `auth/invalid-credential`. */
+export function errorCode(error: unknown): string | undefined {
+  if (typeof error === "object" && error !== null && "code" in error) {
+    return String((error as { code: unknown }).code);
+  }
+  return undefined;
+}

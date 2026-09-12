@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { CMSService, Book } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2, BookOpen, ExternalLink } from "lucide-react";
-import { GlassCard } from "@/components/shared/glass-card";
 import Link from "next/link";
 import { toast } from "sonner";
 import { formatCurrency } from "@/lib/format";
@@ -41,7 +40,7 @@ export default function AdminBooksPage() {
  toast.success("Book deleted");
  setDeletingId(null);
  loadBooks();
- } catch (e) {
+ } catch {
  toast.error("Failed to delete");
  }
  };
@@ -112,7 +111,7 @@ export default function AdminBooksPage() {
  <AlertDialogHeader>
  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
  <AlertDialogDescription>
- This will soft-delete the book. It can be restored from the trash bin on the System page until it's permanently purged.
+ This will soft-delete the book. It can be restored from the trash bin on the System page until it&apos;s permanently purged.
  </AlertDialogDescription>
  </AlertDialogHeader>
  <AlertDialogFooter>

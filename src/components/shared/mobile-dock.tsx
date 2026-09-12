@@ -11,7 +11,6 @@ import {
  Wrench,
  Layers,
  FileText,
- Mail,
  Calendar,
 } from "lucide-react";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -59,7 +58,8 @@ export function MobileDock() {
  const f = settings.features;
  const filtered = navItems.filter((item) => {
  if (!item.feature) return true;
- // @ts-ignore
+ // @ts-expect-error item.feature is a key of the features map, which
+ // GlobalSettings types as a fixed object rather than an index signature.
  return f[item.feature] !== false;
  });
  setItems(filtered);

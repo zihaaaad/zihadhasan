@@ -50,7 +50,7 @@ function BlogPostContent() {
  <div className="min-h-screen pt-24 text-center text-muted-foreground flex flex-col items-center justify-center p-4">
  <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
  <p className="text-muted-foreground/80 max-w-md">
- We couldn't find the post "{slug}". It might not exist or hasn't been published yet.
+ We couldn&apos;t find the post &quot;{slug}&quot;. It might not exist or hasn&apos;t been published yet.
  </p>
  <div className="mt-8">
  <Link href="/blog" className="text-primary hover:underline">Return to Blog</Link>

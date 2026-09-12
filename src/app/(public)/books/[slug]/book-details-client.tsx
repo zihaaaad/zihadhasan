@@ -7,7 +7,6 @@ import { ArrowLeft, BookOpen, ShieldCheck, ShoppingCart, Eye } from "lucide-reac
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useAuth } from "@/components/auth/auth-provider";
-import { GlassCard } from "@/components/shared/glass-card";
 import { AssetPurchaseModal } from "@/components/shared/asset-purchase-modal";
 import { toast } from "sonner";
 import { formatCurrency } from "@/lib/format";

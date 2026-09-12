@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/components/auth/auth-provider";
 import { CMSService, Registration, Course, Event } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
-import { Loader2, LogOut, CheckCircle, Clock, LayoutDashboard, Ticket, BookOpen, Crown } from "lucide-react";
+import { Loader2, LogOut, CheckCircle, Clock, LayoutDashboard, Ticket, BookOpen, Crown, type LucideIcon } from "lucide-react";
 import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/format";
 
 export default function MyAccountPage() {
- const { user, profile, isAdmin } = useAuth();
+ const { user, isAdmin } = useAuth();
  const router = useRouter();
  const [registrations, setRegistrations] = useState<Registration[]>([]);
  const [courses, setCourses] = useState<{ [key: string]: Course }>({});
@@ -22,16 +22,7 @@ export default function MyAccountPage() {
  const [loading, setLoading] = useState(true);
  const [activeTab, setActiveTab] = useState<"learning" | "events">("learning");
 
- useEffect(() => {
- if (user === undefined) return; // Auth initializing
- if (user === null) {
- // Not logged in
- } else {
- fetchData();
- }
- }, [user]);
-
- const fetchData = async () => {
+ const fetchData = useCallback(async () => {
  if (!user?.uid) return;
 
  try {
@@ -62,7 +53,13 @@ export default function MyAccountPage() {
  } finally {
  setLoading(false);
  }
- };
+ }, [user]);
+
+ useEffect(() => {
+ if (user === undefined) return; // Auth initializing
+ if (user === null) return; // Not logged in
+ fetchData();
+ }, [user, fetchData]);
 
  const handleLogout = async () => {
  await signOut(auth);
@@ -314,7 +311,7 @@ function StatusBadge({ status }: { status: 'approved' | 'pending' }) {
  );
 }
 
-function EmptyState({ icon: Icon, title, desc, actionLink, actionText }: { icon: any, title: string, desc: string, actionLink: string, actionText: string }) {
+function EmptyState({ icon: Icon, title, desc, actionLink, actionText }: { icon: LucideIcon, title: string, desc: string, actionLink: string, actionText: string }) {
  return (
       <div className="text-center py-16 border border-dashed border-border rounded-2xl bg-gray-50 flex flex-col items-center">
         <div className="h-16 w-16 bg-background rounded-full flex items-center justify-center mb-4 border border-border shadow-sm">

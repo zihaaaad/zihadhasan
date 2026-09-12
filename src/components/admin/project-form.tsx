@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Loader2, Link as LinkIcon, Github, Image as ImageIcon } from "lucide-react";
+import { Loader2, Link as LinkIcon, Github } from "lucide-react";
 import { Project } from "@/lib/cms-service";
 
 import { Button } from "@/components/ui/button";
@@ -89,7 +89,7 @@ export function ProjectForm({ open, onOpenChange, onSubmit, initialData }: Proje
  <DialogHeader>
  <DialogTitle>{initialData ? "Edit Project" : "Add New Project"}</DialogTitle>
  <DialogDescription className="text-muted-foreground/80">
- Showcase your latest work. Click save when you're done.
+ Showcase your latest work. Click save when you&apos;re done.
  </DialogDescription>
  </DialogHeader>
 

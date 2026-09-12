@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { CMSService, Book } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Download, ShoppingCart, Eye, Lock } from "lucide-react";
+import { BookOpen, ShoppingCart, Eye } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";

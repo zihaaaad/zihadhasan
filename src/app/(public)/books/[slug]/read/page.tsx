@@ -1,6 +1,5 @@
 import { CMSService } from "@/lib/cms-service";
 import EbookReaderClient from "./ebook-reader-client";
-import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
 interface Props {

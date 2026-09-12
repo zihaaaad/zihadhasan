@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { collection, query, orderBy, limit, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { GlassCard } from "@/components/shared/glass-card";
 import { Badge } from "@/components/ui/badge";
 import { Message, CMSService } from "@/lib/cms-service";
 import { Loader2, Mail, Clock, Trash2 } from "lucide-react";

@@ -28,21 +28,12 @@ const baseNavItems = [
 export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [navItems, setNavItems] = useState(baseNavItems);
   const [showEvents, setShowEvents] = useState(true);
   const { user, profile, openAuthModal } = useAuth();
   const { settings } = useSettings();
 
   const [hasPending] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Derive nav items from shared settings
   useEffect(() => {
@@ -51,7 +42,8 @@ export function Navbar() {
       setShowEvents(f.showEvents);
       const filtered = baseNavItems.filter(item => {
         if (!item.feature) return true;
-        // @ts-ignore
+        // @ts-expect-error item.feature is a key of the features map, which
+        // GlobalSettings types as a fixed object rather than an index signature.
         return f[item.feature] !== false;
       });
       setNavItems(filtered);

@@ -2,14 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Database, Trash2, RefreshCw, HardDrive, Activity, Users, Box, FileText, ShoppingBag, GraduationCap } from "lucide-react";
+import { AlertTriangle, Trash2, RefreshCw, HardDrive, Activity, Users, Box, FileText, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 import { getSystemStats, cleanupSoftDeletedItems } from "@/actions/system";
-import { GlassCard } from "@/components/shared/glass-card";
 import { Switch } from "@/components/ui/switch";
-import { CMSService } from "@/lib/cms-service";
+import { CMSService, GlobalSettings } from "@/lib/cms-service";
+
+/** The feature flags this page can toggle. */
+type FeatureFlags = NonNullable<GlobalSettings["features"]>;
+type FeatureKey = keyof FeatureFlags;
 import {
  AlertDialog,
  AlertDialogAction,
@@ -24,12 +26,12 @@ import {
 export default function SystemHealthPage() {
  const [stats, setStats] = useState<{
  firebase: {
- reads: string;
  writes: string;
  status: string;
  details?: Record<string, number>;
  };
  trash: number;
+ features?: Partial<FeatureFlags>;
  } | null>(null);
  const [loading, setLoading] = useState(true);
  const [cleaning, setCleaning] = useState(false);
@@ -46,7 +48,7 @@ export default function SystemHealthPage() {
  getSystemStats(),
  CMSService.getGlobalSettings()
  ]);
- setStats({ ...data, features: settings?.features } as any);
+ setStats({ ...data, features: settings?.features });
  } catch (error) {
  console.error(error);
  toast.error("Failed to load system stats.");
@@ -110,38 +112,38 @@ export default function SystemHealthPage() {
 
         {stats ? (
           <div className="grid md:grid-cols-3 gap-6">
-            {[
+            {([
               { key: "showProjects", label: "Projects Section", desc: "Show portfolio projects." },
               { key: "showTools", label: "AI Tools", desc: "Show SaaS tools directory." },
               { key: "showBlog", label: "Thinking (Blog)", desc: "Show articles and insights." },
               { key: "showEvents", label: "Events & Workshops", desc: "Show upcoming events." },
               { key: "showCourses", label: "Courses (LMS)", desc: "Show course catalog." },
               { key: "showShop", label: "Store", desc: "Show digital products." },
-            ].map((feature) => (
+            ] as { key: FeatureKey; label: string; desc: string }[]).map((feature) => (
               <div key={feature.key} className="flex items-center justify-between p-4 rounded-xl bg-gray-50 border border-border">
                 <div className="space-y-1">
                   <h4 className="text-sm font-bold text-foreground uppercase tracking-tight">{feature.label}</h4>
                   <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{feature.desc}</p>
                 </div>
  <Switch
- checked={(stats as any).features?.[feature.key] ?? true}
+ checked={stats.features?.[feature.key] ?? true}
  onCheckedChange={async (checked) => {
  // Optimistic Update
- const newStats = { ...stats };
- if (!(newStats as any).features) (newStats as any).features = {};
- (newStats as any).features[feature.key] = checked;
- setStats(newStats);
+ setStats({
+ ...stats,
+ features: { ...stats.features, [feature.key]: checked },
+ });
 
  // API Call
  try {
  await CMSService.updateGlobalSettings({
  features: {
- ...(stats as any).features,
+ ...stats.features,
  [feature.key]: checked
- }
+ } as FeatureFlags
  });
  toast.success(`${feature.label} ${checked ? "Enabled" : "Disabled"}`);
- } catch (e) {
+ } catch {
  toast.error("Failed to update setting");
  loadStats(); // Revert
  }

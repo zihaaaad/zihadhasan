@@ -1,8 +1,9 @@
 "use client";
 
+import type { QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
+
 import { useEffect, useState } from "react";
 import { UserProfile } from "@/components/auth/auth-provider";
-import { GlassCard } from "@/components/shared/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -39,7 +40,7 @@ export default function UsersPage() {
  const [editingUser, setEditingUser] = useState<UserProfile | null>(null);
 
  // Pagination State
- const [lastVisible, setLastVisible] = useState<any>(null);
+ const [lastVisible, setLastVisible] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
  const [pageStack, setPageStack] = useState<any[]>([null]); // Stack of "startAfter" cursors
  const [currentPage, setCurrentPage] = useState(1);
  const [hasMore, setHasMore] = useState(false);
@@ -64,7 +65,7 @@ export default function UsersPage() {
  }
  }, [searchTerm]);
 
- const fetchUsers = async (cursor: any = null) => {
+ const fetchUsers = async (cursor: QueryDocumentSnapshot<DocumentData> | null = null) => {
  setLoading(true);
  try {
  // Note: If searching, we might want to disable pagination or search all?

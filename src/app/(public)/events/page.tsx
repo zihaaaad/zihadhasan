@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, MapPin, Users, Globe, ArrowRight, Loader2, X, Printer } from "lucide-react";
+import { motion } from "framer-motion";
+import { Calendar, MapPin, Globe, Loader2, Printer } from "lucide-react";
 import { CMSService, Event } from "@/lib/cms-service";
 import { generateEventSchema } from "@/lib/schema-generator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -189,15 +189,15 @@ function RegistrationModal({ event, open, onOpenChange, onSuccess }: { event: Ev
   const [paymentInfo, setPaymentInfo] = useState<{ bkash?: string, nagad?: string, bankAccounts?: any[] }>({});
   const [registrationId, setRegistrationId] = useState<string | null>(null);
 
-  const formSchema = z.object({
-    name: z.string().min(2, "Name is required"),
-    email: z.string().email("Invalid email address"),
-    phone: z.string().min(10, "Phone number required"),
+  // Same shape as registrationSchema, except a paid event must carry a
+  // transaction id.
+  const formSchema = registrationSchema.extend({
     trxId: isFree ? z.string().optional() : z.string().min(5, "Transaction ID required"),
   });
 
   const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<RegistrationFormValues>({
-    // @ts-ignore
+    // @ts-expect-error zodResolver's generics do not line up with
+    // react-hook-form's when the schema is built conditionally.
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -262,7 +262,7 @@ function RegistrationModal({ event, open, onOpenChange, onSuccess }: { event: Ev
       } else {
         setError(result.error?.toString() || "Registration failed. Please try again.");
       }
-    } catch (e) {
+    } catch {
       setError("An unexpected error occurred.");
     } finally {
       setIsLoading(false);

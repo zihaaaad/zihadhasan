@@ -1,15 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { collection, getDocs, deleteDoc, doc, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Course, CourseEditor } from "@/components/admin/course-editor";
 import { CourseStudentsDialog } from "@/components/admin/course-students-dialog";
-import { GlassCard } from "@/components/shared/glass-card";
 import { Button } from "@/components/ui/button";
-import { Loader2, Plus, Edit, Trash2, BookOpen, Users } from "lucide-react";
+import { Plus, Edit, Trash2, BookOpen, Users } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { format } from "date-fns";
 import { formatCurrency } from "@/lib/format";
 import {
  AlertDialog,

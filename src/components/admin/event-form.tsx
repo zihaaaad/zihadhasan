@@ -51,7 +51,6 @@ export function EventForm({ open, onOpenChange, onSubmit, initialData }: EventFo
  const [submitting, setSubmitting] = useState(false);
 
  // Derived value for default pricing to avoid errors
- const defaultPricingType = initialData?.pricingType || "free";
 
  const form = useForm<EventFormValues>({
  resolver: zodResolver(eventSchema),

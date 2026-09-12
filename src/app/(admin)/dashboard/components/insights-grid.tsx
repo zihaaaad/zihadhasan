@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, Users, DollarSign, ArrowUp, ArrowDown } from "lucide-react";
+import { Activity, ArrowUp } from "lucide-react";
 import { formatCurrency } from "@/lib/format";
 
 interface InsightsProps {

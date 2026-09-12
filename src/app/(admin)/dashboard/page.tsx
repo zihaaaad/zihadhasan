@@ -6,18 +6,30 @@ import { formatDistanceToNow } from "date-fns";
 import { InsightsGrid } from "./components/insights-grid";
 import { LiveActivityFeed } from "./components/live-activity-feed";
 import { StorageGuardian } from "./components/storage-guardian";
-import { FolderGit, Hammer, FileText, Settings, Users, BookOpen, Activity, Play } from "lucide-react";
+import { FolderGit, Hammer, FileText, Settings, Users, Play } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<{
-    stats: any;
-    activities: any[];
-    storage: any;
-    rawCounts?: { projects: number; tools: number; posts: number; users: number };
-  } | null>(null);
+  interface DashboardData {
+    stats: {
+      revenue: number;
+      totalStudents: number;
+      systemHealth: number;
+      activeUsers: { image?: string; name: string }[];
+    };
+    activities: {
+      id: string;
+      type: 'registration' | 'message' | 'purchase' | 'system';
+      message: string;
+      time: string;
+    }[];
+    storage: { usagePercent: number; fileCount: number };
+    rawCounts: { projects: number; tools: number; posts: number; users: number };
+  }
+
+  const [data, setData] = useState<DashboardData | null>(null);
 
   useEffect(() => {
     async function loadDashboardData() {
@@ -34,14 +46,14 @@ export default function DashboardPage() {
         const approvedRegs = registrations.filter(r => r.status === "approved");
         const totalRevenue = approvedRegs.length * 50; // Mock avg price $50
         const activeUsers = usersData.users.slice(0, 5).map(u => ({
-          name: (u as any).displayName || (u as any).email || "User",
-          image: (u as any).photoURL
+          name: u.name || u.email || "User",
+          image: u.photoURL ?? undefined
         }));
 
         // 2. Generate Live Activity Feed
         const activities = registrations.slice(0, 10).map(r => ({
-          id: r.id,
-          type: 'registration',
+          id: r.id!,
+          type: 'registration' as const,
           message: `${r.name} registered for an event/course`,
           time: r.registeredAt ? formatDistanceToNow(r.registeredAt.toDate(), { addSuffix: true }) : 'Just now'
         }));
@@ -108,10 +120,10 @@ export default function DashboardPage() {
           {/* Content Stats Row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: "Projects", val: (data as any).rawCounts?.projects || 0, icon: FolderGit },
-              { label: "Tools", val: (data as any).rawCounts?.tools || 0, icon: Hammer },
-              { label: "Posts", val: (data as any).rawCounts?.posts || 0, icon: FileText },
-              { label: "Users", val: (data as any).rawCounts?.users || 0, icon: Users },
+              { label: "Projects", val: data.rawCounts.projects, icon: FolderGit },
+              { label: "Tools", val: data.rawCounts.tools, icon: Hammer },
+              { label: "Posts", val: data.rawCounts.posts, icon: FileText },
+              { label: "Users", val: data.rawCounts.users, icon: Users },
             ].map((s, i) => (
               <div key={i} className="p-4 flex items-center gap-3 bg-background border border-border rounded-2xl shadow-sm hover:shadow-md transition-shadow">
                 <div className="p-2.5 rounded-xl bg-gray-50 border border-gray-100 text-muted-foreground">

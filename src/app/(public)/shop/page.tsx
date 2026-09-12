@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ShoppingBag, Download, Lock } from "lucide-react";
+import { ShoppingBag, Download } from "lucide-react";
 import { Product, CMSService } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
 import { PurchaseModal } from "@/components/shop/purchase-modal";

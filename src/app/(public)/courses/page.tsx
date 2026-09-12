@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { CMSService, Course } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Clock, PlayCircle } from "lucide-react";
-import { useAuth } from "@/components/auth/auth-provider";
+import { BookOpen, PlayCircle } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,8 +12,7 @@ import { formatCurrency } from "@/lib/format";
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user, openAuthModal } = useAuth();
-
+ 
   useEffect(() => {
     const fetchCourses = async () => {
       try {

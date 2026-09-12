@@ -19,7 +19,7 @@ interface ScrollPortfolioProps {
   settings?: GlobalSettings | null;
 }
 
-export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
+export function ScrollPortfolio({}: ScrollPortfolioProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -82,7 +82,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
           </p>
           <div className="flex flex-wrap gap-3 md:gap-4">
             <Link href="/contact" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full bg-primary px-6 md:px-8 text-xs md:text-sm font-semibold text-primary-foreground transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/10">
-              Let's Collaborate
+              Let&apos;s Collaborate
             </Link>
             <Link href="/projects" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full border border-border bg-background px-6 md:px-8 text-xs md:text-sm font-semibold text-foreground transition-all hover:bg-gray-50 hover:scale-105 active:scale-95">
               Explore Archive <ArrowRight className="ml-2 h-4 w-4" />
@@ -123,7 +123,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
             Great software isn&apos;t just about writing code; it&apos;s about solving real human problems elegantly — and safely. Every system I design starts from the same three questions: will it scale, will it hold up under attack, and will it feel obvious to the person using it.
           </p>
           <blockquote className="border-l-4 border-primary pl-4 md:pl-6 italic text-lg md:text-xl text-gray-800 my-6 md:my-8 py-1 md:py-2 max-w-lg">
-            "Technology should fade into the background, allowing human creativity and connection to take center stage."
+            &quot;Technology should fade into the background, allowing human creativity and connection to take center stage.&quot;
           </blockquote>
           <Link href="/blog" className="font-semibold text-foreground hover:text-gray-600 transition-colors inline-flex items-center gap-2 text-sm md:text-base">
             Read my latest thoughts <ArrowRight className="h-4 w-4" />

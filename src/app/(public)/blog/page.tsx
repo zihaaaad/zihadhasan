@@ -1,5 +1,7 @@
 "use client";
 
+import type { QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
+
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Search, ArrowRight } from "lucide-react";
@@ -15,7 +17,7 @@ export default function PublicBlogPage() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [lastVisible, setLastVisible] = useState<any>(null);
+  const [lastVisible, setLastVisible] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
@@ -35,7 +37,7 @@ export default function PublicBlogPage() {
     if (!hasMore || loadingMore) return;
     setLoadingMore(true);
     try {
-      const { data, lastVisible: lastDoc } = await CMSService.getPosts(true, 9, lastVisible);
+      const { data, lastVisible: lastDoc } = await CMSService.getPosts(true, 9, lastVisible ?? undefined);
       setPosts(prev => [...prev, ...data]);
       setLastVisible(lastDoc);
       setHasMore(data.length === 9);
@@ -99,8 +101,8 @@ export default function PublicBlogPage() {
         </div>
       ) : (
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {filteredPosts.map((post, index) => (
-            <ArticleCard key={post.id} post={post} index={index} />
+          {filteredPosts.map((post) => (
+            <ArticleCard key={post.id} post={post} />
           ))}
 
           {filteredPosts.length === 0 && (
@@ -127,7 +129,7 @@ export default function PublicBlogPage() {
   );
 }
 
-function ArticleCard({ post, index }: { post: BlogPost, index: number }) {
+function ArticleCard({ post }: { post: BlogPost }) {
   const date = post.publishedAt ? formatDate(post.publishedAt, { month: "short", day: "numeric", year: "numeric" }) : "";
 
   return (

@@ -162,7 +162,7 @@ export function SearchCommand() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-foreground font-bold">No results found</p>
-                  <p className="text-sm text-muted-foreground">We couldn't find anything matching "{query}"</p>
+                  <p className="text-sm text-muted-foreground">We couldn&apos;t find anything matching &quot;{query}&quot;</p>
                 </div>
               </div>
             ) : (

@@ -11,7 +11,6 @@ import {
  addDoc,
  setDoc,
  updateDoc,
- deleteDoc,
 } from "firebase/firestore";
 
 export interface Book {

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, X, Loader2, Image as ImageIcon, Link as LinkIcon } from "lucide-react";
+import { Upload, X, Loader2 } from "lucide-react";
 import imageCompression from 'browser-image-compression';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

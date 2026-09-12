@@ -12,7 +12,6 @@ import {
   PenTool,
   Settings,
   LogOut,
-  Menu,
   Calendar,
   Mail,
   Users,
@@ -26,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const sidebarItems = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },

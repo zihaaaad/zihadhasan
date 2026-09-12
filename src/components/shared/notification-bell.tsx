@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Bell, Check, CheckCheck, Trash2, MailOpen } from "lucide-react";
-import { collection, query, where, orderBy, onSnapshot, limit, doc, updateDoc, writeBatch, getDocs } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot, limit, doc, updateDoc, writeBatch, getDocs, type Timestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/components/auth/auth-provider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -16,7 +16,7 @@ export interface UserNotification {
   title: string;
   message: string;
   read: boolean;
-  createdAt: any;
+  createdAt: Timestamp;
   link?: string;
 }
 
@@ -168,7 +168,7 @@ export function NotificationBell() {
                 <MailOpen strokeWidth={1.5} className="h-6 w-6 opacity-50" />
               </div>
               <p className="text-sm font-medium">No notifications yet</p>
-              <p className="text-xs text-muted-foreground/80">We'll notify you when something arrives</p>
+              <p className="text-xs text-muted-foreground/80">We&apos;ll notify you when something arrives</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-50">

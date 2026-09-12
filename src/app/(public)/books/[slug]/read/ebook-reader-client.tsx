@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CMSService, Book } from "@/lib/cms-service";
+import { CMSService } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ShieldAlert, Lock, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ShieldAlert, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/components/auth/auth-provider";
 import sanitizeHtml from "sanitize-html";
@@ -16,7 +16,6 @@ interface EbookReaderClientProps {
 export default function EbookReaderClient({ slug }: EbookReaderClientProps) {
  const { user, loading: authLoading } = useAuth();
  const router = useRouter();
- const [book, setBook] = useState<Book | null>(null);
  const [content, setContent] = useState<string | null>(null);
  const [loading, setLoading] = useState(true);
  const [error, setError] = useState<string | null>(null);
@@ -34,8 +33,6 @@ export default function EbookReaderClient({ slug }: EbookReaderClientProps) {
  setLoading(false);
  return;
  }
- setBook(data);
- 
  const result = await CMSService.getEbookContent(data.id!, user.uid);
  if (result.success) {
  setContent(result.content);

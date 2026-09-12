@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CMSService, Registration } from "@/lib/cms-service";
 import {
  Dialog,
@@ -45,13 +45,7 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
  const [kickingId, setKickingId] = useState<string | null>(null);
  const [confirmKickId, setConfirmKickId] = useState<string | null>(null);
 
- useEffect(() => {
- if (open && courseId) {
- fetchStudents();
- }
- }, [open, courseId]);
-
- const fetchStudents = async () => {
+ const fetchStudents = useCallback(async () => {
  if (!courseId) return;
  setLoading(true);
  try {
@@ -62,7 +56,13 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
  } finally {
  setLoading(false);
  }
- };
+ }, [courseId]);
+
+ useEffect(() => {
+ if (open && courseId) {
+ fetchStudents();
+ }
+ }, [open, courseId, fetchStudents]);
 
  const handleKick = async (registrationId: string) => {
  setKickingId(registrationId);
@@ -249,7 +249,7 @@ export function CourseStudentsDialog({ courseId, courseTitle, open, onOpenChange
  <AlertDialogHeader>
  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
  <AlertDialogDescription>
- This will remove this student's enrollment and delete their registration record. This action cannot be undone.
+ This will remove this student&apos;s enrollment and delete their registration record. This action cannot be undone.
  </AlertDialogDescription>
  </AlertDialogHeader>
  <AlertDialogFooter>

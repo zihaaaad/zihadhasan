@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Download, Mail, Users, Loader2, Search, Pencil, Trash2, Calendar, Save, X } from "lucide-react";
+import { Download, Mail, Users, Loader2, Search, Pencil, Trash2, Calendar, X } from "lucide-react";
 import { CMSService, Subscriber } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,9 +20,7 @@ import {
  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { GlassCard } from "@/components/shared/glass-card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function NewsletterPage() {
  const [subscribers, setSubscribers] = useState<Subscriber[]>([]);

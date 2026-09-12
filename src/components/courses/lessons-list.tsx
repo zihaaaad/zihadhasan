@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Lock, PlayCircle, CheckCircle, MonitorPlay, X } from "lucide-react";
+import { Lock, PlayCircle, MonitorPlay } from "lucide-react";
 import { Course, Lesson, Registration } from "@/lib/cms-service";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -79,6 +79,8 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
  isUnlocked={isUnlocked}
  isCompleted={isCompleted}
  onClick={() => handleLessonClick(lesson)}
+ canToggleComplete={isApproved && isUnlocked && !!onToggleLesson}
+ onToggleComplete={() => onToggleLesson?.(lesson.id, !isCompleted)}
  />
  );
  })

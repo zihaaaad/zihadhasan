@@ -7,16 +7,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Github, Linkedin, Mail, Twitter, Send, MapPin, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
-import { CMSService, GlobalSettings } from "@/lib/cms-service";
+import { CMSService, GlobalSettings, SocialLink } from "@/lib/cms-service";
 import { toast } from "sonner";
 import { sendNotificationEmail, isEmailConfigured } from "@/lib/email";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [config, setConfig] = useState<GlobalSettings['pages']>({});
-  const [socials, setSocials] = useState<any[]>([]);
+  const [socials, setSocials] = useState<SocialLink[]>([]);
 
   useEffect(() => {
     CMSService.getGlobalSettings().then(data => {
@@ -107,7 +106,7 @@ export default function ContactPage() {
                 / index / contact
               </div>
               <h1 className="text-5xl md:text-6xl font-bold text-foreground tracking-tight leading-[1.1]">
-                Let&apos;s <span className="text-foreground italic font-serif opacity-80">Collaborate</span>
+                {title}
               </h1>
               <p className="text-lg text-muted-foreground font-medium leading-relaxed max-w-md">
                 {subtitle}

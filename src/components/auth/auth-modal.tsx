@@ -15,6 +15,7 @@ import {
  sendEmailVerification
 } from "firebase/auth";
 import { toast } from "sonner";
+import { errorCode, errorMessage } from "@/lib/utils";
 import { auth, db } from "@/lib/firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Loader2, Mail, Lock, User as UserIcon, Phone, Chrome } from "lucide-react";
@@ -48,9 +49,9 @@ export function AuthModal() {
  await signInWithPopup(auth, provider);
  // Profile creation handled by AuthProvider's onAuthStateChanged
  closeAuthModal();
- } catch (err: any) {
+ } catch (err) {
  console.error(err);
- setError(err.message || "Failed to sign in with Google");
+ setError(errorMessage(err, "Failed to sign in with Google"));
  } finally {
  setIsLoading(false);
  }
@@ -100,14 +101,14 @@ export function AuthModal() {
  });
  }
  resetForm();
- } catch (err: any) {
+ } catch (err) {
  console.error(err);
- if (err.code === 'auth/email-already-in-use') {
+ if (errorCode(err) === 'auth/email-already-in-use') {
  setError("This email is already registered. Please login.");
- } else if (err.code === 'auth/invalid-credential') {
+ } else if (errorCode(err) === 'auth/invalid-credential') {
  setError("Invalid email or password.");
  } else {
- setError(err.message || "Authentication failed.");
+ setError(errorMessage(err, "Authentication failed."));
  }
  } finally {
  setIsLoading(false);

@@ -5,12 +5,13 @@ import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import { useState, useEffect } from 'react';
+import { errorMessage } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Save, ArrowLeft, Image as ImageIcon, Bold, Italic, List, ListOrdered, Quote, Code, Link as LinkIcon, Undo, Redo, ShieldCheck } from 'lucide-react';
+import { Loader2, ArrowLeft, Bold, Italic, List, ShieldCheck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Book, CMSService } from '@/lib/cms-service';
 import slugify from 'slugify';
@@ -98,9 +99,9 @@ export function BookEditor({ initialData, initialSecureContent }: BookEditorProp
  }
  router.push('/dashboard/books');
  // router.refresh();
- } catch (error: any) {
+ } catch (error) {
  console.error("Failed to save book", error);
- toast.error(`Failed to save book: ${error.message || "Unknown error"}`);
+ toast.error(`Failed to save book: ${errorMessage(error, "Unknown error")}`);
  } finally {
  setSubmitting(false);
  }

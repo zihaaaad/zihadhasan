@@ -189,7 +189,7 @@ export default function SettingsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground">Global Settings</h2>
-          <p className="text-muted-foreground font-medium">Manage your portfolio's core configuration.</p>
+          <p className="text-muted-foreground font-medium">Manage your portfolio&apos;s core configuration.</p>
         </div>
         <Button onClick={form.handleSubmit(onSubmit)} disabled={saving} className="bg-primary text-primary-foreground hover:bg-primary/90">
           {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -426,7 +426,7 @@ export default function SettingsPage() {
             <div className="space-y-2">
               <Label className="text-foreground font-bold">Contact Email</Label>
               <Input {...form.register("socialEmail")} className="bg-background border-border text-foreground font-medium focus-visible:ring-black" placeholder="hello@example.com" />
-              <p className="text-xs text-muted-foreground font-medium">Used for the 'Email' icon in social links.</p>
+              <p className="text-xs text-muted-foreground font-medium">Used for the &apos;Email&apos; icon in social links.</p>
             </div>
           </CardContent>
         </Card>

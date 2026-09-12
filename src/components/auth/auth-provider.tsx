@@ -11,8 +11,8 @@ import {
  getDoc,
  setDoc,
  serverTimestamp,
- DocumentData,
- onSnapshot
+ onSnapshot,
+ type Timestamp
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 
@@ -25,7 +25,7 @@ export interface UserProfile {
  role: "user" | "admin";
  phone?: string;
  enrolledCourses?: string[];
- createdAt?: any;
+ createdAt?: Timestamp;
  isBanned?: boolean;
 }
 
@@ -78,13 +78,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
  // Create Profile if it doesn't exist (e.g. first Google Login)
  const docSnap = await getDoc(docRef);
  if (!docSnap.exists()) {
- const newProfile: UserProfile = {
+ const newProfile = {
  uid: currentUser.uid,
  email: currentUser.email!,
  name: currentUser.displayName,
  photoURL: currentUser.photoURL,
  role: "user", // Default role
- createdAt: serverTimestamp(),
+ createdAt: serverTimestamp() as unknown as Timestamp,
  enrolledCourses: [],
  isBanned: false
  };

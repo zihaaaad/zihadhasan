@@ -1,4 +1,4 @@
-import { BlogPosting, WithContext, Person, Organization, Course, Event } from "schema-dts";
+import { BlogPosting, WithContext, Person, Course, Event } from "schema-dts";
 import { Course as CourseType, Event as EventType, BlogPost } from "./cms-service";
 
 export function generatePersonSchema(): WithContext<Person> {

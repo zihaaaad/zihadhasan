@@ -4,7 +4,6 @@ import { BlogPost } from "@/lib/cms-service";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { generateBlogPostSchema } from "@/lib/schema-generator";
 import sanitizeHtml from "sanitize-html";
 import { NewsletterForm } from "@/components/shared/newsletter-form";
@@ -92,10 +91,3 @@ export function BlogPostRenderer({ post }: BlogPostRendererProps) {
   );
 }
 
-function ButtonAsLink({ href, children, variant }: { href: string, children: React.ReactNode, variant?: "default" | "outline" }) {
-  return (
-    <Button asChild variant={variant} className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg">
-      <Link href={href}>{children}</Link>
-    </Button>
-  )
-}

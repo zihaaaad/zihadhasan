@@ -1,24 +1,25 @@
 "use client";
 
+import type { QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
+
 import { useEffect, useState } from "react";
 import { useAuth } from "@/components/auth/auth-provider";
-import { collection, query, orderBy, limit, startAfter, getDocs, doc, writeBatch, where, onSnapshot } from "firebase/firestore";
+import { collection, query, orderBy, limit, startAfter, getDocs, doc, writeBatch, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { UserNotification } from "@/components/shared/notification-bell"; // Reuse interface
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Check, CheckCheck, Trash2, MailOpen, Bell, ArrowLeft } from "lucide-react";
+import { Check, CheckCheck, MailOpen, Bell, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
-import { SmartImage } from "@/components/shared/smart-image";
 
 export default function NotificationsPage() {
  const { user, loading: authLoading } = useAuth();
  const [notifications, setNotifications] = useState<UserNotification[]>([]);
  const [loading, setLoading] = useState(true);
- const [lastVisible, setLastVisible] = useState<any>(null);
+ const [lastVisible, setLastVisible] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
  const [hasMore, setHasMore] = useState(true);
  const [filter, setFilter] = useState<'all' | 'unread'>('all');
 
@@ -201,7 +202,7 @@ export default function NotificationsPage() {
  <div className="text-center py-20 bg-background rounded-xl border border-border">
  <MailOpen className="h-12 w-12 text-primary-foreground/20 mx-auto mb-4" />
  <h2 className="text-xl font-semibold text-primary-foreground mb-2">No notifications found</h2>
- <p className="text-primary-foreground/50">You're all caught up!</p>
+ <p className="text-primary-foreground/50">You&apos;re all caught up!</p>
  </div>
  ) : (
  <div className="space-y-4">

@@ -1,16 +1,16 @@
 "use client";
 
+import type { QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
+
 import { useEffect, useState } from "react";
 import { CMSService, Registration, Event, Course, Product } from "@/lib/cms-service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Search, CheckCircle, XCircle, Download, Pencil, Trash2, Filter, Eye, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
+import { Loader2, Search, CheckCircle, XCircle, Download, Pencil, Trash2, Eye, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { format } from "date-fns";
-import { GlassCard } from "@/components/shared/glass-card";
 import { downloadCSV, cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -85,7 +85,7 @@ export default function RegistrationsPage() {
  const [selectedIds, setSelectedIds] = useState<string[]>([]);
  const [isBulkProcessing, setIsBulkProcessing] = useState(false);
  const [confirmBulkReject, setConfirmBulkReject] = useState(false);
- const [cursor, setCursor] = useState<any>(null);
+ const [cursor, setCursor] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
  const [hasMore, setHasMore] = useState(false);
  const [loadingMore, setLoadingMore] = useState(false);
 

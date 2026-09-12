@@ -43,7 +43,7 @@ export function LiveActivityFeed({ activities }: LiveActivityFeedProps) {
         {activities.length === 0 ? (
           <div className="text-center text-muted-foreground py-10 font-medium">No recent activity</div>
         ) : (
-          activities.map((item, i) => (
+          activities.map((item) => (
             <div key={item.id} className="relative flex items-start gap-4 pb-8 last:pb-0 group">
               <div className={`z-10 mt-1 h-8 w-8 flex items-center justify-center rounded-full border border-border bg-background ring-4 ring-white transform transition-transform group-hover:scale-110 shadow-sm`}>
                 {getIcon(item.type)}

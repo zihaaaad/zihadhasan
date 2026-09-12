@@ -3,7 +3,6 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import { AdminSidebar } from "./admin-sidebar";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";

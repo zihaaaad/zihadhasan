@@ -11,6 +11,8 @@ import {
  Timestamp,
  limit,
  startAfter,
+ QueryDocumentSnapshot,
+ DocumentData,
 } from "firebase/firestore";
 
 export interface Message {
@@ -30,6 +32,20 @@ export interface UserNotification {
  read: boolean;
  createdAt: Timestamp;
  link?: string;
+}
+
+/** A user profile document, as stored in the `users` collection. */
+export interface UserRecord {
+ id: string;
+ uid: string;
+ email: string;
+ name?: string | null;
+ photoURL?: string | null;
+ role: "user" | "admin";
+ phone?: string;
+ enrolledCourses?: string[];
+ isBanned?: boolean;
+ createdAt?: Timestamp;
 }
 
 export interface Subscriber {
@@ -79,7 +95,7 @@ export const UserService = {
  },
 
  // --- Users ---
- getUsers: async (lastDoc: any = null, limitCount: number = 20) => {
+ getUsers: async (lastDoc: QueryDocumentSnapshot<DocumentData> | null = null, limitCount: number = 20) => {
  let q = query(collection(db, "users"), orderBy("createdAt", "desc"), limit(limitCount));
 
  if (lastDoc) {
@@ -88,12 +104,12 @@ export const UserService = {
 
  const snapshot = await getDocs(q);
  return {
- users: snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })),
+ users: snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as UserRecord)),
  lastVisible: snapshot.docs[snapshot.docs.length - 1]
  };
  },
 
- updateUser: async (uid: string, data: any) => {
+ updateUser: async (uid: string, data: Partial<UserRecord>) => {
  const docRef = doc(db, "users", uid);
  await updateDoc(docRef, data);
  },
