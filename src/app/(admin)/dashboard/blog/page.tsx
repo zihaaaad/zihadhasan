@@ -36,7 +36,7 @@ export default function BlogAdminPage() {
  setLoading(true);
  try {
  // Fetch all posts (both draft and published)
- const data = await CMSService.getPosts(false);
+ const { data } = await CMSService.getPosts(false);
  setPosts(data);
  } catch (error) {
  console.error("Failed to load posts", error);

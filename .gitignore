@@ -40,3 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .firebase
+
+# local scratch image drops (duplicates of public/images/portfolio)
+/4images/
+
+# firebase rules backup
+firestore.rules.bak

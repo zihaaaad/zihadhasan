@@ -27,7 +27,7 @@ export default function DashboardPage() {
           CMSService.getAllRegistrations(),
           CMSService.getProjects(),
           CMSService.getTools(),
-          CMSService.getPosts(false)
+          CMSService.getPosts(false).then(res => res.data)
         ]);
 
         // 1. Calculate Insights

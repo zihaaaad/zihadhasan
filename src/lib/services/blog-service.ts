@@ -7,10 +7,13 @@ import {
  getDocs,
  getDoc,
  query,
- orderBy,
- Timestamp,
- where,
- limit,
+  orderBy,
+  Timestamp,
+  where,
+  limit,
+  startAfter,
+  QueryDocumentSnapshot,
+  DocumentData
 } from "firebase/firestore";
 
 export interface BlogPost {
@@ -34,27 +37,38 @@ export interface BlogPost {
 
 export const BlogService = {
  // --- Blog ---
- getPosts: async (publishedOnly: boolean = true, limitCount: number = 20) => {
- try {
- const constraints = [where("isDeleted", "==", false)];
- if (publishedOnly) {
- constraints.push(where("published", "==", true));
- }
- 
- const q = query(
- collection(db, "posts"), 
- ...constraints,
- orderBy(publishedOnly ? "publishedAt" : "createdAt", "desc"),
- limit(limitCount)
- );
- const snapshot = await getDocs(q);
- 
- return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
- } catch (error) {
- console.error("[BlogService] getPosts failed:", error);
- throw error;
- }
- },
+  getPosts: async (publishedOnly: boolean = true, limitCount: number = 20, lastVisible?: QueryDocumentSnapshot<DocumentData>) => {
+    try {
+      const constraints = [where("isDeleted", "==", false)];
+      if (publishedOnly) {
+        constraints.push(where("published", "==", true));
+      }
+      
+      const q = lastVisible 
+        ? query(
+            collection(db, "posts"), 
+            ...constraints,
+            orderBy(publishedOnly ? "publishedAt" : "createdAt", "desc"),
+            startAfter(lastVisible),
+            limit(limitCount)
+          )
+        : query(
+            collection(db, "posts"), 
+            ...constraints,
+            orderBy(publishedOnly ? "publishedAt" : "createdAt", "desc"),
+            limit(limitCount)
+          );
+
+      const snapshot = await getDocs(q);
+      const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+      
+      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
+      return { data, lastVisible: lastDoc };
+    } catch (error) {
+      console.error("[BlogService] getPosts failed:", error);
+      throw error;
+    }
+  },
 
  getLatestPost: async (publishedOnly: boolean = true) => {
  try {

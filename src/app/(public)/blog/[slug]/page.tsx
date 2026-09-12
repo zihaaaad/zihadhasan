@@ -12,7 +12,7 @@ interface Props {
 // 1. Generate Static Params at Build Time
 // 1. Generate Static Params at Build Time
 export async function generateStaticParams() {
- const posts = await CMSService.getPosts();
+ const { data: posts } = await CMSService.getPosts();
 
  if (posts.length > 0) {
  return posts.map((post) => ({
@@ -38,7 +38,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  return {
  title: `${post.title} | Zihad Hasan`,
  description: post.excerpt,
+ alternates: { canonical: `/blog/${post.slug}` },
  openGraph: {
+ url: `/blog/${post.slug}`,
  title: post.title,
  description: post.excerpt,
  images: post.coverImage ? [post.coverImage] : [],

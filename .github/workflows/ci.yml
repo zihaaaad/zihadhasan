@@ -1,0 +1,95 @@
+name: CI & Deploy
+
+# Why the schedule matters here:
+#
+# This is a static export. generateStaticParams, sitemap.ts and the root
+# layout's generateMetadata all read Firestore *at build time*, so a blog post
+# or course published through the admin dashboard does not exist as prerendered
+# HTML - and is absent from sitemap.xml - until the site is rebuilt. Before this
+# workflow existed there was no CI at all and the live site had drifted a month
+# behind the repo. The nightly run keeps published content discoverable without
+# anyone remembering to redeploy.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # 02:00 UTC daily - picks up content published since the last build.
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      # Reported, not enforced. The repo currently has a backlog of stylistic
+      # findings (no-explicit-any, unused vars, unescaped entities); failing the
+      # deploy on those would help nobody. Tighten this to a hard failure once
+      # the backlog is worked down.
+      - name: Lint
+        run: npx eslint .
+        continue-on-error: true
+
+      - name: Build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ vars.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ vars.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ vars.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_APP_ID }}
+          NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ vars.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+          NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: ${{ vars.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET }}
+          NEXT_PUBLIC_RECAPTCHA_KEY: ${{ vars.NEXT_PUBLIC_RECAPTCHA_KEY }}
+          NEXT_PUBLIC_EMAILJS_SERVICE_ID: ${{ vars.NEXT_PUBLIC_EMAILJS_SERVICE_ID }}
+          NEXT_PUBLIC_EMAILJS_TEMPLATE_ID: ${{ vars.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID }}
+          NEXT_PUBLIC_EMAILJS_PUBLIC_KEY: ${{ vars.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY }}
+        run: npm run build
+
+      - name: Report export size
+        run: |
+          echo "### Export size" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          du -sh out >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      # Skip deploys cleanly until FIREBASE_SERVICE_ACCOUNT is configured,
+      # rather than failing every run with a red X.
+      - id: secrets
+        run: echo "has_sa=${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}" >> $GITHUB_OUTPUT
+
+      - name: Deploy to Firebase Hosting
+        if: steps.secrets.outputs.has_sa == 'true' && github.event_name != 'pull_request'
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: zihadhasan
+          channelId: live
+
+      - name: Deploy preview channel (PRs)
+        if: steps.secrets.outputs.has_sa == 'true' && github.event_name == 'pull_request'
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: zihadhasan

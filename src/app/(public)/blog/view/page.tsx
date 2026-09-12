@@ -5,6 +5,7 @@ import { BlogPost, CMSService } from "@/lib/cms-service";
 import { usePathname } from "next/navigation";
 import { BlogPostRenderer } from "@/components/blog/blog-post-renderer";
 import { generateBlogPostSchema } from "@/lib/schema-generator";
+import Link from "next/link";
 
 function BlogPostContent() {
  const pathname = usePathname();
@@ -52,7 +53,7 @@ function BlogPostContent() {
  We couldn't find the post "{slug}". It might not exist or hasn't been published yet.
  </p>
  <div className="mt-8">
- <a href="/blog" className="text-primary hover:underline">Return to Blog</a>
+ <Link href="/blog" className="text-primary hover:underline">Return to Blog</Link>
  </div>
  </div>
  );

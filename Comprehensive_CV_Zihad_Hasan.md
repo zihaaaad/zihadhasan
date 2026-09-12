@@ -12,11 +12,20 @@
 ---
 
 ## PROFESSIONAL SUMMARY
-A dedicated bilingual professional (Bengali/English) with a strong background in Generative AI, Digital Content Creation, Community Management, and Full-Stack Development. Currently serving as a Core AI Team Member and Assistant Trainer, architecting scalable workflow automation, enforcing community standards, and utilizing AI for content optimization. Combines deep technical acumen with a strong foundation in educational instruction, policy enforcement, critical thinking, and information security analysis. Proven ability to handle end-to-end event automation, large-scale student management systems, and cybersecurity incident mitigation. Author of "Digital Shikar", a published book addressing modern digital security challenges, demonstrating deep linguistic nuances and cultural context.
+**Short form (current CV):** Generative AI and Full-Stack Developer on a core AI Team, specializing in scalable workflow automation, system architecture, and cybersecurity. Author of *Digital Shikar*, addressing modern digital security and privacy.
+
+**Long form:** A dedicated bilingual professional (Bengali/English) with a strong background in Generative AI, Digital Content Creation, Community Management, and Full-Stack Development. Currently serving as a Core AI Team Member and Assistant Trainer, architecting scalable workflow automation, enforcing community standards, and utilizing AI for content optimization. Combines deep technical acumen with a strong foundation in educational instruction, policy enforcement, critical thinking, and information security analysis. Proven ability to handle end-to-end event automation, large-scale student management systems, and cybersecurity incident mitigation. Author of "Digital Shikar", a published book addressing modern digital security challenges, demonstrating deep linguistic nuances and cultural context.
 
 ---
 
-## KEY SKILLS
+## HEADLINE TECHNICAL SKILLS
+- **Development:** Next.js, React, Laravel, Python, C++, Google Apps Script, Electron
+- **AI & Cloud:** Generative AI, Prompt Engineering, Firebase, Google Cloud (Kubernetes)
+- **Cybersecurity:** Penetration Testing, Ethical Hacking, InfoSec Analysis, Data Recovery
+
+---
+
+## KEY SKILLS (FULL)
 - **Content & Moderation:** Bengali Content Writing (Native/Expert), Community Management, Policy Enforcement, Digital Literacy, Fact-checking, Empathy-based Communication.
 - **Languages:** Bengali (Native), English (Professional Proficiency - Fluent/B2 Level).
 - **Programming Languages:** JavaScript/TypeScript, Python, C, C++, PHP
@@ -57,6 +66,7 @@ A dedicated bilingual professional (Bengali/English) with a strong background in
 
 ### **Internal Member (Cybersecurity Competitor & Ethical Hacking Enthusiast)**
 **Cyber Bangla** | *Jan 2020 – Present*
+- Actively engage in penetration testing, cybersecurity workshops, and Capture The Flag (CTF) competitions.
 - Actively engage in a specialized cybersecurity community focused on penetration testing methodologies, technical workshops, and CTF (Capture The Flag) competitions (including BGD e-GOV CIRT, TryHackMe, Cyber Talents).
 - Apply problem-solving skills to address real-world security challenges under time constraints using tools like Kali Linux and Parrot OS.
 

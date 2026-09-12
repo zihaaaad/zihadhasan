@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Github, Linkedin, Mail, Twitter, Send, MapPin, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { CMSService, GlobalSettings } from "@/lib/cms-service";
 import { toast } from "sonner";
@@ -88,7 +89,7 @@ export default function ContactPage() {
 
   const title = config?.contact?.title || "Let's Collaborate";
   const subtitle = config?.contact?.subtitle || "Have a project in mind or just want to discuss the future of tech? Drop me a line.";
-  const location = config?.contact?.location || "Dhaka, Bangladesh";
+  const location = config?.contact?.location || "Bogura, Bangladesh";
 
   return (
     <div className="min-h-screen pt-32 pb-20 bg-background text-foreground font-sans">

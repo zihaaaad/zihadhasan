@@ -164,7 +164,7 @@ export function BlogEditor({ initialData, localStorageKey = 'blog_draft_new' }: 
  publishedAt: isPublished ? (initialData?.publishedAt || Timestamp.now()) : undefined,
  author: {
  name: profile?.name || user?.displayName || "Admin",
- avatar: profile?.photoURL || user?.photoURL || "https://github.com/shadcn.png"
+                        avatar: profile?.photoURL || user?.photoURL || "https://github.com/zihaaaad.png"
  }
  };
 

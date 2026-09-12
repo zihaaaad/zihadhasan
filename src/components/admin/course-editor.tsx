@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { doc, collection, addDoc, updateDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { CourseService } from "@/lib/services/course-service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,23 +23,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-export interface Lesson {
- id: string;
- title: string;
- videoUrl: string;
- order: number;
-}
-
-export interface Course {
- id?: string;
- title: string;
- description: string;
- pricingType?: 'free' | 'paid';
- price?: number;
- headerImage: string;
- published: boolean;
- lessons: Lesson[];
-}
+export type { Lesson, Course } from "@/lib/services/course-service";
+import type { Lesson, Course } from "@/lib/services/course-service";
 
 interface CourseEditorProps {
  course?: Course | null;
@@ -61,9 +45,28 @@ export function CourseEditor({ course, onSave, onCancel }: CourseEditorProps) {
  // Backfill IDs if missing
  return initial.map(l => ({
  ...l,
- id: l.id || crypto.randomUUID()
+ id: l.id || crypto.randomUUID(),
+ isFreePreview: l.isFreePreview ?? false
  }));
  });
+
+ // Non-preview lesson URLs live in courses/{id}/secure/lessons, so the public
+ // course document the parent list handed us has them blanked out. Pull them
+ // back in on mount - without this, opening and saving a course would silently
+ // wipe every paid video URL.
+ useEffect(() => {
+ if (!course?.id) return;
+ let cancelled = false;
+
+ CourseService.getSecureLessonUrls(course.id).then((urls) => {
+ if (cancelled || Object.keys(urls).length === 0) return;
+ setLessons((current) =>
+ current.map((lesson) => (urls[lesson.id] ? { ...lesson, videoUrl: urls[lesson.id] } : lesson))
+ );
+ });
+
+ return () => { cancelled = true; };
+ }, [course?.id]);
 
  // Draft State
  const [showDraftDialog, setShowDraftDialog] = useState(false);
@@ -132,11 +135,11 @@ export function CourseEditor({ course, onSave, onCancel }: CourseEditorProps) {
  const handleAddLesson = () => {
  setLessons([
  ...lessons,
- { id: crypto.randomUUID(), title: "", videoUrl: "", order: lessons.length + 1 }
+ { id: crypto.randomUUID(), title: "", videoUrl: "", order: lessons.length + 1, isFreePreview: false }
  ]);
  };
 
- const handleLessonChange = (index: number, field: keyof Lesson, value: string | number) => {
+ const handleLessonChange = (index: number, field: keyof Lesson, value: string | number | boolean) => {
  const newLessons = [...lessons];
  newLessons[index] = { ...newLessons[index], [field]: value };
  setLessons(newLessons);
@@ -158,19 +161,16 @@ export function CourseEditor({ course, onSave, onCancel }: CourseEditorProps) {
  headerImage,
  published,
  lessons,
- updatedAt: serverTimestamp()
  };
 
  try {
+ // Routed through CourseService so the public/secure lesson split happens
+ // in exactly one place rather than being duplicated here.
  if (course?.id) {
- await updateDoc(doc(db, "courses", course.id), courseData);
+ await CourseService.updateCourse(course.id, courseData);
  toast.success("Course updated successfully!");
  } else {
- await addDoc(collection(db, "courses"), {
- ...courseData,
- isDeleted: false,
- createdAt: serverTimestamp()
- });
+ await CourseService.addCourse(courseData);
  toast.success("Course published successfully!");
  }
  if (!course) localStorage.removeItem('course_draft_new');
@@ -265,7 +265,7 @@ export function CourseEditor({ course, onSave, onCancel }: CourseEditorProps) {
  />
  </div>
  </div>
- <div>
+                    <div>
  <Label className="text-[9px] font-bold uppercase tracking-widest text-gray-800 ml-1">Stream Endpoint (URL)</Label>
  <div className="relative">
  <Video strokeWidth={1.5} className="absolute left-3 top-3 h-4 w-4 text-gray-800" />
@@ -277,6 +277,21 @@ export function CourseEditor({ course, onSave, onCancel }: CourseEditorProps) {
  />
  </div>
  </div>
+                    <div className="flex items-center gap-3">
+                      <Switch
+                        id={`preview-${lesson.id}`}
+                        checked={lesson.isFreePreview ?? false}
+                        onCheckedChange={(checked) => handleLessonChange(index, "isFreePreview", checked)}
+                      />
+                      <Label htmlFor={`preview-${lesson.id}`} className="text-[9px] font-bold uppercase tracking-widest text-gray-800">
+                        Free preview
+                      </Label>
+                      <span className="text-[9px] text-muted-foreground">
+                        {lesson.isFreePreview
+                          ? "URL is public - watchable before enrolling"
+                          : "URL is stored privately, enrolled students only"}
+                      </span>
+                    </div>
  </div>
  <div className="pt-6">
  <Button variant="ghost" size="icon" onClick={() => handleRemoveLesson(index)} className="text-red-500/30 hover:text-red-500 hover:bg-red-500/5 h-10 w-10 rounded-xl">

@@ -124,7 +124,7 @@ export function LessonsList({ course, registration, className, onEnroll, onToggl
  <Dialog open={showLockedModal} onOpenChange={setShowLockedModal}>
         <DialogContent className="max-w-md p-0 overflow-hidden bg-background border-border text-foreground rounded-3xl shadow-sm">
           <div className="relative h-40 bg-gray-50 flex items-center justify-center overflow-hidden border-b border-border">
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-150"></div>
+                       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%270 0 200 200%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27noiseFilter%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.65%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23noiseFilter)%27/%3E%3C/svg%3E')] opacity-10 pointer-events-none mix-blend-multiply"></div>
             <div className="h-20 w-20 rounded-full bg-background flex items-center justify-center border border-border shadow-2xl relative z-10">
               <Lock strokeWidth={1.5} className="h-8 w-8 text-foreground" />
             </div>

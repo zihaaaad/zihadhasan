@@ -47,7 +47,7 @@ export function SearchCommand() {
       Promise.all([
         CMSService.getPublishedCourses(),
         CMSService.getProjects(),
-        CMSService.getPosts(true), // Only published
+        CMSService.getPosts(true).then(res => res.data), // Only published
         CMSService.getEvents() // Potentially verify published/upcoming logic if needed
       ]).then(([courses, projects, posts, events]) => {
         const standardized: SearchResult[] = [

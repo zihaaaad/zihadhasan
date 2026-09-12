@@ -35,13 +35,12 @@ import { CMSService } from "@/lib/cms-service";
 export async function generateMetadata(): Promise<Metadata> {
  const settings = await CMSService.getGlobalSettings();
 
- const title = settings?.siteTitle || "Zihad Hasan | Futuristic AI & Code";
- const description = settings?.siteDescription || "Zihad Hasan is a visionary Software Engineer building the future with AI and Next.js. Explore his portfolio of next-gen tools, events, and insights.";
+ const title = settings?.siteTitle || "Zihad Hasan | Generative AI & Full-Stack Developer";
+ const description = settings?.siteDescription || "Zihad Hasan is a Generative AI and Full-Stack Developer specializing in scalable workflow automation, system architecture, and cybersecurity. Author of Digital Shikar. Explore his projects, AI courses, and writing.";
 
  // Default keywords + dynamic ones
  const defaultKeywords = [
- "Zihad Hasan", "Software Engineer", "AI Expert", "Next.js", "React", "Bangladesh",
- "Next.js Developer", "React Specialist", "Web Developer Bangladesh", "Full Stack Developer", "JavaScript", "Artificial Intelligence"
+ "Zihad Hasan", "Generative AI Developer", "Full Stack Developer", "AI Teacher", "Generative AI", "Prompt Engineering", "Workflow Automation", "Google Apps Script", "Next.js", "React", "Laravel", "Python", "Electron", "Firebase", "Cybersecurity", "Penetration Testing", "Ethical Hacking", "Digital Shikar", "Bangladesh", "Bogura", "AI Instructor"
  ];
 
  const dynamicKeywords = settings?.seoKeywords || [];

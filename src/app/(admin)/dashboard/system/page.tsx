@@ -23,7 +23,6 @@ import {
 
 export default function SystemHealthPage() {
  const [stats, setStats] = useState<{
- storage: { used: number; limit: number };
  firebase: {
  reads: string;
  writes: string;
@@ -244,37 +243,31 @@ export default function SystemHealthPage() {
  </div>
         </div>
 
- {/* Cloudinary Storage (Visual Only) */}
+ {/* Quota consumption is not readable from the client SDK, so this links out
+           instead of rendering a number it cannot actually measure. */}
       <div className="p-6 bg-background border border-border rounded-xl shadow-sm">
         <div className="flex flex-row items-center justify-between space-y-0 pb-2 mb-4">
           <div className="flex items-center gap-2">
             <HardDrive strokeWidth={1.5} className="h-5 w-5 text-foreground" />
-            <span className="font-bold text-lg text-foreground">Storage</span>
+            <span className="font-bold text-lg text-foreground">Usage & Storage</span>
           </div>
-          <Badge variant="outline" className="border-border text-muted-foreground bg-gray-50 uppercase tracking-widest text-[9px]">Media</Badge>
+          <Badge variant="outline" className="border-border text-muted-foreground bg-gray-50 uppercase tracking-widest text-[9px]">External</Badge>
         </div>
-        {stats ? (
-          <div className="space-y-4">
-            <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-              <span>{stats.storage.used}GB Used</span>
-              <span>{stats.storage.limit}GB Limit</span>
-            </div>
-            <Progress
-              value={(stats.storage.used / stats.storage.limit) * 100}
-              className="h-1.5 bg-gray-100"
-            />
-            <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">
-              Media assets stored in Cloudinary. (Estimate)
+          <div className="space-y-3">
+            <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest leading-relaxed">
+              Firestore reads/writes and media storage are metered by the providers. Open their consoles for exact figures.
             </p>
-            <Button variant="ghost" size="sm" className="w-full text-[9px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-gray-100 h-10 rounded-lg mt-2" asChild>
+            <Button variant="ghost" size="sm" className="w-full text-[9px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-gray-100 h-10 rounded-lg" asChild>
+              <a href="https://console.firebase.google.com/project/zihadhasan/usage" target="_blank" rel="noopener noreferrer">
+                Firebase Usage
+              </a>
+            </Button>
+            <Button variant="ghost" size="sm" className="w-full text-[9px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-gray-100 h-10 rounded-lg" asChild>
  <a href="https://console.cloudinary.com" target="_blank" rel="noopener noreferrer">
- View Cloudinary Console
+ Cloudinary Console
  </a>
  </Button>
  </div>
- ) : (
- <div className="h-20 animate-pulse bg-background rounded" />
- )}
         </div>
  </div>
 

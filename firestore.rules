@@ -2,181 +2,296 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // --- Helper Functions ---
-    
-    // Check if the user is an Admin by reading their profile document
-    function isAdmin() {
-      return request.auth != null && 
-             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    // ---------------------------------------------------------------------
+    // Helpers
+    //
+    // Note on cost (Spark plan): get()/exists() inside rules are billed as
+    // document reads, but results are cached per path for the duration of a
+    // single request. isAdmin() + isActive() therefore cost ONE read total,
+    // not two.
+    // ---------------------------------------------------------------------
+
+    function signedIn() {
+      return request.auth != null;
     }
-    
-    // Check if the user is the owner of the document
+
+    function uid() {
+      return request.auth.uid;
+    }
+
+    function profile() {
+      return get(/databases/$(database)/documents/users/$(uid())).data;
+    }
+
+    function isAdmin() {
+      return signedIn() && profile().get('role', 'user') == 'admin';
+    }
+
+    // A signed-in user who has not been banned. Bans used to be enforced only
+    // in the client AuthProvider, which meant a banned account could keep
+    // writing through the SDK directly. Every non-admin write path now goes
+    // through this instead of a bare `request.auth != null`.
+    function isActive() {
+      return signedIn() && profile().get('isBanned', false) == false;
+    }
+
     function isOwner(userId) {
-      return request.auth != null && request.auth.uid == userId;
+      return signedIn() && uid() == userId;
+    }
+
+    // True when `field` is identical before and after the write. Used to pin
+    // privileged fields that the owner must never be able to edit.
+    function unchanged(field) {
+      return request.resource.data.get(field, null) == resource.data.get(field, null);
+    }
+
+    function isText(value, maxLen) {
+      return value is string && value.size() > 0 && value.size() <= maxLen;
+    }
+
+    function isEmail(value) {
+      return value is string
+             && value.size() <= 320
+             && value.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$');
     }
 
     // --- Users Collection (The Core Hub) ---
     match /users/{userId} {
-      // Admin can do anything. Owner can read their own profile.
       allow read: if isOwner(userId) || isAdmin();
-      
-      // Create: Allow user to create their own profile (e.g. on signup)
-      allow create: if isOwner(userId);
-      
-      // Update: Owner can update BUT cannot change email or role
+
+      // Create: a user may only ever mint their OWN profile, as a plain user.
+      // Previously this was `allow create: if isOwner(userId)` with no field
+      // validation at all - so anyone could sign up and write role:'admin'
+      // into their own profile document, which isAdmin() then trusted. That
+      // was full takeover of every collection in this database.
+      allow create: if isOwner(userId)
+                    && request.resource.data.uid == userId
+                    && request.resource.data.role == 'user'
+                    && request.resource.data.get('isBanned', false) == false
+                    && request.resource.data.email == request.auth.token.email;
+
+      // Update: admins are unrestricted. Owners may edit their own profile
+      // (name, phone, photo) but never the fields that grant access.
       allow update: if isAdmin() || (
-        isOwner(userId) 
-        && request.resource.data.email == resource.data.email 
-        && request.resource.data.role == resource.data.role
+        isOwner(userId)
+        && unchanged('email')
+        && unchanged('role')
+        && unchanged('isBanned')
+        && unchanged('uid')
+        && unchanged('enrolledCourses')
       );
-      
-      // Delete: Only Admin can delete users (for safety)
+
       allow delete: if isAdmin();
+
+      // --- User Notifications (Subcollection) ---
+      match /notifications/{notificationId} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow create: if isAdmin();
+        allow update: if isAdmin() || isOwner(userId);
+        allow delete: if isAdmin() || isOwner(userId);
+      }
     }
 
-    // --- Courses Collection (LMS) ---
+    // --- Courses (LMS) ---
     match /courses/{courseId} {
-      // Public read if published. Admin can read all.
-      allow read: if (resource.data.published == true) || isAdmin();
-      // Only Admin can manage courses
+      allow read: if resource.data.get('published', false) == true || isAdmin();
       allow write: if isAdmin();
+
+      // Paid lesson video URLs. These used to live in the `lessons` array on
+      // the course document itself, which is publicly readable whenever the
+      // course is published - so every paid course's videos were readable by
+      // anyone with the course id, and the lock icon in LessonsList was pure
+      // decoration. Non-preview URLs now live here, behind an approved
+      // registration, mirroring how books and products already did it.
+      match /secure/{docId} {
+        allow read: if isAdmin() || (
+          signedIn()
+          && exists(/databases/$(database)/documents/registrations/$(uid() + '_' + courseId))
+          && get(/databases/$(database)/documents/registrations/$(uid() + '_' + courseId)).data.status == 'approved'
+          && get(/databases/$(database)/documents/registrations/$(uid() + '_' + courseId)).data.get('courseId', '') == courseId
+        );
+        allow write: if isAdmin();
+      }
     }
 
-    // --- Existing Portfolio Collections (Enhanced Security) ---
-    
+    // --- Newsletter ---
+    // Open to anonymous visitors by design: this is a public signup form on a
+    // static site with no server to proxy through. App Check was the intended
+    // gate, but NEXT_PUBLIC_RECAPTCHA_KEY was never set, so `request.app` was
+    // always null and this rule rejected every logged-out subscriber - the
+    // form has been silently failing. Shape + length validation replaces it as
+    // the baseline; turning App Check on later only tightens this further.
     match /subscribers/{docId} {
-      allow create: if request.auth != null || (request.app != null); // Allow App Check verified requests
-      allow read, delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly(['email', 'name', 'joinedAt'])
+                    && isEmail(request.resource.data.email)
+                    && (request.resource.data.get('name', null) == null
+                        || isText(request.resource.data.name, 100))
+                    && request.resource.data.joinedAt is timestamp;
+      allow read, delete, update: if isAdmin();
     }
 
-    match /events/{docId} {
+    // --- Contact Messages ---
+    match /messages/{messageId} {
+      allow create: if request.resource.data.keys().hasOnly(['name', 'email', 'subject', 'message', 'read', 'createdAt'])
+                    && isText(request.resource.data.name, 100)
+                    && isEmail(request.resource.data.email)
+                    && isText(request.resource.data.subject, 200)
+                    && isText(request.resource.data.message, 5000)
+                    && request.resource.data.read == false
+                    && request.resource.data.createdAt is timestamp;
+      allow read, delete, update: if isAdmin();
+    }
+
+    // --- Events ---
+    match /events/{eventId} {
       allow read: if true;
       allow write: if isAdmin();
 
-      // Free-event auto-approval increments registeredCount from the client
-      // (EventService.registerForEvent / RegistrationService.approveRegistration),
-      // so a non-admin write path has to stay open here. It is now restricted to
-      // signed-in users only - the previous version allowed this update with NO
-      // auth check at all, so any anonymous visitor could repeatedly call updateDoc
-      // to bump registeredCount up to totalSeats without ever creating a registration,
-      // falsely marking free events "sold out". Requiring auth ties any abuse to a
-      // real (bannable) account. Full protection against a logged-in user spamming
-      // this would require moving the increment into a Cloud Function - out of scope
-      // for a client-only static export, flagging for follow-up.
-      allow update: if request.auth != null
-                    && resource.data.pricingType == 'free'
+      // Free-event self-registration increments registeredCount from the
+      // client, inside the same transaction that creates the registration
+      // (EventService.registerForEvent). getAfter() lets us verify that here:
+      // the increment is accepted only if this same commit brings an approved
+      // registration for THIS user and THIS event into existence.
+      //
+      // The !exists() precondition is what makes it single-use. Previously any
+      // signed-in visitor could call updateDoc in a loop and inflate the count
+      // to totalSeats without ever registering, falsely marking free events
+      // sold out. Now a replay finds the registration already present and is
+      // denied.
+      allow update: if isActive()
                     && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['registeredCount'])
-                    && request.resource.data.registeredCount == (resource.data.get('registeredCount', 0) + 1);
+                    && request.resource.data.registeredCount == resource.data.get('registeredCount', 0) + 1
+                    && request.resource.data.registeredCount <= resource.data.totalSeats
+                    && !exists(/databases/$(database)/documents/registrations/$(uid() + '_' + eventId))
+                    && getAfter(/databases/$(database)/documents/registrations/$(uid() + '_' + eventId)).data.status == 'approved'
+                    && getAfter(/databases/$(database)/documents/registrations/$(uid() + '_' + eventId)).data.get('eventId', '') == eventId;
     }
 
+    // --- Portfolio content ---
     match /projects/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /tools/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /posts/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    match /books/{bookId} {
-      allow read: if (resource.data.published == true) || isAdmin();
-      allow write: if isAdmin();
-
-      // Secure E-book Content
-      match /secure/content {
-        allow read: if isAdmin() || (
-            request.auth != null && 
-            get(/databases/$(database)/documents/registrations/$(request.auth.uid + "_" + bookId)).data.status == 'approved'
-        );
-        allow write: if isAdmin();
-      }
-    }
-    
-    match /products/{productId} {
-      allow read: if (resource.data.published == true) || isAdmin();
-      allow write: if isAdmin();
-
-      // Secure Content (Download URL)
-      // Only readable if Admin OR User has PURCHASED and is APPROVED
-      // Schema Enforcement: We now enforce registrations/{userId}_{productId}
-      match /secure/content {
-        allow read: if isAdmin() || (
-            request.auth != null && 
-            get(/databases/$(database)/documents/registrations/$(request.auth.uid + "_" + productId)).data.status == 'approved'
-        );
-        allow write: if isAdmin();
-      }
-    }
-    
     match /settings/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
+    // --- Books ---
+    match /books/{bookId} {
+      allow read: if resource.data.get('published', false) == true || isAdmin();
+      allow write: if isAdmin();
+
+      // Secure E-book Content.
+      // The extra bookId equality check is belt-and-braces on top of the
+      // deterministic-id rule below: it guarantees the approved registration
+      // this read relies on is actually a registration FOR THIS BOOK.
+      match /secure/{docId} {
+        allow read: if isAdmin() || (
+          signedIn()
+          && exists(/databases/$(database)/documents/registrations/$(uid() + '_' + bookId))
+          && get(/databases/$(database)/documents/registrations/$(uid() + '_' + bookId)).data.status == 'approved'
+          && get(/databases/$(database)/documents/registrations/$(uid() + '_' + bookId)).data.get('bookId', '') == bookId
+        );
+        allow write: if isAdmin();
+      }
+    }
+
+    // --- Products (Shop) ---
+    match /products/{productId} {
+      allow read: if resource.data.get('published', false) == true || isAdmin();
+      allow write: if isAdmin();
+
+      match /secure/{docId} {
+        allow read: if isAdmin() || (
+          signedIn()
+          && exists(/databases/$(database)/documents/registrations/$(uid() + '_' + productId))
+          && get(/databases/$(database)/documents/registrations/$(uid() + '_' + productId)).data.status == 'approved'
+          && get(/databases/$(database)/documents/registrations/$(uid() + '_' + productId)).data.get('productId', '') == productId
+        );
+        allow write: if isAdmin();
+      }
+    }
+
+    // --- Registrations (enrollments + purchases) ---
     match /registrations/{registrationId} {
-      // Allow create if:
-      // 1. Authenticated User claiming their own userId
-      // 2. Unauthenticated Guest (no userId provided OR userId is null)
-      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid
+
+      // Exactly one of courseId / eventId / bookId / productId must be set.
+      function subjectCount() {
+        return (('courseId'  in request.resource.data) ? 1 : 0)
+             + (('eventId'   in request.resource.data) ? 1 : 0)
+             + (('bookId'    in request.resource.data) ? 1 : 0)
+             + (('productId' in request.resource.data) ? 1 : 0);
+      }
+
+      function subjectId() {
+        return request.resource.data.get('courseId',
+               request.resource.data.get('eventId',
+               request.resource.data.get('bookId',
+               request.resource.data.get('productId', ''))));
+      }
+
+      function subjectIsFree() {
+        return ('courseId' in request.resource.data
+                && get(/databases/$(database)/documents/courses/$(request.resource.data.courseId)).data.get('pricingType', 'paid') == 'free')
+            || ('eventId' in request.resource.data
+                && get(/databases/$(database)/documents/events/$(request.resource.data.eventId)).data.get('pricingType', 'paid') == 'free');
+      }
+
+      // Create.
+      //
+      // The document id is now pinned to `{uid}_{subjectId}`. This is the fix
+      // for a privilege escalation: the secure-content rules above look up
+      // registrations/{uid}_{bookId} and checked only `status == 'approved'`,
+      // while this rule accepted ANY document id and allowed status
+      // 'approved' whenever the payload carried a free courseId. So a user
+      // could write registrations/{uid}_{paidBookId} carrying a free course's
+      // id, and unlock every paid e-book and product download for free.
+      //
+      // Pinning the id to the subject means an 'approved' free-course
+      // registration can only ever live at the free course's own address.
+      allow create: if isActive()
+                    && request.resource.data.userId == uid()
+                    && subjectCount() == 1
+                    && registrationId == uid() + '_' + subjectId()
+                    && request.resource.data.keys().hasOnly([
+                         'courseId', 'eventId', 'bookId', 'productId',
+                         'userId', 'email', 'name', 'phone', 'trxId',
+                         'screenshotUrl', 'paymentMethod', 'additionalInfo',
+                         'status', 'registeredAt', 'completedLessonIds'
+                       ])
+                    && isEmail(request.resource.data.email)
+                    && isText(request.resource.data.name, 150)
+                    && request.resource.data.registeredAt is timestamp
                     && (
-                      request.resource.data.status == 'pending' || 
-                      (
-                        request.resource.data.status == 'approved' && 
-                        (
-                          // Option 1: Free Course
-                          (
-                            'courseId' in request.resource.data && 
-                            get(/databases/$(database)/documents/courses/$(request.resource.data.courseId)).data.pricingType == 'free'
-                          ) ||
-                          // Option 2: Free Event
-                          (
-                            'eventId' in request.resource.data && 
-                            get(/databases/$(database)/documents/events/$(request.resource.data.eventId)).data.pricingType == 'free'
-                          )
-                        )
-                      )
+                      request.resource.data.status == 'pending'
+                      || (request.resource.data.status == 'approved' && subjectIsFree())
                     );
-      
-      // Allow read if Admin OR if the user owns the registration
-      allow read: if isAdmin() || (request.auth != null && resource.data.userId == request.auth.uid);
-      
-      // Allow delete: if Admin
+
+      allow read: if isAdmin() || (signedIn() && resource.data.get('userId', '') == uid());
+
       allow delete: if isAdmin();
 
-      // Allow update: 
-      // 1. Admin can do anything
-      // 2. User can update ONLY progress tracking fields 
-      //    AND cannot change status, userId, courseId, eventId, bookId, productId
+      // Update: admins are unrestricted (this is the approval path). A learner
+      // may only ever tick lesson progress on their own registration.
       allow update: if isAdmin() || (
-        request.auth != null 
-        && resource.data.userId == request.auth.uid
-        && request.resource.data.userId == resource.data.userId // No ownership transfer
-        && request.resource.data.status == resource.data.status // Cannot approve self
-        && request.resource.data.get('courseId', null) == resource.data.get('courseId', null)
-        && request.resource.data.get('eventId', null) == resource.data.get('eventId', null)
-        && request.resource.data.get('bookId', null) == resource.data.get('bookId', null)
-        && request.resource.data.get('productId', null) == resource.data.get('productId', null)
+        isActive()
+        && resource.data.get('userId', '') == uid()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['completedLessonIds'])
+        && request.resource.data.completedLessonIds is list
+        && request.resource.data.completedLessonIds.size() <= 500
       );
-    }
-    
-    // --- Contact Messages ---
-    match /messages/{messageId} {
-      allow create: if request.auth != null || (request.app != null); // App Check for spam protection
-      allow read, delete: if isAdmin();
-    }
-    
-    // --- User Notifications (Subcollection) ---
-    match /users/{userId}/notifications/{notificationId} {
-      allow read: if isOwner(userId) || isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin() || isOwner(userId);
-      allow delete: if isAdmin() || isOwner(userId);
     }
 
     // --- Default Deny ---

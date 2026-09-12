@@ -78,7 +78,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       content: (
         <>
           <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed font-light mb-6 md:mb-8 max-w-lg">
-            I am a full-stack engineer and educator who bridges the gap between complex technical systems and human-centered design. I specialize in building scalable software, teaching artificial intelligence, and crafting digital experiences that feel intuitive and powerful.
+            I am a Generative AI and Full-Stack Developer on a core AI team, building scalable workflow automation and system architecture with a security engineer&apos;s instincts. I ship in Next.js, Laravel and Python, teach Generative AI tools to hundreds of students, and wrote <em>Digital Shikar</em> on digital security and privacy.
           </p>
           <div className="flex flex-wrap gap-3 md:gap-4">
             <Link href="/contact" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full bg-primary px-6 md:px-8 text-xs md:text-sm font-semibold text-primary-foreground transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/10">
@@ -99,10 +99,10 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       content: (
         <>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed font-light mb-4 md:mb-6 max-w-lg">
-            I believe that technology is only as powerful as the people who know how to use it. That's why I dedicate my time to teaching digital literacy and Generative AI to hundreds of students, helping them unlock their full potential.
+            Technology is only as powerful as the people who know how to use it. As an assistant instructor I have trained hundreds of students across batches 28–35 on Generative AI tools, prompt engineering and ethical, safe use of the web.
           </p>
           <ul className="space-y-2 md:space-y-4">
-            {["500+ Students Mentored", "Curriculum Development", "AI-Assisted Learning", "Interactive Workshops"].map((item, i) => (
+            {["Hundreds of Students Trained", "Batch 28–35 AI Curriculum", "ChatGPT, Gemini CLI & AI Studio", "Interactive Workshops"].map((item, i) => (
               <li key={i} className="flex items-center gap-3 text-sm md:text-base text-gray-800 font-medium">
                 <div className="h-1.5 w-1.5 bg-primary rounded-full" />
                 {item}
@@ -120,7 +120,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       content: (
         <>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed font-light mb-4 md:mb-6 max-w-lg">
-            Great software isn't just about writing code; it's about solving real human problems elegantly. I approach every project with a mindset geared towards scalability, security, and exceptional user experience.
+            Great software isn&apos;t just about writing code; it&apos;s about solving real human problems elegantly — and safely. Every system I design starts from the same three questions: will it scale, will it hold up under attack, and will it feel obvious to the person using it.
           </p>
           <blockquote className="border-l-4 border-primary pl-4 md:pl-6 italic text-lg md:text-xl text-gray-800 my-6 md:my-8 py-1 md:py-2 max-w-lg">
             "Technology should fade into the background, allowing human creativity and connection to take center stage."
@@ -140,18 +140,18 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
         <div className="space-y-6 md:space-y-8 max-w-lg">
           <div className="border-l-2 border-gray-100 pl-4 md:pl-6 relative">
             <div className="absolute w-3 h-3 bg-primary rounded-full -left-[7px] top-1.5 md:top-2" />
-            <h3 className="text-lg md:text-xl font-bold">Core AI Team & Trainer</h3>
-            <p className="text-xs md:text-sm font-mono text-muted-foreground mb-2 md:mb-3 mt-1">As-Sunnah Foundation • 2024 - Present</p>
+            <h3 className="text-lg md:text-xl font-bold">Core AI Team Member & Assistant Instructor</h3>
+            <p className="text-xs md:text-sm font-mono text-muted-foreground mb-2 md:mb-3 mt-1">As-Sunnah Foundation & ASSDI • May 2024 – Present</p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Architected enterprise event automation using Google Apps Script. Managed large-scale AI instruction and mitigated critical data breaches.
+              Architected a Google Apps Script event automation system handling concurrent registrations, auto-generated PDF tickets and dynamic email delivery. Trained hundreds of students on Generative AI, and secured participant data within 24 hours after a critical external breach.
             </p>
           </div>
           <div className="border-l-2 border-gray-100 pl-4 md:pl-6 relative">
             <div className="absolute w-3 h-3 bg-gray-300 rounded-full -left-[7px] top-1.5 md:top-2" />
-            <h3 className="text-lg md:text-xl font-bold">Assistant Teacher & IT Admin</h3>
-            <p className="text-xs md:text-sm font-mono text-muted-foreground mb-2 md:mb-3 mt-1">Real Multimedia School • 2022 - 2023</p>
+            <h3 className="text-lg md:text-xl font-bold">Internal Member</h3>
+            <p className="text-xs md:text-sm font-mono text-muted-foreground mb-2 md:mb-3 mt-1">Cyber Bangla • Jan 2020 – Present</p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Integrated Generative AI into lesson plans. Managed digital student records and enforced institutional data compliance.
+              Penetration testing, cybersecurity workshops and Capture The Flag competitions — the security practice that informs how I architect everything else.
             </p>
           </div>
         </div>
@@ -168,37 +168,32 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
       */}
       <div ref={containerRef} className="h-screen w-full relative overflow-hidden bg-background">
         
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-4 md:gap-12 lg:gap-20 h-full py-24 md:py-20 relative z-10">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-4 md:gap-12 lg:gap-20 h-full py-8 pt-20 md:py-20 relative z-10">
           
           {/* 
             IMAGES (Top on mobile, Right on desktop) 
             order-first on mobile ensures images are displayed above the text.
           */}
-          <div className="flex w-full h-[40%] md:h-full md:w-[55%] items-center justify-center relative perspective-[1200px] z-40 order-first md:order-last">
+          <div className="flex w-full h-[45%] md:h-full md:w-[50%] items-center justify-center relative perspective-[1200px] z-40 order-first md:order-last">
             
-            {/* Image 3: Grand Finale Widescreen */}
-            <div className="img-slide-3 absolute w-full max-w-[320px] md:max-w-[600px] aspect-[4/3] lg:aspect-video rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-10 will-change-transform">
-              <Image 
-                src="/images/portfolio/Man_working_at_desk.png"
-                alt="Zihad Hasan working at desk"
-                fill 
-                className="object-cover" 
-                priority
-              />
-             
+            {/* Image 3: Grand Finale */}
+            <div className="img-slide-3 absolute w-[75%] md:w-[90%] max-w-[280px] md:max-w-[420px] aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-10 will-change-transform">
+              <Image src="/images/portfolio/Man_typing_on_laptop.webp" alt="Development" fill className="object-cover" priority />
             </div>
 
-            {/* Images 2, 1, 0: Portrait Stack */}
-            <div className="img-slide-2 absolute w-[70%] md:w-[85%] max-w-[260px] md:max-w-[400px] aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-20 will-change-transform">
-              <Image src="/images/portfolio/Man_thinking.png" alt="Thinking" fill className="object-cover" priority />
+            {/* Image 2 */}
+            <div className="img-slide-2 absolute w-[75%] md:w-[90%] max-w-[280px] md:max-w-[420px] aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-20 will-change-transform">
+              <Image src="/images/portfolio/Man_working_at_computer_workstation.webp" alt="Thinking" fill className="object-cover" priority />
             </div>
             
-            <div className="img-slide-1 absolute w-[70%] md:w-[85%] max-w-[260px] md:max-w-[400px] aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-30 will-change-transform">
-              <Image src="/images/portfolio/Man_speaking_in_technology_class.png" alt="Teaching" fill className="object-cover" priority />
+            {/* Image 1 */}
+            <div className="img-slide-1 absolute w-[75%] md:w-[90%] max-w-[280px] md:max-w-[420px] aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-30 will-change-transform">
+              <Image src="/images/portfolio/Man_speaking_in_technology_class.webp" alt="Teaching" fill className="object-cover" priority />
             </div>
 
-            <div className="img-slide-0 absolute w-[70%] md:w-[85%] max-w-[260px] md:max-w-[400px] aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-40 will-change-transform">
-              <Image src="/images/portfolio/Man_posing_for_professional_port.png" alt="Professional Portrait" fill className="object-cover" priority />
+            {/* Image 0 */}
+            <div className="img-slide-0 absolute w-[75%] md:w-[90%] max-w-[280px] md:max-w-[420px] aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-100 z-40 will-change-transform">
+              <Image src="/images/portfolio/Man_posing_for_studio_portrait.webp" alt="Professional Portrait" fill className="object-cover" priority />
             </div>
 
           </div>
@@ -207,7 +202,7 @@ export function ScrollPortfolio({ settings }: ScrollPortfolioProps) {
             TEXT (Bottom on mobile, Left on desktop) 
             Higher z-index (50) so the images slide UNDER the text column perfectly.
           */}
-          <div className="w-full h-[60%] md:h-full md:w-[45%] relative z-50 order-last md:order-first flex items-start md:items-center">
+          <div className="w-full h-[55%] md:h-full md:w-[50%] relative z-50 order-last md:order-first flex items-start md:items-center">
             {slides.map((slide, index) => (
               <div
                 key={`text-${slide.id}`}

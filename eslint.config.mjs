@@ -1,21 +1,29 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import { FlatCompat } from "@eslint/eslintrc";
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-    // Added ignores:
-    ".firebase/**",
-    "node_modules/**",
-  ]),
-]);
+// eslint-config-next 15.5.x still ships the legacy `{ extends: [...] }` shape,
+// not flat-config arrays. The previous config spread those objects directly
+// (`...nextVitals`), which threw "nextVitals is not iterable" - and before that
+// it imported them without the .js extension, which threw ERR_MODULE_NOT_FOUND.
+// Either way `npm run lint` had never actually executed. FlatCompat is the
+// supported bridge until the config package ships flat config natively.
+const compat = new FlatCompat({
+  baseDirectory: dirname(fileURLToPath(import.meta.url)),
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    ignores: [
+      ".next/**",
+      "out/**",
+      "build/**",
+      "next-env.d.ts",
+      ".firebase/**",
+      "node_modules/**",
+    ],
+  },
+];
 
 export default eslintConfig;

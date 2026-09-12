@@ -19,8 +19,10 @@ import { Registration } from "./registration-service";
 export interface Lesson {
  id: string;
  title: string;
- videoUrl: string; // YouTube or Vimeo
+ videoUrl: string; // YouTube or Vimeo. Empty on the public course document
+ // for non-preview lessons - see splitLessons below.
  duration?: string;
+ order?: number;
  isFreePreview: boolean;
 }
 
@@ -36,6 +38,37 @@ export interface Course {
  lessons: Lesson[];
  createdAt?: Timestamp;
  isDeleted?: boolean;
+}
+
+/**
+ * Paid lesson video URLs are NOT stored on the course document.
+ *
+ * The course document is readable by anyone once `published` is true, so
+ * keeping videoUrl there meant every paid lesson was one getDoc() away for a
+ * visitor who never enrolled - the padlock in LessonsList was cosmetic. The
+ * URLs now live in a single `courses/{id}/secure/lessons` document that the
+ * security rules gate behind an approved registration, which is the same
+ * shape books and products already used.
+ *
+ * Free-preview lessons deliberately keep their URL in the public document:
+ * they are meant to be watchable before enrolling.
+ */
+const secureLessonsRef = (courseId: string) => doc(db, "courses", courseId, "secure", "lessons");
+
+function splitLessons(lessons: Lesson[]): { publicLessons: Lesson[]; secureUrls: Record<string, string> } {
+ const publicLessons: Lesson[] = [];
+ const secureUrls: Record<string, string> = {};
+
+ for (const lesson of lessons || []) {
+ if (lesson.isFreePreview) {
+ publicLessons.push(lesson);
+ continue;
+ }
+ if (lesson.videoUrl) secureUrls[lesson.id] = lesson.videoUrl;
+ publicLessons.push({ ...lesson, videoUrl: "" });
+ }
+
+ return { publicLessons, secureUrls };
 }
 
 export const CourseService = {
@@ -72,17 +105,55 @@ export const CourseService = {
  },
 
  addCourse: async (course: Omit<Course, "id" | "createdAt">) => {
- return await addDoc(collection(db, "courses"), {
+ const { publicLessons, secureUrls } = splitLessons(course.lessons || []);
+
+ const docRef = await addDoc(collection(db, "courses"), {
  ...course,
+ lessons: publicLessons,
  isDeleted: false,
  createdAt: Timestamp.now(),
  });
+
+ await setDoc(secureLessonsRef(docRef.id), { urls: secureUrls });
+ return docRef;
  },
 
  updateCourse: async (id: string, data: Partial<Course>) => {
  const docRef = doc(db, "courses", id);
+
+ // Only touch the secure document when lessons are actually part of this
+ // update - a publish toggle or title edit must not wipe the video URLs.
+ if (data.lessons) {
+ const { publicLessons, secureUrls } = splitLessons(data.lessons);
+ await updateDoc(docRef, { ...data, lessons: publicLessons });
+ await setDoc(secureLessonsRef(id), { urls: secureUrls });
+ return;
+ }
+
  await updateDoc(docRef, data);
  },
+
+ /**
+  * Fetch the gated video URLs for a course, keyed by lesson id.
+  * Returns {} when the caller is not entitled - the rules reject the read and
+  * the UI simply keeps showing locked lessons rather than erroring.
+  */
+ getSecureLessonUrls: async (courseId: string): Promise<Record<string, string>> => {
+ try {
+ const snapshot = await getDoc(secureLessonsRef(courseId));
+ return snapshot.exists() ? ((snapshot.data().urls || {}) as Record<string, string>) : {};
+ } catch {
+ return {};
+ }
+ },
+
+ /** Merge fetched secure URLs back onto a course's lessons for playback. */
+ withSecureLessons: (course: Course, urls: Record<string, string>): Course => ({
+ ...course,
+ lessons: (course.lessons || []).map((lesson) =>
+ urls[lesson.id] ? { ...lesson, videoUrl: urls[lesson.id] } : lesson
+ ),
+ }),
 
  deleteCourse: async (id: string) => {
  await updateDoc(doc(db, "courses", id), { isDeleted: true });

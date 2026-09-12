@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code, Bot, Rocket, Search } from "lucide-react";
+import { Code, Bot, ShieldCheck, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,22 +11,22 @@ const SERVICES = [
   {
     icon: <Code className="h-6 w-6 text-gray-700" />,
     title: "Full Stack Development",
-    description: "Building scalable, high-performance web apps using Next.js, React, and Node.js. Optimized for speed and SEO.",
+    description: "Scalable, high-performance web and desktop apps in Next.js, React, Laravel and Electron — architected for growth, not just launch day.",
   },
   {
     icon: <Bot className="h-6 w-6 text-gray-700" />,
-    title: "AI Integration",
-    description: "Integrating powerful AI models (OpenAI, Gemini) into your applications to automate tasks and enhance user experience.",
+    title: "Generative AI & Workflow Automation",
+    description: "Custom AI integrations and end-to-end automation — Google Apps Script systems, concurrent-safe registration flows, automated PDF and email pipelines that replace manual admin work.",
+  },
+  {
+    icon: <ShieldCheck className="h-6 w-6 text-gray-700" />,
+    title: "Security & Privacy Review",
+    description: "Penetration testing, InfoSec analysis and incident response from an active CTF competitor — plus practical privacy hardening for teams handling personal data.",
   },
   {
     icon: <Rocket className="h-6 w-6 text-gray-700" />,
     title: "MVP Launch",
-    description: "Rapidly turning your startup idea into a functional Minimum Viable Product ready for investors and users.",
-  },
-  {
-    icon: <Search className="h-6 w-6 text-gray-700" />,
-    title: "Technical SEO & Performance",
-    description: "Auditing and optimizing your existing site to rank higher on Google and load in sub-seconds.",
+    description: "Turning an idea into a working, secure Minimum Viable Product ready for real users and investors.",
   },
 ];
 

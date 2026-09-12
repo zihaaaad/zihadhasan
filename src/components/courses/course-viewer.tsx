@@ -107,6 +107,23 @@ export function CourseViewer({ initialId }: CourseViewerProps) {
  }
  }, [user, id]);
 
+ // Paid lesson URLs are gated behind courses/{id}/secure/lessons. Fetch them
+ // once entitlement is known and merge them onto the course in state, so the
+ // player has a real src while non-entitled visitors keep the locked view.
+ useEffect(() => {
+ if (!id || !course) return;
+ if (registration?.status !== "approved" && profile?.role !== "admin") return;
+ if (course.lessons?.some((lesson) => !lesson.isFreePreview && lesson.videoUrl)) return;
+
+ let cancelled = false;
+ CMSService.getSecureLessonUrls(id).then((urls) => {
+ if (cancelled || Object.keys(urls).length === 0) return;
+ setCourse((current) => (current ? CMSService.withSecureLessons(current, urls) : current));
+ });
+
+ return () => { cancelled = true; };
+ }, [id, course, registration?.status, profile?.role]);
+
  const fetchCourse = async (courseId: string) => {
  setLoading(true);
  try {

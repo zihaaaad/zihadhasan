@@ -64,10 +64,18 @@ export function PurchaseModal({ open, onOpenChange, product }: PurchaseModalProp
  });
 
  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+ // Purchases are keyed to the buyer's account (registrations/{uid}_{productId})
+ // and the security rules reject any write without an authenticated user, so a
+ // guest submit could only ever fail silently.
+ if (!user) {
+ toast.error("Please sign in to complete your purchase.");
+ return;
+ }
+
  setSubmitting(true);
  try {
  const result = await CMSService.registerForProduct(product.id!, {
- userId: user?.uid, // Optional (guest checkout valid?) - Schema assumes logged in for now usually
+ userId: user.uid,
  email: values.email,
  name: values.name,
  phone: values.phone,

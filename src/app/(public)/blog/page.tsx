@@ -15,15 +15,36 @@ export default function PublicBlogPage() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [lastVisible, setLastVisible] = useState<any>(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
   useEffect(() => {
     const fetchPosts = async () => {
-      // Only published posts
-      const data = await CMSService.getPosts(true);
+      // Fetch initially 9 posts
+      const { data, lastVisible: lastDoc } = await CMSService.getPosts(true, 9);
       setPosts(data);
+      setLastVisible(lastDoc);
+      setHasMore(data.length === 9);
       setLoading(false);
     };
     fetchPosts();
   }, []);
+
+  const loadMore = async () => {
+    if (!hasMore || loadingMore) return;
+    setLoadingMore(true);
+    try {
+      const { data, lastVisible: lastDoc } = await CMSService.getPosts(true, 9, lastVisible);
+      setPosts(prev => [...prev, ...data]);
+      setLastVisible(lastDoc);
+      setHasMore(data.length === 9);
+    } catch (error) {
+      console.error("Failed to load more posts", error);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   const filteredPosts = posts.filter(post =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -33,13 +54,17 @@ export default function PublicBlogPage() {
   return (
     <div className="min-h-screen pt-32 pb-20 container mx-auto px-4 lg:px-8 bg-background text-foreground">
       <div className="mb-16">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl mb-6"
-        >
-          Latest <span className="text-muted-foreground/80 italic font-serif">Articles</span>
-        </motion.h1>
+        <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-center mb-6">
+          <div className="flex-1">
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl mb-6"
+            >
+              Latest <span className="text-muted-foreground/80 italic font-serif">Articles</span>
+            </motion.h1>
+          </div>
+        </div>
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border pb-8">
           <p className="text-muted-foreground text-lg font-medium max-w-xl">
@@ -83,6 +108,19 @@ export default function PublicBlogPage() {
               No articles found matching your search.
             </div>
           )}
+        </div>
+      )}
+
+      {/* Load More Button */}
+      {hasMore && !loading && searchQuery === "" && (
+        <div className="mt-16 flex justify-center">
+          <button
+            onClick={loadMore}
+            disabled={loadingMore}
+            className="px-8 py-4 bg-foreground text-background font-bold uppercase tracking-widest text-xs rounded-full hover:bg-gray-800 transition-all shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {loadingMore ? "Loading..." : "Load More Articles"}
+          </button>
         </div>
       )}
     </div>

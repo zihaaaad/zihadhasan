@@ -11,12 +11,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
  // Static Routes
  const routes = [
  '',
- '/about',
  '/projects',
  '/tools',
  '/blog',
  '/events',
  '/contact',
+ '/books',
+ '/courses',
+ '/services',
+ '/shop',
  ].map((route) => ({
  url: `${baseUrl}${route}`,
  lastModified: new Date(),
@@ -25,7 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
  }));
 
  // Dynamic Blog Posts
- const posts = await CMSService.getPosts(true);
+ const { data: posts } = await CMSService.getPosts(true);
  const blogRoutes = posts.map((post) => ({
  url: `${baseUrl}/blog/${post.slug}`,
  lastModified: post.publishedAt ? new Date(post.publishedAt.seconds * 1000) : new Date(),
@@ -42,8 +45,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
  priority: 0.8,
  }));
 
- // Dynamic Events? Maybe not critical for SEO if they expire, but good to have if we have detail pages.
- // For now, let's keep it simple.
+ // Books have real detail pages at /books/{slug}, so they belong here too.
+ const books = await CMSService.getBooks(true).catch(() => []);
+ const bookRoutes = books.map((book) => ({
+ url: `${baseUrl}/books/${book.slug}`,
+ lastModified: book.createdAt ? new Date(book.createdAt.seconds * 1000) : new Date(),
+ changeFrequency: 'monthly' as const,
+ priority: 0.7,
+ }));
 
- return [...routes, ...blogRoutes, ...courseRoutes];
+ return [...routes, ...blogRoutes, ...courseRoutes, ...bookRoutes];
 }
