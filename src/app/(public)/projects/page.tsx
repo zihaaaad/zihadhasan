@@ -69,14 +69,24 @@ export default function ProjectsPage() {
     async function fetchProjects() {
       try {
         const data = await CMSService.getProjects();
-        // Map human-written copy overrides
+
+        // TEMPORARY - delete this block after running
+        // `node scripts/fix-project-descriptions.mjs`.
+        //
+        // These overrides patch CMS copy in the view layer, and two of the
+        // three are wrong: Rupantor is an Electron/React desktop font manager
+        // and Adobe automation hub, not a compiler, and Jontro is an offline
+        // desktop utility suite, not a build tool. Both the repositories' own
+        // descriptions and the CV say so. The Firestore documents are wrong in
+        // the same way, which is why removing this block on its own does not
+        // fix the page - the script corrects the data, then this goes.
         const cleanData = data.map(p => {
           if (p.title === "Jontro") {
-            p.description = "A package to simplify TypeScript build and compilation workflows.";
+            p.description = "An offline, privacy-first utility suite for the desktop - video conversion, WASM-powered OCR, PDF tools, image cropping and vector tracing, all running locally with zero cloud dependency.";
           } else if (p.title === "Chuti") {
-            p.description = "A simple holiday and leave scheduling system for calendar workflows.";
+            p.description = "An offline-first leave and holiday management system using SQLite WAL storage with LAN sharing, so a small team can run scheduling entirely on its own network.";
           } else if (p.title === "Rupantor") {
-            p.description = "A TypeScript-based compiler and source-to-source code transformer.";
+            p.description = "Free, open-source desktop font manager and Adobe automation hub for Windows and macOS. Built with Electron, React and TypeScript, with a serverless Firebase licensing system, offline grace periods and deep Adobe After Effects integration.";
           }
           return p;
         });
