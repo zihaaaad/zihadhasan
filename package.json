@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "node scripts/fetch-github-repos.js && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint",
+    "deploy": "npm run build && firebase deploy --only hosting",
+    "deploy:rules": "firebase deploy --only firestore:rules,firestore:indexes",
+    "verify:rules": "node scripts/verify-rules.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

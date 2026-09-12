@@ -10,9 +10,9 @@ const nextConfig: NextConfig = {
     ],
   },
   eslint: {
-    // Lint runs in CI (.github/workflows/ci.yml) rather than blocking the
-    // deploy build. The remaining findings are stylistic (no-explicit-any,
-    // unused vars, unescaped entities) - see the CI job for the live count.
+    // Lint is a separate step (`npm run lint`) rather than a build blocker.
+    // The remaining findings are stylistic: no-explicit-any, unused vars,
+    // unescaped entities.
     ignoreDuringBuilds: true,
   },
   // Barrel-file imports from these pull far more into each route chunk than the
