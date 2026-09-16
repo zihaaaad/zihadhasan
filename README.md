@@ -60,7 +60,7 @@ src/
 ### Prerequisites
 
 - Node.js 18 or higher
-- npm or pnpm
+- npm (this repo is npm-only; see `packageManager` in package.json)
 - A configured Firebase project (Firestore + Authentication)
 - A Cloudinary account
 
