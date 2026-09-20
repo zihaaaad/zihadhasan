@@ -78,7 +78,7 @@ export function ScrollPortfolio({}: ScrollPortfolioProps) {
       content: (
         <>
           <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed font-light mb-6 md:mb-8 max-w-lg">
-            I am a Generative AI and Full-Stack Developer on a core AI team, building scalable workflow automation and system architecture with a security engineer&apos;s instincts. I ship in Next.js, Laravel and Python, teach Generative AI tools to hundreds of students, and wrote <em>Digital Shikar</em> on digital security and privacy.
+            I am a Generative AI and Full-Stack Developer, building scalable workflow automation and system architecture with a security engineer&apos;s instincts. I ship in Next.js, Laravel and Python, teach Generative AI tools to hundreds of students, and wrote <em>Digital Shikar</em> on digital security and privacy.
           </p>
           <div className="flex flex-wrap gap-3 md:gap-4">
             <Link href="/contact" className="inline-flex h-10 md:h-12 items-center justify-center rounded-full bg-primary px-6 md:px-8 text-xs md:text-sm font-semibold text-primary-foreground transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/10">
@@ -99,10 +99,10 @@ export function ScrollPortfolio({}: ScrollPortfolioProps) {
       content: (
         <>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed font-light mb-4 md:mb-6 max-w-lg">
-            Technology is only as powerful as the people who know how to use it. As an assistant instructor I have trained hundreds of students across batches 28–35 on Generative AI tools, prompt engineering and ethical, safe use of the web.
+            Technology is only as powerful as the people who know how to use it. As an assistant educator I have trained hundreds of students across 20 course batches (Batch 22–41) on Generative AI tools, prompt engineering and ethical, safe use of the web.
           </p>
           <ul className="space-y-2 md:space-y-4">
-            {["Hundreds of Students Trained", "Batch 28–35 AI Curriculum", "ChatGPT, Gemini CLI & AI Studio", "Interactive Workshops"].map((item, i) => (
+            {["Hundreds of Students Trained", "20 Batches, Batch 22–41", "ChatGPT, Gemini CLI & AI Studio", "Interactive Workshops"].map((item, i) => (
               <li key={i} className="flex items-center gap-3 text-sm md:text-base text-gray-800 font-medium">
                 <div className="h-1.5 w-1.5 bg-primary rounded-full" />
                 {item}
@@ -140,10 +140,10 @@ export function ScrollPortfolio({}: ScrollPortfolioProps) {
         <div className="space-y-6 md:space-y-8 max-w-lg">
           <div className="border-l-2 border-gray-100 pl-4 md:pl-6 relative">
             <div className="absolute w-3 h-3 bg-primary rounded-full -left-[7px] top-1.5 md:top-2" />
-            <h3 className="text-lg md:text-xl font-bold">Core AI Team Member & Assistant Instructor</h3>
-            <p className="text-xs md:text-sm font-mono text-muted-foreground mb-2 md:mb-3 mt-1">As-Sunnah Foundation & ASSDI • May 2024 – Present</p>
+            <h3 className="text-lg md:text-xl font-bold">Assistant Educator</h3>
+            <p className="text-xs md:text-sm font-mono text-muted-foreground mb-2 md:mb-3 mt-1">As-Sunnah Skill Development Institute • Nov 2024 – Present</p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Architected a Google Apps Script event automation system handling concurrent registrations, auto-generated PDF tickets and dynamic email delivery. Trained hundreds of students on Generative AI, and secured participant data within 24 hours after a critical external breach.
+              Architected a Google Apps Script event automation system handling concurrent registrations, auto-generated PDF tickets and dynamic email delivery. Trained hundreds of students across 20 course batches (22–41) on Generative AI, and coordinated the takedown of a leaked participant-contact PDF within 24 hours.
             </p>
           </div>
           <div className="border-l-2 border-gray-100 pl-4 md:pl-6 relative">

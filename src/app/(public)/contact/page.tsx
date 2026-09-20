@@ -88,7 +88,7 @@ export default function ContactPage() {
 
   const title = config?.contact?.title || "Let's Collaborate";
   const subtitle = config?.contact?.subtitle || "Have a project in mind or just want to discuss the future of tech? Drop me a line.";
-  const location = config?.contact?.location || "Bogura, Bangladesh";
+  const location = config?.contact?.location || "Dhaka, Bangladesh";
 
   return (
     <div className="min-h-screen pt-32 pb-20 bg-background text-foreground font-sans">

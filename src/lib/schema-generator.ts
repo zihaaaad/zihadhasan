@@ -13,12 +13,12 @@ export function generatePersonSchema(): WithContext<Person> {
  email: "zihad.connects@gmail.com",
  address: {
  "@type": "PostalAddress",
- addressLocality: "Bogura",
+ addressLocality: "Dhaka",
  addressCountry: "BD"
  },
  worksFor: {
  "@type": "Organization",
- name: "As-Sunnah Foundation & ASSDI"
+ name: "As-Sunnah Skill Development Institute"
  },
  knowsAbout: [
  "Generative AI",
@@ -43,7 +43,7 @@ export function generatePersonSchema(): WithContext<Person> {
  "https://www.linkedin.com/in/pkmzihad",
  "https://www.rokomari.com/book/548672/digital-shikar"
  ],
- description: "Generative AI and Full-Stack Developer on a core AI team, specializing in scalable workflow automation, system architecture, and cybersecurity. Author of Digital Shikar, a Bengali book on modern digital security and privacy."
+ description: "Generative AI and Full-Stack Developer specializing in scalable workflow automation, system architecture, and cybersecurity. Author of Digital Shikar, a Bengali book on modern digital security and privacy."
  };
 }
 

@@ -40,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
  // Default keywords + dynamic ones
  const defaultKeywords = [
- "Zihad Hasan", "Generative AI Developer", "Full Stack Developer", "AI Teacher", "Generative AI", "Prompt Engineering", "Workflow Automation", "Google Apps Script", "Next.js", "React", "Laravel", "Python", "Electron", "Firebase", "Cybersecurity", "Penetration Testing", "Ethical Hacking", "Digital Shikar", "Bangladesh", "Bogura", "AI Instructor"
+ "Zihad Hasan", "Generative AI Developer", "Full Stack Developer", "AI Teacher", "Generative AI", "Prompt Engineering", "Workflow Automation", "Google Apps Script", "Next.js", "React", "Laravel", "Python", "Electron", "Firebase", "Cybersecurity", "Penetration Testing", "Ethical Hacking", "Digital Shikar", "Bangladesh", "Dhaka", "AI Instructor"
  ];
 
  const dynamicKeywords = settings?.seoKeywords || [];
