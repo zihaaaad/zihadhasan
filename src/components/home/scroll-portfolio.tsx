@@ -140,7 +140,7 @@ export function ScrollPortfolio({}: ScrollPortfolioProps) {
         <div className="space-y-6 md:space-y-8 max-w-lg">
           <div className="border-l-2 border-gray-100 pl-4 md:pl-6 relative">
             <div className="absolute w-3 h-3 bg-primary rounded-full -left-[7px] top-1.5 md:top-2" />
-            <h3 className="text-lg md:text-xl font-bold">Assistant Educator</h3>
+            <h3 className="text-lg md:text-xl font-bold">Assistant Instructor</h3>
             <p className="text-xs md:text-sm font-mono text-muted-foreground mb-2 md:mb-3 mt-1">As-Sunnah Skill Development Institute • Nov 2024 – Present</p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
               Architected a Google Apps Script event automation system handling concurrent registrations, auto-generated PDF tickets and dynamic email delivery. Trained hundreds of students across 20 course batches (22–41) on Generative AI, and coordinated the takedown of a leaked participant-contact PDF within 24 hours.
